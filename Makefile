@@ -6,7 +6,7 @@
 #    By: mhotting <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/11 12:21:10 by mhotting          #+#    #+#              #
-#    Updated: 2024/03/27 10:22:41 by mhotting         ###   ########.fr        #
+#    Updated: 2024/03/27 13:33:12 by mhotting         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,6 +18,7 @@ ifndef NOFLAGS
 endif
 HFLAGS					=	-I$(HEADERS_DIR) -I$(LIBFT_HEADERS_DIR)
 FSFLAGS					=	-fsanitize=address
+EXT_LIB_FLAGS			=	-lreadline
 
 # HEADERS
 HEADERS_DIR				=	includes/
@@ -36,7 +37,10 @@ LIBFT_FLAGS				=	-L$(LIBFT_DIR) -lft
 
 # SOURCES GENERAL
 SRCS_MAIN_DIR			=	srcs/
-SRCS_FILES				=	minishell.c
+SRCS_FILES				=	minishell.c			\
+							prompt_handler.c	\
+							t_minishell_utils.c	\
+							error.c
 SRCS					=	$(addprefix $(SRCS_MAIN_DIR), $(SRCS_FILES))
 
 # OBJECTS GENERAL
@@ -55,7 +59,7 @@ DEPS					=	$(addprefix $(DEPS_MAIN_DIR), $(DEPS_FILES))
 all: $(NAME)
 
 $(NAME): $(LIBFT) $(OBJS)
-	$(CC) $(CFLAGS) $(HFLAGS) $(OBJS) $(LIBFT_FLAGS) -o $@
+	$(CC) $(CFLAGS) $(HFLAGS) $(OBJS) $(LIBFT_FLAGS) $(EXT_LIB_FLAGS) -o $@
 
 $(OBJS_MAIN_DIR)%.o: $(SRCS_MAIN_DIR)%.c $(HEADERS) $(LIBFT_HEADERS)
 	@mkdir -p $(@D)
@@ -70,7 +74,7 @@ FORCE:
 bonus: all
 
 fsanitize: fclean $(LIBFT) $(OBJS)
-	$(CC) $(CFLAGS) $(HFLAGS) $(FSFLAGS) $(OBJS) $(LIBFT_FLAGS) -o $(NAME)
+	$(CC) $(CFLAGS) $(HFLAGS) $(FSFLAGS) $(OBJS) $(LIBFT_FLAGS) $(EXT_LIB_FLAGS) -o $(NAME)
 
 -include $(DEPS)
 
