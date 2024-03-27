@@ -6,7 +6,7 @@
 /*   By: mhotting <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 10:17:54 by mhotting          #+#    #+#             */
-/*   Updated: 2024/03/27 13:35:14 by mhotting         ###   ########.fr       */
+/*   Updated: 2024/03/27 18:44:40 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,12 @@
 # include <errno.h>
 # include <readline/readline.h>
 # include <readline/history.h>
+
 # include "libft.h"
+# include "node.h"
 
 # define ERROR_MSG_PROMPT "Error - Prompt function error"
+# define FD_UNSET -2
 
 typedef struct s_minishell
 {
