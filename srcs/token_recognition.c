@@ -45,9 +45,9 @@ bool	is_token_end(t_token *token, char character, t_token_parser *token_parser)
 	} 
 	if (quote(token_parser, character))
 		return (false);
-	if (!is_quoted(token_parser) && token->type == WORD)
+	if (!is_quoted(token_parser))
 	{
-		if (is_operator(character))
+		if (is_operator(character) && token->type == WORD)
 			return (true);
 		if (character == '\n')
 			return (true);
@@ -67,23 +67,25 @@ void	skip_blank(char *input, size_t *index)
 	{
 		if (!is_blank(input[*index]))
 			break;
-		(*index)++;
+		*index += 1;
 	}
 }
 
-t_token	*get_token(char *token_start, size_t *index)
+t_token	*get_token(char *input, size_t *index)
 {
 	t_token_parser	token_parser;
 	t_token			*token;
+	size_t			start;
 
+	start = *index;
 	t_token_parser_init(&token_parser);
 	token = t_token_init();
 	if (token == NULL)
 		return (NULL);
-	while (!is_token_end(token, token_start[*index], &token_parser))
-		(*index)++;
-	token->length = *index;
-	token->str = ft_substr(token_start, 0, *index);
+	while (!is_token_end(token, input[*index], &token_parser))
+		*index += 1;
+	token->length = *index - start;
+	token->str = ft_substr(input, start, token->length);
 	if (token->str == NULL)
 	{
 		free(token);
@@ -105,7 +107,7 @@ char	**token_recognition(char *input)
 	}
 	while (input[index] != '\0')
 	{
-		token = get_token(input + index, &index);
+		token = get_token(input, &index);
 		printf("token str : %s\n", token->str);
 		t_token_free(token);
 		skip_blank(input, &index); 

@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: brappo <brappo@student.42.fr>              +#+  +:+       +#+         #
+#    By: root <root@student.42.fr>                  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/11 12:21:10 by mhotting          #+#    #+#              #
-#    Updated: 2024/03/27 16:54:11 by brappo           ###   ########.fr        #
+#    Updated: 2024/03/27 21:17:29 by root             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,7 +14,7 @@
 NAME					=	minishell
 CC						=	cc
 ifndef NOFLAGS
-	CFLAGS				=	-Wall -Werror -Wextra
+	CFLAGS				=	-Wall -Werror -Wextra -g
 endif
 HFLAGS					=	-I$(HEADERS_DIR) -I$(LIBFT_HEADERS_DIR)
 FSFLAGS					=	-fsanitize=address
