@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mhotting <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 10:17:54 by mhotting          #+#    #+#             */
-/*   Updated: 2024/03/27 13:35:14 by mhotting         ###   ########.fr       */
+/*   Updated: 2024/03/27 16:53:30 by brappo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,26 @@ typedef struct s_minishell
 	char	*input;
 }	t_minishell;
 
+typedef enum e_token_type
+{
+	END,
+	WORD,
+	OPERATOR
+}	t_token_type;
+
+typedef struct s_token_parser
+{
+	bool	single_quoted;
+	bool	double_quoted;
+}	t_token_parser;
+
+typedef struct s_token
+{
+	char			*str;
+	size_t			length;
+	t_token_type	type;	
+}	t_token;
+
 // Prompt functions
 char	*prompt(void);
 
@@ -36,4 +56,12 @@ void	t_minishell_free(t_minishell *shell);
 // General functions
 void	handle_error(t_minishell *shell, char *error_msg, int exit_status);
 
+// Token recognition functions
+bool	is_operator(char character);
+bool	is_quoted(t_token_parser *token_parser);
+void	t_token_parser_init(t_token_parser *token_parser);
+t_token	*t_token_init(void);
+bool	is_blank(char character);
+void	t_token_free(t_token *token);
+char	**token_recognition(char *input);
 #endif
