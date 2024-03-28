@@ -6,7 +6,7 @@
 /*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/28 12:54:36 by brappo            #+#    #+#             */
-/*   Updated: 2024/03/28 13:51:57 by brappo           ###   ########.fr       */
+/*   Updated: 2024/03/28 13:57:53 by brappo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ void	get_directory_path(char *buffer, t_minishell *shell)
 {
 	size_t	cwd_length;
 
-	if (getcwd(buffer, CWD_BUFFER_SIZE - 1) == NULL)
+	if (getcwd(buffer, CWD_BUFFER_SIZE - 2) == NULL)
 	{
 		handle_error(shell, ERROR_CWD, EXIT_FAILURE);
 		if (errno == ERANGE)
@@ -58,7 +58,8 @@ void	get_directory_path(char *buffer, t_minishell *shell)
 	}
 	cwd_length = ft_strlen(buffer);
 	buffer[cwd_length] = '$';
-	buffer[cwd_length + 1] = '\0';	
+	buffer[cwd_length + 1] = ' ';
+	buffer[cwd_length + 2] = '\0';	
 	replace_home_by_tidle(buffer);
 	add_current_user(buffer);
 }
