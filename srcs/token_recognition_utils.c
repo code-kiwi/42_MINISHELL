@@ -6,29 +6,20 @@
 /*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 15:09:19 by brappo            #+#    #+#             */
-/*   Updated: 2024/03/28 09:59:41 by brappo           ###   ########.fr       */
+/*   Updated: 2024/03/28 11:06:30 by brappo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-bool	is_operator(char character)
-{
-	if (character == '&')
-		return (true);
-	if (character == '|')
-		return (true);
-	if (character == '<')
-		return (true);
-	if (character == '>')
-		return (true);
-	return (false);
-}
-
-void	t_token_parser_init(t_token_parser *token_parser)
+void	t_token_parser_init(t_token_parser *token_parser,
+		size_t *index, char *input)
 {
 	token_parser->single_quoted = false;
 	token_parser->double_quoted = false;
+	token_parser->end = index;
+	token_parser->start = *index;
+	token_parser->input = input;
 }
 
 t_token	*t_token_init(void)

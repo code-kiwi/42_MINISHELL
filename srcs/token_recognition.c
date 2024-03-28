@@ -6,7 +6,7 @@
 /*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 14:59:56 by brappo            #+#    #+#             */
-/*   Updated: 2024/03/28 10:04:09 by brappo           ###   ########.fr       */
+/*   Updated: 2024/03/28 11:40:01 by brappo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ bool	is_token_end(t_token *token, char character, \
 		return (true);
 	if (token->type == OPERATOR)
 	{
-		if (is_operator(character))
+		if (is_operator(token_parser) != -1)
 			return (false);
 		return (true);
 	}
@@ -27,7 +27,7 @@ bool	is_token_end(t_token *token, char character, \
 		return (false);
 	if (!is_quoted(token_parser))
 	{
-		if (is_operator(character))
+		if (is_operator_character(character))
 		{
 			if (token->type == WORD)
 				return (true);
@@ -58,7 +58,7 @@ t_token	*get_token(char *input, size_t *index)
 	size_t			start;
 
 	start = *index;
-	t_token_parser_init(&token_parser);
+	t_token_parser_init(&token_parser, index, input);
 	token = t_token_init();
 	if (token == NULL)
 		return (NULL);

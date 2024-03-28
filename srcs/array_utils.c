@@ -1,30 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   list_utils.c                                       :+:      :+:    :+:   */
+/*   array_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/03/28 09:32:38 by brappo            #+#    #+#             */
-/*   Updated: 2024/03/28 10:37:27 by brappo           ###   ########.fr       */
+/*   Created: 2024/03/28 10:22:22 by brappo            #+#    #+#             */
+/*   Updated: 2024/03/28 11:26:31 by brappo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	print_list(t_list *lst)
+int	array_find(void **array, bool (equal)(void *a, void *b), void *value)
 {
-	t_token	*token;
+	size_t	index;
 
-	if (lst == NULL)
+	index = 0;
+	while (array[index] != NULL)
 	{
-		printf("NULL");
-		return ;
+		if (equal(array[index], value) == true)
+			return (index);
+		index++;
 	}
-	while (lst != NULL)
-	{
-		token = lst->content;
-		printf("%s\n", token->str);
-		lst = lst->next;
-	}
+	return (-1);
 }

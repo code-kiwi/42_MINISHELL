@@ -6,7 +6,7 @@
 /*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 10:14:16 by mhotting          #+#    #+#             */
-/*   Updated: 2024/03/28 09:55:16 by brappo           ###   ########.fr       */
+/*   Updated: 2024/03/28 11:40:26 by brappo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,24 +68,36 @@ void	set_tests(char **tests)
 	tests[24] = "echo'<<'";
 	tests[25] = "echo\"<<\"<\"<\"";
 	tests[26] = "echo'<<'<<";
+	tests[27] = ">>>";
+	tests[28] = ">>>>";
+	tests[29] = ">>>>>";
+	tests[30] = "&||";
+	tests[31] = "&&||";
+	tests[32] = "&&|";
+	tests[33] = "echo&&||>>>test";
 }
 
 int	main(void)
 {
-	char	*tests[27];
+	char	*tests[34];
 	size_t	index;
 	t_list	*tokens;
+	char	*dup_str;
 
 	index = 0;
 	set_tests(tests);
-	while (index < 27)
+	while (index < 34)
 	{
 		printf("\033[0;32m");
 		printf("\n%s\n", tests[index]);
 		printf("\033[0m");
-		tokens = token_recognition(tests[index]);
+		dup_str = ft_strdup(tests[index]);
+		if (dup_str == NULL)
+			return (1);
+		tokens = token_recognition(dup_str);
 		print_list(tokens);
 		ft_lstclear(&tokens, t_token_free);
+		free(dup_str);
 		index++;
 	}
 	return (0);

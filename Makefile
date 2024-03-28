@@ -6,7 +6,7 @@
 #    By: brappo <brappo@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/11 12:21:10 by mhotting          #+#    #+#              #
-#    Updated: 2024/03/28 09:59:25 by brappo           ###   ########.fr        #
+#    Updated: 2024/03/28 10:57:21 by brappo           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -44,7 +44,10 @@ SRCS_FILES				=	minishell.c			\
 							token_recognition_utils.c \
 							token_recognition.c \
 							list_utils.c \
-							handle_quote.c
+							handle_quote.c \
+							array_utils.c \
+							string_utils.c \
+							is_operator.c
 SRCS					=	$(addprefix $(SRCS_MAIN_DIR), $(SRCS_FILES))
 
 # OBJECTS GENERAL
