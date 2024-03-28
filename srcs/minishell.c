@@ -6,7 +6,7 @@
 /*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 10:14:16 by mhotting          #+#    #+#             */
-/*   Updated: 2024/03/28 09:51:08 by brappo           ###   ########.fr       */
+/*   Updated: 2024/03/28 09:55:16 by brappo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,14 +44,14 @@ void	set_tests(char **tests)
 	tests[5] = "e r x t l o i k";
 	tests[6] = "echo ";
 	tests[7] = "echo       ";
-	tests[8] =  " echo";
-	tests[9] = "      echo";	
+	tests[8] = " echo";
+	tests[9] = "      echo";
 	tests[10] = "echo<<";
 	tests[11] = "echo <<";
 	tests[12] = "<<echo";
 	tests[13] = "<< echo";
 	tests[14] = "echo >>>>>";
-	tests[15] = ">>";	
+	tests[15] = ">>";
 	tests[16] = "echo\"test\"";
 	tests[17] = "echo \"test\"";
 	tests[18] = "echo \"      \"";

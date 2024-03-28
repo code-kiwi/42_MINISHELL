@@ -6,7 +6,7 @@
 /*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 15:09:19 by brappo            #+#    #+#             */
-/*   Updated: 2024/03/28 09:17:40 by brappo           ###   ########.fr       */
+/*   Updated: 2024/03/28 09:59:41 by brappo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,15 +21,6 @@ bool	is_operator(char character)
 	if (character == '<')
 		return (true);
 	if (character == '>')
-		return (true);
-	return (false);
-}
-
-bool	is_quoted(t_token_parser *token_parser)
-{
-	if (token_parser->double_quoted == true)
-		return (true);
-	if (token_parser->single_quoted == true)
 		return (true);
 	return (false);
 }

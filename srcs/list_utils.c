@@ -6,7 +6,7 @@
 /*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/28 09:32:38 by brappo            #+#    #+#             */
-/*   Updated: 2024/03/28 09:46:15 by brappo           ###   ########.fr       */
+/*   Updated: 2024/03/28 10:02:12 by brappo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,6 @@ void	print_list(t_list *lst)
 	{
 		token = lst->content;
 		printf("%s\n", token->str);
-		lst = lst->next; 
-	}	
+		lst = lst->next;
+	}
 }
