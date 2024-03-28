@@ -6,7 +6,7 @@
 #    By: mhotting <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/11 12:21:10 by mhotting          #+#    #+#              #
-#    Updated: 2024/03/27 13:33:12 by mhotting         ###   ########.fr        #
+#    Updated: 2024/03/28 10:22:22 by mhotting         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -37,9 +37,13 @@ LIBFT_FLAGS				=	-L$(LIBFT_DIR) -lft
 
 # SOURCES GENERAL
 SRCS_MAIN_DIR			=	srcs/
-SRCS_FILES				=	minishell.c			\
-							prompt_handler.c	\
-							t_minishell_utils.c	\
+SRCS_FILES				=	minishell.c				\
+							prompt_handler.c		\
+							t_minishell_utils.c		\
+							t_node_create.c			\
+							t_node_free.c			\
+							t_node_free_content.c	\
+							t_redirection_utils.c	\
 							error.c
 SRCS					=	$(addprefix $(SRCS_MAIN_DIR), $(SRCS_FILES))
 

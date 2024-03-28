@@ -6,7 +6,7 @@
 /*   By: mhotting <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 17:53:48 by mhotting          #+#    #+#             */
-/*   Updated: 2024/03/27 18:44:24 by mhotting         ###   ########.fr       */
+/*   Updated: 2024/03/28 09:51:27 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,5 +49,17 @@ typedef struct s_redirection
 	char	*outfile_append;
 	char	*outfile_truncate;
 }	t_redirection;
+
+// t_node functions
+t_node			*create_pipe_node(void);
+t_node			*create_command_node(int argc, char **argv, t_redirection *red);
+void			free_node_content_command(void **node_ptr);
+void			free_node_content_pipe(void **node_ptr);
+void			free_ast(t_node **node_ptr);
+
+// t_redirection functions
+t_redirection	*create_redirection(char *here_doc, \
+			char *infile, char *outfile_append, char *outfile_truncate);
+void			free_redirection(t_redirection **redirection_ptr);
 
 #endif
