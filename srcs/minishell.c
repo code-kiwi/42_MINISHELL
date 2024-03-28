@@ -6,11 +6,40 @@
 /*   By: mhotting <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 10:14:16 by mhotting          #+#    #+#             */
-/*   Updated: 2024/03/27 13:32:44 by mhotting         ###   ########.fr       */
+/*   Updated: 2024/03/28 11:45:47 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+void	test_tree_creation()
+{
+	// Test of AST creation
+	t_node			*node;
+	t_redirection	*redirections1;
+	t_redirection	*redirections2;
+	char			**argv1;
+	int				argc1;
+	char			**argv2;
+	int				argc2;
+
+	node = create_pipe_node();
+	argc1 = 2;
+	argc2 = 2;
+	argv1 = (char **) ft_calloc((argc1 + 1), sizeof(char *));
+	argv2 = (char **) ft_calloc((argc2 + 1), sizeof(char *));
+	argv1[0] = ft_strdup("ls");
+	argv1[1] = ft_strdup("-la");
+	argv2[0] = ft_strdup("grep");
+	argv2[1] = ft_strdup("\".txt\"");
+	redirections1 = create_redirection(NULL, NULL, NULL, NULL);
+	redirections2 = create_redirection(NULL, NULL, NULL, NULL);
+	node->child_left = create_command_node(argc1, argv1, redirections1);
+	node->child_right = create_command_node(argc2, argv2, redirections2);
+
+	while (getchar() != '\n');
+	free_ast(&node);
+}
 
 int	main(void)
 {
@@ -30,6 +59,9 @@ int	main(void)
 		printf("%s\n", shell.input);
 		free(shell.input);
 		shell.input = NULL;
+
+		//TEMP TEST
+		test_tree_creation();
 	}
 	exit(EXIT_SUCCESS);
 }

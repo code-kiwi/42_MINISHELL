@@ -6,7 +6,7 @@
 /*   By: mhotting <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 17:57:30 by mhotting          #+#    #+#             */
-/*   Updated: 2024/03/28 09:34:52 by mhotting         ###   ########.fr       */
+/*   Updated: 2024/03/28 11:35:02 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ t_node	*create_pipe_node(void)
 	t_node		*node;
 	t_node_pipe	*node_pipe;
 
-	node = create_empty_node(NODE_COMMAND);
+	node = create_empty_node(NODE_PIPE);
 	if (node == NULL)
 		return (NULL);
 	node_pipe = (t_node_pipe *) malloc(sizeof(t_node_pipe));

@@ -6,7 +6,7 @@
 /*   By: mhotting <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/28 09:44:06 by mhotting          #+#    #+#             */
-/*   Updated: 2024/03/28 10:21:07 by mhotting         ###   ########.fr       */
+/*   Updated: 2024/03/28 11:39:52 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ void	free_node_content_command(void **node_ptr)
 	if (node_ptr == NULL || *node_ptr == NULL)
 		return ;
 	node = (t_node_command *) *node_ptr;
-	while (--node->argc)
+	while (node->argc--)
 		free((node->argv)[node->argc]);
 	free(node->argv);
 	free_redirection(&(node->redirections));
