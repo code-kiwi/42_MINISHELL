@@ -3,21 +3,23 @@
 /*                                                        :::      ::::::::   */
 /*   prompt_handler.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mhotting <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 13:02:08 by mhotting          #+#    #+#             */
-/*   Updated: 2024/03/27 13:35:29 by mhotting         ###   ########.fr       */
+/*   Updated: 2024/03/28 13:42:39 by brappo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char	*prompt(void)
+char	*prompt(t_minishell *shell)
 {
 	char	*input;
+	char	cwd[CWD_BUFFER_SIZE];
 
-	input = readline("> ");
+	get_directory_path(cwd, shell);
+	input = readline(cwd);
 	if (input == NULL)
-		return (NULL);
+		handle_error(shell, ERROR_MSG_PROMPT, EXIT_FAILURE);
 	return (input);
 }

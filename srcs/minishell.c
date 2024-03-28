@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mhotting <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 10:14:16 by mhotting          #+#    #+#             */
-/*   Updated: 2024/03/27 13:32:44 by mhotting         ###   ########.fr       */
+/*   Updated: 2024/03/28 13:11:35 by brappo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,14 +19,13 @@ int	main(void)
 	t_minishell_init(&shell);
 	while (true)
 	{
-		shell.input = prompt();
-		if (shell.input == NULL)
-			handle_error(&shell, ERROR_MSG_PROMPT, EXIT_FAILURE);
+		shell.input = prompt(&shell);
 		if (ft_strcmp(shell.input, "exit") == 0)
 		{
 			t_minishell_free(&shell);
 			break ;
 		}
+		add_history(shell.input);
 		printf("%s\n", shell.input);
 		free(shell.input);
 		shell.input = NULL;

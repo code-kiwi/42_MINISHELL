@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mhotting <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 10:17:54 by mhotting          #+#    #+#             */
-/*   Updated: 2024/03/27 13:35:14 by mhotting         ###   ########.fr       */
+/*   Updated: 2024/03/28 13:42:34 by brappo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,10 @@
 # include <readline/readline.h>
 # include <readline/history.h>
 # include "libft.h"
-
 # define ERROR_MSG_PROMPT "Error - Prompt function error"
+# define ERROR_CWD "Error - Cannot get current working directory path"
+# define ERROR_BUFFER "Error - Buffer size too small"
+# define CWD_BUFFER_SIZE 2048
 
 typedef struct s_minishell
 {
@@ -27,7 +29,8 @@ typedef struct s_minishell
 }	t_minishell;
 
 // Prompt functions
-char	*prompt(void);
+void	get_directory_path(char *buffer, t_minishell *shell);
+char	*prompt(t_minishell *shell);
 
 // t_minshell functions
 void	t_minishell_init(t_minishell *shell);
