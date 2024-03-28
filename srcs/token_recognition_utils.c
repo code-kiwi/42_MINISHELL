@@ -6,7 +6,7 @@
 /*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 15:09:19 by brappo            #+#    #+#             */
-/*   Updated: 2024/03/27 16:11:54 by brappo           ###   ########.fr       */
+/*   Updated: 2024/03/28 09:17:40 by brappo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,8 +50,11 @@ t_token	*t_token_init(void)
 	return (token);
 }
 
-void	t_token_free(t_token *token)
+void	t_token_free(void	*token_void)
 {
+	t_token	*token;
+
+	token = (t_token *)token_void;
 	free(token->str);
 	free(token);
 }

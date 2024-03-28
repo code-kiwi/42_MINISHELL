@@ -14,7 +14,7 @@
 
 bool	quote(t_token_parser *token_parser, char character)
 {
-	if (character == 26)
+	if (character == '\'')
 	{
 		if (token_parser->single_quoted == true)
 			token_parser->single_quoted = false;
@@ -47,15 +47,17 @@ bool	is_token_end(t_token *token, char character, t_token_parser *token_parser)
 		return (false);
 	if (!is_quoted(token_parser))
 	{
-		if (is_operator(character) && token->type == WORD)
-			return (true);
+		if (is_operator(character))
+		{
+			if (token->type == WORD)
+				return (true);
+			token->type = OPERATOR;
+		}
 		if (character == '\n')
 			return (true);
 		if (is_blank(character))
 			return (true);
 	}
-	if (is_operator(character))
-		token->type = OPERATOR;
 	if (token->type == END)
 		token->type = WORD;
 	return (false);	
@@ -94,23 +96,29 @@ t_token	*get_token(char *input, size_t *index)
 	return (token);
 }
 
-char	**token_recognition(char *input)
+t_list	*token_recognition(char *input)
 {
 	size_t	index;
-	t_token	*token;
+	t_list	*tokens;
 
 	index = 0;
+	tokens = NULL;
 	if (input == NULL)
 	{
 		//ERROR
 		return (NULL);
 	}
+	skip_blank(input, &index);
 	while (input[index] != '\0')
 	{
-		token = get_token(input, &index);
-		printf("token str : %s\n", token->str);
-		t_token_free(token);
+		ft_lstadd_front(&tokens, ft_lstnew(get_token(input, &index)));
+		if (tokens == NULL || tokens->content == NULL)
+		{
+			ft_lstclear(&tokens, t_token_free);
+			return (NULL);
+		}
 		skip_blank(input, &index); 
 	}
-	return (NULL);
+	ft_lstreverse(&tokens);
+	return (tokens);
 }

@@ -6,7 +6,7 @@
 /*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 10:17:54 by mhotting          #+#    #+#             */
-/*   Updated: 2024/03/27 16:53:30 by brappo           ###   ########.fr       */
+/*   Updated: 2024/03/28 09:34:15 by brappo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,7 @@ bool	is_quoted(t_token_parser *token_parser);
 void	t_token_parser_init(t_token_parser *token_parser);
 t_token	*t_token_init(void);
 bool	is_blank(char character);
-void	t_token_free(t_token *token);
-char	**token_recognition(char *input);
+void	t_token_free(void *token_void);
+t_list	*token_recognition(char *input);
+void	print_list(t_list *lst);
 #endif
