@@ -6,7 +6,7 @@
 /*   By: mhotting <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 10:17:54 by mhotting          #+#    #+#             */
-/*   Updated: 2024/03/27 18:44:40 by mhotting         ###   ########.fr       */
+/*   Updated: 2024/03/28 12:31:04 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,9 @@
 # include "libft.h"
 # include "node.h"
 
-# define ERROR_MSG_PROMPT "Error - Prompt function error"
+# define ERROR_MSG_PROMPT	"Prompt function error"
+# define ERROR_MSG_CLOSE	"Closing fd error"
+
 # define FD_UNSET -2
 
 typedef struct s_minishell
@@ -38,5 +40,6 @@ void	t_minishell_free(t_minishell *shell);
 
 // General functions
 void	handle_error(t_minishell *shell, char *error_msg, int exit_status);
+void	close_file_descriptor(int fd);
 
 #endif

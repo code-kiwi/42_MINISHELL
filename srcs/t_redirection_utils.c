@@ -5,53 +5,58 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: mhotting <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/03/28 08:50:23 by mhotting          #+#    #+#             */
-/*   Updated: 2024/03/28 09:33:27 by mhotting         ###   ########.fr       */
+/*   Created: 2024/03/28 12:32:34 by mhotting          #+#    #+#             */
+/*   Updated: 2024/03/28 13:40:21 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 /*
- *	Allocates a redirection and returns a pointer to it.
- *	All the members are set to NULL.
+ *	Returns the type of redirection accordig to the given operator
+ *	If the operator is not handled, REDIRECTION_TYPE_ERROR is returned
  */
-static t_redirection	*create_empty_redirection(void)
+static enum e_redirection_type	get_redirection_type(char *operator)
 {
-	t_redirection	*redirection;
-
-	redirection = (t_redirection *) malloc(sizeof(t_redirection));
-	if (redirection == NULL)
-		return (NULL);
-	ft_memset(redirection, 0, sizeof(t_redirection));
-	return (redirection);
+	if (operator == NULL)
+		return (REDIRECTION_TYPE_ERROR);
+	if (ft_strcmp(operator, REDIRECTION_OP_HEREDOC) == 0)
+		return (REDIRECTION_TYPE_HEREDOC);
+	if (ft_strcmp(operator, REDIRECTION_OP_INFILE) == 0)
+		return (REDIRECTION_TYPE_INFILE);
+	if (ft_strcmp(operator, REDIRECTION_OP_OUTFILE_TRUNC) == 0)
+		return (REDIRECTION_TYPE_OUTFILE_TRUNC);
+	if (ft_strcmp(operator, REDIRECTION_OP_OUTFILE_APPEND) == 0)
+		return (REDIRECTION_TYPE_OUTFILE_APPEND);
+	return (REDIRECTION_TYPE_ERROR);
 }
 
 /*
- *	Allocates a redirection and returns a pointer to it.
- *	The passed arguments are duplicated in order to have fresh pointers to
- *	the components of the redirection.
- *	In case of error, frees the redirection and returns NULL.
+ *	Allocates a t_redirection element and returns a pointer to it
+ *	The type member is set according to the given operator
+ *	The filname member is a duplicated string from filename input
+ *	In case of ERROR, returns NULL
+ *	Error cases:
+ *		- wrong inputs
+ *		- operator not handled
+ *		- memory allocation fail
  */
-t_redirection	*create_redirection(
-	char *here_doc, char *infile, char *outfile_append, char *outfile_truncate
-)
+t_redirection	*create_redirection(char *operator, char *filename)
 {
-	t_redirection	*redirection;
+	t_redirection			*redirection;
+	enum e_redirection_type	type;
 
-	redirection = create_empty_redirection();
+	if (operator == NULL || filename == NULL)
+		return (NULL);
+	type = get_redirection_type(operator);
+	if (operator == REDIRECTION_TYPE_ERROR)
+		return (NULL);
+	redirection = (t_redirection *) ft_calloc(1, sizeof(t_redirection));
 	if (redirection == NULL)
 		return (NULL);
-	redirection->here_doc = ft_strdup(here_doc);
-	redirection->infile = ft_strdup(infile);
-	redirection->outfile_append = ft_strdup(outfile_append);
-	redirection->outfile_truncate = ft_strdup(outfile_truncate);
-	if (
-		(redirection->here_doc == NULL && here_doc != NULL)
-		|| (redirection->infile == NULL && infile != NULL)
-		|| (redirection->outfile_append == NULL && outfile_append != NULL)
-		|| (redirection->outfile_truncate == NULL && outfile_truncate != NULL)
-	)
+	redirection->type = type;
+	redirection->filename = ft_strdup(filename);
+	if (redirection->filename == NULL)
 	{
 		free_redirection(&redirection);
 		return (NULL);
@@ -60,24 +65,19 @@ t_redirection	*create_redirection(
 }
 
 /*
- *	Frees the memory of a redirection and of all its components.
- *	Sets the redirection pointer to NULL.
+ *	Frees the memory allocated to a t_redirection element
+ *	The filename component, if it is set, is freed
+ *	NOTE: This function takes a void * pointer in order to enable the use of
+ *	ft_lstclear() because t_redirection elements are saved into a t_list.
  */
-void	free_redirection(t_redirection **redirection_ptr)
+void	free_redirection(void *redirection_ptr)
 {
 	t_redirection	*redirection;
 
-	if (redirection_ptr == NULL || *redirection_ptr == NULL)
+	if (redirection_ptr == NULL)
 		return ;
-	redirection = *redirection_ptr;
-	if (redirection->here_doc != NULL)
-		free(redirection->here_doc);
-	if (redirection->infile != NULL)
-		free(redirection->infile);
-	if (redirection->outfile_append != NULL)
-		free(redirection->outfile_append);
-	if (redirection->outfile_truncate != NULL)
-		free(redirection->outfile_truncate);
+	redirection = (t_redirection *) redirection_ptr;
+	if (redirection->filename != NULL)
+		free(redirection->filename);
 	free(redirection);
-	*redirection_ptr = NULL;
 }

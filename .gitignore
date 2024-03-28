@@ -5,3 +5,4 @@ includes/get_next_line.h
 includes/libft.h
 objs/*
 deps/*
+minishell

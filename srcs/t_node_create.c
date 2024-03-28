@@ -6,7 +6,7 @@
 /*   By: mhotting <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 17:57:30 by mhotting          #+#    #+#             */
-/*   Updated: 2024/03/28 11:35:02 by mhotting         ###   ########.fr       */
+/*   Updated: 2024/03/28 13:14:49 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ t_node	*create_pipe_node(void)
  *	The t_node_command components are set using the arguments passed
  *	In case or ERROR, returns NULL
  */
-t_node	*create_command_node(int argc, char **argv, t_redirection *redir)
+t_node	*create_command_node(int argc, char **argv, t_redirection_list *redirs)
 {
 	t_node			*node;
 	t_node_command	*node_command;
@@ -81,7 +81,7 @@ t_node	*create_command_node(int argc, char **argv, t_redirection *redir)
 	}
 	node_command->argc = argc;
 	node_command->argv = argv;
-	node_command->redirections = redir;
+	node_command->redirections = redirs;
 	node->content = (void *) node_command;
 	return (node);
 }

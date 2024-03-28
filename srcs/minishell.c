@@ -6,7 +6,7 @@
 /*   By: mhotting <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 10:14:16 by mhotting          #+#    #+#             */
-/*   Updated: 2024/03/28 11:45:47 by mhotting         ###   ########.fr       */
+/*   Updated: 2024/03/28 13:27:20 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,13 +15,13 @@
 void	test_tree_creation()
 {
 	// Test of AST creation
-	t_node			*node;
-	t_redirection	*redirections1;
-	t_redirection	*redirections2;
-	char			**argv1;
-	int				argc1;
-	char			**argv2;
-	int				argc2;
+	t_node				*node;
+	t_redirection_list	*redirections1;
+	t_redirection_list	*redirections2;
+	char				**argv1;
+	int					argc1;
+	char				**argv2;
+	int					argc2;
 
 	node = create_pipe_node();
 	argc1 = 2;
@@ -32,8 +32,17 @@ void	test_tree_creation()
 	argv1[1] = ft_strdup("-la");
 	argv2[0] = ft_strdup("grep");
 	argv2[1] = ft_strdup("\".txt\"");
-	redirections1 = create_redirection(NULL, NULL, NULL, NULL);
-	redirections2 = create_redirection(NULL, NULL, NULL, NULL);
+	redirections1 = create_redirection_list();
+	add_redirection(redirections1, ">>", "file1");
+	add_redirection(redirections1, "<", "file2");
+	add_redirection(redirections1, ">", "file3");
+	add_redirection(redirections1, ">>", "file4");
+	redirections2 = create_redirection_list();
+	add_redirection(redirections2, ">>", "file5");
+	add_redirection(redirections2, ">>", "file6");
+	add_redirection(redirections2, ">>", "file7");
+	add_redirection(redirections2, ">>", "file8");
+	add_redirection(redirections2, ">>", "file9");
 	node->child_left = create_command_node(argc1, argv1, redirections1);
 	node->child_right = create_command_node(argc2, argv2, redirections2);
 
