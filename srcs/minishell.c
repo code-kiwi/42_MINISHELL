@@ -6,11 +6,14 @@
 /*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 10:14:16 by mhotting          #+#    #+#             */
-/*   Updated: 2024/03/29 20:42:46 by brappo           ###   ########.fr       */
+/*   Updated: 2024/03/29 11:49:58 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+// TEMPORARY
+#include "test.h"
 
 int	main(void)
 {

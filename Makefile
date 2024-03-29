@@ -6,7 +6,7 @@
 #    By: brappo <brappo@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/11 12:21:10 by mhotting          #+#    #+#              #
-#    Updated: 2024/03/29 20:44:00 by brappo           ###   ########.fr        #
+#    Updated: 2024/03/29 10:51:40 by mhotting         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -42,6 +42,7 @@ LIBFT_FLAGS				=	-L$(LIBFT_DIR) -lft
 
 # SOURCES GENERAL
 SRCS_MAIN_DIR			=	srcs/
+
 SRCS_FILES				=	$(MAIN)			\
 							prompt_handler.c	\
 							t_minishell_utils.c	\
@@ -52,7 +53,17 @@ SRCS_FILES				=	$(MAIN)			\
 							handle_quote.c \
 							array_utils.c \
 							string_utils.c \
-							is_operator.c
+							is_operator.c \
+              prompt_handler.c \
+							t_minishell_utils.c			\
+							t_node_utils.c				\
+							t_node_command_utils.c		\
+							t_node_pipe_utils.c			\
+							t_redirection_list_utils.c	\
+							t_redirection_utils.c		\
+              test_ast_creation.c			\
+							close_file_descriptor.c
+
 SRCS					=	$(addprefix $(SRCS_MAIN_DIR), $(SRCS_FILES))
 
 # OBJECTS GENERAL
