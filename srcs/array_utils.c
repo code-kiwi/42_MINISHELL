@@ -1,38 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.c                                        :+:      :+:    :+:   */
+/*   array_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/03/27 10:14:16 by mhotting          #+#    #+#             */
-/*   Updated: 2024/03/29 11:49:58 by mhotting         ###   ########.fr       */
+/*   Created: 2024/03/28 10:22:22 by brappo            #+#    #+#             */
+/*   Updated: 2024/03/28 11:26:31 by brappo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-// TEMPORARY
-#include "test.h"
-
-int	main(void)
+int	array_find(void **array, bool (equal)(void *a, void *b), void *value)
 {
-	t_minishell	shell;
+	size_t	index;
 
-	t_minishell_init(&shell);
-	while (true)
+	index = 0;
+	while (array[index] != NULL)
 	{
-		shell.input = prompt();
-		if (shell.input == NULL)
-			handle_error(&shell, ERROR_MSG_PROMPT, EXIT_FAILURE);
-		if (ft_strcmp(shell.input, "exit") == 0)
-		{
-			t_minishell_free(&shell);
-			break ;
-		}
-		printf("%s\n", shell.input);
-		free(shell.input);
-		shell.input = NULL;
+		if (equal(array[index], value) == true)
+			return (index);
+		index++;
 	}
-	exit(EXIT_SUCCESS);
+	return (-1);
 }
