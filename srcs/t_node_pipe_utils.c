@@ -6,7 +6,7 @@
 /*   By: mhotting <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/29 09:58:05 by mhotting          #+#    #+#             */
-/*   Updated: 2024/03/29 10:18:42 by mhotting         ###   ########.fr       */
+/*   Updated: 2024/03/29 11:14:25 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,9 +53,9 @@ void	node_pipe_free(void **node_ptr)
 		return ;
 	node = (t_node_pipe *) *node_ptr;
 	if ((node->fd)[0] != FD_UNSET)
-		close_file_descriptor((node->fd)[0]);
+		fd_close_and_reset(&((node->fd)[0]));
 	if ((node->fd)[1] != FD_UNSET)
-		close_file_descriptor((node->fd)[1]);
+		fd_close_and_reset(&((node->fd)[1]));
 	free(node);
 	*node_ptr = NULL;
 }

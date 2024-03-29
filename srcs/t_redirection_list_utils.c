@@ -6,7 +6,7 @@
 /*   By: mhotting <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/28 08:50:23 by mhotting          #+#    #+#             */
-/*   Updated: 2024/03/29 10:29:57 by mhotting         ###   ########.fr       */
+/*   Updated: 2024/03/29 11:48:10 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,9 +80,9 @@ void	redirection_list_free(t_redirection_list **redirs_ptr)
 	if (redirs->redirections != NULL)
 		ft_lstclear(&(redirs->redirections), redirection_free);
 	if (redirs->info.fd_stdin != FD_UNSET)
-		close_file_descriptor(redirs->info.fd_stdin);
+		fd_close_and_reset(&(redirs->info.fd_stdin));
 	if (redirs->info.fd_stdout != FD_UNSET)
-		close_file_descriptor(redirs->info.fd_stdout);
+		fd_close_and_reset(&(redirs->info.fd_stdout));
 	free(redirs);
 	*redirs_ptr = NULL;
 }

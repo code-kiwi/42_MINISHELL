@@ -6,7 +6,7 @@
 /*   By: mhotting <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 10:17:54 by mhotting          #+#    #+#             */
-/*   Updated: 2024/03/28 12:31:04 by mhotting         ###   ########.fr       */
+/*   Updated: 2024/03/29 11:13:42 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ void	t_minishell_free(t_minishell *shell);
 
 // General functions
 void	handle_error(t_minishell *shell, char *error_msg, int exit_status);
-void	close_file_descriptor(int fd);
+void	fd_close_and_reset(int *fd);
+void	fd_close(int fd);
 
 #endif
