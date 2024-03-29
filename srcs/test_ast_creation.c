@@ -6,15 +6,14 @@
 /*   By: mhotting <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/29 10:46:10 by mhotting          #+#    #+#             */
-/*   Updated: 2024/03/29 10:48:18 by mhotting         ###   ########.fr       */
+/*   Updated: 2024/03/29 10:54:16 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "test.h"
 
-void	test_tree_creation()
+void	test_tree_creation(void)
 {
-	// Test of AST creation
 	t_node				*node;
 	t_node				*node_child_left;
 	t_node				*node_child_right;

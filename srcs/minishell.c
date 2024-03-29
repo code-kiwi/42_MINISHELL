@@ -6,7 +6,7 @@
 /*   By: mhotting <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 10:14:16 by mhotting          #+#    #+#             */
-/*   Updated: 2024/03/29 10:47:48 by mhotting         ###   ########.fr       */
+/*   Updated: 2024/03/29 10:53:53 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,9 +33,6 @@ int	main(void)
 		printf("%s\n", shell.input);
 		free(shell.input);
 		shell.input = NULL;
-
-		//TEMP TEST
-		test_tree_creation();
 	}
 	exit(EXIT_SUCCESS);
 }

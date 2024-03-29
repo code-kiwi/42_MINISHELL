@@ -6,15 +6,15 @@
 /*   By: mhotting <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/29 10:45:33 by mhotting          #+#    #+#             */
-/*   Updated: 2024/03/29 10:46:58 by mhotting         ###   ########.fr       */
+/*   Updated: 2024/03/29 10:53:26 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef TEST_H
 # define TEST_H
 
-#include "minishell.h"
+# include "minishell.h"
 
-void	test_tree_creation();
+void	test_tree_creation(void);
 
 #endif
