@@ -6,7 +6,7 @@
 #    By: mhotting <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/11 12:21:10 by mhotting          #+#    #+#              #
-#    Updated: 2024/03/29 10:01:08 by mhotting         ###   ########.fr        #
+#    Updated: 2024/03/29 10:51:40 by mhotting         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -46,6 +46,7 @@ SRCS_FILES				=	minishell.c					\
 							t_redirection_list_utils.c	\
 							t_redirection_utils.c		\
 							error.c						\
+							test_ast_creation.c			\
 							close_file_descriptor.c
 SRCS					=	$(addprefix $(SRCS_MAIN_DIR), $(SRCS_FILES))
 
