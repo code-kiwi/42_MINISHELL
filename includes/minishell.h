@@ -6,7 +6,7 @@
 /*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 10:17:54 by mhotting          #+#    #+#             */
-/*   Updated: 2024/03/28 13:42:34 by brappo           ###   ########.fr       */
+/*   Updated: 2024/03/29 13:02:39 by brappo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,9 @@
 # define ERROR_CWD "Error - Cannot get current working directory path"
 # define ERROR_BUFFER "Error - Buffer size too small"
 # define CWD_BUFFER_SIZE 2048
+# define RESET "\033[0m"
+# define GREEN "\033[32m"
+# define BLUE "\033[34m"
 
 typedef struct s_minishell
 {
