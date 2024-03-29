@@ -14,11 +14,7 @@
 
 bool	is_quoted(t_token_parser *token_parser)
 {
-	if (token_parser->double_quoted == true)
-		return (true);
-	if (token_parser->single_quoted == true)
-		return (true);
-	return (false);
+	return (token_parser->single_quoted || token_parser->double_quoted);
 }
 
 bool	handle_quote(t_token_parser *token_parser, char character)

@@ -6,7 +6,7 @@
 /*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 14:59:56 by brappo            #+#    #+#             */
-/*   Updated: 2024/03/28 11:40:01 by brappo           ###   ########.fr       */
+/*   Updated: 2024/03/29 11:22:33 by brappo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ bool	is_token_end(t_token *token, char character, \
 		return (false);
 	if (!is_quoted(token_parser))
 	{
-		if (is_operator_character(character))
+		if (ft_strchr(OPERATOR_CHARACTER, character) != NULL)
 		{
 			if (token->type == WORD)
 				return (true);
@@ -83,16 +83,15 @@ t_list	*token_recognition(char *input)
 	tokens = NULL;
 	if (input == NULL)
 		return (NULL);
-	skip_blank(input, &index);
-	while (input[index] != '\0')
+	while (tokens == NULL || ((t_token *)tokens->content)->type != END)
 	{
-		ft_lstadd_front(&tokens, ft_lstnew(get_token(input, &index)));
+		skip_blank(input, &index);
+		lst_push_front_content(&tokens, get_token(input, &index));
 		if (tokens == NULL || tokens->content == NULL)
 		{
 			ft_lstclear(&tokens, t_token_free);
 			return (NULL);
 		}
-		skip_blank(input, &index);
 	}
 	ft_lstreverse(&tokens);
 	return (tokens);

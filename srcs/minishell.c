@@ -6,7 +6,7 @@
 /*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 10:14:16 by mhotting          #+#    #+#             */
-/*   Updated: 2024/03/28 11:40:26 by brappo           ###   ########.fr       */
+/*   Updated: 2024/03/29 11:26:45 by brappo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,14 +88,14 @@ int	main(void)
 	set_tests(tests);
 	while (index < 34)
 	{
-		printf("\033[0;32m");
-		printf("\n%s\n", tests[index]);
-		printf("\033[0m");
+		printf("\n\033[0;32m");
+		printf("%s", tests[index]);
+		printf("\033[0m\n");
 		dup_str = ft_strdup(tests[index]);
 		if (dup_str == NULL)
 			return (1);
 		tokens = token_recognition(dup_str);
-		print_list(tokens);
+		print_list_token(tokens);
 		ft_lstclear(&tokens, t_token_free);
 		free(dup_str);
 		index++;

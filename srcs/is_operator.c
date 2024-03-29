@@ -12,29 +12,15 @@
 
 #include "minishell.h"
 
-bool	is_operator_character(char character)
-{
-	if (character == '>')
-		return (true);
-	if (character == '<')
-		return (true);
-	if (character == '&')
-		return (true);
-	if (character == '|')
-		return (true);
-	return (false);
-}
-
 void	get_operation(char **operations)
 {
-	operations[0] = ">>";
-	operations[1] = "<<";
-	operations[2] = ">";
-	operations[3] = ">";
-	operations[4] = "<";
-	operations[5] = "||";
-	operations[6] = "&&";
-	operations[7] = NULL;
+	operations[0] = DGREAT;
+	operations[1] = DLESS;
+	operations[2] = GREAT;
+	operations[3] = LESS;
+	operations[4] = AND_IF;
+	operations[5] = OR_IF;
+	operations[6] = NULL;
 }
 
 int	is_operator(t_token_parser *token_parser)
