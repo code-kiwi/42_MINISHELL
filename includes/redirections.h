@@ -6,7 +6,7 @@
 /*   By: mhotting <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/28 11:06:44 by mhotting          #+#    #+#             */
-/*   Updated: 2024/03/28 13:25:45 by mhotting         ###   ########.fr       */
+/*   Updated: 2024/03/29 10:30:35 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,13 +50,13 @@ typedef struct s_redirection
 }	t_redirection;
 
 // t_redirections functions
-t_redirection_list	*create_redirection_list(void);
-bool				add_redirection(t_redirection_list *redirs, \
-						char *op, char *filename);
-void				free_redirection_list(t_redirection_list **redirs_ptr);
+t_redirection_list	*redirection_list_create(void);
+bool				redirection_list_add(t_redirection_list *redirs, \
+					char *op, char *filename);
+void				redirection_list_free(t_redirection_list **redirs_ptr);
 
 // t_redirection functions
-t_redirection		*create_redirection(char *op, char *filename);
-void				free_redirection(void *redirection_ptr);
+t_redirection		*redirection_create(char *op, char *filename);
+void				redirection_free(void *redirection_ptr);
 
 #endif

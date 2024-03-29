@@ -6,7 +6,7 @@
 /*   By: mhotting <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/28 12:32:34 by mhotting          #+#    #+#             */
-/*   Updated: 2024/03/28 13:40:21 by mhotting         ###   ########.fr       */
+/*   Updated: 2024/03/29 10:14:57 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
  *	Returns the type of redirection accordig to the given operator
  *	If the operator is not handled, REDIRECTION_TYPE_ERROR is returned
  */
-static enum e_redirection_type	get_redirection_type(char *operator)
+static enum e_redirection_type	redirection_get_type(char *operator)
 {
 	if (operator == NULL)
 		return (REDIRECTION_TYPE_ERROR);
@@ -41,14 +41,14 @@ static enum e_redirection_type	get_redirection_type(char *operator)
  *		- operator not handled
  *		- memory allocation fail
  */
-t_redirection	*create_redirection(char *operator, char *filename)
+t_redirection	*redirection_create(char *operator, char *filename)
 {
 	t_redirection			*redirection;
 	enum e_redirection_type	type;
 
 	if (operator == NULL || filename == NULL)
 		return (NULL);
-	type = get_redirection_type(operator);
+	type = redirection_get_type(operator);
 	if (operator == REDIRECTION_TYPE_ERROR)
 		return (NULL);
 	redirection = (t_redirection *) ft_calloc(1, sizeof(t_redirection));
@@ -58,7 +58,7 @@ t_redirection	*create_redirection(char *operator, char *filename)
 	redirection->filename = ft_strdup(filename);
 	if (redirection->filename == NULL)
 	{
-		free_redirection(&redirection);
+		redirection_free(&redirection);
 		return (NULL);
 	}
 	return (redirection);
@@ -70,7 +70,7 @@ t_redirection	*create_redirection(char *operator, char *filename)
  *	NOTE: This function takes a void * pointer in order to enable the use of
  *	ft_lstclear() because t_redirection elements are saved into a t_list.
  */
-void	free_redirection(void *redirection_ptr)
+void	redirection_free(void *redirection_ptr)
 {
 	t_redirection	*redirection;
 

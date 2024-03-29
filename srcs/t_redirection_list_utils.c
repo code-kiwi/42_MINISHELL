@@ -6,7 +6,7 @@
 /*   By: mhotting <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/28 08:50:23 by mhotting          #+#    #+#             */
-/*   Updated: 2024/03/28 13:35:31 by mhotting         ###   ########.fr       */
+/*   Updated: 2024/03/29 10:29:57 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
  *	The redirections (a list) member is set to NULL
  *	In case of ERROR, returns NULL
  */
-t_redirection_list	*create_redirection_list(void)
+t_redirection_list	*redirection_list_create(void)
 {
 	t_redirection_list	*redirs;
 
@@ -42,20 +42,22 @@ t_redirection_list	*create_redirection_list(void)
  *		- bad parameters given to the function
  *		- unhandled redirection operator
  */
-bool	add_redirection(t_redirection_list *redirs, char *op, char *filename)
+bool	redirection_list_add(
+	t_redirection_list *redirs, char *op, char *filename
+)
 {
 	t_list			*new;
 	t_redirection	*redirection;
 
 	if (redirs == NULL || op == NULL || filename == NULL)
 		return (false);
-	redirection = create_redirection(op, filename);
+	redirection = redirection_create(op, filename);
 	if (redirection == NULL)
 		return (false);
 	new = ft_lstnew((void *) redirection);
 	if (new == NULL)
 	{
-		free_redirection((void *) redirection);
+		redirection_free((void *) redirection);
 		return (false);
 	}
 	ft_lstadd_back(&(redirs->redirections), new);
@@ -68,7 +70,7 @@ bool	add_redirection(t_redirection_list *redirs, char *op, char *filename)
  *	The info member file descriptors are closed if necessary
  *	The initial pointer to the t_redirection_list is set to NULL
  */
-void	free_redirection_list(t_redirection_list **redirs_ptr)
+void	redirection_list_free(t_redirection_list **redirs_ptr)
 {
 	t_redirection_list	*redirs;
 
@@ -76,7 +78,7 @@ void	free_redirection_list(t_redirection_list **redirs_ptr)
 		return ;
 	redirs = *redirs_ptr;
 	if (redirs->redirections != NULL)
-		ft_lstclear(&(redirs->redirections), free_redirection);
+		ft_lstclear(&(redirs->redirections), redirection_free);
 	if (redirs->info.fd_stdin != FD_UNSET)
 		close_file_descriptor(redirs->info.fd_stdin);
 	if (redirs->info.fd_stdout != FD_UNSET)
