@@ -6,7 +6,7 @@
 #    By: brappo <brappo@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/11 12:21:10 by mhotting          #+#    #+#              #
-#    Updated: 2024/03/28 13:12:28 by brappo           ###   ########.fr        #
+#    Updated: 2024/03/29 17:48:44 by brappo           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,11 +14,16 @@
 NAME					=	minishell
 CC						=	cc
 ifndef NOFLAGS
-	CFLAGS				=	-Wall -Werror -Wextra
+	CFLAGS				=	-Wall -Werror -Wextra -g3
 endif
 HFLAGS					=	-I$(HEADERS_DIR) -I$(LIBFT_HEADERS_DIR)
 FSFLAGS					=	-fsanitize=address
 EXT_LIB_FLAGS			=	-lreadline
+
+# TESTS
+ifndef MAIN
+	MAIN = minishell.c
+endif
 
 # HEADERS
 HEADERS_DIR				=	includes/
@@ -37,7 +42,7 @@ LIBFT_FLAGS				=	-L$(LIBFT_DIR) -lft
 
 # SOURCES GENERAL
 SRCS_MAIN_DIR			=	srcs/
-SRCS_FILES				=	minishell.c			\
+SRCS_FILES				=	$(MAIN)			\
 							prompt_handler.c	\
 							t_minishell_utils.c	\
 							error.c \

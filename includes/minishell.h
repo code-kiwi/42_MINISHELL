@@ -6,7 +6,7 @@
 /*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 10:17:54 by mhotting          #+#    #+#             */
-/*   Updated: 2024/03/29 13:02:39 by brappo           ###   ########.fr       */
+/*   Updated: 2024/03/29 19:37:04 by brappo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,8 @@ typedef struct s_minishell
 }	t_minishell;
 
 // Prompt functions
-void	get_directory_path(char *buffer, t_minishell *shell);
+void	get_directory_path(char *buffer, t_minishell *shell,
+			size_t buffer_size);
 char	*prompt(t_minishell *shell);
 
 // t_minshell functions
