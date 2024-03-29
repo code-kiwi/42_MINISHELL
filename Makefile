@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: mhotting <marvin@42.fr>                    +#+  +:+       +#+         #
+#    By: brappo <brappo@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/11 12:21:10 by mhotting          #+#    #+#              #
-#    Updated: 2024/03/27 13:33:12 by mhotting         ###   ########.fr        #
+#    Updated: 2024/03/28 10:57:21 by brappo           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,7 +14,7 @@
 NAME					=	minishell
 CC						=	cc
 ifndef NOFLAGS
-	CFLAGS				=	-Wall -Werror -Wextra
+	CFLAGS				=	-Wall -Werror -Wextra -g
 endif
 HFLAGS					=	-I$(HEADERS_DIR) -I$(LIBFT_HEADERS_DIR)
 FSFLAGS					=	-fsanitize=address
@@ -40,7 +40,14 @@ SRCS_MAIN_DIR			=	srcs/
 SRCS_FILES				=	minishell.c			\
 							prompt_handler.c	\
 							t_minishell_utils.c	\
-							error.c
+							error.c \
+							token_recognition_utils.c \
+							token_recognition.c \
+							list_utils.c \
+							handle_quote.c \
+							array_utils.c \
+							string_utils.c \
+							is_operator.c
 SRCS					=	$(addprefix $(SRCS_MAIN_DIR), $(SRCS_FILES))
 
 # OBJECTS GENERAL
