@@ -6,12 +6,21 @@
 /*   By: mhotting <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/29 10:46:10 by mhotting          #+#    #+#             */
-/*   Updated: 2024/03/29 10:54:16 by mhotting         ###   ########.fr       */
+/*   Updated: 2024/03/29 10:56:48 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "test.h"
 
+/*
+ *	Creates an AST tree with t_node tools
+ *	Tests the creation of pipe and command nodes
+ *	Adds some redirections to the command nodes
+ *	Frees the AST
+ *
+ *	! LEAKS on error
+ *	! Just some dummy tests for the moment
+ */
 void	test_tree_creation(void)
 {
 	t_node				*node;
