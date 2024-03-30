@@ -6,7 +6,7 @@
 #    By: brappo <brappo@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/11 12:21:10 by mhotting          #+#    #+#              #
-#    Updated: 2024/03/29 10:51:40 by mhotting         ###   ########.fr        #
+#    Updated: 2024/03/30 10:53:59 by brappo           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,8 +22,7 @@ EXT_LIB_FLAGS			=	-lreadline
 
 # TESTS
 ifndef MAIN
-	MAIN = minishell.c
-endif
+	MAIN = main/minishell.c endif
 
 # HEADERS
 HEADERS_DIR				=	includes/
@@ -43,26 +42,23 @@ LIBFT_FLAGS				=	-L$(LIBFT_DIR) -lft
 # SOURCES GENERAL
 SRCS_MAIN_DIR			=	srcs/
 
-SRCS_FILES				=	$(MAIN)			\
-							prompt_handler.c	\
-							t_minishell_utils.c	\
-							error.c \
-							token_recognition_utils.c \
-							token_recognition.c \
-							list_utils.c \
-							handle_quote.c \
-							array_utils.c \
-							string_utils.c \
-							is_operator.c \
-              prompt_handler.c \
-							t_minishell_utils.c			\
-							t_node_utils.c				\
-							t_node_command_utils.c		\
-							t_node_pipe_utils.c			\
-							t_redirection_list_utils.c	\
-							t_redirection_utils.c		\
-              test_ast_creation.c			\
-							close_file_descriptor.c
+SRCS_FILES				=	$(MAIN) \
+							main/close_file_descriptor.c \
+							main/error.c \
+							main/prompt_handler.c \
+							main/t_minishell_utils.c \
+							ast/t_node_command_utils.c \
+							ast/t_node_pipe_utils.c \
+							ast/t_node_utils.c \
+							ast/t_redirection_list_utils.c \
+							ast/t_redirection_utils.c \
+							tokenRecognition/handle_quote.c \
+							tokenRecognition/is_operator.c \
+							tokenRecognition/token_recognition_utils.c \
+							tokenRecognition/token_recognition.c \
+							utils/array_utils.c \
+							utils/list_utils.c \
+							utils/string_utils.c \
 
 SRCS					=	$(addprefix $(SRCS_MAIN_DIR), $(SRCS_FILES))
 
