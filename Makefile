@@ -6,7 +6,7 @@
 #    By: brappo <brappo@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/11 12:21:10 by mhotting          #+#    #+#              #
-#    Updated: 2024/03/30 10:53:59 by brappo           ###   ########.fr        #
+#    Updated: 2024/03/30 11:34:44 by brappo           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,7 +22,8 @@ EXT_LIB_FLAGS			=	-lreadline
 
 # TESTS
 ifndef MAIN
-	MAIN = main/minishell.c endif
+	MAIN = main/minishell.c
+endif
 
 # HEADERS
 HEADERS_DIR				=	includes/

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   t_redirection_utils.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mhotting <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/28 12:32:34 by mhotting          #+#    #+#             */
-/*   Updated: 2024/03/29 10:14:57 by mhotting         ###   ########.fr       */
+/*   Updated: 2024/03/30 11:35:35 by brappo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,13 +20,13 @@ static enum e_redirection_type	redirection_get_type(char *operator)
 {
 	if (operator == NULL)
 		return (REDIRECTION_TYPE_ERROR);
-	if (ft_strcmp(operator, REDIRECTION_OP_HEREDOC) == 0)
+	if (ft_strcmp(operator, DLESS) == 0)
 		return (REDIRECTION_TYPE_HEREDOC);
-	if (ft_strcmp(operator, REDIRECTION_OP_INFILE) == 0)
+	if (ft_strcmp(operator, LESS) == 0)
 		return (REDIRECTION_TYPE_INFILE);
-	if (ft_strcmp(operator, REDIRECTION_OP_OUTFILE_TRUNC) == 0)
+	if (ft_strcmp(operator, GREAT) == 0)
 		return (REDIRECTION_TYPE_OUTFILE_TRUNC);
-	if (ft_strcmp(operator, REDIRECTION_OP_OUTFILE_APPEND) == 0)
+	if (ft_strcmp(operator, DGREAT) == 0)
 		return (REDIRECTION_TYPE_OUTFILE_APPEND);
 	return (REDIRECTION_TYPE_ERROR);
 }

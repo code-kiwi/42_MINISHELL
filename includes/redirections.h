@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirections.h                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mhotting <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/28 11:06:44 by mhotting          #+#    #+#             */
-/*   Updated: 2024/03/29 10:30:35 by mhotting         ###   ########.fr       */
+/*   Updated: 2024/03/30 11:34:14 by brappo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,6 @@
 # define REDIRECTIONS_H
 
 # include "minishell.h"
-
-# define REDIRECTION_OP_HEREDOC			"<<"
-# define REDIRECTION_OP_INFILE			"<"
-# define REDIRECTION_OP_OUTFILE_TRUNC	">"
-# define REDIRECTION_OP_OUTFILE_APPEND	">>"
 
 enum e_redirection_type
 {
