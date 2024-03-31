@@ -6,7 +6,7 @@
 #    By: brappo <brappo@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/11 12:21:10 by mhotting          #+#    #+#              #
-#    Updated: 2024/03/30 11:34:44 by brappo           ###   ########.fr        #
+#    Updated: 2024/03/31 20:45:09 by mhotting         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,11 +19,6 @@ endif
 HFLAGS					=	-I$(HEADERS_DIR) -I$(LIBFT_HEADERS_DIR)
 FSFLAGS					=	-fsanitize=address
 EXT_LIB_FLAGS			=	-lreadline
-
-# TESTS
-ifndef MAIN
-	MAIN = main/minishell.c
-endif
 
 # HEADERS
 HEADERS_DIR				=	includes/
@@ -40,27 +35,52 @@ LIBFT_HEADERS_FILE		=	libft.h
 LIBFT_HEADERS			=	$(addprefix $(LIBFT_HEADERS_DIR), $(LIBFT_HEADERS_FILE))
 LIBFT_FLAGS				=	-L$(LIBFT_DIR) -lft 
 
+# MAIN
+MAIN_DIR				=	main/
+MAIN_FILE				=	minishell.c
+ifdef testChosen
+    ifeq ($(testChosen), token)
+		MAIN_DIR		=	.test/
+		MAIN_FILE		= 	test_token_recognition.c
+    endif
+endif
+MAIN					=	$(addprefix $(MAIN_DIR), $(MAIN_FILE))
+
+# AST
+AST_DIR					=	ast/
+AST_FILES				=	t_node_command_utils.c		\
+							t_node_pipe_utils.c			\
+							t_node_utils.c				\
+							t_redirection_list_utils.c	\
+							t_redirection_utils.c
+AST						=	$(addprefix $(AST_DIR), $(AST_FILES))
+
+# TOKEN RECOGNITION
+TOKENR_DIR				=	tokenRecognition/
+TOKENR_FILES			=	handle_quote.c				\
+							is_operator.c				\
+							token_recognition_utils.c	\
+							token_recognition.c
+TOKENR					=	$(addprefix $(TOKENR_DIR), $(TOKENR_FILES))
+
+# PROMPT
+PROMPT_DIR				=	prompt/
+PROMPT_FILES			=	prompt_handler.c
+PROMPT					=	$(addprefix $(PROMPT_DIR), $(PROMPT_FILES))
+
+# UTILS
+UTILS_DIR				=	utils/
+UTILS_FILES				=	list_utils.c				\
+							t_minishell_utils.c			\
+							close_file_descriptor.c		\
+							string_utils.c				\
+							array_utils.c				\
+							error.c
+UTILS					=	$(addprefix $(UTILS_DIR), $(UTILS_FILES))
+
 # SOURCES GENERAL
 SRCS_MAIN_DIR			=	srcs/
-
-SRCS_FILES				=	$(MAIN) \
-							main/close_file_descriptor.c \
-							main/error.c \
-							main/prompt_handler.c \
-							main/t_minishell_utils.c \
-							ast/t_node_command_utils.c \
-							ast/t_node_pipe_utils.c \
-							ast/t_node_utils.c \
-							ast/t_redirection_list_utils.c \
-							ast/t_redirection_utils.c \
-							tokenRecognition/handle_quote.c \
-							tokenRecognition/is_operator.c \
-							tokenRecognition/token_recognition_utils.c \
-							tokenRecognition/token_recognition.c \
-							utils/array_utils.c \
-							utils/list_utils.c \
-							utils/string_utils.c \
-
+SRCS_FILES				=	$(MAIN)	$(AST) $(TOKENR) $(PROMPT) $(UTILS)
 SRCS					=	$(addprefix $(SRCS_MAIN_DIR), $(SRCS_FILES))
 
 # OBJECTS GENERAL
@@ -96,6 +116,10 @@ bonus: all
 fsanitize: fclean $(LIBFT) $(OBJS)
 	$(CC) $(CFLAGS) $(HFLAGS) $(FSFLAGS) $(OBJS) $(LIBFT_FLAGS) $(EXT_LIB_FLAGS) -o $(NAME)
 
+test:
+	@$(MAKE) testChosen=$(testChosen) re
+	@$(MAKE) clean
+
 -include $(DEPS)
 
 clean:
@@ -117,4 +141,4 @@ re: fclean all
 
 rre: ffclean re
 
-.PHONY: all clean fclean re clean-libft fclean-libft ffclean rre bonus FORCE fsanitize
+.PHONY: all clean fclean re clean-libft fclean-libft ffclean rre bonus FORCE fsanitize test
