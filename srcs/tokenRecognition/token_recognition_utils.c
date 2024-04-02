@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   token_recognition_utils.c                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
+/*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 15:09:19 by brappo            #+#    #+#             */
-/*   Updated: 2024/04/02 13:34:12 by brappo           ###   ########.fr       */
+/*   Updated: 2024/04/02 22:51:19 by root             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,12 +28,15 @@ t_token	*t_token_init(void)
 	return (token);
 }
 
-void	t_token_free(void	*token_void)
+void	t_token_free(void *token_void)
 {
 	t_token	*token;
 
+	if (token_void == NULL)
+		return ;
 	token = (t_token *)token_void;
-	free(token->str);
+	if (token->str != NULL)
+		free(token->str);
 	free(token);
 }
 
