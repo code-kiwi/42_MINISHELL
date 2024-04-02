@@ -6,7 +6,7 @@
 /*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 10:17:54 by mhotting          #+#    #+#             */
-/*   Updated: 2024/03/31 19:30:18 by mhotting         ###   ########.fr       */
+/*   Updated: 2024/04/02 13:23:48 by brappo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@
 # define LESS "<"
 # define AND_IF "||"
 # define OR_IF "&&"
+# define PIPE "|"
 # define OPERATOR_CHARACTER "><&|"
 # define OPERATOR_NUMBER 7
 

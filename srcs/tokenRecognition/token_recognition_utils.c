@@ -6,20 +6,16 @@
 /*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 15:09:19 by brappo            #+#    #+#             */
-/*   Updated: 2024/03/28 11:06:30 by brappo           ###   ########.fr       */
+/*   Updated: 2024/04/02 13:34:12 by brappo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	t_token_parser_init(t_token_parser *token_parser,
-		size_t *index, char *input)
+void	t_token_parser_init(t_token_parser *token_parser)
 {
 	token_parser->single_quoted = false;
 	token_parser->double_quoted = false;
-	token_parser->end = index;
-	token_parser->start = *index;
-	token_parser->input = input;
 }
 
 t_token	*t_token_init(void)

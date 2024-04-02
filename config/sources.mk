@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    sources.mk                                         :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: mhotting <marvin@42.fr>                    +#+  +:+       +#+         #
+#    By: brappo <brappo@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/03/31 20:47:09 by mhotting          #+#    #+#              #
-#    Updated: 2024/03/31 20:56:11 by mhotting         ###   ########.fr        #
+#    Updated: 2024/04/02 13:03:25 by brappo           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -65,7 +65,8 @@ TOKENR_DIR				=	tokenRecognition/
 TOKENR_FILES			=	handle_quote.c				\
 							is_operator.c				\
 							token_recognition_utils.c	\
-							token_recognition.c
+							token_recognition.c			\
+							tokenize_str.c
 TOKENR					=	$(addprefix $(TOKENR_DIR), $(TOKENR_FILES))
 
 # PROMPT
