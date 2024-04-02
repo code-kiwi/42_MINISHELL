@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenize_str.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
+/*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 14:59:56 by brappo            #+#    #+#             */
-/*   Updated: 2024/04/02 14:09:52 by brappo           ###   ########.fr       */
+/*   Updated: 2024/04/02 16:52:16 by root             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,7 @@ t_list	*tokenize_str(char *str, t_token_parser *token_parser)
 	if (str == NULL)
 		return (NULL);
 	skip_blank(str, &index);
-	while (tokens == NULL || ((t_token *)tokens->content)->type != END)
+	while (str[index] != '\0')
 	{
 		lst_push_front_content(&tokens, get_token(str, &index, token_parser));
 		if (tokens == NULL || tokens->content == NULL)

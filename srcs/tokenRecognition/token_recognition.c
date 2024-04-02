@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   token_recognition.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
+/*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/02 13:01:05 by brappo            #+#    #+#             */
-/*   Updated: 2024/04/02 14:12:40 by brappo           ###   ########.fr       */
+/*   Updated: 2024/04/02 17:00:12 by root             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,13 +14,9 @@
 
 bool	is_command_end(t_token_parser *token_parser, t_list *tokens)
 {
-	int		operator;
 	t_token	*last_token;
 
-	operator = is_operator(token_parser);
 	if (is_quoted(token_parser) == true)
-		return (false);
-	if (operator >= 4)
 		return (false);
 	last_token = (t_token *)ft_lstlast(tokens)->content;
 	if (ft_strcmp(last_token->str, "||") == 0)
@@ -33,6 +29,7 @@ t_list	*token_recognition(char *input)
 	t_token_parser	token_parser;
 	t_list			*tokens;
 	t_list			*last_token;
+	char			*multi_ligne_input;
 
 	t_token_parser_init(&token_parser);
 	tokens = tokenize_str(input, &token_parser);
@@ -40,15 +37,15 @@ t_list	*token_recognition(char *input)
 		return (NULL);
 	while (is_command_end(&token_parser, tokens) == false)
 	{
-		free(input);
-		input = readline("> ");
+		multi_ligne_input = readline("> ");
 		if (input == NULL)
 		{
 			ft_lstclear(&tokens, t_token_free);
 			return (NULL);
 		}
 		last_token = ft_lstlast(tokens);
-		last_token->next = tokenize_str(input, &token_parser);
+		last_token->next = tokenize_str(multi_ligne_input, &token_parser);
+		free(multi_ligne_input);
 		if (last_token->next == NULL)
 		{
 			ft_lstclear(&tokens, t_token_free);
