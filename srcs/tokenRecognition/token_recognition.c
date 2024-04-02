@@ -6,20 +6,24 @@
 /*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/02 13:01:05 by brappo            #+#    #+#             */
-/*   Updated: 2024/04/02 13:43:01 by brappo           ###   ########.fr       */
+/*   Updated: 2024/04/02 14:12:40 by brappo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h> 
 
-bool	is_command_end(t_token_parser *token_parser)
+bool	is_command_end(t_token_parser *token_parser, t_list *tokens)
 {
 	int		operator;
+	t_token	*last_token;
 
 	operator = is_operator(token_parser);
 	if (is_quoted(token_parser) == true)
 		return (false);
 	if (operator >= 4)
+		return (false);
+	last_token = (t_token *)ft_lstlast(tokens)->content;
+	if (ft_strcmp(last_token->str, "||") == 0)
 		return (false);
 	return (true);
 }
@@ -34,7 +38,7 @@ t_list	*token_recognition(char *input)
 	tokens = tokenize_str(input, &token_parser);
 	if (tokens == NULL)
 		return (NULL);
-	while (is_command_end(&token_parser) == false)
+	while (is_command_end(&token_parser, tokens) == false)
 	{
 		free(input);
 		input = readline("> ");
