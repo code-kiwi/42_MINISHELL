@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   token_list_merge.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/02 20:42:20 by root              #+#    #+#             */
-/*   Updated: 2024/04/02 22:59:29 by root             ###   ########.fr       */
+/*   Updated: 2024/04/03 10:36:59 by brappo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,8 @@ void	delete_first_token(t_list **tokens)
 
 			second : azex"
 			->
-			return : echo 7"azeazex"
+			return : echo 7"aze
+							azex"
 	Working.
 */
 bool	merge_tokens_node(t_list *first, t_list *next)
@@ -45,12 +46,16 @@ bool	merge_tokens_node(t_list *first, t_list *next)
 	t_token	*next_token;
 
 	first_token = (t_token *)(first->content);
-	next_token = (t_token *)(next->content);
-	if (first->next != NULL
-		|| first == NULL
-		|| next == NULL)
+	if (next != NULL)
+		next_token = (t_token *)(next->content);
+	if (first->next != NULL || first == NULL)
 		return (false);
-	if (join_into_dest(&first_token->str, next_token->str) == NULL)
+	if (next == NULL)
+	{
+		if (join_into_dest(&first_token->str, "\n") == NULL)
+			return (false);
+	}
+	else if (join_into_dest(&first_token->str, next_token->str) == NULL)
 		return (false);
 	delete_first_token(&next);
 	first->next = next;
@@ -61,7 +66,7 @@ bool	append_token_list(bool is_first_quoted, t_list *first, t_list *second)
 {
 	t_list	*last_node;
 
-	if (second == NULL || first == NULL)
+	if (first == NULL)
 		return (false);
 	last_node = ft_lstlast(first);
 	if (is_first_quoted == true)
