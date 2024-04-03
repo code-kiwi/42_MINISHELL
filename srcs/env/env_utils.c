@@ -6,7 +6,7 @@
 /*   By: mhotting <mhotting@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 00:17:49 by mhotting          #+#    #+#             */
-/*   Updated: 2024/04/03 11:03:32 by mhotting         ###   ########.fr       */
+/*   Updated: 2024/04/03 13:05:00 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ char	*env_get(t_list *env, char *name)
 		errno = ENODATA;
 		return (NULL);
 	}
-	node = ft_listfind(env, name, env_element_cmp);
+	node = ft_lstfind(env, name, env_element_cmp);
 	if (node == NULL || node->content == NULL)
 		return (NULL);
 	env_elt = (t_env_element *)(node->content);
@@ -88,4 +88,11 @@ char	*env_get(t_list *env, char *name)
 		return (NULL);
 	}
 	return (value);
+}
+
+void	env_delete(t_list **env, char *name)
+{
+	if (env == NULL || *env == NULL || name == NULL)
+		return ;
+	ft_lst_remove_if(env, name, env_element_cmp, env_element_free);
 }
