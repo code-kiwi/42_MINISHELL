@@ -6,23 +6,21 @@
 /*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 10:17:54 by mhotting          #+#    #+#             */
-/*   Updated: 2024/04/03 12:15:32 by brappo           ###   ########.fr       */
+/*   Updated: 2024/04/03 14:35:19 by brappo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
-
 # include <stdio.h>
 # include <errno.h>
 # include <readline/readline.h>
 # include <readline/history.h>
-
+# include "prompt.h"
 # include "libft.h"
 # include "node.h"
 # include "token.h"
 
-# define ERROR_MSG_PROMPT	"Prompt function error"
 # define ERROR_MSG_CLOSE	"Closing fd error"
 # define TOKENIZATION_ERROR "Error tokenizing input"
 # define DGREAT ">>"
@@ -42,9 +40,6 @@ typedef struct s_minishell
 	char	*input;
 	t_list	*tokens;
 }	t_minishell;
-
-// Prompt functions
-char	*prompt(void);
 
 // t_minshell functions
 void	t_minishell_init(t_minishell *shell);
