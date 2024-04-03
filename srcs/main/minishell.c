@@ -6,7 +6,7 @@
 /*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 10:14:16 by mhotting          #+#    #+#             */
-/*   Updated: 2024/04/03 15:55:57 by brappo           ###   ########.fr       */
+/*   Updated: 2024/04/03 17:03:47 by brappo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,6 @@ int	main(void)
 		token_recognition(&shell);
 		ft_lstprint(shell.tokens, print_token);
 		ft_lstclear(&shell.tokens, t_token_free);
-		printf("input : \n%s\n", shell.input);
 		add_history(shell.input);
 		free(shell.input);
 		shell.input = NULL;
