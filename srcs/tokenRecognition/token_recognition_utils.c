@@ -6,7 +6,7 @@
 /*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 15:09:19 by brappo            #+#    #+#             */
-/*   Updated: 2024/04/03 09:24:20 by brappo           ###   ########.fr       */
+/*   Updated: 2024/04/03 10:03:49 by brappo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,4 +45,23 @@ bool	is_blank(char character)
 	if (character == ' ')
 		return (true);
 	return (false);
+}
+
+void	print_token(void *token_void)
+{
+	t_token	*token;
+
+	if (token_void == NULL)
+		return ;
+	token = (t_token *)token_void;
+	printf("%s : ", token->str);
+	printf("\033[0;35m");
+	if (token->type == END)
+		printf("END");
+	else if (token->type == WORD)
+		printf("WORD");
+	else if (token->type == OPERATOR)
+		printf("OPERATOR");
+	printf("\033[0m");
+	printf("\n");
 }

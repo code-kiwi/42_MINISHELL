@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   token.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/31 19:28:12 by mhotting          #+#    #+#             */
-/*   Updated: 2024/04/02 20:53:24 by root             ###   ########.fr       */
+/*   Updated: 2024/04/03 10:04:40 by brappo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,6 @@ t_token	*t_token_init(void);
 bool	is_blank(char character);
 void	t_token_free(void *token_void);
 t_list	*tokenize_str(char *str, t_token_parser *token_parser);
-void	print_list_token(t_list *lst);
 bool	handle_quote(t_token_parser *token_parser, char character);
 int		array_find(void **array, bool (equal)(void *a, void *b), void *value);
 bool	is_prefix(void	*word, void *prefix);
@@ -55,4 +54,5 @@ t_list	*lst_push_front_content(t_list **head, void *content);
 t_list	*token_recognition(char *input);
 char	*join_into_dest(char **dest, char *str);
 bool	append_token_list(bool is_first_quoted, t_list *first, t_list *second);
+void	print_token(void *token_void);
 #endif
