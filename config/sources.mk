@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    sources.mk                                         :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: mhotting <marvin@42.fr>                    +#+  +:+       +#+         #
+#    By: brappo <brappo@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/03/31 20:47:09 by mhotting          #+#    #+#              #
-#    Updated: 2024/04/03 10:44:01 by mhotting         ###   ########.fr        #
+#    Updated: 2024/04/03 14:46:16 by mhotting         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -51,6 +51,10 @@ ifdef testChosen
 		MAIN_DIR		=	.test/
 		MAIN_FILE		= 	test_env.c
     endif
+	ifeq ($(testChosen), prompt)
+		MAIN_DIR		=	.test/
+		MAIN_FILE		=	test_prompt.c
+	endif
 endif
 MAIN					=	$(addprefix $(MAIN_DIR), $(MAIN_FILE))
 
@@ -73,7 +77,8 @@ TOKENR					=	$(addprefix $(TOKENR_DIR), $(TOKENR_FILES))
 
 # PROMPT
 PROMPT_DIR				=	prompt/
-PROMPT_FILES			=	prompt_handler.c
+PROMPT_FILES			=	prompt_handler.c \
+							directory_utils.c
 PROMPT					=	$(addprefix $(PROMPT_DIR), $(PROMPT_FILES))
 
 # ENV

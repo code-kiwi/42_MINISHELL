@@ -6,7 +6,7 @@
 /*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 10:14:16 by mhotting          #+#    #+#             */
-/*   Updated: 2024/04/03 02:32:56 by mhotting         ###   ########.fr       */
+/*   Updated: 2024/04/03 14:46:58 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,14 +19,13 @@ int	main(int argc, char **argv, char **envp)
 	t_minishell_init(&shell, argc, argv, envp);
 	while (true)
 	{
-		shell.input = prompt();
-		if (shell.input == NULL)
-			handle_error(&shell, ERROR_MSG_PROMPT, EXIT_FAILURE);
+		shell.input = prompt(&shell);
 		if (ft_strcmp(shell.input, "exit") == 0)
 		{
 			t_minishell_free(&shell);
 			break ;
 		}
+		add_history(shell.input);
 		printf("%s\n", shell.input);
 		free(shell.input);
 		shell.input = NULL;
