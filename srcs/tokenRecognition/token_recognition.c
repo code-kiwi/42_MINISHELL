@@ -6,7 +6,7 @@
 /*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/02 13:01:05 by brappo            #+#    #+#             */
-/*   Updated: 2024/04/03 12:19:11 by brappo           ###   ########.fr       */
+/*   Updated: 2024/04/03 12:28:28 by brappo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,23 +50,18 @@ bool	is_command_end(t_token_parser *token_parser, t_list *tokens)
 
 void	merge_inputs(t_minishell *shell, char *input, bool is_end_quoted)
 {
+	char	*separator;
+
 	if (input == NULL)
 		token_error(shell);
 	if (is_end_quoted)
-	{
-		if (bridge_into_first(&shell->input, input, "\n") == false)
-		{
-			free(input);
-			token_error(shell);
-		}
-	}
+		separator = "\n";
 	else
+		separator = " ";
+	if (bridge_into_first(&shell->input, input, separator) == false)
 	{
-		if (join_into_dest(&shell->input, input) == false)
-		{
-			free(input);
-			token_error(shell);
-		}
+		free(input);
+		token_error(shell);
 	}
 }
 
