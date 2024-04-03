@@ -6,23 +6,23 @@
 /*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 10:17:54 by mhotting          #+#    #+#             */
-/*   Updated: 2024/03/31 19:30:18 by mhotting         ###   ########.fr       */
+/*   Updated: 2024/04/03 14:05:39 by brappo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
+typedef struct s_minishell	t_minishell;
 # include <stdio.h>
 # include <errno.h>
 # include <readline/readline.h>
 # include <readline/history.h>
-
+# include "prompt.h"
 # include "libft.h"
 # include "node.h"
 # include "token.h"
 
-# define ERROR_MSG_PROMPT	"Prompt function error"
 # define ERROR_MSG_CLOSE	"Closing fd error"
 # define DGREAT ">>"
 # define DLESS "<<"
