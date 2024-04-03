@@ -6,16 +6,11 @@
 /*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/02 13:01:05 by brappo            #+#    #+#             */
-/*   Updated: 2024/04/03 11:51:46 by brappo           ###   ########.fr       */
+/*   Updated: 2024/04/03 12:19:11 by brappo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h> 
-
-void	token_error(t_minishell *shell)
-{
-	handle_error(shell, TOKENIZATION_ERROR, EXIT_FAILURE);
-}
 
 bool	add_end_token(t_list **tokens)
 {
@@ -53,15 +48,36 @@ bool	is_command_end(t_token_parser *token_parser, t_list *tokens)
 	return (true);
 }
 
+void	merge_inputs(t_minishell *shell, char *input, bool is_end_quoted)
+{
+	if (input == NULL)
+		token_error(shell);
+	if (is_end_quoted)
+	{
+		if (bridge_into_first(&shell->input, input, "\n") == false)
+		{
+			free(input);
+			token_error(shell);
+		}
+	}
+	else
+	{
+		if (join_into_dest(&shell->input, input) == false)
+		{
+			free(input);
+			token_error(shell);
+		}
+	}
+}
+
 t_list	*tokenize_input(t_minishell *shell, char *prompt,
-	t_token_parser *token_parser)
+	t_token_parser *token_parser, bool is_end_quoted)
 {
 	char	*input;
 	t_list	*tokens;
 
 	input = readline(prompt);
-	if (input == NULL)
-		handle_error(shell, TOKENIZATION_ERROR, EXIT_FAILURE);
+	merge_inputs(shell, input, is_end_quoted);
 	tokens = tokenize_str(input, token_parser);
 	if (tokens == NULL && *input)
 	{
@@ -85,7 +101,8 @@ void	token_recognition(t_minishell *shell)
 	while (is_command_end(&token_parser, shell->tokens) == false)
 	{
 		is_end_quoted = is_quoted(&token_parser);
-		second_tokens = tokenize_input(shell, "> ", &token_parser);
+		second_tokens = tokenize_input(shell, "> ",
+				&token_parser, is_end_quoted);
 		if (!append_token_list(is_end_quoted, shell->tokens, second_tokens))
 		{
 			ft_lstclear(&second_tokens, t_token_free);

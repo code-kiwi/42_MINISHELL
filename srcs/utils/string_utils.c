@@ -6,7 +6,7 @@
 /*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/28 10:26:15 by brappo            #+#    #+#             */
-/*   Updated: 2024/04/03 11:46:35 by brappo           ###   ########.fr       */
+/*   Updated: 2024/04/03 12:16:29 by brappo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,4 +51,16 @@ char	*bridge(char *first, char *second, char *separator)
 	ft_strlcat(result, separator, result_length);
 	ft_strlcat(result, second, result_length);
 	return (result);
+}
+
+char	*bridge_into_first(char **first, char *second, char *separator)
+{
+	char	*temp;
+
+	temp = bridge(*first, second, separator);
+	if (temp == NULL)
+		return (NULL);
+	free(*first);
+	*first = temp;
+	return (temp);
 }
