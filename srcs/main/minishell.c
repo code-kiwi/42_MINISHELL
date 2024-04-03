@@ -6,7 +6,7 @@
 /*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 10:14:16 by mhotting          #+#    #+#             */
-/*   Updated: 2024/04/02 13:41:37 by brappo           ###   ########.fr       */
+/*   Updated: 2024/04/03 09:26:38 by brappo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,11 @@ int	main(void)
 			t_minishell_free(&shell);
 			break ;
 		}
-		token_recognition(shell.input);
-		printf("test\n");
+		shell.tokens = token_recognition(shell.input);
+		if (shell.tokens == NULL)
+			handle_error(&shell, TOKENIZATION_ERROR, EXIT_FAILURE);
+		print_list_token(shell.tokens);
+		ft_lstclear(&shell.tokens, t_token_free);
 		free(shell.input);
 		shell.input = NULL;
 	}

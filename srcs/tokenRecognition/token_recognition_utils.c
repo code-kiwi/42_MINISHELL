@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   token_recognition_utils.c                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 15:09:19 by brappo            #+#    #+#             */
-/*   Updated: 2024/04/02 22:51:19 by root             ###   ########.fr       */
+/*   Updated: 2024/04/03 09:24:20 by brappo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,6 @@ t_token	*t_token_init(void)
 	t_token	*token;
 
 	token = (t_token *)ft_calloc(1, sizeof(t_token));
-	if (token == NULL)
-		return (NULL);
 	return (token);
 }
 
