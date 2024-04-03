@@ -6,7 +6,7 @@
 /*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/28 12:54:36 by brappo            #+#    #+#             */
-/*   Updated: 2024/04/03 16:22:16 by brappo           ###   ########.fr       */
+/*   Updated: 2024/04/03 16:35:00 by brappo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,7 @@ void	get_directory_path(char *buffer, t_minishell *shell, size_t buffer_size)
 	buffer[cwd_length] = '$';
 	buffer[cwd_length + 1] = ' ';
 	buffer[cwd_length + 2] = '\0';
-	add_color = getenv("TERM") != NULL;
+	add_color = getenv("TERM") != NULL && isatty(1);
 	replace_home_by_tidle(buffer, buffer_size, add_color);
 	add_current_user(buffer, buffer_size, add_color);
 }
