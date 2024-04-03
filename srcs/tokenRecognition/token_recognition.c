@@ -6,16 +6,41 @@
 /*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/02 13:01:05 by brappo            #+#    #+#             */
-/*   Updated: 2024/04/03 09:19:42 by brappo           ###   ########.fr       */
+/*   Updated: 2024/04/03 09:58:30 by brappo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h> 
 
+void	add_end_token(t_list **tokens)
+{
+	t_token	*end_token;
+	t_list	*new_node;
+
+	end_token = t_token_init();
+	if (end_token == NULL)
+	{
+		ft_lstclear(tokens, t_token_free);
+		*tokens = NULL;
+		return ;
+	}
+	new_node = ft_lstnew((void *)end_token);
+	if (new_node == NULL)
+	{
+		t_token_free(end_token);
+		ft_lstclear(tokens, t_token_free);
+		*tokens = NULL;
+		return ;
+	}
+	ft_lstadd_back(tokens, new_node);
+}
+
 bool	is_command_end(t_token_parser *token_parser, t_list *tokens)
 {
 	t_token	*last_token;
 
+	if (tokens == NULL)
+		return (true);
 	if (is_quoted(token_parser) == true)
 		return (false);
 	last_token = (t_token *)ft_lstlast(tokens)->content;
@@ -52,7 +77,7 @@ t_list	*token_recognition(char *input)
 
 	t_token_parser_init(&token_parser);
 	tokens = tokenize_str(input, &token_parser);
-	if (tokens == NULL)
+	if (tokens == NULL && *input)
 		return (NULL);
 	while (is_command_end(&token_parser, tokens) == false)
 	{
@@ -65,5 +90,6 @@ t_list	*token_recognition(char *input)
 			return (NULL);
 		}
 	}
+	add_end_token(&tokens);
 	return (tokens);
 }
