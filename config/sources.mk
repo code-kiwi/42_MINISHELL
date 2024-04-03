@@ -6,7 +6,7 @@
 #    By: mhotting <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/03/31 20:47:09 by mhotting          #+#    #+#              #
-#    Updated: 2024/04/03 00:25:41 by mhotting         ###   ########.fr        #
+#    Updated: 2024/04/03 10:44:01 by mhotting         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -47,6 +47,9 @@ ifdef testChosen
     ifeq ($(testChosen), token)
 		MAIN_DIR		=	.test/
 		MAIN_FILE		= 	test_token_recognition.c
+	else ifeq ($(testChosen), env)
+		MAIN_DIR		=	.test/
+		MAIN_FILE		= 	test_env.c
     endif
 endif
 MAIN					=	$(addprefix $(MAIN_DIR), $(MAIN_FILE))
