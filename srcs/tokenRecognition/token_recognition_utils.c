@@ -6,7 +6,7 @@
 /*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 15:09:19 by brappo            #+#    #+#             */
-/*   Updated: 2024/04/03 10:03:49 by brappo           ###   ########.fr       */
+/*   Updated: 2024/04/03 10:10:32 by brappo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,8 @@ void	print_token(void *token_void)
 	if (token_void == NULL)
 		return ;
 	token = (t_token *)token_void;
-	printf("%s : ", token->str);
+	if (token->str != NULL)
+		printf("%s : ", token->str);
 	printf("\033[0;35m");
 	if (token->type == END)
 		printf("END");

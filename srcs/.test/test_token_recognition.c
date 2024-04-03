@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   test.c                                             :+:      :+:    :+:   */
+/*   test_token_recognition.c                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/29 20:42:21 by brappo            #+#    #+#             */
-/*   Updated: 2024/03/29 20:42:32 by brappo           ###   ########.fr       */
+/*   Updated: 2024/04/03 10:09:32 by brappo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ int	main(void)
 		if (dup_str == NULL)
 			return (1);
 		tokens = token_recognition(dup_str);
-		print_list_token(tokens);
+		ft_lstprint(tokens, print_token);
 		ft_lstclear(&tokens, t_token_free);
 		free(dup_str);
 		index++;
