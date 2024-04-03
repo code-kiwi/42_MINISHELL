@@ -6,7 +6,7 @@
 /*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/28 12:54:36 by brappo            #+#    #+#             */
-/*   Updated: 2024/04/03 13:59:34 by brappo           ###   ########.fr       */
+/*   Updated: 2024/04/03 14:27:56 by brappo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,8 @@ void	replace_home_by_tidle(char *cwd, size_t buffer_size)
 	ft_memmove(cwd + 1, cwd + home_directory_length,
 		cwd_length - home_directory_length + 1);
 	cwd[0] = '~';
-	set_color(cwd, cwd_length - 1 - 1, BLUE, buffer_size);
+	set_color(cwd + 1, cwd_length - home_directory_length - 1,
+		BLUE, buffer_size);
 }
 
 void	get_directory_path(char *buffer, t_minishell *shell, size_t buffer_size)

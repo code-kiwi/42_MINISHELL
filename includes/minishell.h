@@ -6,14 +6,12 @@
 /*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 10:17:54 by mhotting          #+#    #+#             */
-/*   Updated: 2024/04/03 14:05:39 by brappo           ###   ########.fr       */
+/*   Updated: 2024/04/03 14:29:41 by brappo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
-
-typedef struct s_minishell	t_minishell;
 # include <stdio.h>
 # include <errno.h>
 # include <readline/readline.h>

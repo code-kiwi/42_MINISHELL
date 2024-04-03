@@ -6,7 +6,7 @@
 #    By: brappo <brappo@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/03/31 20:47:09 by mhotting          #+#    #+#              #
-#    Updated: 2024/04/03 14:06:42 by brappo           ###   ########.fr        #
+#    Updated: 2024/04/03 14:29:30 by brappo           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -48,6 +48,10 @@ ifdef testChosen
 		MAIN_DIR		=	.test/
 		MAIN_FILE		= 	test_token_recognition.c
     endif
+	ifeq ($(testChosen), prompt)
+		MAIN_DIR		=	.test/
+		MAIN_FILE		=	test_prompt.c
+	endif
 endif
 MAIN					=	$(addprefix $(MAIN_DIR), $(MAIN_FILE))
 
