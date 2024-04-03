@@ -6,7 +6,7 @@
 #    By: mhotting <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/03/31 20:47:09 by mhotting          #+#    #+#              #
-#    Updated: 2024/03/31 20:56:11 by mhotting         ###   ########.fr        #
+#    Updated: 2024/04/03 00:25:41 by mhotting         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -73,6 +73,12 @@ PROMPT_DIR				=	prompt/
 PROMPT_FILES			=	prompt_handler.c
 PROMPT					=	$(addprefix $(PROMPT_DIR), $(PROMPT_FILES))
 
+# ENV
+ENV_DIR					=	env/
+ENV_FILES				=	env_utils.c					\
+							t_env_element_utils.c
+ENV						=	$(addprefix $(ENV_DIR), $(ENV_FILES))
+
 # UTILS
 UTILS_DIR				=	utils/
 UTILS_FILES				=	list_utils.c				\
@@ -85,7 +91,7 @@ UTILS					=	$(addprefix $(UTILS_DIR), $(UTILS_FILES))
 
 # SOURCES GENERAL
 SRCS_MAIN_DIR			=	srcs/
-SRCS_FILES				=	$(MAIN)	$(AST) $(TOKENR) $(PROMPT) $(UTILS)
+SRCS_FILES				=	$(MAIN)	$(AST) $(TOKENR) $(PROMPT) $(ENV) $(UTILS)
 SRCS					=	$(addprefix $(SRCS_MAIN_DIR), $(SRCS_FILES))
 
 # OBJECTS GENERAL

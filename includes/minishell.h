@@ -6,7 +6,7 @@
 /*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 10:17:54 by mhotting          #+#    #+#             */
-/*   Updated: 2024/03/31 19:30:18 by mhotting         ###   ########.fr       */
+/*   Updated: 2024/04/03 00:21:10 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,30 +21,32 @@
 # include "libft.h"
 # include "node.h"
 # include "token.h"
+# include "env.h"
 
 # define ERROR_MSG_PROMPT	"Prompt function error"
 # define ERROR_MSG_CLOSE	"Closing fd error"
-# define DGREAT ">>"
-# define DLESS "<<"
-# define GREAT ">"
-# define LESS "<"
-# define AND_IF "||"
-# define OR_IF "&&"
-# define OPERATOR_CHARACTER "><&|"
-# define OPERATOR_NUMBER 7
+# define DGREAT 			">>"
+# define DLESS				"<<"
+# define GREAT				">"
+# define LESS				"<"
+# define AND_IF				"||"
+# define OR_IF				"&&"
+# define OPERATOR_CHARACTER	"><&|"
+# define OPERATOR_NUMBER 	7
 
-# define FD_UNSET -2
+# define FD_UNSET			-2
 
 typedef struct s_minishell
 {
 	char	*input;
+	t_list	*env;
 }	t_minishell;
 
 // Prompt functions
 char	*prompt(void);
 
 // t_minshell functions
-void	t_minishell_init(t_minishell *shell);
+void	t_minishell_init(t_minishell *shell, int ac, char **av, char **envp);
 void	t_minishell_free(t_minishell *shell);
 
 // General functions
