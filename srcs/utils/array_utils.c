@@ -1,29 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   t_minishell_utils.c                                :+:      :+:    :+:   */
+/*   array_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/03/27 13:10:16 by mhotting          #+#    #+#             */
-/*   Updated: 2024/04/03 13:21:42 by brappo           ###   ########.fr       */
+/*   Created: 2024/03/28 10:22:22 by brappo            #+#    #+#             */
+/*   Updated: 2024/03/28 11:26:31 by brappo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	t_minishell_init(t_minishell *shell)
+int	array_find(void **array, bool (equal)(void *a, void *b), void *value)
 {
-	if (shell == NULL)
-		return ;
-	shell->input = NULL;
-}
+	size_t	index;
 
-void	t_minishell_free(t_minishell *shell)
-{
-	if (shell == NULL)
-		return ;
-	if (shell->input)
-		free(shell->input);
-	rl_clear_history();
+	index = 0;
+	while (array[index] != NULL)
+	{
+		if (equal(array[index], value) == true)
+			return (index);
+		index++;
+	}
+	return (-1);
 }
