@@ -6,7 +6,7 @@
 /*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/02 20:42:20 by root              #+#    #+#             */
-/*   Updated: 2024/04/03 10:36:59 by brappo           ###   ########.fr       */
+/*   Updated: 2024/04/03 11:32:57 by brappo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,10 +44,9 @@ bool	merge_tokens_node(t_list *first, t_list *next)
 {
 	t_token	*first_token;
 	t_token	*next_token;
+	char	*temp;
 
 	first_token = (t_token *)(first->content);
-	if (next != NULL)
-		next_token = (t_token *)(next->content);
 	if (first->next != NULL || first == NULL)
 		return (false);
 	if (next == NULL)
@@ -55,8 +54,15 @@ bool	merge_tokens_node(t_list *first, t_list *next)
 		if (join_into_dest(&first_token->str, "\n") == NULL)
 			return (false);
 	}
-	else if (join_into_dest(&first_token->str, next_token->str) == NULL)
-		return (false);
+	else
+	{
+		next_token = (t_token *)(next->content);
+		temp = bridge(first_token->str, next_token->str, "\n");
+		if (temp == NULL)
+			return (false);
+		free(first_token->str);
+		first_token->str = temp;
+	}
 	delete_first_token(&next);
 	first->next = next;
 	return (true);

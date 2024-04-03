@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   string_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/28 10:26:15 by brappo            #+#    #+#             */
-/*   Updated: 2024/04/02 18:44:46 by root             ###   ########.fr       */
+/*   Updated: 2024/04/03 11:36:47 by brappo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,4 +32,23 @@ char	*join_into_dest(char **dest, char *str)
 	free(*dest);
 	*dest = temp;
 	return (temp);
+}
+
+char	*bridge(char *first, char *second, char *separator)
+{
+	char	*result;
+	size_t	first_length;
+	size_t	result_length;
+
+	first_length = ft_strlen(first);
+	result_length = first_length + ft_strlen(second) + ft_strlen(separator) + 1;
+	if (result_length == 0)
+		return (NULL);
+	result = (char *)ft_calloc(result_length, sizeof(char));
+	if (result == NULL)
+		return (NULL);
+	ft_memcpy(result, first, first_length);
+	ft_strlcat(result, separator, result_length);
+	ft_strlcat(result, second, result_length);
+	return (result);
 }

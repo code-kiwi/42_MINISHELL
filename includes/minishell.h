@@ -6,7 +6,7 @@
 /*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 10:17:54 by mhotting          #+#    #+#             */
-/*   Updated: 2024/04/03 09:22:27 by brappo           ###   ########.fr       */
+/*   Updated: 2024/04/03 11:29:32 by brappo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,5 +54,6 @@ void	t_minishell_free(t_minishell *shell);
 void	handle_error(t_minishell *shell, char *error_msg, int exit_status);
 void	fd_close_and_reset(int *fd);
 void	fd_close(int fd);
+char	*bridge(char *first, char *second, char *separator);
 
 #endif
