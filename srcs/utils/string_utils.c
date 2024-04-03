@@ -1,34 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.c                                        :+:      :+:    :+:   */
+/*   string_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/03/27 10:14:16 by mhotting          #+#    #+#             */
-/*   Updated: 2024/03/29 11:49:58 by mhotting         ###   ########.fr       */
+/*   Created: 2024/03/28 10:26:15 by brappo            #+#    #+#             */
+/*   Updated: 2024/03/28 11:23:06 by brappo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	main(void)
+bool	is_prefix(void	*word, void *prefix)
 {
-	t_minishell	shell;
+	char	*word_str;
+	char	*prefix_str;
 
-	t_minishell_init(&shell);
-	while (true)
-	{
-		shell.input = prompt(&shell);
-		if (ft_strcmp(shell.input, "exit") == 0)
-		{
-			t_minishell_free(&shell);
-			break ;
-		}
-		add_history(shell.input);
-		printf("%s\n", shell.input);
-		free(shell.input);
-		shell.input = NULL;
-	}
-	exit(EXIT_SUCCESS);
+	word_str = (char *)word;
+	prefix_str = (char *)prefix;
+	return (ft_strstr(word_str, prefix_str) == word);
 }
