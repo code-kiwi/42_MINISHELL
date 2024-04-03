@@ -6,7 +6,7 @@
 /*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/28 12:54:36 by brappo            #+#    #+#             */
-/*   Updated: 2024/04/03 15:43:35 by brappo           ###   ########.fr       */
+/*   Updated: 2024/04/03 16:22:16 by brappo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ void	set_color(char *start_color, size_t end_color,
 	ft_memcpy(start_color, color, color_len);
 }
 
-void	add_current_user(char *cwd, size_t buffer_size)
+void	add_current_user(char *cwd, size_t buffer_size, bool add_color)
 {
 	char	*username;
 	size_t	username_length;
@@ -50,10 +50,11 @@ void	add_current_user(char *cwd, size_t buffer_size)
 		return ;
 	ft_memmove(cwd + username_length, cwd, ft_strlen(cwd) + 1);
 	ft_memcpy(cwd, username, username_length);
-	set_color(cwd, username_length, GREEN, buffer_size);
+	if (add_color)
+		set_color(cwd, username_length, GREEN, buffer_size);
 }
 
-void	replace_home_by_tidle(char *cwd, size_t buffer_size)
+void	replace_home_by_tidle(char *cwd, size_t buffer_size, bool add_color)
 {
 	char	*home_directory;
 	size_t	home_directory_length;
@@ -74,13 +75,15 @@ void	replace_home_by_tidle(char *cwd, size_t buffer_size)
 	ft_memmove(cwd + 1, cwd + home_directory_length,
 		cwd_length - home_directory_length + 1);
 	cwd[0] = '~';
-	set_color(cwd + 1, cwd_length - home_directory_length - 1,
-		BLUE, buffer_size);
+	if (add_color)
+		set_color(cwd + 1, cwd_length - home_directory_length - 1,
+			BLUE, buffer_size);
 }
 
 void	get_directory_path(char *buffer, t_minishell *shell, size_t buffer_size)
 {
 	size_t	cwd_length;
+	bool	add_color;
 
 	if (getcwd(buffer, buffer_size - 2) == NULL)
 	{
@@ -92,6 +95,7 @@ void	get_directory_path(char *buffer, t_minishell *shell, size_t buffer_size)
 	buffer[cwd_length] = '$';
 	buffer[cwd_length + 1] = ' ';
 	buffer[cwd_length + 2] = '\0';
-	replace_home_by_tidle(buffer, buffer_size);
-	add_current_user(buffer, buffer_size);
+	add_color = getenv("TERM") != NULL;
+	replace_home_by_tidle(buffer, buffer_size, add_color);
+	add_current_user(buffer, buffer_size, add_color);
 }
