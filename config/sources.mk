@@ -6,7 +6,7 @@
 #    By: brappo <brappo@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/03/31 20:47:09 by mhotting          #+#    #+#              #
-#    Updated: 2024/04/03 14:46:16 by mhotting         ###   ########.fr        #
+#    Updated: 2024/04/04 10:38:29 by mhotting         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -93,6 +93,7 @@ UTILS_FILES				=	list_utils.c				\
 							t_minishell_utils.c			\
 							close_file_descriptor.c		\
 							string_utils.c				\
+							ft_split_key_val.c			\
 							array_utils.c				\
 							error.c
 UTILS					=	$(addprefix $(UTILS_DIR), $(UTILS_FILES))

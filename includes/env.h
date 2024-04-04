@@ -6,7 +6,7 @@
 /*   By: mhotting <mhotting@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/02 23:48:56 by mhotting          #+#    #+#             */
-/*   Updated: 2024/04/03 13:20:47 by mhotting         ###   ########.fr       */
+/*   Updated: 2024/04/04 10:49:18 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 # define ENV_H
 
 # include "minishell.h"
+
+# define ENV_KEY_VALUE_SEPERATOR '='
 
 typedef struct s_env_element
 {
