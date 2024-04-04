@@ -6,7 +6,7 @@
 /*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 10:17:54 by mhotting          #+#    #+#             */
-/*   Updated: 2024/04/04 10:37:26 by mhotting         ###   ########.fr       */
+/*   Updated: 2024/04/04 12:55:24 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,12 +23,15 @@
 # include "env.h"
 
 # define ERROR_MSG_CLOSE	"Closing fd error"
+# define TOKENIZATION_ERROR "Tokenizing input"
+
 # define DGREAT 			">>"
 # define DLESS				"<<"
 # define GREAT				">"
 # define LESS				"<"
-# define AND_IF				"||"
-# define OR_IF				"&&"
+# define OR_IF				"||"
+# define AND_IF				"&&"
+# define PIPE				"|"
 # define OPERATOR_CHARACTER	"><&|"
 # define OPERATOR_NUMBER 	7
 
@@ -38,6 +41,7 @@ typedef struct s_minishell
 {
 	char	*input;
 	t_list	*env;
+	t_list	*tokens;
 }	t_minishell;
 
 // t_minshell functions
@@ -49,5 +53,7 @@ void	handle_error(t_minishell *shell, char *error_msg, int exit_status);
 void	fd_close_and_reset(int *fd);
 void	fd_close(int fd);
 char	**ft_split_key_val(char *str, char sep);
+char	*bridge(char *first, char *second, char *separator);
+char	*bridge_into_first(char **first, char *second, char *separator);
 
 #endif

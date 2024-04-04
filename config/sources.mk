@@ -6,7 +6,7 @@
 #    By: brappo <brappo@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/03/31 20:47:09 by mhotting          #+#    #+#              #
-#    Updated: 2024/04/04 12:40:55 by mhotting         ###   ########.fr        #
+#    Updated: 2024/04/04 12:52:44 by mhotting         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -72,7 +72,10 @@ TOKENR_DIR				=	tokenRecognition/
 TOKENR_FILES			=	handle_quote.c				\
 							is_operator.c				\
 							token_recognition_utils.c	\
-							token_recognition.c
+							token_recognition.c			\
+							tokenize_str.c				\
+							token_list_merge.c			\
+							temp.c
 TOKENR					=	$(addprefix $(TOKENR_DIR), $(TOKENR_FILES))
 
 # PROMPT

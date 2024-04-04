@@ -6,7 +6,7 @@
 /*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/28 10:40:53 by brappo            #+#    #+#             */
-/*   Updated: 2024/03/28 11:43:50 by brappo           ###   ########.fr       */
+/*   Updated: 2024/04/02 13:23:51 by brappo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,14 +20,15 @@ void	get_operation(char **operations)
 	operations[3] = LESS;
 	operations[4] = AND_IF;
 	operations[5] = OR_IF;
-	operations[6] = NULL;
+	operations[6] = PIPE;
+	operations[7] = NULL;
 }
 
 int	is_operator(t_token_parser *token_parser)
 {
 	char	temp;
 	int		is_operator;
-	char	*operations[OPERATOR_NUMBER];
+	char	*operations[OPERATOR_NUMBER + 1];
 	size_t	end;
 
 	get_operation(operations);

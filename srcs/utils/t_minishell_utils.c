@@ -6,7 +6,7 @@
 /*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 13:10:16 by mhotting          #+#    #+#             */
-/*   Updated: 2024/04/03 14:47:32 by mhotting         ###   ########.fr       */
+/*   Updated: 2024/04/04 12:57:28 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,15 +20,20 @@ void	t_minishell_init(t_minishell *shell, int argc, char **argv, char **envp)
 	shell->env = env_extract(envp);
 	(void)argc;
 	(void)argv;
+	shell->input = NULL;
+	shell->tokens = NULL;
 }
 
 void	t_minishell_free(t_minishell *shell)
 {
+	rl_clear_history();
 	if (shell == NULL)
 		return ;
 	if (shell->input)
 		free(shell->input);
+	rl_clear_history();
 	if (shell->env != NULL)
 		ft_lstclear(&(shell->env), env_element_free);
-	rl_clear_history();
+	if (shell->tokens)
+		ft_lstclear(&shell->tokens, t_token_free);
 }

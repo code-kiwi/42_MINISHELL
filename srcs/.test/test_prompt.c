@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   test.c                                             :+:      :+:    :+:   */
+/*   test_prompt.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/29 15:34:15 by brappo            #+#    #+#             */
-/*   Updated: 2024/03/29 19:34:16 by brappo           ###   ########.fr       */
+/*   Updated: 2024/04/04 11:41:42 by brappo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 void	set_color(char *start_color, size_t end_color,
 		char *color, size_t buffer_size);
 void	add_current_user(char *cwd, size_t buffer_size);
-void	replace_home_by_tidle(char *cwd, size_t buffer_size);
+void	replace_home_by_tilde(char *cwd, size_t buffer_size);
 
 void	test_color(char *str, size_t start, size_t end, size_t buffer_size, char *color)
 {
@@ -66,7 +66,7 @@ void	test_add_path(char *input, size_t buffer_size)
 	if (buffer == NULL)
 		return ;
 	ft_memcpy(buffer, input, length + 1);
-	replace_home_by_tidle(buffer, buffer_size);
+	replace_home_by_tilde(buffer, buffer_size);
 	printf("(%s, %lu)\n", input, buffer_size);
 	printf("%s\n\n", buffer);
 	free(buffer);

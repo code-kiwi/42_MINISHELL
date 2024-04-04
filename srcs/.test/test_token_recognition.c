@@ -6,7 +6,7 @@
 /*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/29 20:42:21 by brappo            #+#    #+#             */
-/*   Updated: 2024/03/29 20:42:32 by brappo           ###   ########.fr       */
+/*   Updated: 2024/04/03 11:45:18 by brappo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,10 +57,9 @@ void	set_tests(char **tests)
 
 int	main(void)
 {
-	char	*tests[34];
-	size_t	index;
-	t_list	*tokens;
-	char	*dup_str;
+	char		*tests[34];
+	size_t		index;
+	t_minishell	shell;
 
 	index = 0;
 	set_tests(tests);
@@ -69,13 +68,13 @@ int	main(void)
 		printf("\n\033[0;32m");
 		printf("%s", tests[index]);
 		printf("\033[0m\n");
-		dup_str = ft_strdup(tests[index]);
-		if (dup_str == NULL)
+		shell.input = ft_strdup(tests[index]);
+		if (shell.input == NULL)
 			return (1);
-		tokens = token_recognition(dup_str);
-		print_list_token(tokens);
-		ft_lstclear(&tokens, t_token_free);
-		free(dup_str);
+		token_recognition(&shell);
+		ft_lstprint(shell.tokens, print_token);
+		ft_lstclear(&shell.tokens, t_token_free);
+		free(shell.input);
 		index++;
 	}
 	return (0);
