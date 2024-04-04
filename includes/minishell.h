@@ -6,7 +6,7 @@
 /*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 10:17:54 by mhotting          #+#    #+#             */
-/*   Updated: 2024/04/03 14:35:19 by brappo           ###   ########.fr       */
+/*   Updated: 2024/04/04 10:00:11 by brappo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,9 @@ void	t_minishell_free(t_minishell *shell);
 void	handle_error(t_minishell *shell, char *error_msg, int exit_status);
 void	fd_close_and_reset(int *fd);
 void	fd_close(int fd);
+
+// Utils
 char	*bridge(char *first, char *second, char *separator);
 char	*bridge_into_first(char **first, char *second, char *separator);
+int		array_if(void **array, bool condition(void *elem), size_t size);
 #endif

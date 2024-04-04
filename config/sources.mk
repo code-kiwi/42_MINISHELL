@@ -6,7 +6,7 @@
 #    By: brappo <brappo@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/03/31 20:47:09 by mhotting          #+#    #+#              #
-#    Updated: 2024/04/03 14:34:59 by brappo           ###   ########.fr        #
+#    Updated: 2024/04/04 10:28:11 by brappo           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -52,6 +52,11 @@ ifdef testChosen
 		MAIN_DIR		=	.test/
 		MAIN_FILE		=	test_prompt.c
 	endif
+	ifeq ($(testChosen), expansion)
+		MAIN_DIR		=	.test/
+		MAIN_FILE		=	test_variable_expansion.c
+	endif
+
 endif
 MAIN					=	$(addprefix $(MAIN_DIR), $(MAIN_FILE))
 
@@ -81,6 +86,12 @@ PROMPT_FILES			=	prompt_handler.c \
 							directory_utils.c
 PROMPT					=	$(addprefix $(PROMPT_DIR), $(PROMPT_FILES))
 
+# VARIABLE EXPANSION
+EXPANSION_DIR			=	wordExpansion/
+EXPANSION_FILES			=	word_expansion.c
+
+EXPANSION				=	$(addprefix $(EXPANSION_DIR), $(EXPANSION_FILES))
+
 # UTILS
 UTILS_DIR				=	utils/
 UTILS_FILES				=	list_utils.c				\
@@ -93,7 +104,7 @@ UTILS					=	$(addprefix $(UTILS_DIR), $(UTILS_FILES))
 
 # SOURCES GENERAL
 SRCS_MAIN_DIR			=	srcs/
-SRCS_FILES				=	$(MAIN)	$(AST) $(TOKENR) $(PROMPT) $(UTILS)
+SRCS_FILES				=	$(MAIN)	$(AST) $(TOKENR) $(PROMPT) $(UTILS) $(EXPANSION)
 SRCS					=	$(addprefix $(SRCS_MAIN_DIR), $(SRCS_FILES))
 
 # OBJECTS GENERAL

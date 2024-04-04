@@ -1,29 +1,39 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   array_utils.c                                      :+:      :+:    :+:   */
+/*   test_variable_expansion.c                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/03/28 10:22:22 by brappo            #+#    #+#             */
-/*   Updated: 2024/04/04 10:33:16 by brappo           ###   ########.fr       */
+/*   Created: 2024/04/04 10:23:58 by brappo            #+#    #+#             */
+/*   Updated: 2024/04/04 11:04:06 by brappo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+void	get_variable(char *input);
 
-int	array_find(void **array, bool (equal)(void *a, void *b), void *value)
+void	get_tests(char **tests)
 {
+	tests[0] = ft_strdup("test");
+	tests[1] = ft_strdup("$test");
+	tests[2] = ft_strdup("$test ");
+	tests[3] = ft_strdup("${test}");
+}
+
+int	main(void)
+{
+	char	*tests[4];
 	size_t	index;
 
 	index = 0;
-	if (array == NULL)
-		return (-1);
-	while (array[index] != NULL)
+	get_tests(tests);
+	while (index < 4)
 	{
-		if (equal(array[index], value) == true)
-			return (index);
+		printf("%sinput : %s%s%s\n", BLUE, tests[index], RESET, GREEN);
+		get_variable(tests[index]);
+		printf("%s\n", RESET);
+		free(tests[index]);
 		index++;
 	}
-	return (-1);
 }
