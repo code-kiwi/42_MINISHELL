@@ -6,7 +6,7 @@
 /*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 13:02:08 by mhotting          #+#    #+#             */
-/*   Updated: 2024/04/03 15:54:44 by brappo           ###   ########.fr       */
+/*   Updated: 2024/04/04 11:43:30 by brappo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,6 @@ char	*prompt(t_minishell *shell)
 	char	cwd[CWD_BUFFER_SIZE];
 
 	get_directory_path(cwd, shell, CWD_BUFFER_SIZE);
-	rl_redisplay();
 	input = readline(cwd);
 	if (input == NULL)
 		handle_error(shell, ERROR_MSG_PROMPT, EXIT_FAILURE);

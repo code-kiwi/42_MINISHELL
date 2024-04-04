@@ -6,7 +6,7 @@
 /*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/28 12:54:36 by brappo            #+#    #+#             */
-/*   Updated: 2024/04/03 16:35:00 by brappo           ###   ########.fr       */
+/*   Updated: 2024/04/04 11:40:51 by brappo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ void	add_current_user(char *cwd, size_t buffer_size, bool add_color)
 		set_color(cwd, username_length, GREEN, buffer_size);
 }
 
-void	replace_home_by_tidle(char *cwd, size_t buffer_size, bool add_color)
+void	replace_home_by_tilde(char *cwd, size_t buffer_size, bool add_color)
 {
 	char	*home_directory;
 	size_t	home_directory_length;
@@ -96,6 +96,6 @@ void	get_directory_path(char *buffer, t_minishell *shell, size_t buffer_size)
 	buffer[cwd_length + 1] = ' ';
 	buffer[cwd_length + 2] = '\0';
 	add_color = getenv("TERM") != NULL && isatty(1);
-	replace_home_by_tidle(buffer, buffer_size, add_color);
+	replace_home_by_tilde(buffer, buffer_size, add_color);
 	add_current_user(buffer, buffer_size, add_color);
 }
