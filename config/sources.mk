@@ -6,7 +6,7 @@
 #    By: brappo <brappo@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/03/31 20:47:09 by mhotting          #+#    #+#              #
-#    Updated: 2024/04/04 10:38:29 by mhotting         ###   ########.fr        #
+#    Updated: 2024/04/04 12:40:55 by mhotting         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -83,7 +83,8 @@ PROMPT					=	$(addprefix $(PROMPT_DIR), $(PROMPT_FILES))
 
 # ENV
 ENV_DIR					=	env/
-ENV_FILES				=	env_utils.c					\
+ENV_FILES				=	env_utils1.c				\
+							env_utils2.c				\
 							t_env_element_utils.c
 ENV						=	$(addprefix $(ENV_DIR), $(ENV_FILES))
 

@@ -7,3 +7,4 @@ includes/libft.h
 objs/*
 deps/*
 minishell
+*.swp

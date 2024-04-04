@@ -6,7 +6,7 @@
 /*   By: mhotting <mhotting@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 02:00:19 by mhotting          #+#    #+#             */
-/*   Updated: 2024/04/03 14:31:54 by mhotting         ###   ########.fr       */
+/*   Updated: 2024/04/04 12:47:32 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,25 +14,25 @@
 
 /*
  *	Allocates a t_env_element and returns a pointer to it.
- *	The name and value members are set with duplicate strings from given args.
+ *	The key and value members are set with duplicate strings from given args.
  *	In case of ERROR, returns NULL
- *	Note: name cannot be NULL, value can be NULL, then the value member will
+ *	Note: key cannot be NULL, value can be NULL, then the value member will
  *	be set to an empty string.
  */
-t_env_element	*env_element_create(char *name, char *value)
+t_env_element	*env_element_create(char *key, char *value)
 {
 	t_env_element	*env_elt;
 
-	if (name == NULL)
+	if (key == NULL)
 		return (NULL);
 	env_elt = (t_env_element *) ft_calloc(1, sizeof(t_env_element));
 	if (env_elt == NULL)
 		return (NULL);
-	env_elt->name = ft_strdup(name);
+	env_elt->key = ft_strdup(key);
 	if (value == NULL)
 		value = "";
 	env_elt->value = ft_strdup(value);
-	if (env_elt->name == NULL || env_elt->value == NULL)
+	if (env_elt->key == NULL || env_elt->value == NULL)
 	{
 		env_element_free(env_elt);
 		return (NULL);
@@ -52,8 +52,8 @@ void	env_element_free(void *env_elt_ptr)
 	if (env_elt_ptr == NULL)
 		return ;
 	env_elt = (t_env_element *) env_elt_ptr;
-	if (env_elt->name != NULL)
-		free(env_elt->name);
+	if (env_elt->key != NULL)
+		free(env_elt->key);
 	if (env_elt->value != NULL)
 		free(env_elt->value);
 	free(env_elt);
@@ -73,24 +73,24 @@ void	env_element_print(void *env_elt_ptr)
 	env_elt = (t_env_element *) env_elt_ptr;
 	printf("----------\n");
 	printf("env_element:\n");
-	printf("\t- name: \"%s\"\n", env_elt->name);
+	printf("\t- key: \"%s\"\n", env_elt->key);
 	printf("\t- value: \"%s\"\n", env_elt->value);
 	printf("\n");
 }
 
 /*
- *	Compares a t_env_element name memeber to the given name argument.
- *	This function uses string comparison, and returns 0 if the name are
+ *	Compares a t_env_element key member to the given key argument.
+ *	This function uses string comparison, and returns 0 if the keys are
  *	the same, a non-zero integer if they are different.
  *	NOTE: This function takes a void * pointer in order to enable the use of
  *	ft_lst_remove_if().
  */
-int	env_element_cmp(void *env_elt_ptr, char *name)
+int	env_element_cmp(void *env_elt_ptr, char *key)
 {
 	t_env_element	*env_elt;
 
-	if (env_elt_ptr == NULL || name == NULL)
+	if (env_elt_ptr == NULL || key == NULL)
 		return (-1);
 	env_elt = (t_env_element *) env_elt_ptr;
-	return (ft_strcmp(env_elt->name, name));
+	return (ft_strcmp(env_elt->key, key));
 }
