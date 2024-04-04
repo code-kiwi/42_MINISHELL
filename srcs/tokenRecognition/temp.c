@@ -1,32 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   t_minishell_utils.c                                :+:      :+:    :+:   */
+/*   temp.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/03/27 13:10:16 by mhotting          #+#    #+#             */
-/*   Updated: 2024/04/03 17:06:08 by brappo           ###   ########.fr       */
+/*   Created: 2024/04/03 12:20:04 by brappo            #+#    #+#             */
+/*   Updated: 2024/04/03 12:20:24 by brappo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include <minishell.h>
 
-void	t_minishell_init(t_minishell *shell)
+void	print_token(void *token_void)
 {
-	if (shell == NULL)
-		return ;
-	shell->input = NULL;
-	shell->tokens = NULL;
-}
+	t_token	*token;
 
-void	t_minishell_free(t_minishell *shell)
-{
-	rl_clear_history();
-	if (shell == NULL)
+	if (token_void == NULL)
 		return ;
-	if (shell->input)
-		free(shell->input);
-	if (shell->tokens)
-		ft_lstclear(&shell->tokens, t_token_free);
+	token = (t_token *)token_void;
+	if (token->str != NULL)
+		printf("%s : ", token->str);
+	printf("\033[0;35m");
+	if (token->type == END)
+		printf("END");
+	else if (token->type == WORD)
+		printf("WORD");
+	else if (token->type == OPERATOR)
+		printf("OPERATOR");
+	printf("\033[0m");
+	printf("\n");
 }

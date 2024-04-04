@@ -3,17 +3,19 @@
 /*                                                        :::      ::::::::   */
 /*   token.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mhotting <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/31 19:28:12 by mhotting          #+#    #+#             */
-/*   Updated: 2024/03/31 19:34:41 by mhotting         ###   ########.fr       */
+/*   Updated: 2024/04/04 12:14:29 by brappo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef TOKEN_H
 # define TOKEN_H
-
+# define MULTIPLE_LINE_PROMPT "> "
 # include "minishell.h"
+
+typedef struct s_minishell	t_minishell;
 
 typedef enum e_token_type
 {
@@ -41,17 +43,19 @@ typedef struct s_token
 // Token recognition functions
 int		is_operator(t_token_parser *token_parser);
 bool	is_quoted(t_token_parser *token_parser);
-void	t_token_parser_init(t_token_parser *token_parser,
-			size_t *index, char *input);
+void	t_token_parser_init(t_token_parser *token_parser);
 t_token	*t_token_init(void);
 bool	is_blank(char character);
 void	t_token_free(void *token_void);
-t_list	*token_recognition(char *input);
-void	print_list_token(t_list *lst);
+t_list	*tokenize_str(char *str, t_token_parser *token_parser);
 bool	handle_quote(t_token_parser *token_parser, char character);
 int		array_find(void **array, bool (equal)(void *a, void *b), void *value);
 bool	is_prefix(void	*word, void *prefix);
 bool	is_operator_character(char character);
 t_list	*lst_push_front_content(t_list **head, void *content);
-
+char	*join_into_dest(char **dest, char *str);
+bool	append_token_list(bool is_first_quoted, t_list *first, t_list *second);
+void	print_token(void *token_void);
+void	token_recognition(t_minishell *shell);
+void	token_error(t_minishell *shell);
 #endif

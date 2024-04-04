@@ -5,94 +5,105 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/03/27 14:59:56 by brappo            #+#    #+#             */
-/*   Updated: 2024/03/29 11:22:33 by brappo           ###   ########.fr       */
+/*   Created: 2024/04/02 13:01:05 by brappo            #+#    #+#             */
+/*   Updated: 2024/04/04 12:14:37 by brappo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <minishell.h>
+#include <minishell.h> 
 
-bool	is_token_end(t_token *token, char character, \
-		t_token_parser *token_parser)
+bool	add_end_token(t_list **tokens)
 {
-	if (character == '\0')
-		return (true);
-	if (token->type == OPERATOR)
-	{
-		if (is_operator(token_parser) != -1)
-			return (false);
-		return (true);
-	}
-	if (handle_quote(token_parser, character))
+	t_token	*end_token;
+	t_list	*new_node;
+
+	end_token = t_token_init();
+	if (end_token == NULL)
 		return (false);
-	if (!is_quoted(token_parser))
+	new_node = ft_lstnew((void *)end_token);
+	if (new_node == NULL)
 	{
-		if (ft_strchr(OPERATOR_CHARACTER, character) != NULL)
-		{
-			if (token->type == WORD)
-				return (true);
-			token->type = OPERATOR;
-		}
-		if (character == '\n' || is_blank(character))
-			return (true);
+		t_token_free(end_token);
+		return (false);
 	}
-	if (token->type == END)
-		token->type = WORD;
-	return (false);
+	ft_lstadd_back(tokens, new_node);
+	return (true);
 }
 
-void	skip_blank(char *input, size_t *index)
+bool	is_command_end(t_token_parser *token_parser, t_list *tokens)
 {
-	while (input[*index] != '\0')
+	t_token	*last_token;
+
+	if (tokens == NULL)
+		return (true);
+	if (is_quoted(token_parser) == true)
+		return (false);
+	last_token = (t_token *)ft_lstlast(tokens)->content;
+	if (ft_strcmp(last_token->str, AND_IF) == 0)
+		return (false);
+	if (ft_strcmp(last_token->str, OR_IF) == 0)
+		return (false);
+	if (ft_strcmp(last_token->str, PIPE) == 0)
+		return (false);
+	return (true);
+}
+
+void	merge_inputs(t_minishell *shell, char *input, bool is_end_quoted)
+{
+	char	*separator;
+
+	if (input == NULL)
+		token_error(shell);
+	if (is_end_quoted)
+		separator = "\n";
+	else
+		separator = " ";
+	if (bridge_into_first(&shell->input, input, separator) == false)
 	{
-		if (!is_blank(input[*index]))
-			break ;
-		*index += 1;
+		free(input);
+		token_error(shell);
 	}
 }
 
-t_token	*get_token(char *input, size_t *index)
+t_list	*tokenize_input(t_minishell *shell, char *prompt,
+	t_token_parser *token_parser, bool is_end_quoted)
 {
-	t_token_parser	token_parser;
-	t_token			*token;
-	size_t			start;
-
-	start = *index;
-	t_token_parser_init(&token_parser, index, input);
-	token = t_token_init();
-	if (token == NULL)
-		return (NULL);
-	while (!is_token_end(token, input[*index], &token_parser))
-		*index += 1;
-	token->length = *index - start;
-	token->str = ft_substr(input, start, token->length);
-	if (token->str == NULL)
-	{
-		free(token);
-		return (NULL);
-	}
-	return (token);
-}
-
-t_list	*token_recognition(char *input)
-{
-	size_t	index;
+	char	*input;
 	t_list	*tokens;
 
-	index = 0;
-	tokens = NULL;
-	if (input == NULL)
-		return (NULL);
-	while (tokens == NULL || ((t_token *)tokens->content)->type != END)
+	input = readline(prompt);
+	merge_inputs(shell, input, is_end_quoted);
+	tokens = tokenize_str(input, token_parser);
+	if (tokens == NULL && *input)
 	{
-		skip_blank(input, &index);
-		lst_push_front_content(&tokens, get_token(input, &index));
-		if (tokens == NULL || tokens->content == NULL)
+		free(input);
+		handle_error(shell, TOKENIZATION_ERROR, EXIT_FAILURE);
+	}
+	free(input);
+	return (tokens);
+}
+
+void	token_recognition(t_minishell *shell)
+{
+	t_token_parser	token_parser;
+	bool			is_end_quoted;
+	t_list			*second_tokens;
+
+	t_token_parser_init(&token_parser);
+	shell->tokens = tokenize_str(shell->input, &token_parser);
+	if (shell->tokens == NULL && (shell->input == NULL || *shell->input))
+		token_error(shell);
+	while (is_command_end(&token_parser, shell->tokens) == false)
+	{
+		is_end_quoted = is_quoted(&token_parser);
+		second_tokens = tokenize_input(shell, MULTIPLE_LINE_PROMPT,
+				&token_parser, is_end_quoted);
+		if (!append_token_list(is_end_quoted, shell->tokens, second_tokens))
 		{
-			ft_lstclear(&tokens, t_token_free);
-			return (NULL);
+			ft_lstclear(&second_tokens, t_token_free);
+			token_error(shell);
 		}
 	}
-	ft_lstreverse(&tokens);
-	return (tokens);
+	if (add_end_token(&shell->tokens) == false)
+		token_error(shell);
 }
