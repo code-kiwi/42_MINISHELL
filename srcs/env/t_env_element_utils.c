@@ -6,7 +6,7 @@
 /*   By: mhotting <mhotting@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 02:00:19 by mhotting          #+#    #+#             */
-/*   Updated: 2024/04/04 12:47:32 by mhotting         ###   ########.fr       */
+/*   Updated: 2024/04/04 14:00:03 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,11 @@ t_env_element	*env_element_create(char *key, char *value)
 	if (value == NULL)
 		value = "";
 	env_elt->value = ft_strdup(value);
-	if (env_elt->key == NULL || env_elt->value == NULL)
+	env_elt->key_value = bridge(key, value, ENV_KEY_VALUE_SEPERATOR_STR);
+	if (
+		env_elt->key == NULL || env_elt->value == NULL
+		|| env_elt->key_value == NULL
+	)
 	{
 		env_element_free(env_elt);
 		return (NULL);
@@ -56,6 +60,8 @@ void	env_element_free(void *env_elt_ptr)
 		free(env_elt->key);
 	if (env_elt->value != NULL)
 		free(env_elt->value);
+	if (env_elt->key_value != NULL)
+		free(env_elt->key_value);
 	free(env_elt);
 }
 
@@ -75,6 +81,7 @@ void	env_element_print(void *env_elt_ptr)
 	printf("env_element:\n");
 	printf("\t- key: \"%s\"\n", env_elt->key);
 	printf("\t- value: \"%s\"\n", env_elt->value);
+	printf("\t- key_value: \"%s\"\n", env_elt->key_value);
 	printf("\n");
 }
 

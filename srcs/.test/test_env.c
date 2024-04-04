@@ -6,7 +6,7 @@
 /*   By: mhotting <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 10:44:06 by mhotting          #+#    #+#             */
-/*   Updated: 2024/04/03 14:39:26 by mhotting         ###   ########.fr       */
+/*   Updated: 2024/04/04 14:10:42 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,9 @@ void	test_env_find(t_list *env, char *name)
 int	main(int argc, char **argv, char **envp)
 {
 	t_minishell	shell;
+	char		**env_array;
 
+	// Testing env parsing from envp and env CRUD
 	t_minishell_init(&shell, argc, argv, envp);
 	ft_lstprint(shell.env, env_element_print);
 	test_env_find(shell.env, "PATH");
@@ -51,6 +53,15 @@ int	main(int argc, char **argv, char **envp)
 	env_delete(&(shell.env), "PATH");
 	ft_lstprint(shell.env, env_element_print);
 	printf("ENV: %p\n", shell.env);
+
+	// Testing env array generation
+	printf("TEST OF ENV ARRAY (press ENTER)\n");
+	while (getchar() != '\n');
+	env_array = env_get_all_array(shell.env);
+	printf("PTR: %p\n", env_array);
+	ft_print_str_array(env_array);
+	ft_free_str_array(&env_array);
+
 	t_minishell_free(&shell);
 	return (0);
 }
