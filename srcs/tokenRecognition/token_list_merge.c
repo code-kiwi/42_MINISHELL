@@ -6,24 +6,11 @@
 /*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/02 20:42:20 by root              #+#    #+#             */
-/*   Updated: 2024/04/03 12:17:57 by brappo           ###   ########.fr       */
+/*   Updated: 2024/04/04 12:10:58 by brappo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
-
-void	delete_first_token(t_list **tokens)
-{
-	t_list	*first_node;
-
-	if (tokens == NULL
-		|| *tokens == NULL)
-		return ;
-	first_node = *tokens;
-	*tokens = (*tokens)->next;
-	t_token_free(first_node->content);
-	free(first_node);
-}
 
 /*
 	When merging tokens, the "next" string is joined with the "first" string.
@@ -44,7 +31,6 @@ bool	merge_tokens_node(t_list *first, t_list *next)
 {
 	t_token	*first_token;
 	t_token	*next_token;
-	char	*temp;
 
 	first_token = (t_token *)(first->content);
 	if (first->next != NULL || first == NULL)
@@ -57,14 +43,11 @@ bool	merge_tokens_node(t_list *first, t_list *next)
 	else
 	{
 		next_token = (t_token *)(next->content);
-		temp = bridge(first_token->str, next_token->str, "\n");
-		if (temp == NULL)
+		if (bridge_into_first(&first_token->str, next_token->str, "\n") == NULL)
 			return (false);
-		free(first_token->str);
-		first_token->str = temp;
+		first->next = next->next;
+		ft_lstdelone(next, t_token_free);
 	}
-	delete_first_token(&next);
-	first->next = next;
 	return (true);
 }
 
