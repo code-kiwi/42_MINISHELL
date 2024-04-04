@@ -6,7 +6,7 @@
 /*   By: mhotting <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 09:58:22 by mhotting          #+#    #+#             */
-/*   Updated: 2024/04/04 10:47:04 by mhotting         ###   ########.fr       */
+/*   Updated: 2024/04/04 12:36:18 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ static char	**process_key_val_split(char *str, char sep, char **res)
 	}
 	res[0] = ft_substr(str, 0, sep_location - str);
 	res[1] = ft_strdup(sep_location + 1);
-	if (res[0] == NULL || (res[1] == NULL && ft_strlen(sep_location + 1) != 0))
+	if (res[0] == NULL || res[1] == NULL)
 	{
 		errno = ENOMEM;
 		return (NULL);
