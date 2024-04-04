@@ -6,7 +6,7 @@
 /*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/28 10:26:15 by brappo            #+#    #+#             */
-/*   Updated: 2024/04/03 12:16:29 by brappo           ###   ########.fr       */
+/*   Updated: 2024/04/04 14:02:38 by brappo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,4 +63,23 @@ char	*bridge_into_first(char **first, char *second, char *separator)
 	free(*first);
 	*first = temp;
 	return (temp);
+}
+
+char	*increase_size(char **str, size_t new_size)
+{
+	size_t	length;
+	char	*result;
+
+	if (str == NULL || *str == NULL)
+		return (NULL);
+	length = ft_strlen(*str);
+	if (new_size < length)
+		return (NULL);
+	result = (char *)ft_calloc(new_size, sizeof(char));
+	if (result == NULL)
+		return (NULL);
+	ft_memcpy(result, *str, length);
+	free(*str);
+	*str = result;
+	return (result);
 }

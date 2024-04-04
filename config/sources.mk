@@ -6,7 +6,7 @@
 #    By: brappo <brappo@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/03/31 20:47:09 by mhotting          #+#    #+#              #
-#    Updated: 2024/04/04 10:28:11 by brappo           ###   ########.fr        #
+#    Updated: 2024/04/04 14:21:27 by brappo           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -88,7 +88,8 @@ PROMPT					=	$(addprefix $(PROMPT_DIR), $(PROMPT_FILES))
 
 # VARIABLE EXPANSION
 EXPANSION_DIR			=	wordExpansion/
-EXPANSION_FILES			=	word_expansion.c
+EXPANSION_FILES			=	get_variable_key.c	\
+							word_expansion.c
 
 EXPANSION				=	$(addprefix $(EXPANSION_DIR), $(EXPANSION_FILES))
 

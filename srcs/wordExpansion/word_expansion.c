@@ -5,58 +5,45 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/04/04 08:34:50 by brappo            #+#    #+#             */
-/*   Updated: 2024/04/04 11:08:40 by brappo           ###   ########.fr       */
+/*   Created: 2024/04/04 14:03:37 by brappo            #+#    #+#             */
+/*   Updated: 2024/04/04 14:35:49 by brappo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-ssize_t	find_bracket(char *input, ssize_t variable_start)
+char	*envget(char *key)
 {
-	char	*closing_bracket;
-
-	closing_bracket = ft_strchr(input + variable_start, '}');
-	if (closing_bracket == NULL)
-		return (-1);
-	return (closing_bracket - input);
+	printf("key : %s\n", key);
+	return (ft_strdup("machin"));
 }
 
-ssize_t	end_of_name(char *input, ssize_t variable_start)
+void	replace_key(char **input, ssize_t *key_coordinates, char *value)
 {
-	ssize_t	index;
+	size_t	key_length;
+	size_t	value_length;
 
-	index = variable_start;
-	while (input[index] != '\0')
+	key_length = key_coordinates[1] - key_coordinates[0];
+	value_length = ft_strlen(value);
+	if (key_length >= value_length)
 	{
-		if (!ft_isalnum(input[index])
-			&& input[index] != '_')
-			break;
-		index++;
+		ft_memmove(*input + key_coordinates[0] + key_length, *input + key_coordinates[0] + value_length, ft_strlen(*input + key_coordinates[0] + value_length));
 	}
-	return (index);
 }
 
-void	get_variable(char *input)
+void	expand_variable(char *input)
 {
-	ssize_t	variable_end;
-	ssize_t	variable_start;
+	ssize_t	key_coordinates[2];
 	char	temp;
+	char	*value;
 
-	if (input == NULL || *input != '$')
+	get_variable_key_coordinates(input, key_coordinates);
+	if (key_coordinates[0] == -1)
 		return ;
-	variable_start = 1;
-	if (input[variable_start] == '{')
-	{
-		variable_start++;
-		variable_end = find_bracket(input, variable_start);
-	}
-	else
-		variable_end = end_of_name(input, variable_start);
-	if (variable_end == -1)
-		return ;
-	temp = input[variable_end];
-	input[variable_end] = '\0';
-	printf("%s", input + variable_start);
-	input[variable_end] = temp;
+	temp = input[key_coordinates[1]];
+	input[key_coordinates[1]] = '\0';
+	value = envget(input + key_coordinates[0]);
+	input[key_coordinates[1]] = temp;
+	replace_key(&input, key_coordinates, value);
+	free(value);
 }

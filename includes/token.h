@@ -6,7 +6,7 @@
 /*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/31 19:28:12 by mhotting          #+#    #+#             */
-/*   Updated: 2024/04/03 12:19:03 by brappo           ###   ########.fr       */
+/*   Updated: 2024/04/04 14:20:50 by brappo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,8 +54,14 @@ bool	is_prefix(void	*word, void *prefix);
 bool	is_operator_character(char character);
 t_list	*lst_push_front_content(t_list **head, void *content);
 char	*join_into_dest(char **dest, char *str);
+
+//multi line input
 bool	append_token_list(bool is_first_quoted, t_list *first, t_list *second);
 void	print_token(void *token_void);
 void	token_recognition(t_minishell *shell);
 void	token_error(t_minishell *shell);
+
+//variable expansion
+void	get_variable_key_coordinates(char *input, ssize_t *coordinates);
+void	expand_variable(char *input);
 #endif
