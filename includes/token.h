@@ -6,13 +6,13 @@
 /*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/31 19:28:12 by mhotting          #+#    #+#             */
-/*   Updated: 2024/04/03 12:19:03 by brappo           ###   ########.fr       */
+/*   Updated: 2024/04/04 12:14:29 by brappo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef TOKEN_H
 # define TOKEN_H
-
+# define MULTIPLE_LINE_PROMPT "> "
 # include "minishell.h"
 
 typedef struct s_minishell	t_minishell;
