@@ -6,7 +6,7 @@
 /*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 08:34:50 by brappo            #+#    #+#             */
-/*   Updated: 2024/04/05 12:35:48 by brappo           ###   ########.fr       */
+/*   Updated: 2024/04/05 13:52:14 by brappo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,8 +54,8 @@ ssize_t	end_of_name(char *input, ssize_t variable_start)
 	index = variable_start;
 	while (input[index] != '\0')
 	{
-		if (index != 0 && input[index - 1] == '?')
-			break ;
+		if (index == variable_start && input[index] == '?')
+			return (index + 1);
 		if (!is_char_name(input[index]))
 			break ;
 		index++;
