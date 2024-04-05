@@ -6,7 +6,7 @@
 #    By: brappo <brappo@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/11 12:21:10 by mhotting          #+#    #+#              #
-#    Updated: 2024/04/05 09:36:57 by mhotting         ###   ########.fr        #
+#    Updated: 2024/04/05 10:34:09 by mhotting         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -70,4 +70,4 @@ header_symlink_clean:
 	@sh $(HEADER_LINK_SCRIPT_CLS)
 	@printf "Removing symlinks for .h files into srcs sub directories...\n"
 
-.PHONY: all clean fclean re clean-libft fclean-libft ffclean rre bonus FORCE fsanitize test
+.PHONY: all clean fclean re clean-libft fclean-libft ffclean rre bonus FORCE fsanitize test header_symlink header_symlink_clean
