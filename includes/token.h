@@ -6,7 +6,7 @@
 /*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/31 19:28:12 by mhotting          #+#    #+#             */
-/*   Updated: 2024/04/05 11:24:16 by brappo           ###   ########.fr       */
+/*   Updated: 2024/04/05 15:19:55 by brappo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,4 +67,6 @@ void	token_error(t_minishell *shell);
 void	get_variable_key_coordinates(char *input, ssize_t *coordinates,
 			size_t variable_start);
 bool	expand_string(char **input);
+ssize_t	expand_variable(char **input, size_t variable_start,
+			bool double_quoted);
 #endif

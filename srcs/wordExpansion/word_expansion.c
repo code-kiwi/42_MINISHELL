@@ -6,7 +6,7 @@
 /*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 14:03:37 by brappo            #+#    #+#             */
-/*   Updated: 2024/04/05 14:11:36 by brappo           ###   ########.fr       */
+/*   Updated: 2024/04/05 16:05:32 by brappo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,23 @@ char	*get_value_by_key_coordinates(char *input, ssize_t *key_coordinates)
 	return (value);
 }
 
+ssize_t	handle_invalid_variable(char *input, ssize_t *key_coordinates,
+	size_t variable_start, bool double_quoted)
+{
+	char	second_character;
+	char	*variable;
+
+	second_character = input[key_coordinates[0]];
+	if (!double_quoted && (second_character == '\''
+			|| second_character == '"'))
+	{
+		variable = input + variable_start;
+		ft_memmove(variable, variable + 1, ft_strlen(variable));
+		return (0);
+	}
+	return (1);
+}
+
 ssize_t	expand_variable(char **input, size_t variable_start, bool double_quoted)
 {
 	ssize_t	key_coordinates[2];
@@ -63,14 +80,8 @@ ssize_t	expand_variable(char **input, size_t variable_start, bool double_quoted)
 	if (key_coordinates[0] == -1)
 		return (-1);
 	if ((size_t)key_coordinates[1] == variable_start + 1)
-	{
-		if (!double_quoted && ((*input)[key_coordinates[0]] == '\'' || (*input)[key_coordinates[0]] == '"'))
-		{
-			ft_memmove((*input) + variable_start, (*input) + variable_start + 1, ft_strlen((*input) + variable_start + 1) + 1);
-			return (0);
-		}		
-		return (1);
-	}
+		return (handle_invalid_variable(*input, key_coordinates,
+				variable_start, double_quoted));
 	value = get_value_by_key_coordinates(*input, key_coordinates);
 	if (value == NULL)
 		return (-1);
@@ -82,43 +93,4 @@ ssize_t	expand_variable(char **input, size_t variable_start, bool double_quoted)
 	result = ft_strlen(value);
 	free(value);
 	return (result);
-}
-
-bool	remove_quote(char *input, bool value, size_t *index)
-{
-	if (*input != '\'' && *input != '"')
-		return (value);
-	ft_memmove(input, input + 1, ft_strlen(input));
-	*index -= 1;
-	return (!value);
-}
-
-bool	expand_string(char **input)
-{
-	size_t	index;
-	bool	single_quoted;
-	bool	double_quoted;
-	ssize_t	variable_length;
-
-	single_quoted = false;
-	double_quoted = false;
-	if (input == NULL || *input == NULL)
-		return (false);
-	index = 0;
-	while ((*input)[index] != '\0')
-	{
-		if ((*input)[index] == '\'' && !double_quoted)
-			single_quoted = remove_quote(*input + index, single_quoted, &index);
-		else if ((*input)[index] == '\"' && !single_quoted)
-			double_quoted = remove_quote(*input + index, double_quoted, &index);
-		else if ((*input)[index] == '$' && !single_quoted)
-		{
-			variable_length = expand_variable(input, index, double_quoted);
-			if (variable_length == -1)
-				return (false);
-			index += variable_length - 1;
-		}
-		index++;
-	}
-	return (true);
 }
