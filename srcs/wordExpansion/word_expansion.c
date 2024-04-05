@@ -6,7 +6,7 @@
 /*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 14:03:37 by brappo            #+#    #+#             */
-/*   Updated: 2024/04/05 16:34:57 by brappo           ###   ########.fr       */
+/*   Updated: 2024/04/05 16:43:22 by brappo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ char	*get_value_by_key_coordinates(char *input,
 
 	temp = input[key_coordinates[1]];
 	input[key_coordinates[1]] = '\0';
-	value = envget_temp(shell->env, input + key_coordinates[0]);
+	value = env_get(shell->env, input + key_coordinates[0]);
 	input[key_coordinates[1]] = temp;
 	return (value);
 }

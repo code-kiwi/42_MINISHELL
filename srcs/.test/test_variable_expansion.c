@@ -6,7 +6,7 @@
 /*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 10:23:58 by brappo            #+#    #+#             */
-/*   Updated: 2024/04/05 16:30:13 by brappo           ###   ########.fr       */
+/*   Updated: 2024/04/05 16:45:09 by brappo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,16 +57,16 @@ void	t_test_init(t_test *test, char *string, size_t variable_index)
 void	get_tests_basic(char **tests)
 {
 	tests[0] = ft_strdup("test");
-	tests[1] = ft_strdup("$test");
-	tests[2] = ft_strdup("$test ");
-	tests[3] = ft_strdup("${test}");
+	tests[1] = ft_strdup("$HOME");
+	tests[2] = ft_strdup("$HOME ");
+	tests[3] = ft_strdup("${USER}");
 	tests[4] = ft_strdup("");
 	tests[5] = ft_strdup("$");
-	tests[6] = ft_strdup("$a");
+	tests[6] = ft_strdup("$HOME");
 	tests[7] = NULL;
 	tests[8] = ft_strdup("${    qwexi }");
 	tests[9] = ft_strdup("$ ");
-	tests[10] = ft_strdup("$qwex qweoxu");
+	tests[10] = ft_strdup("$USER qweoxu");
 	tests[11] = ft_strdup("${}");
 	tests[12] = ft_strdup("${qweih2594894_qwex_}");
 	tests[13] = ft_strdup("${qweih2594894_q-wex_}");
@@ -76,36 +76,36 @@ void	get_tests_basic(char **tests)
 
 void	get_advanced_tests(t_test *advanced_tests)
 {
-	t_test_init(advanced_tests + 0, "  $est ", 2);
+	t_test_init(advanced_tests + 0, "  $HOME ", 2);
 	t_test_init(advanced_tests + 1, "qwexoij", 0);
-	t_test_init(advanced_tests + 2, "$est", 2);
+	t_test_init(advanced_tests + 2, "$USER", 2);
 	t_test_init(advanced_tests + 3, "", 2);
 	t_test_init(advanced_tests + 4, "", 0);
 	t_test_init(advanced_tests + 5, NULL, 0);
-	t_test_init(advanced_tests + 6, "$qwxe", 1566);
-	t_test_init(advanced_tests + 7, "$qwxe qwexqwxe", 0);
+	t_test_init(advanced_tests + 6, "$HOME", 1566);
+	t_test_init(advanced_tests + 7, "$USER qwexqwxe", 0);
 	t_test_init(advanced_tests + 8, "qwexh$qwxe", 5);
 	t_test_init(advanced_tests + 9, "qwexqwelll$qwxe qwex", 10);
-	t_test_init(advanced_tests + 10, "${qwxe}", 0);
-	t_test_init(advanced_tests + 11, "${qwxe}qwexqwex", 0);
-	t_test_init(advanced_tests + 12, "${qwxe}  qwexiu", 0);
-	t_test_init(advanced_tests + 13, "qwekjhqx${qwxe}", 8);
+	t_test_init(advanced_tests + 10, "${HOME}", 0);
+	t_test_init(advanced_tests + 11, "${HOME}qwexqwex", 0);
+	t_test_init(advanced_tests + 12, "${USER}  qwexiu", 0);
+	t_test_init(advanced_tests + 13, "qwekjhqx${HOME}", 8);
 	t_test_init(advanced_tests + 14, "qwekjhqx${q_wxe}", 8);
 }
 
 void	get_final_tests(char **tests)
 {
-	tests[0] = ft_strdup("$test");
-	tests[1] = ft_strdup("qweixugqw $test qwexh");
-	tests[2] = ft_strdup("$test oqjweoijx");
-	tests[3] = ft_strdup("qweiuxhq $test");
+	tests[0] = ft_strdup("$HOME");
+	tests[1] = ft_strdup("qweixugqw $USER qwexh");
+	tests[2] = ft_strdup("$HOME oqjweoijx");
+	tests[3] = ft_strdup("qweiuxhq $USER");
 	tests[4] = ft_strdup("");
 	tests[5] = NULL;
-	tests[6] = ft_strdup("qiuhwex${qwex}qweuxh");
-	tests[7] = ft_strdup("${teuyge}");
-	tests[8] = ft_strdup("     ${qwxe}");
-	tests[9] = ft_strdup("${iuhqwex}    ");
-	tests[10] = ft_strdup("$qwex$qwex  qe${qqhwxe}${iqhwex}${qiexq}qeqxe");
+	tests[6] = ft_strdup("qiuhwex${HOME}qweuxh");
+	tests[7] = ft_strdup("${USER}");
+	tests[8] = ft_strdup("     ${HOME}");
+	tests[9] = ft_strdup("${HOME}    ");
+	tests[10] = ft_strdup("$USER  qe${HOME}${USER}${HOME}qeqxe");
 	tests[11] = ft_strdup("\"$'home\"");
 	tests[12] = ft_strdup("$'home'");
 	tests[13] = ft_strdup("$\"home\"");
@@ -146,6 +146,7 @@ int	main(int argc, char **argv, char **envp)
 	t_minishell	shell;
 
 	t_minishell_init(&shell, argc, argv, envp);
+	env_add(&shell.env, "?", "0");
 	index = 0;
 	get_tests_basic(tests_basic);
 	printf("\n##########BASIC##########\n\n");
@@ -188,4 +189,5 @@ int	main(int argc, char **argv, char **envp)
 		write(STDOUT_FILENO, "\n", 1);
 		index++;
 	}
+	t_minishell_free(&shell);
 }
