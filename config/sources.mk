@@ -6,7 +6,7 @@
 #    By: brappo <brappo@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/03/31 20:47:09 by mhotting          #+#    #+#              #
-#    Updated: 2024/04/04 14:06:09 by mhotting         ###   ########.fr        #
+#    Updated: 2024/04/05 09:33:16 by mhotting         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -39,6 +39,9 @@ LIBFT_HEADERS_FILE		=	libft.h
 LIBFT_HEADERS			=	$(addprefix $(LIBFT_HEADERS_DIR), $(LIBFT_HEADERS_FILE))
 LIBFT_FLAGS				=	-L$(LIBFT_DIR) -lft 
 
+# SCRIPT HEADERS SYMLINKS CREATION
+HEADER_LINK_SCRIPT		=	config/create_sym_limk.sh
+HEADER_LINK_SCRIPT_CLS	=	config/remove_sym_limk.sh
 
 # MAIN
 MAIN_DIR				=	main/
