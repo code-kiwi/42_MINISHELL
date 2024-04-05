@@ -6,7 +6,7 @@
 /*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 08:34:50 by brappo            #+#    #+#             */
-/*   Updated: 2024/04/04 13:34:23 by brappo           ###   ########.fr       */
+/*   Updated: 2024/04/05 11:21:33 by brappo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,38 +55,40 @@ ssize_t	end_of_name(char *input, ssize_t variable_start)
 	while (input[index] != '\0')
 	{
 		if (!is_char_name(input[index]))
-			break;
+			break ;
 		index++;
 	}
 	return (index);
 }
 
-void	get_variable_key_coordinates(char *input, ssize_t *coordinates)
+void	get_variable_key_coordinates(char *input, ssize_t *coordinates,
+	size_t variable_start)
 {
-	ssize_t	variable_end;
-	ssize_t	variable_start;
+	ssize_t	key_end;
+	ssize_t	key_start;
 
 	coordinates[0] = -1;
-	if (input == NULL || *input != '$')
+	if (input == NULL || variable_start >= ft_strlen(input)
+		|| input[variable_start] != '$')
 		return ;
-	variable_start = 1;
-	if (input[variable_start] == '{')
+	key_start = variable_start + 1;
+	if (input[key_start] == '{')
 	{
-		variable_start++;
-		variable_end = find_bracket(input, variable_start);
-		if (!is_string_name(input, variable_start, variable_end))
+		key_start++;
+		key_end = find_bracket(input, key_start);
+		if (!is_string_name(input, key_start, key_end))
 		{
 			printf("bad variable substitution\n");
 			return ;
 		}
 	}
 	else
-		variable_end = end_of_name(input, variable_start);
-	if (variable_end == -1)
+		key_end = end_of_name(input, key_start);
+	if (key_end == -1)
 	{
 		printf("no closing bracket\n");
 		return ;
 	}
-	coordinates[0] = variable_start;
-	coordinates[1] = variable_end;
+	coordinates[0] = key_start;
+	coordinates[1] = key_end;
 }
