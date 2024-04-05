@@ -6,13 +6,13 @@
 /*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 10:23:58 by brappo            #+#    #+#             */
-/*   Updated: 2024/04/05 10:59:17 by brappo           ###   ########.fr       */
+/*   Updated: 2024/04/05 12:51:02 by brappo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-ssize_t	expand_variable(char **input, size_t variable_start);
+ssize_t	expand_variable(char **input, size_t variable_start, bool double_quoted);
 
 typedef struct s_test
 {
@@ -78,13 +78,42 @@ void	get_final_tests(char **tests)
 	tests[8] = ft_strdup("     ${qwxe}");
 	tests[9] = ft_strdup("${iuhqwex}    ");
 	tests[10] = ft_strdup("$qwex$qwex  qe${qqhwxe}${iqhwex}${qiexq}qeqxe");
+	tests[11] = ft_strdup("\"$'home\"");
+	tests[12] = ft_strdup("$'home'");
+	tests[13] = ft_strdup("$\"home\"");
+	//test proposes
+	tests[14] = ft_strdup("$\"HOME\"$USER");
+	tests[15] = ft_strdup("$\"HOM\"E$USER");
+	tests[16] = ft_strdup("$\"'HOM'E\"$USER");
+	tests[17] = ft_strdup("$'HOM'E$USER");
+	tests[18] = ft_strdup("$\"HOME\"");
+	tests[19] = ft_strdup("$'HOME'");
+	tests[20] = ft_strdup("$");
+	tests[21] = ft_strdup("\"$\"");
+	tests[22] = ft_strdup("'$='");
+	tests[23] = ft_strdup("\"$\"\"$\"");
+	tests[24] = ft_strdup("$\"42$\"");
+	tests[25] = ft_strdup("\"$\"$");
+	tests[26] = ft_strdup("$'$'");
+	tests[27] = ft_strdup("'$'$");
+	tests[28] = ft_strdup("\"$ \"");
+	tests[29] = ft_strdup("' $'");
+	tests[30] = ft_strdup("\"\"$?\"\"");
+	tests[31] = ft_strdup("\" \"$?\" \"");
+	tests[32] = ft_strdup("$?\"42\"");
+	tests[33] = ft_strdup("''$?''\"42\"");
+	tests[34] = ft_strdup("'HELLO'$?:''\"42\"");
+	tests[35] = ft_strdup("\"$?\"");
+	tests[36] = ft_strdup("'$?'");
+	tests[37] = ft_strdup("\"'$?'\"");
+	tests[38] = ft_strdup("'\"$?\"'");
 }
 
 int	main(void)
 {
 	char	*tests_basic[16];
 	t_test	advanced_tests[15];
-	char	*final_tests[11];
+	char	*final_tests[39];
 	size_t	index;
 
 	index = 0;
@@ -94,7 +123,7 @@ int	main(void)
 	{
 		printf("%sinput : %s%s%s\n", BLUE, tests_basic[index], RESET, GREEN);
 		printf("%s", RESET);
-		expand_variable(tests_basic + index, 0);
+		expand_variable(tests_basic + index, 0, false);
 		if (tests_basic[index] != NULL)
 			free(tests_basic[index]);
 		write(STDOUT_FILENO, "\n", 1);
@@ -107,7 +136,8 @@ int	main(void)
 	{
 		printf("%sinput : %s\nvariable index : %ld%s%s\n", BLUE, advanced_tests[index].string, advanced_tests[index].variable_index, RESET, GREEN);
 		printf("%s", RESET);
-		expand_variable(&advanced_tests[index].string, advanced_tests[index].variable_index);
+		expand_variable(&advanced_tests[index].string, advanced_tests[index].variable_index, false);
+		printf("result final : %s\n", advanced_tests[index].string);
 		if (advanced_tests[index].string != NULL)
 			free(advanced_tests[index].string);
 		write(STDOUT_FILENO, "\n", 1);
@@ -116,11 +146,12 @@ int	main(void)
 	index = 0;
 	get_final_tests(final_tests);
 	printf("\n##########FINAL##########\n\n");
-	while (index < 11)
+	while (index < 39)
 	{
 		printf("%sinput : %s%s%s\n", BLUE, final_tests[index], RESET, GREEN);
 		printf("%s", RESET);
 		expand_string(final_tests + index);
+		printf("result final : %s\n", final_tests[index]);
 		if (final_tests[index] != NULL)
 			free(final_tests[index]);
 		write(STDOUT_FILENO, "\n", 1);

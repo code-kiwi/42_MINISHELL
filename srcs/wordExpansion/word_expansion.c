@@ -6,7 +6,7 @@
 /*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 14:03:37 by brappo            #+#    #+#             */
-/*   Updated: 2024/04/05 11:23:51 by brappo           ###   ########.fr       */
+/*   Updated: 2024/04/05 12:21:26 by brappo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ char	*get_value_by_key_coordinates(char *input, ssize_t *key_coordinates)
 	return (value);
 }
 
-ssize_t	expand_variable(char **input, size_t variable_start)
+ssize_t	expand_variable(char **input, size_t variable_start, bool double_quoted)
 {
 	ssize_t	key_coordinates[2];
 	char	*value;
@@ -61,6 +61,13 @@ ssize_t	expand_variable(char **input, size_t variable_start)
 	get_variable_key_coordinates(*input, key_coordinates, variable_start);
 	if (key_coordinates[0] == -1)
 		return (-1);
+	if ((size_t)key_coordinates[1] == variable_start + 1)
+	{
+		if (double_quoted)
+			return (1);
+		ft_memmove((*input) + variable_start, (*input) + variable_start + 1, ft_strlen((*input) + variable_start + 1) + 1);
+		return (0);
+	}
 	value = get_value_by_key_coordinates(*input, key_coordinates);
 	if (value == NULL)
 		return (-1);
@@ -69,7 +76,6 @@ ssize_t	expand_variable(char **input, size_t variable_start)
 		free(value);
 		return (-1);
 	}
-	printf("result : %s\n", *input);
 	result = ft_strlen(value);
 	free(value);
 	return (result);
@@ -95,7 +101,7 @@ bool	expand_string(char **input)
 			double_quoted = !double_quoted;
 		if ((*input)[index] == '$' && !single_quoted)
 		{
-			variable_length = expand_variable(input, index);
+			variable_length = expand_variable(input, index, double_quoted);
 			if (variable_length == -1)
 				return (false);
 			index += variable_length - 1;
