@@ -6,7 +6,7 @@
 #    By: brappo <brappo@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/03/31 20:47:09 by mhotting          #+#    #+#              #
-#    Updated: 2024/04/05 09:33:16 by mhotting         ###   ########.fr        #
+#    Updated: 2024/04/05 10:01:45 by mhotting         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -53,10 +53,12 @@ ifdef testChosen
 	else ifeq ($(testChosen), env)
 		MAIN_DIR		=	.test/
 		MAIN_FILE		= 	test_env.c
-    endif
-	ifeq ($(testChosen), prompt)
+	else ifeq ($(testChosen), prompt)
 		MAIN_DIR		=	.test/
 		MAIN_FILE		=	test_prompt.c
+	else ifeq ($(testChosen), execution)
+		MAIN_DIR		=	.test/
+		MAIN_FILE		=	test_execution.c
 	endif
 endif
 MAIN					=	$(addprefix $(MAIN_DIR), $(MAIN_FILE))
@@ -93,6 +95,11 @@ ENV_FILES				=	env_utils.c					\
 							t_env_element_utils.c
 ENV						=	$(addprefix $(ENV_DIR), $(ENV_FILES))
 
+# EXECUTION
+EXECUTION_DIR			=	execution/
+EXECUTION_FILES			=	execution.c
+EXECUTION				=	$(addprefix $(EXECUTION_DIR), $(EXECUTION_FILES))
+
 # UTILS
 UTILS_DIR				=	utils/
 UTILS_FILES				=	list_utils.c				\
@@ -107,7 +114,8 @@ UTILS					=	$(addprefix $(UTILS_DIR), $(UTILS_FILES))
 
 # SOURCES GENERAL
 SRCS_MAIN_DIR			=	srcs/
-SRCS_FILES				=	$(MAIN)	$(AST) $(TOKENR) $(PROMPT) $(ENV) $(UTILS)
+SRCS_FILES				=	$(MAIN)	$(AST) $(TOKENR) $(PROMPT) $(ENV)			\
+							$(EXECUTION) $(UTILS)
 SRCS					=	$(addprefix $(SRCS_MAIN_DIR), $(SRCS_FILES))
 
 # OBJECTS GENERAL
