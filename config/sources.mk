@@ -6,7 +6,7 @@
 #    By: brappo <brappo@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/03/31 20:47:09 by mhotting          #+#    #+#              #
-#    Updated: 2024/04/03 14:34:59 by brappo           ###   ########.fr        #
+#    Updated: 2024/04/04 14:06:09 by mhotting         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -47,6 +47,9 @@ ifdef testChosen
     ifeq ($(testChosen), token)
 		MAIN_DIR		=	.test/
 		MAIN_FILE		= 	test_token_recognition.c
+	else ifeq ($(testChosen), env)
+		MAIN_DIR		=	.test/
+		MAIN_FILE		= 	test_env.c
     endif
 	ifeq ($(testChosen), prompt)
 		MAIN_DIR		=	.test/
@@ -81,19 +84,27 @@ PROMPT_FILES			=	prompt_handler.c \
 							directory_utils.c
 PROMPT					=	$(addprefix $(PROMPT_DIR), $(PROMPT_FILES))
 
+# ENV
+ENV_DIR					=	env/
+ENV_FILES				=	env_utils.c					\
+							t_env_element_utils.c
+ENV						=	$(addprefix $(ENV_DIR), $(ENV_FILES))
+
 # UTILS
 UTILS_DIR				=	utils/
 UTILS_FILES				=	list_utils.c				\
 							t_minishell_utils.c			\
 							close_file_descriptor.c		\
 							string_utils.c				\
+							ft_split_key_val.c			\
+							ft_print_str_array.c		\
 							array_utils.c				\
 							error.c
 UTILS					=	$(addprefix $(UTILS_DIR), $(UTILS_FILES))
 
 # SOURCES GENERAL
 SRCS_MAIN_DIR			=	srcs/
-SRCS_FILES				=	$(MAIN)	$(AST) $(TOKENR) $(PROMPT) $(UTILS)
+SRCS_FILES				=	$(MAIN)	$(AST) $(TOKENR) $(PROMPT) $(ENV) $(UTILS)
 SRCS					=	$(addprefix $(SRCS_MAIN_DIR), $(SRCS_FILES))
 
 # OBJECTS GENERAL

@@ -6,17 +6,17 @@
 /*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 10:14:16 by mhotting          #+#    #+#             */
-/*   Updated: 2024/04/03 17:03:47 by brappo           ###   ########.fr       */
+/*   Updated: 2024/04/04 12:55:45 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	main(void)
+int	main(int argc, char **argv, char **envp)
 {
 	t_minishell	shell;
 
-	t_minishell_init(&shell);
+	t_minishell_init(&shell, argc, argv, envp);
 	while (true)
 	{
 		shell.input = prompt(&shell);
