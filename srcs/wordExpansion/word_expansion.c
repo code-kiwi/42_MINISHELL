@@ -6,7 +6,7 @@
 /*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 14:03:37 by brappo            #+#    #+#             */
-/*   Updated: 2024/04/05 13:11:19 by brappo           ###   ########.fr       */
+/*   Updated: 2024/04/05 13:26:46 by brappo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ ssize_t	expand_variable(char **input, size_t variable_start, bool double_quoted)
 		return (-1);
 	if ((size_t)key_coordinates[1] == variable_start + 1)
 	{
-		if (double_quoted)
+		if (double_quoted && ((*input)[key_coordinates[0]] == '\'' || (*input)[key_coordinates[0]] == '"'))
 			return (1);
 		ft_memmove((*input) + variable_start, (*input) + variable_start + 1, ft_strlen((*input) + variable_start + 1) + 1);
 		return (0);
