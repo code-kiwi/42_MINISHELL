@@ -6,11 +6,38 @@
 /*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 10:23:58 by brappo            #+#    #+#             */
-/*   Updated: 2024/04/05 12:51:02 by brappo           ###   ########.fr       */
+/*   Updated: 2024/04/05 13:42:25 by brappo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+#include <sys/wait.h>
+
+void	echo_string(char *str, char **envp)
+{
+	pid_t	pid;
+	int		tube[2];
+	char	*argv[2];
+
+	argv[0] = "/usr/bin/bash";
+	argv[1] = NULL;
+	pipe(tube);
+	write(tube[1], "echo ", 5);
+	write(tube[1], str, ft_strlen(str));
+	close(tube[1]);
+	pid = fork();
+	if (pid == 0)
+	{
+		write(STDIN_FILENO, "bash : ", 7);
+		dup2(tube[0], STDIN_FILENO);
+		close(tube[0]);
+		execve(argv[0], argv, envp);
+	}
+	else
+	{
+		wait(NULL);
+	}
+}
 
 ssize_t	expand_variable(char **input, size_t variable_start, bool double_quoted);
 
@@ -109,7 +136,7 @@ void	get_final_tests(char **tests)
 	tests[38] = ft_strdup("'\"$?\"'");
 }
 
-int	main(void)
+int	main(int argc, char **argv, char **envp)
 {
 	char	*tests_basic[16];
 	t_test	advanced_tests[15];
@@ -117,6 +144,8 @@ int	main(void)
 	size_t	index;
 
 	index = 0;
+	if (argc > 1)
+		argv[1] = "test";
 	get_tests_basic(tests_basic);
 	printf("\n##########BASIC##########\n\n");
 	while (index < 16)
@@ -150,6 +179,7 @@ int	main(void)
 	{
 		printf("%sinput : %s%s%s\n", BLUE, final_tests[index], RESET, GREEN);
 		printf("%s", RESET);
+		echo_string(final_tests[index], envp);
 		expand_string(final_tests + index);
 		printf("result final : %s\n", final_tests[index]);
 		if (final_tests[index] != NULL)
