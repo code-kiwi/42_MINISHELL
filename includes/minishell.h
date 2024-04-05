@@ -6,16 +6,18 @@
 /*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 10:17:54 by mhotting          #+#    #+#             */
-/*   Updated: 2024/04/04 14:05:44 by mhotting         ###   ########.fr       */
+/*   Updated: 2024/04/05 09:11:52 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
+
 # include <stdio.h>
 # include <errno.h>
 # include <readline/readline.h>
 # include <readline/history.h>
+
 # include "prompt.h"
 # include "libft.h"
 # include "node.h"

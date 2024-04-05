@@ -6,11 +6,11 @@
 /*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/02 13:01:05 by brappo            #+#    #+#             */
-/*   Updated: 2024/04/04 12:14:37 by brappo           ###   ########.fr       */
+/*   Updated: 2024/04/05 09:07:50 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <minishell.h> 
+#include "minishell.h" 
 
 bool	add_end_token(t_list **tokens)
 {

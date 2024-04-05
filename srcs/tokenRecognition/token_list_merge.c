@@ -6,11 +6,11 @@
 /*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/02 20:42:20 by root              #+#    #+#             */
-/*   Updated: 2024/04/04 12:10:58 by brappo           ###   ########.fr       */
+/*   Updated: 2024/04/05 09:07:39 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <minishell.h>
+#include "minishell.h"
 
 /*
 	When merging tokens, the "next" string is joined with the "first" string.
