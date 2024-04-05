@@ -6,7 +6,7 @@
 /*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 14:03:37 by brappo            #+#    #+#             */
-/*   Updated: 2024/04/05 16:43:22 by brappo           ###   ########.fr       */
+/*   Updated: 2024/04/05 16:47:07 by brappo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,15 +32,6 @@ bool	replace_key(char **input, ssize_t *key_coordinates, char *value,
 	free(*input);
 	*input = result;
 	return (true);
-}
-
-char	*envget_temp(t_list *env, char *key)
-{
-	if (env == NULL)
-		return (NULL);
-	if (*key == '?')
-		return (ft_strdup("0"));
-	return (ft_strdup("machin"));
 }
 
 char	*get_value_by_key_coordinates(char *input,

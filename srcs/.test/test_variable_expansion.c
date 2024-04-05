@@ -6,7 +6,7 @@
 /*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 10:23:58 by brappo            #+#    #+#             */
-/*   Updated: 2024/04/05 16:45:09 by brappo           ###   ########.fr       */
+/*   Updated: 2024/04/05 17:07:44 by brappo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,26 +16,38 @@
 void	echo_string(char *str, char **envp)
 {
 	pid_t	pid;
-	int		tube[2];
+	int		tube_to_process[2];
+	int		tube_from_process[2];
 	char	*argv[2];
+	char	buffer[2048];
+	int		rd;
 
 	argv[0] = "/usr/bin/bash";
 	argv[1] = NULL;
-	pipe(tube);
-	write(tube[1], "echo ", 5);
-	write(tube[1], str, ft_strlen(str));
-	close(tube[1]);
+	pipe(tube_to_process);
+	pipe(tube_from_process);
+	write(tube_to_process[1], "echo ", 5);
+	write(tube_to_process[1], str, ft_strlen(str));
+	close(tube_to_process[1]);
 	pid = fork();
 	if (pid == 0)
 	{
-		write(STDIN_FILENO, "bash : ", 7);
-		dup2(tube[0], STDIN_FILENO);
-		close(tube[0]);
+		dup2(tube_to_process[0], STDIN_FILENO);
+		close(tube_to_process[0]);
+		dup2(tube_from_process[1], STDOUT_FILENO);
+		close(tube_from_process[0]);
+		close(tube_from_process[1]);
 		execve(argv[0], argv, envp);
+
 	}
 	else
 	{
 		wait(NULL);
+		close(tube_from_process[1]);
+		rd = read(tube_from_process[0], buffer, 2048);
+		buffer[rd] = '\0';
+		printf("bash : %s", buffer);
+		printf("ok : %s", )
 	}
 }
 
@@ -181,8 +193,8 @@ int	main(int argc, char **argv, char **envp)
 	{
 		printf("%sinput : %s%s%s\n", BLUE, final_tests[index], RESET, GREEN);
 		printf("%s", RESET);
-		echo_string(final_tests[index], envp);
 		expand_string(final_tests + index, &shell);
+		echo_string(final_tests[index], envp);
 		printf("result final : %s\n", final_tests[index]);
 		if (final_tests[index] != NULL)
 			free(final_tests[index]);
