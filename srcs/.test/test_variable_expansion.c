@@ -6,7 +6,7 @@
 /*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 10:23:58 by brappo            #+#    #+#             */
-/*   Updated: 2024/04/05 13:42:25 by brappo           ###   ########.fr       */
+/*   Updated: 2024/04/05 16:30:13 by brappo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,8 @@ void	echo_string(char *str, char **envp)
 	}
 }
 
-ssize_t	expand_variable(char **input, size_t variable_start, bool double_quoted);
+ssize_t	expand_variable(char **input, size_t variable_start,
+	bool double_quoted, t_minishell *shell);
 
 typedef struct s_test
 {
@@ -138,21 +139,21 @@ void	get_final_tests(char **tests)
 
 int	main(int argc, char **argv, char **envp)
 {
-	char	*tests_basic[16];
-	t_test	advanced_tests[15];
-	char	*final_tests[39];
-	size_t	index;
+	char		*tests_basic[16];
+	t_test		advanced_tests[15];
+	char		*final_tests[39];
+	size_t		index;
+	t_minishell	shell;
 
+	t_minishell_init(&shell, argc, argv, envp);
 	index = 0;
-	if (argc > 1)
-		argv[1] = "test";
 	get_tests_basic(tests_basic);
 	printf("\n##########BASIC##########\n\n");
 	while (index < 16)
 	{
 		printf("%sinput : %s%s%s\n", BLUE, tests_basic[index], RESET, GREEN);
 		printf("%s", RESET);
-		expand_variable(tests_basic + index, 0, false);
+		expand_variable(tests_basic + index, 0, false, &shell);
 		if (tests_basic[index] != NULL)
 			free(tests_basic[index]);
 		write(STDOUT_FILENO, "\n", 1);
@@ -165,7 +166,7 @@ int	main(int argc, char **argv, char **envp)
 	{
 		printf("%sinput : %s\nvariable index : %ld%s%s\n", BLUE, advanced_tests[index].string, advanced_tests[index].variable_index, RESET, GREEN);
 		printf("%s", RESET);
-		expand_variable(&advanced_tests[index].string, advanced_tests[index].variable_index, false);
+		expand_variable(&advanced_tests[index].string, advanced_tests[index].variable_index, false, &shell);
 		printf("result final : %s\n", advanced_tests[index].string);
 		if (advanced_tests[index].string != NULL)
 			free(advanced_tests[index].string);
@@ -180,7 +181,7 @@ int	main(int argc, char **argv, char **envp)
 		printf("%sinput : %s%s%s\n", BLUE, final_tests[index], RESET, GREEN);
 		printf("%s", RESET);
 		echo_string(final_tests[index], envp);
-		expand_string(final_tests + index);
+		expand_string(final_tests + index, &shell);
 		printf("result final : %s\n", final_tests[index]);
 		if (final_tests[index] != NULL)
 			free(final_tests[index]);

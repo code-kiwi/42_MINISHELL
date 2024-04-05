@@ -6,18 +6,11 @@
 /*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 14:03:37 by brappo            #+#    #+#             */
-/*   Updated: 2024/04/05 16:05:32 by brappo           ###   ########.fr       */
+/*   Updated: 2024/04/05 16:34:57 by brappo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-char	*envget(char *key)
-{
-	if (*key == '?')
-		return (ft_strdup("0"));
-	return (ft_strdup("machin"));
-}
 
 bool	replace_key(char **input, ssize_t *key_coordinates, char *value,
 	size_t variable_start)
@@ -41,14 +34,24 @@ bool	replace_key(char **input, ssize_t *key_coordinates, char *value,
 	return (true);
 }
 
-char	*get_value_by_key_coordinates(char *input, ssize_t *key_coordinates)
+char	*envget_temp(t_list *env, char *key)
+{
+	if (env == NULL)
+		return (NULL);
+	if (*key == '?')
+		return (ft_strdup("0"));
+	return (ft_strdup("machin"));
+}
+
+char	*get_value_by_key_coordinates(char *input,
+	ssize_t *key_coordinates, t_minishell *shell)
 {
 	char	temp;
 	char	*value;
 
 	temp = input[key_coordinates[1]];
 	input[key_coordinates[1]] = '\0';
-	value = envget(input + key_coordinates[0]);
+	value = envget_temp(shell->env, input + key_coordinates[0]);
 	input[key_coordinates[1]] = temp;
 	return (value);
 }
@@ -70,7 +73,8 @@ ssize_t	handle_invalid_variable(char *input, ssize_t *key_coordinates,
 	return (1);
 }
 
-ssize_t	expand_variable(char **input, size_t variable_start, bool double_quoted)
+ssize_t	expand_variable(char **input, size_t variable_start,
+	bool double_quoted, t_minishell *shell)
 {
 	ssize_t	key_coordinates[2];
 	char	*value;
@@ -82,7 +86,7 @@ ssize_t	expand_variable(char **input, size_t variable_start, bool double_quoted)
 	if ((size_t)key_coordinates[1] == variable_start + 1)
 		return (handle_invalid_variable(*input, key_coordinates,
 				variable_start, double_quoted));
-	value = get_value_by_key_coordinates(*input, key_coordinates);
+	value = get_value_by_key_coordinates(*input, key_coordinates, shell);
 	if (value == NULL)
 		return (-1);
 	if (replace_key(input, key_coordinates, value, variable_start) == false)
