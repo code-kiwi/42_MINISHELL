@@ -6,11 +6,11 @@
 /*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 14:59:56 by brappo            #+#    #+#             */
-/*   Updated: 2024/04/04 09:14:05 by brappo           ###   ########.fr       */
+/*   Updated: 2024/04/05 09:23:06 by brappo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <minishell.h>
+#include "minishell.h"
 
 bool	is_token_end(t_token *token, char character, \
 		t_token_parser *token_parser)

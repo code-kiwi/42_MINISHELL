@@ -6,7 +6,7 @@
 /*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/31 19:28:12 by mhotting          #+#    #+#             */
-/*   Updated: 2024/04/04 14:20:50 by brappo           ###   ########.fr       */
+/*   Updated: 2024/04/05 09:22:19 by brappo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 # define TOKEN_H
 
 # include "minishell.h"
+
+# define MULTIPLE_LINE_PROMPT "> "
 
 typedef struct s_minishell	t_minishell;
 

@@ -1,20 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   test.h                                             :+:      :+:    :+:   */
+/*   ft_print_str_array.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mhotting <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/03/29 10:45:33 by mhotting          #+#    #+#             */
-/*   Updated: 2024/03/29 10:53:26 by mhotting         ###   ########.fr       */
+/*   Created: 2024/04/04 14:02:21 by mhotting          #+#    #+#             */
+/*   Updated: 2024/04/04 14:05:27 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef TEST_H
-# define TEST_H
+#include "minishell.h"
 
-# include "minishell.h"
-
-void	test_tree_creation(void);
-
-#endif
+/*
+ *	Prints a NULL terminated array of strings
+ */
+void	ft_print_str_array(char **array)
+{
+	if (array == NULL)
+		return ;
+	if (*array == NULL)
+	{
+		printf("STR_Array is empty...\n");
+		return ;
+	}
+	while (*array != NULL)
+	{
+		printf("STR: \"%s\"\n", *array);
+		++array;
+	}
+}

@@ -6,11 +6,11 @@
 /*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/02 13:01:05 by brappo            #+#    #+#             */
-/*   Updated: 2024/04/04 10:22:58 by brappo           ###   ########.fr       */
+/*   Updated: 2024/04/05 09:22:42 by brappo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <minishell.h> 
+#include "minishell.h" 
 
 bool	add_end_token(t_list **tokens)
 {
@@ -96,7 +96,7 @@ void	token_recognition(t_minishell *shell)
 	while (is_command_end(&token_parser, shell->tokens) == false)
 	{
 		is_end_quoted = is_quoted(&token_parser);
-		second_tokens = tokenize_input(shell, "> ",
+		second_tokens = tokenize_input(shell, MULTIPLE_LINE_PROMPT,
 				&token_parser, is_end_quoted);
 		if (!append_token_list(is_end_quoted, shell->tokens, second_tokens))
 		{

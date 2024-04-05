@@ -6,11 +6,11 @@
 /*   By: mhotting <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/29 10:46:10 by mhotting          #+#    #+#             */
-/*   Updated: 2024/03/29 10:56:48 by mhotting         ###   ########.fr       */
+/*   Updated: 2024/04/03 10:45:15 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "test.h"
+#include "minishell.h"
 
 /*
  *	Creates an AST tree with t_node tools
