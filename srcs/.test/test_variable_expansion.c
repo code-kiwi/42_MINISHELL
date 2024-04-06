@@ -6,7 +6,7 @@
 /*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 10:23:58 by brappo            #+#    #+#             */
-/*   Updated: 2024/04/06 09:33:58 by brappo           ###   ########.fr       */
+/*   Updated: 2024/04/06 09:56:48 by brappo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,8 +64,13 @@ void	echo_string(char *str, char **envp, char *result_perso)
 		close(tube_from_process[1]);
 		rd = read(tube_from_process[0], buffer, 2048);
 		buffer[rd] = '\0';
-		printf("bash : %s", buffer);
-		printf("ok : %s\n", string_equals(buffer, result_perso) ? "true" : "false");
+		if (rd > 0 && buffer[rd - 1] == '\n')
+			buffer[rd - 1] = '\0';
+		printf("bash : %s\n", buffer);
+		if (string_equals(buffer, result_perso))
+			printf("equals ? : %strue%s\n",  GREEN, RESET);
+		else
+			printf("equals ? : %sfalse%s\n", RED, RESET);
 	}
 }
 
@@ -174,6 +179,7 @@ int	main(int argc, char **argv, char **envp)
 	char		*final_tests[39];
 	size_t		index;
 	t_minishell	shell;
+	char		*str_copy;
 
 	t_minishell_init(&shell, argc, argv, envp);
 	env_add(&shell.env, "?", "0");
@@ -211,9 +217,11 @@ int	main(int argc, char **argv, char **envp)
 	{
 		printf("%sinput : %s%s%s\n", BLUE, final_tests[index], RESET, GREEN);
 		printf("%s", RESET);
+		str_copy = ft_strdup(final_tests[index]);
 		expand_string(final_tests + index, &shell);
-		echo_string(final_tests[index], envp, final_tests[index]);
 		printf("result final : %s\n", final_tests[index]);
+		echo_string(str_copy, envp, final_tests[index]);
+		free(str_copy);
 		if (final_tests[index] != NULL)
 			free(final_tests[index]);
 		write(STDOUT_FILENO, "\n", 1);

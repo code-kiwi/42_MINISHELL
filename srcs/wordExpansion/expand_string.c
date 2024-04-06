@@ -6,7 +6,7 @@
 /*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/05 15:12:32 by brappo            #+#    #+#             */
-/*   Updated: 2024/04/05 16:20:53 by brappo           ###   ########.fr       */
+/*   Updated: 2024/04/06 10:06:12 by brappo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ bool	expand_string(char **input, t_minishell *shell)
 	size_t	index;
 	bool	single_quoted;
 	bool	double_quoted;
-	ssize_t	variable_length;
+	ssize_t	var_length;
 
 	single_quoted = false;
 	double_quoted = false;
@@ -49,8 +49,8 @@ bool	expand_string(char **input, t_minishell *shell)
 			double_quoted = remove_quote(*input + index, double_quoted, &index);
 		else if ((*input)[index] == '$' && !single_quoted)
 		{
-			variable_length = expand_variable(input, index, double_quoted, shell);
-			if (!jump(&index, variable_length))
+			var_length = expand_variable(input, index, double_quoted, shell);
+			if (!jump(&index, var_length))
 				return (false);
 		}
 		index++;
