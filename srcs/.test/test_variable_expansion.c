@@ -6,14 +6,32 @@
 /*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 10:23:58 by brappo            #+#    #+#             */
-/*   Updated: 2024/04/05 17:07:44 by brappo           ###   ########.fr       */
+/*   Updated: 2024/04/06 09:33:58 by brappo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include <sys/wait.h>
 
-void	echo_string(char *str, char **envp)
+bool	string_equals(char *a, char *b)
+{
+	size_t	length;
+	size_t	index;
+
+	if (a == NULL || b == NULL)
+		return (a == b);
+	length = ft_strlen(a);
+	index = 0;
+	while (index <= length)
+	{
+		if (a[index] != b[index])
+			return (false);
+		index++;
+	}
+	return (true);
+}
+
+void	echo_string(char *str, char **envp, char *result_perso)
 {
 	pid_t	pid;
 	int		tube_to_process[2];
@@ -47,7 +65,7 @@ void	echo_string(char *str, char **envp)
 		rd = read(tube_from_process[0], buffer, 2048);
 		buffer[rd] = '\0';
 		printf("bash : %s", buffer);
-		printf("ok : %s", )
+		printf("ok : %s\n", string_equals(buffer, result_perso) ? "true" : "false");
 	}
 }
 
@@ -194,7 +212,7 @@ int	main(int argc, char **argv, char **envp)
 		printf("%sinput : %s%s%s\n", BLUE, final_tests[index], RESET, GREEN);
 		printf("%s", RESET);
 		expand_string(final_tests + index, &shell);
-		echo_string(final_tests[index], envp);
+		echo_string(final_tests[index], envp, final_tests[index]);
 		printf("result final : %s\n", final_tests[index]);
 		if (final_tests[index] != NULL)
 			free(final_tests[index]);
