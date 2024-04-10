@@ -6,7 +6,7 @@
 /*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/31 19:28:12 by mhotting          #+#    #+#             */
-/*   Updated: 2024/04/06 10:00:12 by brappo           ###   ########.fr       */
+/*   Updated: 2024/04/10 10:38:26 by brappo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,14 @@ typedef enum e_token_type
 {
 	END,
 	WORD,
-	OPERATOR
+	OPERATOR,
+	OPERATOR_DGREAT,
+	OPERATOR_DLESS,
+	OPERATOR_GREAT,
+	OPERATOR_LESS,
+	OPERATOR_AND_IF,
+	OPERATOR_OR_IF,
+	OPERATOR_PIPE
 }	t_token_type;
 
 typedef struct s_token_parser
@@ -56,6 +63,7 @@ bool	is_prefix(void	*word, void *prefix);
 bool	is_operator_character(char character);
 t_list	*lst_push_front_content(t_list **head, void *content);
 char	*join_into_dest(char **dest, char *str);
+void	get_operation(char **operations);
 
 //multi line input
 bool	append_token_list(bool is_first_quoted, t_list *first, t_list *second);

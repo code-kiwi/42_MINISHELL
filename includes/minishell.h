@@ -6,7 +6,7 @@
 /*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 10:17:54 by mhotting          #+#    #+#             */
-/*   Updated: 2024/04/05 09:21:35 by brappo           ###   ########.fr       */
+/*   Updated: 2024/04/10 10:38:23 by brappo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@
 # include "node.h"
 # include "token.h"
 # include "env.h"
+# include "build_ast.h"
 
 # define ERROR_MSG_CLOSE	"Closing fd error"
 # define TOKENIZATION_ERROR "Tokenizing input"
@@ -31,8 +32,8 @@
 # define DLESS				"<<"
 # define GREAT				">"
 # define LESS				"<"
-# define OR_IF				"||"
 # define AND_IF				"&&"
+# define OR_IF				"||"
 # define PIPE				"|"
 # define OPERATOR_CHARACTER	"><&|"
 # define OPERATOR_NUMBER 	7
@@ -58,4 +59,5 @@ char	**ft_split_key_val(char *str, char sep);
 char	*bridge(char *first, char *second, char *separator);
 char	*bridge_into_first(char **first, char *second, char *separator);
 void	ft_print_str_array(char **array);
+bool	string_equals(char *a, char *b);
 #endif
