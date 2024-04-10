@@ -6,7 +6,7 @@
 #    By: brappo <brappo@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/03/31 20:47:09 by mhotting          #+#    #+#              #
-#    Updated: 2024/04/10 10:08:58 by mhotting         ###   ########.fr        #
+#    Updated: 2024/04/10 11:10:47 by mhotting         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -50,10 +50,12 @@ ifdef testChosen
 	else ifeq ($(testChosen), env)
 		MAIN_DIR		=	.test/
 		MAIN_FILE		= 	test_env.c
-    endif
-	ifeq ($(testChosen), prompt)
+	else ifeq ($(testChosen), prompt)
 		MAIN_DIR		=	.test/
 		MAIN_FILE		=	test_prompt.c
+	else ifeq ($(testChosen), ast)
+		MAIN_DIR		=	.test/
+		MAIN_FILE		=	test_ast_creation.c
 	endif
 endif
 MAIN					=	$(addprefix $(MAIN_DIR), $(MAIN_FILE))

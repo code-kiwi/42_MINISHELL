@@ -6,7 +6,7 @@
 /*   By: mhotting <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 17:53:48 by mhotting          #+#    #+#             */
-/*   Updated: 2024/04/10 10:28:02 by mhotting         ###   ########.fr       */
+/*   Updated: 2024/04/10 11:14:08 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 
 # include "redirections.h"
 
-# define NUM_NODE_TYPE 2
+# define NUM_NODE_TYPE 5
 
 typedef enum e_node_type
 {
