@@ -6,7 +6,7 @@
 /*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/31 19:28:12 by mhotting          #+#    #+#             */
-/*   Updated: 2024/04/10 10:38:26 by brappo           ###   ########.fr       */
+/*   Updated: 2024/04/10 11:13:23 by brappo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,9 @@ typedef enum e_token_type
 	OPERATOR_LESS,
 	OPERATOR_AND_IF,
 	OPERATOR_OR_IF,
-	OPERATOR_PIPE
+	OPERATOR_PIPE,
+	OPERATOR_SHELL_OPEN,
+	OPERATOR_SHELL_CLOSE
 }	t_token_type;
 
 typedef struct s_token_parser
