@@ -6,7 +6,7 @@
 /*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 10:17:54 by mhotting          #+#    #+#             */
-/*   Updated: 2024/04/10 14:09:33 by brappo           ###   ########.fr       */
+/*   Updated: 2024/04/10 16:42:15 by brappo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@
 # define PIPE				"|"
 # define SHELL_OPEN			"("
 # define SHELL_CLOSE		")"
-# define OPERATOR_CHARACTER	"><&|"
+# define OPERATOR_CHARACTER	"><&|()"
 # define OPERATOR_NUMBER 	9
 
 # define FD_UNSET			-2
