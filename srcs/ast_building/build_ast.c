@@ -6,7 +6,7 @@
 /*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/10 10:14:38 by brappo            #+#    #+#             */
-/*   Updated: 2024/04/10 15:24:51 by brappo           ###   ########.fr       */
+/*   Updated: 2024/04/10 16:38:49 by brappo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,11 @@ t_node	*build_ast(t_list *tokens)
 	head = NULL;
 	if (set_operator_type(tokens) == false)
 		return (NULL);
-	get_nodes(&current_node, &head, tokens);
+	if (get_nodes(&current_node, &head, tokens) == false)
+	{
+		ast_free(&head);
+		return (NULL);
+	}
 	return (head);
 }
 
