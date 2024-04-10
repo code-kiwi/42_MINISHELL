@@ -6,7 +6,7 @@
 /*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 10:17:54 by mhotting          #+#    #+#             */
-/*   Updated: 2024/04/10 15:20:55 by mhotting         ###   ########.fr       */
+/*   Updated: 2024/04/10 16:42:50 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,7 @@ typedef struct s_minishell
 void	t_minishell_init(t_minishell *shell, int ac, char **av, char **envp);
 void	t_minishell_free(t_minishell *shell);
 bool	t_minishell_add_pid(t_minishell *shell, pid_t pid);
+int		t_minishell_wait_pids(t_minishell *shell);
 
 // General functions
 void	handle_error(t_minishell *shell, char *error_msg, int exit_status);

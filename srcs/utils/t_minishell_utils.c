@@ -6,7 +6,7 @@
 /*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 13:10:16 by mhotting          #+#    #+#             */
-/*   Updated: 2024/04/10 15:20:43 by mhotting         ###   ########.fr       */
+/*   Updated: 2024/04/10 16:46:58 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ void	t_minishell_free(t_minishell *shell)
 	if (shell->tokens)
 		ft_lstclear(&shell->tokens, t_token_free);
 	if (shell->pid_list != NULL)
-		pid_list_clear(&(shell->pid_list));
+		t_minishell_wait_pids(shell);
 }
 
 bool	t_minishell_add_pid(t_minishell *shell, pid_t pid)
@@ -55,4 +55,33 @@ bool	t_minishell_add_pid(t_minishell *shell, pid_t pid)
 		return (false);
 	pid_list_add_back(&(shell->pid_list), new);
 	return (true);
+}
+
+int	t_minishell_wait_pids(t_minishell *shell)
+{
+	t_pid_list	*current;
+	int			ret;
+	int			status;
+
+	if (shell == NULL)
+		return (EXIT_FAILURE);
+	current = shell->pid_list;
+	ret = EXIT_SUCCESS;
+	while (current != NULL)
+	{
+		if (current->pid == PID_ERROR && current->next == NULL)
+			ret = EXIT_FAILURE;
+		else if (current->pid != PID_ERROR)
+		{
+			if (waitpid(current->pid, &status, 0) == -1)
+				ret = EXIT_FAILURE;
+			if (ret == 0 && current->next == NULL && !WIFEXITED(status))
+				ret = WEXITSTATUS(status);
+			else if (ret == 0 && current->next == NULL && WEXITSTATUS(status))
+				ret = WEXITSTATUS(status);
+		}
+		current = current->next;
+	}
+	pid_list_clear(&(shell->pid_list));
+	return (ret);
 }
