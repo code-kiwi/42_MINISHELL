@@ -6,7 +6,7 @@
 /*   By: mhotting <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/29 09:54:42 by mhotting          #+#    #+#             */
-/*   Updated: 2024/04/10 13:40:26 by mhotting         ###   ########.fr       */
+/*   Updated: 2024/04/10 14:39:51 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,10 +64,7 @@ void	node_command_free(void **node_ptr)
 		free((node->argv)[node->argc]);
 	free(node->argv);
 	redirection_list_free(&(node->redirection_list));
-	if (node->fd_in != FD_UNSET)
-		fd_close_and_reset(&(node->fd_in));
-	if (node->fd_out != FD_UNSET)
-		fd_close_and_reset(&(node->fd_out));
+	node_command_close_fds(*node_ptr);
 	free(node);
 	*node_ptr = NULL;
 }
@@ -92,4 +89,21 @@ bool	node_command_add_redirection(t_node *node, char *op, char *filename)
 		return (false);
 	cmd = (t_node_command *) node->content;
 	return (redirection_list_add(cmd->redirection_list, op, filename));
+}
+
+/*
+ *	Closes fd_in and fd_out members from a t_node with NODE_COMMAND type
+ *	Resets their value to FD_UNSET is they were valid file descriptors
+ */
+void	node_command_close_fds(t_node *node)
+{
+	t_node_command		*cmd;
+
+	if (node == NULL || node->type != NODE_COMMAND || node->content == NULL)
+		return ;
+	cmd = (t_node_command *) node->content;
+	if (cmd->fd_in != FD_UNSET && cmd->fd_in != FD_ERROR)
+		fd_close_and_reset(&(cmd->fd_in));
+	if (cmd->fd_out != FD_UNSET && cmd->fd_out != FD_ERROR)
+		fd_close_and_reset(&(cmd->fd_out));
 }

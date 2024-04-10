@@ -6,7 +6,7 @@
 /*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 13:10:16 by mhotting          #+#    #+#             */
-/*   Updated: 2024/04/04 12:57:28 by mhotting         ###   ########.fr       */
+/*   Updated: 2024/04/10 15:20:43 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ void	t_minishell_init(t_minishell *shell, int argc, char **argv, char **envp)
 	(void)argv;
 	shell->input = NULL;
 	shell->tokens = NULL;
+	shell->pid_list = NULL;
 }
 
 void	t_minishell_free(t_minishell *shell)
@@ -36,4 +37,22 @@ void	t_minishell_free(t_minishell *shell)
 		ft_lstclear(&(shell->env), env_element_free);
 	if (shell->tokens)
 		ft_lstclear(&shell->tokens, t_token_free);
+	if (shell->pid_list != NULL)
+		pid_list_clear(&(shell->pid_list));
+}
+
+bool	t_minishell_add_pid(t_minishell *shell, pid_t pid)
+{
+	t_pid_list	*new;
+
+	if (shell == NULL)
+	{
+		errno = EINVAL;
+		return (false);
+	}
+	new = pid_list_new(pid);
+	if (new == NULL)
+		return (false);
+	pid_list_add_back(&(shell->pid_list), new);
+	return (true);
 }

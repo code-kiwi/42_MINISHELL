@@ -6,7 +6,7 @@
 #    By: brappo <brappo@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/03/31 20:47:09 by mhotting          #+#    #+#              #
-#    Updated: 2024/04/10 12:52:26 by mhotting         ###   ########.fr        #
+#    Updated: 2024/04/10 15:55:35 by mhotting         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -111,6 +111,7 @@ EXECUTION				=	$(addprefix $(EXECUTION_DIR), $(EXECUTION_FILES))
 UTILS_DIR				=	utils/
 UTILS_FILES				=	list_utils.c				\
 							t_minishell_utils.c			\
+							t_pid_list_utils.c			\
 							close_file_descriptor.c		\
 							string_utils.c				\
 							ft_split_key_val.c			\

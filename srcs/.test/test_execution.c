@@ -6,7 +6,7 @@
 /*   By: mhotting <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/05 09:51:24 by mhotting          #+#    #+#             */
-/*   Updated: 2024/04/10 13:26:56 by mhotting         ###   ########.fr       */
+/*   Updated: 2024/04/10 16:15:40 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,19 +110,58 @@ void	node_cmd_print(t_node *node)
 }
 
 /* ********************************************************************** */
+// T_MINISHELL UTILS
+void	t_minishell_print(t_minishell *shell)
+{
+	t_pid_list	*current;
+
+	if (shell == NULL)
+	{
+		printf("SHELL impossible to print...\n");
+		return ;
+	}
+	printf("----------\n");
+	printf("T_MINISHELL:\n");
+	printf("Input: %s\n", shell->input);
+	printf("Env:\n");
+	ft_lstprint(shell->env, env_element_print);
+	printf("Tokens:\n");
+	ft_lstprint(shell->tokens, print_token);
+	printf("Pids:\n");
+	current = shell->pid_list;
+	if (current == NULL)
+		printf("Empty list of pids\n");
+	else
+	{
+		while (current != NULL)
+		{
+			printf("PID %d\n", current->pid);
+			current = current->next;
+		}
+	}
+}
+
+/* ********************************************************************** */
 // MAIN
 
-int	main(void)
+int	main(int argc, char **argv, char **envp)
 {
-	t_node	*node_c1;
+	t_minishell	shell;
+	t_node		*node_c1;
 
+	t_minishell_init(&shell, argc, argv, envp);
+	t_minishell_print(&shell);
+	t_minishell_add_pid(&shell, PID_ERROR);
+	t_minishell_add_pid(&shell, 64);
+	t_minishell_print(&shell);
 	node_c1 = node_cmd_create("ls -la");
 	if (node_c1 == NULL)
 		exit(EXIT_FAILURE);
 	if (!node_cmd_add_redirs1(node_c1))
 		exit(EXIT_FAILURE);
 	node_cmd_print(node_c1);
-	execute_node_command(node_c1, FD_UNSET, FD_UNSET);
+	exec_cmd_handler(&shell, node_c1, FD_UNSET, FD_UNSET);
 	node_free_single(&node_c1);
+	t_minishell_free(&shell);
 	return (0);
 }
