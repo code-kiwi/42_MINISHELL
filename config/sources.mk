@@ -6,7 +6,7 @@
 #    By: brappo <brappo@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/03/31 20:47:09 by mhotting          #+#    #+#              #
-#    Updated: 2024/04/10 11:27:52 by mhotting         ###   ########.fr        #
+#    Updated: 2024/04/10 12:52:26 by mhotting         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -103,7 +103,8 @@ ENV						=	$(addprefix $(ENV_DIR), $(ENV_FILES))
 
 # EXECUTION
 EXECUTION_DIR			=	execution/
-EXECUTION_FILES			=	execution.c
+EXECUTION_FILES			=	execution.c					\
+							execution_node_command.c
 EXECUTION				=	$(addprefix $(EXECUTION_DIR), $(EXECUTION_FILES))
 
 # UTILS

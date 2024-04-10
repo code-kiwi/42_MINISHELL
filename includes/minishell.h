@@ -6,7 +6,7 @@
 /*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 10:17:54 by mhotting          #+#    #+#             */
-/*   Updated: 2024/04/05 09:11:52 by mhotting         ###   ########.fr       */
+/*   Updated: 2024/04/10 12:56:16 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@
 # include "node.h"
 # include "token.h"
 # include "env.h"
+# include "execution.h"
 
 # define ERROR_MSG_CLOSE	"Closing fd error"
 # define TOKENIZATION_ERROR "Tokenizing input"
