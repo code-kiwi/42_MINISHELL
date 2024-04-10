@@ -6,7 +6,7 @@
 #    By: brappo <brappo@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/03/31 20:47:09 by mhotting          #+#    #+#              #
-#    Updated: 2024/04/10 14:01:44 by brappo           ###   ########.fr        #
+#    Updated: 2024/04/10 14:29:41 by brappo           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -61,7 +61,10 @@ ifdef testChosen
 		MAIN_DIR		=	.test/
 		MAIN_FILE		=	test_variable_expansion.c
 	endif
-
+	ifeq ($(testChosen), ast_building)
+		MAIN_DIR		=	.test/
+		MAIN_FILE		=	test_ast_building.c
+	endif
 endif
 MAIN					=	$(addprefix $(MAIN_DIR), $(MAIN_FILE))
 
