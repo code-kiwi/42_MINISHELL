@@ -6,7 +6,7 @@
 /*   By: mhotting <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 17:53:48 by mhotting          #+#    #+#             */
-/*   Updated: 2024/04/10 11:14:08 by mhotting         ###   ########.fr       */
+/*   Updated: 2024/04/10 13:34:17 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,8 @@ typedef struct s_node_command
 	int							argc;
 	char						**argv;
 	struct s_redirection_list	*redirection_list;
+	int							fd_in;
+	int							fd_out;
 }	t_node_command;
 
 typedef struct s_node_subshell
