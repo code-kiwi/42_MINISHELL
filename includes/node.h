@@ -6,7 +6,7 @@
 /*   By: mhotting <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 17:53:48 by mhotting          #+#    #+#             */
-/*   Updated: 2024/04/10 10:07:37 by mhotting         ###   ########.fr       */
+/*   Updated: 2024/04/10 10:28:02 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,14 +68,15 @@ void	node_pipe_free(void **node_ptr);
 
 // t_node_and functions
 t_node	*node_and_create(void);
-void	node_and_free(void);
+void	node_and_free(void **node_ptr);
 
 // t_node_or functions
 t_node	*node_or_create(void);
-void	node_or_free(void);
+void	node_or_free(void **node_ptr);
 
 // t_node_subshell functions
 t_node	*node_subshell_create(t_list *token_list);
-void	node_subshell_free(void);
+void	node_subshell_free(void **node_ptr);
+bool	node_subshell_add_redirection(t_node *node, char *op, char *filename);
 
 #endif
