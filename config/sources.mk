@@ -6,7 +6,7 @@
 #    By: brappo <brappo@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/03/31 20:47:09 by mhotting          #+#    #+#              #
-#    Updated: 2024/04/10 11:26:46 by brappo           ###   ########.fr        #
+#    Updated: 2024/04/10 14:01:44 by brappo           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -107,6 +107,16 @@ ENV_FILES				=	env_utils.c					\
 							t_env_element_utils.c
 ENV						=	$(addprefix $(ENV_DIR), $(ENV_FILES))
 
+#AST BUILDING
+AST_BUILDING_DIR		=	ast_building/
+AST_BUILDING_FILES		=	add_command.c \
+							add_operator_node.c \
+							add_subshell.c		\
+							build_ast_utils.c	\
+							build_ast.c
+
+AST_BUILDING			=	$(addprefix $(AST_BUILDING_DIR), $(AST_BUILDING_FILES))
+
 # UTILS
 UTILS_DIR				=	utils/
 UTILS_FILES				=	list_utils.c				\
@@ -121,7 +131,7 @@ UTILS					=	$(addprefix $(UTILS_DIR), $(UTILS_FILES))
 
 # SOURCES GENERAL
 SRCS_MAIN_DIR			=	srcs/
-SRCS_FILES				=	$(MAIN)	$(AST) $(TOKENR) $(PROMPT) $(ENV) $(EXPANSION) $(UTILS)
+SRCS_FILES				=	$(MAIN)	$(AST) $(TOKENR) $(PROMPT) $(ENV) $(EXPANSION) $(AST_BUILDING) $(UTILS)
 SRCS					=	$(addprefix $(SRCS_MAIN_DIR), $(SRCS_FILES))
 
 # OBJECTS GENERAL

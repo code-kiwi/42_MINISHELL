@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   add_operator_mode.c                                :+:      :+:    :+:   */
+/*   add_operator_node.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/10 12:01:32 by brappo            #+#    #+#             */
-/*   Updated: 2024/04/10 12:01:48 by brappo           ###   ########.fr       */
+/*   Updated: 2024/04/10 14:19:14 by brappo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,7 @@ bool	add_pipe(t_node **current_node, t_node **head, t_list *tokens)
 	return (get_nodes(&new_node->child_right, head, tokens->next));
 }
 
-bool	add_connector(t_node **current_node, t_node **head,
-	t_list *tokens, t_token_type connector)
+bool	add_connector(t_node **head, t_list *tokens, t_token_type connector)
 {
 	t_node	*new_node;
 
@@ -43,5 +42,5 @@ bool	add_connector(t_node **current_node, t_node **head,
 		return (false);
 	new_node->child_left = *head;
 	*head = new_node;
-	return(get_nodes(&new_node->child_right, head, tokens->next));
+	return (get_nodes(&new_node->child_right, head, tokens->next));
 }

@@ -6,7 +6,7 @@
 /*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 10:17:54 by mhotting          #+#    #+#             */
-/*   Updated: 2024/04/10 12:34:03 by brappo           ###   ########.fr       */
+/*   Updated: 2024/04/10 14:09:33 by brappo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,6 @@ char	**ft_split_key_val(char *str, char sep);
 char	*bridge(char *first, char *second, char *separator);
 char	*bridge_into_first(char **first, char *second, char *separator);
 void	ft_print_str_array(char **array);
-bool	string_equals(char *a, char *b);
+bool	string_equals(void *a, void *b);
 void	**to_array(t_list *lst);
 #endif

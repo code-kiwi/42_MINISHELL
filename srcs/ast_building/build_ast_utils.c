@@ -6,7 +6,7 @@
 /*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/10 10:23:01 by brappo            #+#    #+#             */
-/*   Updated: 2024/04/10 10:36:40 by brappo           ###   ########.fr       */
+/*   Updated: 2024/04/10 14:20:11 by brappo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,8 @@ bool	set_operator_type(t_list *tokens)
 		token = (t_token *)tokens->content;
 		if (token->type != OPERATOR)
 			continue ;
-		operator_index = array_find(operators, string_equals, token->str);
+		operator_index = array_find((void **)operators,
+				string_equals, token->str);
 		if (operator_index == -1)
 			return (false);
 		token->type = (t_token_type)operator_index;
