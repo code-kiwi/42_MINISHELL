@@ -25,7 +25,10 @@ bool	set_operator_type(t_list *tokens)
 	{
 		token = (t_token *)tokens->content;
 		if (token->type != OPERATOR)
+		{
+			tokens = tokens->next;
 			continue ;
+		}
 		operator_index = array_find((void **)operators,
 				string_equals, token->str);
 		if (operator_index == -1)

@@ -6,7 +6,7 @@
 /*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/10 12:00:04 by brappo            #+#    #+#             */
-/*   Updated: 2024/04/10 14:20:00 by brappo           ###   ########.fr       */
+/*   Updated: 2024/04/10 14:41:15 by brappo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ char	**get_argv(t_list *tokens)
 	}
 	ft_lstreverse(&argv);
 	argv_array = (char **)to_array(argv);
-	ft_lstclear(&argv, free);
+	ft_lstclear(&argv, NULL);
 	return (argv_array);
 }
 
