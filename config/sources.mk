@@ -6,7 +6,7 @@
 #    By: brappo <brappo@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/03/31 20:47:09 by mhotting          #+#    #+#              #
-#    Updated: 2024/04/05 15:15:43 by brappo           ###   ########.fr        #
+#    Updated: 2024/04/10 11:26:46 by brappo           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -50,10 +50,12 @@ ifdef testChosen
 	else ifeq ($(testChosen), env)
 		MAIN_DIR		=	.test/
 		MAIN_FILE		= 	test_env.c
-    endif
-	ifeq ($(testChosen), prompt)
+	else ifeq ($(testChosen), prompt)
 		MAIN_DIR		=	.test/
 		MAIN_FILE		=	test_prompt.c
+	else ifeq ($(testChosen), ast)
+		MAIN_DIR		=	.test/
+		MAIN_FILE		=	test_ast_creation.c
 	endif
 	ifeq ($(testChosen), expansion)
 		MAIN_DIR		=	.test/
@@ -67,6 +69,9 @@ MAIN					=	$(addprefix $(MAIN_DIR), $(MAIN_FILE))
 AST_DIR					=	ast/
 AST_FILES				=	t_node_command_utils.c		\
 							t_node_pipe_utils.c			\
+							t_node_and_utils.c			\
+							t_node_or_utils.c			\
+							t_node_subshell_utils.c		\
 							t_node_utils.c				\
 							t_redirection_list_utils.c	\
 							t_redirection_utils.c

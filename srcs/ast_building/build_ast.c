@@ -6,7 +6,7 @@
 /*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/10 10:14:38 by brappo            #+#    #+#             */
-/*   Updated: 2024/04/10 11:13:44 by brappo           ###   ########.fr       */
+/*   Updated: 2024/04/10 11:20:53 by brappo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ bool	get_nodes(t_node **current_node, t_node **head, t_list *tokens)
 		return (add_pipe(current_node, head, tokens));
 	if (token_type == OPERATOR_OR_IF || token_type == OPERATOR_AND_IF)
 		return (add_connector(current_node, head, tokens));
-	if (is_subshell(tokens))
+	if (token_type == OPERATOR_SHELL_OPEN)
 		return (add_subshell(current_node, head, tokens));
 	return (add_command(current_node, head, tokens));
 }
