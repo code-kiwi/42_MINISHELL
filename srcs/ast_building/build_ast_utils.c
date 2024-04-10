@@ -33,7 +33,7 @@ bool	set_operator_type(t_list *tokens)
 				string_equals, token->str);
 		if (operator_index == -1)
 			return (false);
-		token->type = (t_token_type)operator_index;
+		token->type = (t_token_type)(operator_index + 3);
 		tokens = tokens->next;
 	}
 	return (true);

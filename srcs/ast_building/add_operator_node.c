@@ -6,7 +6,7 @@
 /*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/10 12:01:32 by brappo            #+#    #+#             */
-/*   Updated: 2024/04/10 14:19:14 by brappo           ###   ########.fr       */
+/*   Updated: 2024/04/10 15:37:29 by brappo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,8 @@ bool	add_pipe(t_node **current_node, t_node **head, t_list *tokens)
 	if (new_node == NULL)
 		return (false);
 	new_node->child_left = *current_node;
+	if (*head == *current_node)
+		*head = new_node;
 	*current_node = new_node;
 	return (get_nodes(&new_node->child_right, head, tokens->next));
 }
