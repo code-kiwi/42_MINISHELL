@@ -6,7 +6,7 @@
 /*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/10 14:25:37 by brappo            #+#    #+#             */
-/*   Updated: 2024/04/10 15:00:36 by brappo           ###   ########.fr       */
+/*   Updated: 2024/04/10 15:16:40 by brappo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,19 +40,21 @@ void	print_node_type(t_node_type	node_type)
 
 void print_ast_tree(t_node *node, int space)
 {
-    if (node == NULL)
-        return;
- 
     space += COUNT;
- 
-    print_ast_tree(node->child_right, space);
- 
+	if (node != NULL)
+    	print_ast_tree(node->child_right, space);
     printf("\n");
     for (int i = COUNT; i < space; i++)
+	{
         printf(" ");
-    print_node_type(node->type);
- 
-    print_ast_tree(node->child_left, space);
+	}
+	if (node == NULL)
+		printf("NULL");
+	else
+	{
+    	print_node_type(node->type);
+    	print_ast_tree(node->child_left, space);
+	}
 }
 
 int	main(int argc, char **argv, char **envp)
