@@ -6,7 +6,7 @@
 /*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/10 14:25:37 by brappo            #+#    #+#             */
-/*   Updated: 2024/04/11 09:55:17 by brappo           ###   ########.fr       */
+/*   Updated: 2024/04/11 10:55:36 by brappo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,34 +14,7 @@
 
 void print_ast_tree(t_node *node, int space);
 
-// int	main(int argc, char **argv, char **envp)
-// {
-// 	t_minishell	shell;
-// 	t_node		*ast_tree;
-
-// 	t_minishell_init(&shell, argc, argv, envp);
-// 	while (true)
-// 	{
-// 		shell.input = prompt(&shell);
-// 		if (ft_strcmp(shell.input, "exit") == 0)
-// 		{
-// 			t_minishell_free(&shell);
-// 			break ;
-// 		}
-// 		token_recognition(&shell);
-// 		ast_tree = build_ast(shell.tokens);
-// 		print_ast_tree(ast_tree, 0);
-// 		printf("\n\n\n");
-// 		ast_free(&ast_tree);
-// 		ft_lstclear(&shell.tokens, t_token_free);
-// 		add_history(shell.input);
-// 		free(shell.input);
-// 		shell.input = NULL;
-// 	}
-// 	exit(EXIT_SUCCESS);
-// }
-
-#define TEST_NUMBER 11
+#define TEST_NUMBER 16
 
 void	get_tests(char **tests)
 {
@@ -56,6 +29,12 @@ void	get_tests(char **tests)
 	tests[8] = ft_strdup("echo 7 < infile >> outfile");
 	tests[9] = ft_strdup("< infile");
 	tests[10] = ft_strdup("()");
+	tests[11] = ft_strdup("(echo 8 || echo 9) >infile >>outfile");
+	tests[12] = ft_strdup("<infile >outfile (echo 8 | echo 9)");
+	tests[13] = ft_strdup("echo 9 <infile 10 >outfile");
+	tests[14] = ft_strdup("");
+	// tests[14] = ft_strdup("(echo 8 | echo 9) >outfile oi >>outfile");
+	tests[15] = ft_strdup("eho 9 >>outfile (echo 8 || echo 9)");
 }
 
 int	main(int argc, char **argv, char **envp)
@@ -78,8 +57,13 @@ int	main(int argc, char **argv, char **envp)
 		printf("\n\n\n");
 		ast_free(&ast_tree);
 		ft_lstclear(&shell.tokens, t_token_free);
-		if (index != TEST_NUMBER - 1)
-			free(shell.input);
+		index++;
+	}
+	index = 0;
+	while (index < TEST_NUMBER)
+	{
+		free(tests[index]);
+		shell.input = NULL;
 		index++;
 	}
 	t_minishell_free(&shell);

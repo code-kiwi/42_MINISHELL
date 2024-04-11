@@ -6,7 +6,7 @@
 /*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/10 12:00:04 by brappo            #+#    #+#             */
-/*   Updated: 2024/04/11 08:34:43 by brappo           ###   ########.fr       */
+/*   Updated: 2024/04/11 10:07:14 by brappo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,6 +85,9 @@ bool	add_command(t_node **current_node, t_node **head, t_list *tokens)
 	t_node	*new_node;
 	char	**argv;
 
+	if (current_node == NULL || head == NULL
+		|| *current_node != NULL)
+		return (false);
 	argv = get_argv(tokens);
 	if (argv == NULL)
 		return (false);

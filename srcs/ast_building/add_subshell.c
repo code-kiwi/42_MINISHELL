@@ -6,7 +6,7 @@
 /*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/10 12:00:49 by brappo            #+#    #+#             */
-/*   Updated: 2024/04/11 09:51:07 by brappo           ###   ########.fr       */
+/*   Updated: 2024/04/11 10:55:01 by brappo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,7 @@ bool	add_redirections_subshell(t_list **tokens, t_node *subshell)
 			if (node_subshell_add_redirection(subshell, token->str,
 					((t_token *)(*tokens)->next->content)->str) == false)
 				return (false);
+			*tokens = (*tokens)->next;
 		}
 		else
 			break ;
@@ -69,7 +70,8 @@ bool	add_subshell(t_node **current_node, t_node **head, t_list *tokens)
 	t_list	*sub_tokens;
 	t_node	*new_node;
 
-	if (((t_token *)tokens->content)->type != OPERATOR_SHELL_OPEN)
+	if (((t_token *)tokens->content)->type != OPERATOR_SHELL_OPEN
+		|| current_node == NULL || *current_node != NULL || head == NULL)
 		return (false);
 	sub_tokens = extract_subshell_tokens(tokens);
 	if (sub_tokens == NULL)
@@ -83,8 +85,8 @@ bool	add_subshell(t_node **current_node, t_node **head, t_list *tokens)
 	*current_node = new_node;
 	if (*head == NULL)
 		*head = new_node;
-	if (add_redirections_subshell(&tokens->next->next, new_node) == false)
+	tokens = tokens->next->next;
+	if (add_redirections_subshell(&tokens, new_node) == false)
 		return (false);
-	return (get_nodes(current_node, head, tokens->next->next));
-	return (true);
+	return (get_nodes(current_node, head, tokens));
 }
