@@ -6,61 +6,16 @@
 /*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/10 12:00:04 by brappo            #+#    #+#             */
-/*   Updated: 2024/04/11 10:59:12 by brappo           ###   ########.fr       */
+/*   Updated: 2024/04/11 11:22:46by brappo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-bool	is_redirection(t_token_type token_type)
-{
-	return (token_type == OPERATOR_DGREAT
-		|| token_type == OPERATOR_DLESS
-		|| token_type == OPERATOR_GREAT
-		|| token_type == OPERATOR_LESS);
-}
-
-bool	is_cmd_token(t_list *tokens)
-{
-	t_token	*token;
-
-	if (tokens == NULL || tokens->content == NULL)
-		return (false);
-	token = (t_token *)tokens->content;
-	return (token->type == WORD || is_redirection(token->type));
-}
-
-char	**get_argv(t_list *tokens)
-{
-	t_list	*argv;
-	t_token	*token;
-	char	**argv_array;
-
-	argv = NULL;
-	if (tokens == NULL)
-		return (NULL);
-	while (is_cmd_token(tokens))
-	{
-		token = (t_token *)tokens->content;
-		if (is_redirection(token->type))
-			tokens = tokens->next;
-		else if (lst_push_front_content(&argv, ft_strdup(token->str)) == NULL)
-		{
-			ft_lstclear(&argv, free);
-			return (NULL);
-		}
-		if (tokens != NULL)
-			tokens = tokens->next;
-	}
-	ft_lstreverse(&argv);
-	argv_array = (char **)to_array(argv);
-	ft_lstclear(&argv, NULL);
-	return (argv_array);
-}
-
 bool	add_redirections_command(t_list **tokens, t_node *cmd)
 {
 	t_token	*token;
+	t_token	*next_token;
 
 	if (tokens == NULL || *tokens == NULL)
 		return (false);
@@ -71,8 +26,9 @@ bool	add_redirections_command(t_list **tokens, t_node *cmd)
 		{
 			if ((*tokens)->next == NULL)
 				return (false);
+			next_token = (*tokens)->next->content;
 			if (node_command_add_redirection(cmd, token->str,
-					((t_token *)(*tokens)->next->content)->str) == false)
+					next_token->str) == false)
 				return (false);
 		}
 		*tokens = (*tokens)->next;

@@ -6,7 +6,7 @@
 #    By: brappo <brappo@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/03/31 20:47:09 by mhotting          #+#    #+#              #
-#    Updated: 2024/04/11 11:00:17 by brappo           ###   ########.fr        #
+#    Updated: 2024/04/11 11:37:31 by brappo           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -117,7 +117,8 @@ AST_BUILDING_FILES		=	add_command.c \
 							add_operator_node.c \
 							add_subshell.c		\
 							build_ast_utils.c	\
-							build_ast.c
+							build_ast.c			\
+							get_argv.c
 
 AST_BUILDING			=	$(addprefix $(AST_BUILDING_DIR), $(AST_BUILDING_FILES))
 

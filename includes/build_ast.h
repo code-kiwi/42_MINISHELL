@@ -6,7 +6,7 @@
 /*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/10 10:37:10 by brappo            #+#    #+#             */
-/*   Updated: 2024/04/10 14:31:04 by brappo           ###   ########.fr       */
+/*   Updated: 2024/04/11 11:36:59 by brappo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,5 +23,7 @@ bool	add_pipe(t_node **current_node, t_node **head, t_list *tokens);
 bool	add_command(t_node **current_node, t_node **head, t_list *tokens);
 bool	add_subshell(t_node **current_node, t_node **head, t_list *tokens);
 t_node	*build_ast(t_list *tokens);
+char	**get_argv(t_list *tokens);
+bool	is_cmd_token(t_list *tokens);
 
 #endif // !BUILD_AST_H

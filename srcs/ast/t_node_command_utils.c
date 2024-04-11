@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   t_node_command_utils.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mhotting <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/29 09:54:42 by mhotting          #+#    #+#             */
-/*   Updated: 2024/04/10 10:39:06 by mhotting         ###   ########.fr       */
+/*   Updated: 2024/04/11 11:27:11 by brappo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,8 +61,6 @@ void	node_command_free(void **node_ptr)
 	if (node_ptr == NULL || *node_ptr == NULL)
 		return ;
 	node = (t_node_command *) *node_ptr;
-	while (node->argc--)
-		free((node->argv)[node->argc]);
 	free(node->argv);
 	redirection_list_free(&(node->redirection_list));
 	free(node);

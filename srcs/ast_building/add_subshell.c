@@ -6,7 +6,7 @@
 /*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/10 12:00:49 by brappo            #+#    #+#             */
-/*   Updated: 2024/04/11 10:55:01 by brappo           ###   ########.fr       */
+/*   Updated: 2024/04/11 11:39:21 by brappo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,12 +15,20 @@
 t_list	*get_shell_end(t_list *tokens)
 {
 	t_token	*token;
+	size_t	shell_open_count;
 
+	shell_open_count = 0;
 	while (tokens->next != NULL)
 	{
 		token = (t_token *)tokens->next->content;
-		if (token->type == OPERATOR_SHELL_CLOSE)
-			return (tokens);
+		if (token->type == OPERATOR_SHELL_OPEN)
+			shell_open_count++;
+		else if (token->type == OPERATOR_SHELL_CLOSE)
+		{
+			if (shell_open_count == 0)
+				return (tokens);
+			shell_open_count--;
+		}
 		tokens = tokens->next;
 	}
 	return (NULL);
