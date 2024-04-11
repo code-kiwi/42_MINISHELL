@@ -6,7 +6,7 @@
 /*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/10 12:00:04 by brappo            #+#    #+#             */
-/*   Updated: 2024/04/11 10:07:14 by brappo           ###   ########.fr       */
+/*   Updated: 2024/04/11 10:59:12 by brappo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,7 @@ bool	add_command(t_node **current_node, t_node **head, t_list *tokens)
 	if (argv == NULL)
 		return (false);
 	new_node = node_command_create(array_size((void **)argv), argv);
-	if (new_node== NULL)
+	if (new_node == NULL)
 	{
 		ft_free_str_array(&argv);
 		return (false);

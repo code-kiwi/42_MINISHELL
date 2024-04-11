@@ -6,7 +6,7 @@
 #    By: brappo <brappo@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/03/31 20:47:09 by mhotting          #+#    #+#              #
-#    Updated: 2024/04/11 08:41:45 by brappo           ###   ########.fr        #
+#    Updated: 2024/04/11 11:00:17 by brappo           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -66,6 +66,7 @@ ifdef testChosen
 		MAIN_FILE		=	test_ast_building.c	\
 							ast_printing.c
 	endif
+	MAIN_FILE			+=	temp.c
 endif
 MAIN					=	$(addprefix $(MAIN_DIR), $(MAIN_FILE))
 
@@ -88,8 +89,7 @@ TOKENR_FILES			=	handle_quote.c				\
 							token_recognition_utils.c	\
 							token_recognition.c			\
 							tokenize_str.c				\
-							token_list_merge.c			\
-							temp.c
+							token_list_merge.c
 TOKENR					=	$(addprefix $(TOKENR_DIR), $(TOKENR_FILES))
 
 # PROMPT
