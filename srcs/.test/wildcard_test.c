@@ -6,7 +6,7 @@
 /*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/11 13:51:37 by brappo            #+#    #+#             */
-/*   Updated: 2024/04/11 16:30:41 by brappo           ###   ########.fr       */
+/*   Updated: 2024/04/11 16:35:07 by brappo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,7 @@ void	get_tests(char **tests)
 
 int	main(void)
 {
+	char	*result;
 	// char	*tests[TEST_NUMBER * 2];
 	// size_t	index;
 
@@ -61,7 +62,9 @@ int	main(void)
 	// 	index++;
 	// }
 	// return (0);
-	expand_wildcard("*");
+	result = expand_wildcard("*");
+	printf("result : %s\n", result);
+	free(result);
 }
 
 // int	main(int argc, char **argv)
