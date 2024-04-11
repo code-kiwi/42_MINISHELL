@@ -6,7 +6,7 @@
 #    By: brappo <brappo@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/03/31 20:47:09 by mhotting          #+#    #+#              #
-#    Updated: 2024/04/11 11:37:31 by brappo           ###   ########.fr        #
+#    Updated: 2024/04/11 13:57:07 by brappo           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -66,6 +66,10 @@ ifdef testChosen
 		MAIN_FILE		=	test_ast_building.c	\
 							ast_printing.c
 	endif
+	ifeq ($(testChosen), wildcard)
+		MAIN_DIR		=	.test/
+		MAIN_FILE		=	wildcard_test.c
+	endif
 	MAIN_FILE			+=	temp.c
 endif
 MAIN					=	$(addprefix $(MAIN_DIR), $(MAIN_FILE))
@@ -102,7 +106,8 @@ PROMPT					=	$(addprefix $(PROMPT_DIR), $(PROMPT_FILES))
 EXPANSION_DIR			=	wordExpansion/
 EXPANSION_FILES			=	get_variable_key.c	\
 							word_expansion.c	\
-							expand_string.c
+							expand_string.c		\
+							wildcard.c
 
 EXPANSION				=	$(addprefix $(EXPANSION_DIR), $(EXPANSION_FILES))
 # ENV
