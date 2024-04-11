@@ -6,7 +6,7 @@
 /*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/10 14:25:37 by brappo            #+#    #+#             */
-/*   Updated: 2024/04/11 09:17:45 by brappo           ###   ########.fr       */
+/*   Updated: 2024/04/11 09:55:17 by brappo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ void print_ast_tree(t_node *node, int space);
 // 	exit(EXIT_SUCCESS);
 // }
 
-#define TEST_NUMBER 10
+#define TEST_NUMBER 11
 
 void	get_tests(char **tests)
 {
@@ -55,7 +55,7 @@ void	get_tests(char **tests)
 	tests[7] = ft_strdup("qwex && qex || qwex && qwex && qw xeq ex");
 	tests[8] = ft_strdup("echo 7 < infile >> outfile");
 	tests[9] = ft_strdup("< infile");
-	// tests[10] = ft_strdup("()");
+	tests[10] = ft_strdup("()");
 }
 
 int	main(int argc, char **argv, char **envp)
@@ -72,8 +72,8 @@ int	main(int argc, char **argv, char **envp)
 	{
 		shell.input = tests[index];
 		token_recognition(&shell);
-		// ft_lstprint(shell.tokens, print_token);
 		ast_tree = build_ast(shell.tokens);
+		printf("%s%s%s", GREEN, tests[index], RESET);
 		print_ast_tree(ast_tree, 0);
 		printf("\n\n\n");
 		ast_free(&ast_tree);

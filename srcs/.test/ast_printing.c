@@ -6,7 +6,7 @@
 /*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/11 08:39:38 by brappo            #+#    #+#             */
-/*   Updated: 2024/04/11 09:39:13 by brappo           ###   ########.fr       */
+/*   Updated: 2024/04/11 09:54:07 by brappo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,6 +111,7 @@ void	print_subshell(t_node *node, int space)
 	{
         printf(" ");
 	}
+	printf("SUBSHELL : ");
 	while (tokens != NULL)
 	{
 		token = tokens->content;
@@ -144,7 +145,7 @@ size_t	count_subshell(t_node *node)
 	while (tokens != NULL)
 	{
 		token = tokens->content;
-		count += ft_strlen(token->str) + 5;
+		count += ft_strlen(token->str) + 17;
 		if (token->type == WORD || token->type == END)
 			count += 4;
 		else

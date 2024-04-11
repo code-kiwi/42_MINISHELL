@@ -6,7 +6,7 @@
 /*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/10 12:00:49 by brappo            #+#    #+#             */
-/*   Updated: 2024/04/11 09:17:29 by brappo           ###   ########.fr       */
+/*   Updated: 2024/04/11 09:51:07 by brappo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ t_list	*extract_subshell_tokens(t_list *tokens)
 	t_list	*sub_tokens;
 
 	shell_end = get_shell_end(tokens);
-	if (shell_end == NULL)
+	if (shell_end == NULL || tokens == shell_end)
 		return (NULL);
 	sub_tokens = tokens->next;
 	tokens->next = shell_end->next;
