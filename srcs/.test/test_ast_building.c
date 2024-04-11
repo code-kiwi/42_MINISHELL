@@ -6,7 +6,7 @@
 /*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/10 14:25:37 by brappo            #+#    #+#             */
-/*   Updated: 2024/04/10 16:53:57 by brappo           ###   ########.fr       */
+/*   Updated: 2024/04/11 08:21:58 by brappo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -174,8 +174,7 @@ int	main(int argc, char **argv, char **envp)
 		print_ast_tree(ast_tree, 0);
 		printf("\n\n\n");
 		ast_free(&ast_tree);
-		// ft_lstprint(shell.tokens, print_token);
-		// ft_lstclear(&shell.tokens, t_token_free);
+		ft_lstclear(&shell.tokens, t_token_free);
 		add_history(shell.input);
 		free(shell.input);
 		shell.input = NULL;

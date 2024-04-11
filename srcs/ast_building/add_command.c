@@ -6,7 +6,7 @@
 /*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/10 12:00:04 by brappo            #+#    #+#             */
-/*   Updated: 2024/04/10 14:41:15 by brappo           ###   ########.fr       */
+/*   Updated: 2024/04/11 08:34:43 by brappo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,37 +80,24 @@ bool	add_redirections_command(t_list **tokens, t_node *cmd)
 	return (true);
 }
 
-t_node	*create_command_from_tokens(t_list **tokens)
-{
-	t_node	*new_cmd;
-	char	**argv;
-
-	argv = get_argv(*tokens);
-	if (argv == NULL)
-		return (NULL);
-	new_cmd = node_command_create(array_size((void **)argv), argv);
-	if (new_cmd == NULL)
-	{
-		ft_free_str_array(&argv);
-		return (NULL);
-	}
-	if (add_redirections_command(tokens, new_cmd) == false)
-	{
-		node_command_free((void **)&new_cmd);
-		return (NULL);
-	}
-	return (new_cmd);
-}
-
 bool	add_command(t_node **current_node, t_node **head, t_list *tokens)
 {
 	t_node	*new_node;
+	char	**argv;
 
-	new_node = create_command_from_tokens(&tokens);
-	if (new_node == NULL)
+	argv = get_argv(tokens);
+	if (argv == NULL)
 		return (false);
-	*current_node = new_node;
+	new_node = node_command_create(array_size((void **)argv), argv);
+	if (new_node== NULL)
+	{
+		ft_free_str_array(&argv);
+		return (false);
+	}
 	if (*head == NULL)
 		*head = new_node;
+	*current_node = new_node;
+	if (add_redirections_command(&tokens, new_node) == false)
+		return (false);
 	return (get_nodes(current_node, head, tokens));
 }
