@@ -6,7 +6,7 @@
 /*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/28 11:06:44 by mhotting          #+#    #+#             */
-/*   Updated: 2024/04/10 16:08:11 by mhotting         ###   ########.fr       */
+/*   Updated: 2024/04/11 12:38:18 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,6 @@ t_redirection_list	*redirection_list_create(void);
 bool				redirection_list_add(t_redirection_list *redirs, \
 					char *op, char *filename);
 void				redirection_list_free(t_redirection_list **redirs_ptr);
-void				redirection_list_exec(t_redirection_list *redirection_list);
 
 // t_redirection functions
 t_redirection		*redirection_create(char *op, char *filename);

@@ -6,13 +6,14 @@
 /*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 10:17:54 by mhotting          #+#    #+#             */
-/*   Updated: 2024/04/10 16:42:50 by mhotting         ###   ########.fr       */
+/*   Updated: 2024/04/11 15:49:19 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
+# include <fcntl.h>
 # include <stdio.h>
 # include <errno.h>
 # include <readline/readline.h>
@@ -28,25 +29,29 @@
 # include "execution.h"
 # include "pid_list.h"
 
-# define ERROR_MSG_CLOSE	"Closing fd error"
-# define ERROR_MSG_FORK		"Impossible to fork"
-# define ERROR_MSG_MEM		"Memory allocation problem"
-# define TOKENIZATION_ERROR "Tokenizing input"
+# define ERROR_MSG_CLOSE		"Closing fd error"
+# define ERROR_MSG_FORK			"Impossible to fork"
+# define ERROR_MSG_MEM			"Memory allocation problem"
+# define ERROR_MSG_PIPE			"Impossible to pipe"
+# define ERROR_MSG_HEREDOC		"Impossible to read here_doc"
+# define TOKENIZATION_ERROR 	"Tokenizing input"
 
-# define DGREAT 			">>"
-# define DLESS				"<<"
-# define GREAT				">"
-# define LESS				"<"
-# define OR_IF				"||"
-# define AND_IF				"&&"
-# define PIPE				"|"
-# define OPERATOR_CHARACTER	"><&|"
-# define OPERATOR_NUMBER 	7
+# define DGREAT 				">>"
+# define DLESS					"<<"
+# define GREAT					">"
+# define LESS					"<"
+# define OR_IF					"||"
+# define AND_IF					"&&"
+# define PIPE					"|"
+# define OPERATOR_CHARACTER		"><&|"
+# define OPERATOR_NUMBER 		7
 
-# define FD_UNSET			-2
-# define FD_ERROR			-1
+# define FD_UNSET				-2
+# define FD_ERROR				-1
 
-# define PID_ERROR			0
+# define PID_ERROR				0
+
+# define MULTIPLE_LINE_PROMPT	"> "
 
 typedef struct s_minishell
 {
@@ -54,6 +59,7 @@ typedef struct s_minishell
 	t_list				*env;
 	t_list				*tokens;
 	struct s_pid_list	*pid_list;
+	bool				is_child_process;
 }	t_minishell;
 
 // t_minshell functions

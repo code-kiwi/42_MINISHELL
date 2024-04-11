@@ -6,7 +6,7 @@
 /*   By: mhotting <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/29 09:54:42 by mhotting          #+#    #+#             */
-/*   Updated: 2024/04/10 14:39:51 by mhotting         ###   ########.fr       */
+/*   Updated: 2024/04/11 12:26:27 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,16 +92,13 @@ bool	node_command_add_redirection(t_node *node, char *op, char *filename)
 }
 
 /*
- *	Closes fd_in and fd_out members from a t_node with NODE_COMMAND type
- *	Resets their value to FD_UNSET is they were valid file descriptors
+ *	Closes fd_in and fd_out members from the given t_node_command
+ *	Resets their value to FD_UNSET if they were valid file descriptors
  */
-void	node_command_close_fds(t_node *node)
+void	node_command_close_fds(t_node_command *cmd)
 {
-	t_node_command		*cmd;
-
-	if (node == NULL || node->type != NODE_COMMAND || node->content == NULL)
+	if (cmd == NULL)
 		return ;
-	cmd = (t_node_command *) node->content;
 	if (cmd->fd_in != FD_UNSET && cmd->fd_in != FD_ERROR)
 		fd_close_and_reset(&(cmd->fd_in));
 	if (cmd->fd_out != FD_UNSET && cmd->fd_out != FD_ERROR)

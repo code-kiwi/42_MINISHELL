@@ -6,7 +6,7 @@
 /*   By: mhotting <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/05 09:51:24 by mhotting          #+#    #+#             */
-/*   Updated: 2024/04/10 16:15:40 by mhotting         ###   ########.fr       */
+/*   Updated: 2024/04/11 15:52:06 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,8 +80,9 @@ bool	node_cmd_add_redirs1(t_node *node)
 		return (false);
 	}
 	if (
-		!node_command_add_redirection(node, ">>", "file1")
+		!node_command_add_redirection(node, "<<", "LIM")
 		|| !node_command_add_redirection(node, "<", "file2")
+		|| !node_command_add_redirection(node, "<<", "LIM2")
 		|| !node_command_add_redirection(node, ">", "file3")
 		|| !node_command_add_redirection(node, ">>", "file4")
 	)
@@ -150,16 +151,16 @@ int	main(int argc, char **argv, char **envp)
 	t_node		*node_c1;
 
 	t_minishell_init(&shell, argc, argv, envp);
-	t_minishell_print(&shell);
+	//t_minishell_print(&shell);
 	t_minishell_add_pid(&shell, PID_ERROR);
 	t_minishell_add_pid(&shell, 64);
-	t_minishell_print(&shell);
+	//t_minishell_print(&shell);
 	node_c1 = node_cmd_create("ls -la");
 	if (node_c1 == NULL)
 		exit(EXIT_FAILURE);
 	if (!node_cmd_add_redirs1(node_c1))
 		exit(EXIT_FAILURE);
-	node_cmd_print(node_c1);
+	//node_cmd_print(node_c1);
 	exec_cmd_handler(&shell, node_c1, FD_UNSET, FD_UNSET);
 	node_free_single(&node_c1);
 	t_minishell_free(&shell);

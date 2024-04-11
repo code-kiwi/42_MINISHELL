@@ -6,7 +6,7 @@
 /*   By: mhotting <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/28 08:50:23 by mhotting          #+#    #+#             */
-/*   Updated: 2024/04/10 16:07:38 by mhotting         ###   ########.fr       */
+/*   Updated: 2024/04/11 12:37:26 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,11 +85,4 @@ void	redirection_list_free(t_redirection_list **redirs_ptr)
 		fd_close_and_reset(&(redirs->info.fd_stdout));
 	free(redirs);
 	*redirs_ptr = NULL;
-}
-
-void	redirection_list_exec(t_redirection_list *redirection_list)
-{
-	if (redirection_list == NULL)
-		return ;
-	return ;
 }
