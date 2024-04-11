@@ -6,7 +6,7 @@
 /*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/10 12:00:49 by brappo            #+#    #+#             */
-/*   Updated: 2024/04/11 11:39:21 by brappo           ###   ########.fr       */
+/*   Updated: 2024/04/11 11:54:28 by brappo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,24 +37,21 @@ t_list	*get_shell_end(t_list *tokens)
 bool	add_redirections_subshell(t_list **tokens, t_node *subshell)
 {
 	t_token	*token;
+	t_token	*next_token;
 
 	if (tokens == NULL || *tokens == NULL)
 		return (false);
-	while (true)
+	token = (*tokens)->content;
+	while (is_redirection(token->type))
 	{
-		token = (t_token *)(*tokens)->content;
-		if (is_redirection(token->type))
-		{
-			if ((*tokens)->next == NULL)
-				return (false);
-			if (node_subshell_add_redirection(subshell, token->str,
-					((t_token *)(*tokens)->next->content)->str) == false)
-				return (false);
-			*tokens = (*tokens)->next;
-		}
-		else
-			break ;
-		*tokens = (*tokens)->next;
+		if ((*tokens)->next == NULL)
+			return (false);
+		next_token	= (*tokens)->next->content;
+		if (node_subshell_add_redirection(subshell, token->str,
+				next_token->str) == false)
+			return (false);
+		*tokens = (*tokens)->next->next;
+		token = (*tokens)->content;
 	}
 	return (true);
 }

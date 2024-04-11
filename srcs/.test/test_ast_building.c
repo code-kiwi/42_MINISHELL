@@ -6,7 +6,7 @@
 /*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/10 14:25:37 by brappo            #+#    #+#             */
-/*   Updated: 2024/04/11 10:55:36 by brappo           ###   ########.fr       */
+/*   Updated: 2024/04/11 11:53:57 by brappo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void print_ast_tree(t_node *node, int space);
 
-#define TEST_NUMBER 16
+#define TEST_NUMBER 17
 
 void	get_tests(char **tests)
 {
@@ -32,9 +32,9 @@ void	get_tests(char **tests)
 	tests[11] = ft_strdup("(echo 8 || echo 9) >infile >>outfile");
 	tests[12] = ft_strdup("<infile >outfile (echo 8 | echo 9)");
 	tests[13] = ft_strdup("echo 9 <infile 10 >outfile");
-	tests[14] = ft_strdup("");
-	// tests[14] = ft_strdup("(echo 8 | echo 9) >outfile oi >>outfile");
+	tests[14] = ft_strdup("(echo 8 | echo 9) >outfile oi >>outfile");
 	tests[15] = ft_strdup("eho 9 >>outfile (echo 8 || echo 9)");
+	tests[16] = ft_strdup("echo 7 | (echo 8 && (echo 9 | echo 7))");
 }
 
 int	main(int argc, char **argv, char **envp)
