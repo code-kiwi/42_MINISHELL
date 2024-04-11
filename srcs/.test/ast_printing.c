@@ -6,7 +6,7 @@
 /*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/11 08:39:38 by brappo            #+#    #+#             */
-/*   Updated: 2024/04/11 09:54:07 by brappo           ###   ########.fr       */
+/*   Updated: 2024/04/11 11:09:57 by brappo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -135,27 +135,16 @@ size_t	count_subshell(t_node *node)
 	t_node_subshell	*subshell;
 	t_list			*tokens;
 	t_token			*token;
-	t_list			*redirections;
 	size_t			count;
 
 	subshell = node->content;
 	tokens = subshell->token_list;
-	redirections = subshell->redirection_list->redirections;
 	count = 0;
 	while (tokens != NULL)
 	{
 		token = tokens->content;
-		count += ft_strlen(token->str) + 17;
-		if (token->type == WORD || token->type == END)
-			count += 4;
-		else
-			count += 20;
+		count += ft_strlen(token->str) + 12;
 		tokens = tokens->next;
-	}
-	while (redirections != NULL)
-	{
-		count += 10;
-		redirections = redirections->next;
 	}
 	return (count);
 }
@@ -205,20 +194,20 @@ void print_ast_tree(t_node *node, int space)
 {
 	int	additional_space;
 
+	if (node == NULL)
+	{
+		if (space == 0)
+			printf("\nNULL");
+		return ;
+	}
     space += COUNT;
 	additional_space = count_space(node);
-	if (node != NULL)
-    	print_ast_tree(node->child_right, space + additional_space);
+    print_ast_tree(node->child_right, space + additional_space);
     printf("\n");
     for (int i = COUNT; i < space; i++)
 	{
         printf(" ");
 	}
-	if (node == NULL)
-		printf("NULL");
-	else
-	{
-    	print_node_type(node, space);
-    	print_ast_tree(node->child_left, space + additional_space);
-	}
+    print_node_type(node, space);
+    print_ast_tree(node->child_left, space + additional_space);
 }
