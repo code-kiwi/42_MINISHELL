@@ -56,25 +56,29 @@ void	get_tests(char **tests)
 	tests[35] = "test sur plusieurscharacteresA";
 }
 
-int	main()
-{
-	char	*tests[TEST_NUMBER * 2];
-	size_t	index;
-
-	index = 0;
-	get_tests(tests);
-	while (index < TEST_NUMBER)
-	{
-		printf("%s equals %s ? : %s\n", tests[index * 2], tests[index * 2 + 1], string_equal_wildcard(tests[index * 2], tests[index * 2 + 1]) ? "true" : "false");
-		index++;
-	}
-	return (0);
-}
-
-// int	main(int argc, char **argv)
+// int	main()
 // {
-// 	if (argc != 3)
-// 		return (printf("need 2 arguments"), 1);
-// 	printf("%s equals %s ? : %s\n", argv[1], argv[2], string_equal_wildcard(argv[1], argv[2]) ? "true" : "false");
+// 	char	*tests[TEST_NUMBER * 2];
+// 	size_t	index;
+
+// 	index = 0;
+// 	get_tests(tests);
+// 	while (index < TEST_NUMBER)
+// 	{
+// 		printf("%s equals %s ? : %s\n", tests[index * 2], tests[index * 2 + 1], string_equal_wildcard(tests[index * 2], tests[index * 2 + 1]) ? "true" : "false");
+// 		index++;
+// 	}
 // 	return (0);
 // }
+
+int	main(int argc, char **argv)
+{
+	char	*result;
+
+	if (argc != 2)
+		return (printf("need 2 arguments"), 1);
+	result = expand_wildcard(argv[1]);
+	printf("%s\n", result);
+	free(result);
+	return (0);
+}
