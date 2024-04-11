@@ -6,7 +6,7 @@
 #    By: brappo <brappo@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/03/31 20:47:09 by mhotting          #+#    #+#              #
-#    Updated: 2024/04/10 14:29:41 by brappo           ###   ########.fr        #
+#    Updated: 2024/04/11 08:41:45 by brappo           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -63,7 +63,8 @@ ifdef testChosen
 	endif
 	ifeq ($(testChosen), ast_building)
 		MAIN_DIR		=	.test/
-		MAIN_FILE		=	test_ast_building.c
+		MAIN_FILE		=	test_ast_building.c	\
+							ast_printing.c
 	endif
 endif
 MAIN					=	$(addprefix $(MAIN_DIR), $(MAIN_FILE))

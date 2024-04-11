@@ -6,7 +6,7 @@
 /*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/10 12:00:49 by brappo            #+#    #+#             */
-/*   Updated: 2024/04/11 08:36:16 by brappo           ###   ########.fr       */
+/*   Updated: 2024/04/11 09:17:29 by brappo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,4 +86,5 @@ bool	add_subshell(t_node **current_node, t_node **head, t_list *tokens)
 	if (add_redirections_subshell(&tokens->next->next, new_node) == false)
 		return (false);
 	return (get_nodes(current_node, head, tokens->next->next));
+	return (true);
 }
