@@ -6,7 +6,7 @@
 /*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/05 15:12:32 by brappo            #+#    #+#             */
-/*   Updated: 2024/04/12 09:25:08 by brappo           ###   ########.fr       */
+/*   Updated: 2024/04/12 14:16:38 by brappo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ static bool	jump(size_t *current_index, ssize_t character_to_jump)
 	return (true);
 }
 
-bool	expand_string(char **input, t_minishell *shell)
+bool	quote_removal(char **input, t_minishell *shell, t_list **wildcards_pos)
 {
 	size_t	index;
 	bool	single_quoted;
@@ -38,9 +38,10 @@ bool	expand_string(char **input, t_minishell *shell)
 
 	single_quoted = false;
 	double_quoted = false;
-	if (input == NULL || *input == NULL)
+	if (input == NULL || *input == NULL || wildcards_pos == NULL)
 		return (false);
 	index = 0;
+	*wildcards_pos = NULL;
 	while ((*input)[index] != '\0')
 	{
 		if ((*input)[index] == '\'' && !double_quoted)
@@ -53,7 +54,33 @@ bool	expand_string(char **input, t_minishell *shell)
 			if (!jump(&index, var_length))
 				return (false);
 		}
+		else if ((*input)[index] == '*' && !single_quoted && !double_quoted)
+		{
+			if (!lst_push_front_content(&wildcards_pos, *input + index, NULL))
+				return (ft_lstclear(&wildcards_pos, NULL), false);
+		}
 		index++;
+	}
+	return (true);
+}
+
+bool	expand_string(char **input, t_minishell *shell)
+{
+	t_list	*wildcards_pos;
+	t_list	*files;
+
+	if (quote_removal(input, shell, &wildcards_pos) == false)
+		return (false);
+	if (wildcards_pos != NULL)
+	{
+		files = expand_wildcard(*input, wildcards_pos);
+		if (files == NULL)
+		{
+			ft_lstclear(wildcards_pos, NULL);
+			return (false);
+		}
+		ft_lstclear(files, t_token_free);
+		ft_lstclear(wildcards_pos, NULL);
 	}
 	return (true);
 }

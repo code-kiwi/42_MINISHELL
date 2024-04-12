@@ -6,11 +6,18 @@
 /*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/11 12:39:55 by brappo            #+#    #+#             */
-/*   Updated: 2024/04/12 11:07:08 by brappo           ###   ########.fr       */
+/*   Updated: 2024/04/12 14:14:39 by brappo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+bool	is_wildcard(char *characters, t_list **wildcards)
+{
+	if (wildcards == NULL || *wildcards == NULL)
+		return (false);
+	return (characters == (*wildcards)->content);
+}
 
 static size_t	get_next_wildcard(char *str_wildcard)
 {
@@ -22,14 +29,15 @@ static size_t	get_next_wildcard(char *str_wildcard)
 	return (length);
 }
 
-static ssize_t	search_characters(char *characters,
-	size_t character_length, char *str)
+static ssize_t	search_characters(char *characters, \
+	size_t character_length, char *str, t_list **wildcards)
 {
 	ssize_t	char_pos;
 
 	char_pos = 0;
-	if (*characters == '*')
+	if (is_wildcard(characters, wildcards))
 	{
+		*wildcards = (*wildcards)->next;
 		while (ft_strncmp(characters + 1, str + char_pos, \
 				character_length - 1))
 		{
@@ -48,7 +56,7 @@ static ssize_t	search_characters(char *characters,
 	return (char_pos);
 }
 
-bool	string_equal_wildcard(char *str_wildcard, char *str_b)
+bool	string_equal_wildcard(char *str_wildcard, char *str_b, t_list *wildcards)
 {
 	size_t	next_wildcard;
 	ssize_t	char_pos;
@@ -57,10 +65,10 @@ bool	string_equal_wildcard(char *str_wildcard, char *str_b)
 		return (str_wildcard == str_b);
 	while (*str_wildcard)
 	{
-		if (str_wildcard[0] == '*' && !str_wildcard[1])
+		if (is_wildcard(&str_wildcard, wildcards) && !str_wildcard[1])
 			return (true);
 		next_wildcard = get_next_wildcard(str_wildcard);
-		char_pos = search_characters(str_wildcard, next_wildcard, str_b);
+		char_pos = search_characters(str_wildcard, next_wildcard, str_b, wildcards);
 		if (char_pos == -1)
 			return (false);
 		str_b += char_pos;

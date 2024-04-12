@@ -6,7 +6,7 @@
 /*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/12 10:28:30 by brappo            #+#    #+#             */
-/*   Updated: 2024/04/12 10:28:52 by brappo           ###   ########.fr       */
+/*   Updated: 2024/04/12 14:09:24 by brappo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ static bool	add_word_token(t_list **head, char *str)
 	return (false);
 }
 
-t_list	*expand_wildcard(char *str)
+t_list	*expand_wildcard(char *str, t_list *wildcards)
 {
 	DIR				*current_directory;
 	struct dirent	*file;
