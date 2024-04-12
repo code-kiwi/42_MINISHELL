@@ -6,7 +6,7 @@
 /*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/31 19:28:12 by mhotting          #+#    #+#             */
-/*   Updated: 2024/04/12 08:25:43 by brappo           ###   ########.fr       */
+/*   Updated: 2024/04/12 10:29:22 by brappo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,4 +81,5 @@ bool	expand_string(char **input, t_minishell *shell);
 ssize_t	expand_variable(char **input, size_t variable_start,
 			bool double_quoted, t_minishell *shell);
 t_list	*expand_wildcard(char *str);
+bool	string_equal_wildcard(char *str_wildcard, char *str_b);
 #endif

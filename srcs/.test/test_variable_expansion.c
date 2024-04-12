@@ -6,30 +6,12 @@
 /*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 10:23:58 by brappo            #+#    #+#             */
-/*   Updated: 2024/04/10 08:56:23 by brappo           ###   ########.fr       */
+/*   Updated: 2024/04/12 10:31:59 by brappo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include <sys/wait.h>
-
-bool	string_equals(char *a, char *b)
-{
-	size_t	length;
-	size_t	index;
-
-	if (a == NULL || b == NULL)
-		return (a == b);
-	length = ft_strlen(a);
-	index = 0;
-	while (index <= length)
-	{
-		if (a[index] != b[index])
-			return (false);
-		index++;
-	}
-	return (true);
-}
 
 void	echo_string(char *str, char **envp, char *result_perso)
 {
@@ -67,7 +49,7 @@ void	echo_string(char *str, char **envp, char *result_perso)
 		if (rd > 0 && buffer[rd - 1] == '\n')
 			buffer[rd - 1] = '\0';
 		printf("bash : %s\n", buffer);
-		if (string_equals(buffer, result_perso))
+		if (string_equals((void *)buffer, (void *)result_perso))
 			printf("equals ? : %strue%s\n",  GREEN, RESET);
 		else
 			printf("equals ? : %sfalse%s\n", RED, RESET);
