@@ -6,7 +6,7 @@
 /*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/11 12:39:55 by brappo            #+#    #+#             */
-/*   Updated: 2024/04/12 09:39:17 by brappo           ###   ########.fr       */
+/*   Updated: 2024/04/12 10:23:22 by brappo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ static bool	add_word_token(t_list **head, char *str)
 	return (false);
 }
 
-static size_t	get_character_end(char *str_wildcard)
+static size_t	get_next_wildcard(char *str_wildcard)
 {
 	size_t	length;
 
@@ -33,35 +33,35 @@ static size_t	get_character_end(char *str_wildcard)
 	return (length);
 }
 
-static ssize_t	search_characters(char *str_wildcard,
-	size_t character_end, char *str_b)
+static ssize_t	search_characters(char *characters,
+	size_t character_length, char *str)
 {
 	ssize_t	char_pos;
 
 	char_pos = 0;
-	if (*str_wildcard == '*')
+	if (*characters == '*')
 	{
-		while (ft_strncmp(str_wildcard + 1, str_b + char_pos,
-				character_end - 1))
+		while (ft_strncmp(characters + 1, str + char_pos,
+				character_length - 1))
 		{
-			if (str_b[char_pos] == '\0')
+			if (str[char_pos] == '\0')
 				return (-1);
 			char_pos++;
 		}
-		char_pos += character_end;
+		char_pos += character_length;
 	}
 	else
 	{
-		if (ft_strncmp(str_wildcard, str_b, character_end))
+		if (ft_strncmp(characters, str, character_length))
 			return (-1);
-		char_pos += character_end - 1;
+		char_pos += character_length - 1;
 	}
 	return (char_pos);
 }
 
 bool	string_equal_wildcard(char *str_wildcard, char *str_b)
 {
-	size_t	character_end;
+	size_t	next_wildcard;
 	ssize_t	char_pos;
 
 	if (str_wildcard == NULL || str_b == NULL)
@@ -70,12 +70,12 @@ bool	string_equal_wildcard(char *str_wildcard, char *str_b)
 	{
 		if (str_wildcard[0] == '*' && !str_wildcard[1])
 			return (true);
-		character_end = get_character_end(str_wildcard);
-		char_pos = search_characters(str_wildcard, character_end, str_b);
+		next_wildcard = get_next_wildcard(str_wildcard);
+		char_pos = search_characters(str_wildcard, next_wildcard, str_b);
 		if (char_pos == -1)
 			return (false);
 		str_b += char_pos;
-		str_wildcard += character_end;
+		str_wildcard += next_wildcard;
 	}
 	if (*str_wildcard != '*' && *str_b)
 		return (false);
