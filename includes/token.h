@@ -16,6 +16,7 @@
 # include "minishell.h"
 
 # define MULTIPLE_LINE_PROMPT "> "
+# define ERROR_SUBSTITUTION "Invalid variable substitution"
 
 typedef struct s_minishell	t_minishell;
 
