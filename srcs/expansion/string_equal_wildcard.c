@@ -6,7 +6,7 @@
 /*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/11 12:39:55 by brappo            #+#    #+#             */
-/*   Updated: 2024/04/12 14:28:37 by brappo           ###   ########.fr       */
+/*   Updated: 2024/04/12 15:00:44 by brappo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,8 @@ bool	string_equal_wildcard(char *str_wildcard, char *str_b, t_list *wildcards)
 
 	if (str_wildcard == NULL || str_b == NULL)
 		return (str_wildcard == str_b);
+	if (wildcards == NULL)
+		return (ft_strcmp(str_wildcard, str_b) == 0);
 	while (*str_wildcard)
 	{
 		if (is_wildcard(str_wildcard, wildcards) && !str_wildcard[1])

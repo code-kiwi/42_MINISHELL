@@ -6,7 +6,7 @@
 /*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/05 15:12:32 by brappo            #+#    #+#             */
-/*   Updated: 2024/04/12 14:35:19 by brappo           ###   ########.fr       */
+/*   Updated: 2024/04/12 14:58:03 by brappo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,24 +64,24 @@ bool	quote_removal(char **input, t_minishell *shell, t_list **wildcards_pos)
 	return (true);
 }
 
-bool	expand_string(char **input, t_minishell *shell)
+t_list	*expand_string(char **input, t_minishell *shell)
 {
 	t_list	*wildcards_pos;
 	t_list	*files;
 
 	if (quote_removal(input, shell, &wildcards_pos) == false)
-		return (false);
+		return (NULL);
 	if (wildcards_pos != NULL)
 	{
 		files = expand_wildcard(*input, wildcards_pos);
 		if (files == NULL)
 		{
 			ft_lstclear(&wildcards_pos, NULL);
-			return (false);
+			return (NULL);
 		}
-		ft_lstprint(files, print_token);
-		ft_lstclear(&files, t_token_free);
 		ft_lstclear(&wildcards_pos, NULL);
+		return (files);
 	}
-	return (true);
+	files = ft_lstnew(*input);
+	return (files);
 }
