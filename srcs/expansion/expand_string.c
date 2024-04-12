@@ -6,7 +6,7 @@
 /*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/05 15:12:32 by brappo            #+#    #+#             */
-/*   Updated: 2024/04/12 16:31:49 by brappo           ###   ########.fr       */
+/*   Updated: 2024/04/12 16:34:52 by brappo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ bool	quote_removal(char **input, t_minishell *shell, t_list **wildcards_pos)
 	{
 		if (((*input)[index] == '\'' && !parser.double_quoted)
 			|| ((*input)[index] == '"' && !parser.single_quoted))
-			remove_quote(&parser, *input);
+			remove_quote(&parser, *input + index);
 		else if ((*input)[index] == '$' && !parser.single_quoted)
 		{
 			if (handle_variable(&parser, input, shell) == false)
