@@ -17,16 +17,24 @@
 
 bool	quote_removal(char **input, t_minishell *shell, t_list **wildcards_pos);
 
+void	print_pointeur(void *pointeur)
+{
+	printf("%p\n", pointeur);
+}
+
 bool	equals(char *str_wildcard, char *b)
 {
 	t_list	*wildcard_pos;
+	bool	result;
 
 	if (quote_removal(&str_wildcard, NULL, &wildcard_pos) == false)
 	{
 		printf("ERROR");
 		return (false);
 	}
-	return (string_equal_wildcard(str_wildcard, b, wildcard_pos));
+	result = string_equal_wildcard(str_wildcard, b, wildcard_pos);
+	ft_lstclear(&wildcard_pos, NULL);
+	return (result);
 }
 
 void	get_tests_ok(char **tests)

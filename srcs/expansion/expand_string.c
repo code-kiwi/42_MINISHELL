@@ -6,7 +6,7 @@
 /*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/05 15:12:32 by brappo            #+#    #+#             */
-/*   Updated: 2024/04/12 14:58:03 by brappo           ###   ########.fr       */
+/*   Updated: 2024/04/12 15:24:23 by brappo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,7 @@ bool	quote_removal(char **input, t_minishell *shell, t_list **wildcards_pos)
 		}
 		index++;
 	}
+	ft_lstreverse(wildcards_pos);
 	return (true);
 }
 
