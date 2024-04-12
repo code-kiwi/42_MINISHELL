@@ -6,7 +6,7 @@
 /*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/05 15:12:32 by brappo            #+#    #+#             */
-/*   Updated: 2024/04/12 16:07:06 by brappo           ###   ########.fr       */
+/*   Updated: 2024/04/12 16:31:49 by brappo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,6 @@
 
 static void	remove_quote(t_token_parser *parser, char *input)
 {
-	if (*input == '\'' && parser->double_quoted)
-		return ;
-	if (*input == '"' && parser->single_quoted)
-		return ;
 	ft_memmove(input, input + 1, ft_strlen(input));
 	*(parser->end) -= 1;
 	if (*input == '\'')
@@ -33,14 +29,11 @@ static bool	handle_variable(t_token_parser *parser, \
 	ssize_t	var_length;
 
 	index = *(parser->end);
-	if ((*input)[index] == '$' && !parser->single_quoted)
-	{
-		var_length = expand_variable(input, index, \
-			parser->double_quoted, shell);
-		if (var_length < 0)
-			return (false);
-		index += var_length;
-	}
+	var_length = expand_variable(input, index, \
+		parser->double_quoted, shell);
+	if (var_length < 0)
+		return (false);
+	index += var_length;
 	return (true);
 }
 
@@ -74,10 +67,14 @@ bool	quote_removal(char **input, t_minishell *shell, t_list **wildcards_pos)
 	*wildcards_pos = NULL;
 	while ((*input)[index] != '\0')
 	{
-		if ((*input)[index] == '\'' || (*input)[index] == '"')
+		if (((*input)[index] == '\'' && !parser.double_quoted)
+			|| ((*input)[index] == '"' && !parser.single_quoted))
 			remove_quote(&parser, *input);
-		else if (handle_variable(&parser, input, shell) == false)
-			return (false);
+		else if ((*input)[index] == '$' && !parser.single_quoted)
+		{
+			if (handle_variable(&parser, input, shell) == false)
+				return (false);
+		}
 		else if (handle_wildcard(&parser, wildcards_pos, input) == false)
 			return (false);
 		index++;

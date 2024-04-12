@@ -12,7 +12,7 @@
 
 #include "minishell.h"
 
-#define TEST_OK_NUMBER 12
+#define TEST_OK_NUMBER 13
 #define TEST_KO_NUMBER 7
 
 bool	quote_removal(char **input, t_minishell *shell, t_list **wildcards_pos);
@@ -39,48 +39,50 @@ bool	equals(char *str_wildcard, char *b)
 
 void	get_tests_ok(char **tests)
 {
-	tests[0] = "test";
-	tests[1] = "test";
-	tests[2] = "test*";
-	tests[3] = "test";
-	tests[4] = "*test";
-	tests[5] = "test";
-	tests[6] = "*test*";
-	tests[7] = "test";
-	tests[8] = "*est";
-	tests[9] = "test";
-	tests[10] = "*est";
-	tests[11] = "qexgqwexyqhiuwehxuqhwxest";
-	tests[12] = "je*suis*un*test";
-	tests[13] = "jeqwexsuisiqjwxeunqoiwxetest";
-	tests[14] = "je*suis*un*test";
-	tests[15] = "jesuisuntest";
-	tests[16] = "machin***e";
-	tests[17] = "machine";
-	tests[18] = "i*ude";
-	tests[19] = "include";
-	tests[20] = "i*des*";
-	tests[21] = "includesfile";
-	tests[22] = "test****s*characteres";
-	tests[23] = "test sur plusieurs characteres";
+	tests[0] = ft_strdup("test");
+	tests[1] = ft_strdup("test");
+	tests[2] = ft_strdup("test*");
+	tests[3] = ft_strdup("test");
+	tests[4] = ft_strdup("*test");
+	tests[5] = ft_strdup("test");
+	tests[6] = ft_strdup("*test*");
+	tests[7] = ft_strdup("test");
+	tests[8] = ft_strdup("*est");
+	tests[9] = ft_strdup("test");
+	tests[10] = ft_strdup("*est");
+	tests[11] = ft_strdup("qexgqwexyqhiuwehxuqhwxest");
+	tests[12] = ft_strdup("je*suis*un*test");
+	tests[13] = ft_strdup("jeqwexsuisiqjwxeunqoiwxetest");
+	tests[14] = ft_strdup("je*suis*un*test");
+	tests[15] = ft_strdup("jesuisuntest");
+	tests[16] = ft_strdup("machin***e");
+	tests[17] = ft_strdup("machine");
+	tests[18] = ft_strdup("i*ude");
+	tests[19] = ft_strdup("include");
+	tests[20] = ft_strdup("i*des*");
+	tests[21] = ft_strdup("includesfile");
+	tests[22] = ft_strdup("test****s*characteres");
+	tests[23] = ft_strdup("test sur plusieurs characteres");
+	tests[24] = ft_strdup("test\"*\"");
+	tests[25] = ft_strdup("test*");
 }
 
 void	get_tests_ko(char **tests)
 {
-	tests[0] = "teste";
-	tests[1] = "test";
-	tests[2] = "truc";
-	tests[3] = "machin";
-	tests[4] = "i*clude";
-	tests[5] = "includes";
-	tests[6] = "test sur plusieurs characteresA";
-	tests[7] = "test sur plusieurs characteresB";
-	tests[8] = "test sur plusieurs characteres";
-	tests[9] = "test sur plusieurs characteresC";
-	tests[10] = "test*sur*plusieurs*characteres";
-	tests[11] = "test sur plusieurscharacteresA";
-	tests[12] = "autre test";
-	tests[13] = "autre testoijqx";
+	tests[0] = ft_strdup("teste");
+	tests[1] = ft_strdup("test");
+	tests[2] = ft_strdup("truc");
+	tests[3] = ft_strdup("machin");
+	tests[4] = ft_strdup("i*clude");
+	tests[5] = ft_strdup("includes");
+	tests[6] = ft_strdup("test sur plusieurs characteresA");
+	tests[7] = ft_strdup("test sur plusieurs characteresB");
+	tests[8] = ft_strdup("test sur plusieurs characteres");
+	tests[9] = ft_strdup("test sur plusieurs characteresC");
+	tests[10] = ft_strdup("test*sur*plusieurs*characteres");
+	tests[11] = ft_strdup("test sur plusieurscharacteresA");
+	tests[12] = ft_strdup("autre test");
+	tests[13] = ft_strdup("autre testoijqx");
 }
 
 void	run_tests()
@@ -101,6 +103,8 @@ void	run_tests()
 			printf("%strue%s\n\n", GREEN, RESET);
 		else
 			printf("%sfalse%s\n\n", RED, RESET);
+		free(tests_OK[index * 2]);
+		free(tests_OK[index * 2 + 1]);
 		index++;
 	}
 	index = 0;
@@ -114,6 +118,8 @@ void	run_tests()
 			printf("%strue%s\n\n", GREEN, RESET);
 		else
 			printf("%sfalse%s\n\n", RED, RESET);
+		free(tests_KO[index * 2]);
+		free(tests_KO[index * 2 + 1]);
 		index++;
 	}
 }
