@@ -6,7 +6,7 @@
 /*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/11 12:39:55 by brappo            #+#    #+#             */
-/*   Updated: 2024/04/12 15:31:53 by brappo           ###   ########.fr       */
+/*   Updated: 2024/04/12 17:02:10 by brappo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,7 @@ bool	string_equal_wildcard(char *str_wildcard,
 		str_b += char_pos;
 		str_wildcard += next_wildcard;
 	}
-	if (*str_wildcard != '*' && *str_b)
+	if (!is_wildcard(str_wildcard, wildcards) && *str_b)
 		return (false);
 	return (true);
 }
