@@ -6,7 +6,7 @@
 /*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 10:14:16 by mhotting          #+#    #+#             */
-/*   Updated: 2024/04/04 12:55:45 by mhotting         ###   ########.fr       */
+/*   Updated: 2024/04/12 10:31:48 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,6 @@ int	main(int argc, char **argv, char **envp)
 			break ;
 		}
 		token_recognition(&shell);
-		ft_lstprint(shell.tokens, print_token);
 		ft_lstclear(&shell.tokens, t_token_free);
 		add_history(shell.input);
 		free(shell.input);
