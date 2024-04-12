@@ -32,9 +32,6 @@ bool	equals(char *str_wildcard, char *b)
 		printf("ERROR\n");
 		return (false);
 	}
-	printf("%s %s\n", str_wildcard, b);
-	printf("initial : %p\n", str_wildcard);
-	ft_lstprint(wildcard_pos, print_pointeur);
 	result = string_equal_wildcard(str_wildcard, b, wildcard_pos);
 	ft_lstclear(&wildcard_pos, NULL);
 	return (result);

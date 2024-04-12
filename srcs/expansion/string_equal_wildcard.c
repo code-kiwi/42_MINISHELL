@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   string_equal_wildcard.c                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
+/*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/11 12:39:55 by brappo            #+#    #+#             */
-/*   Updated: 2024/04/12 17:02:10 by brappo           ###   ########.fr       */
+/*   Updated: 2024/04/12 19:35:07 by root             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,16 +16,23 @@ bool	is_wildcard(char *characters, t_list *wildcards)
 {
 	if (wildcards == NULL)
 		return (false);
-	return (characters == wildcards->content);
+	if (characters == wildcards->content)
+		return (true);
+	if (wildcards->next == NULL)
+		return (false);
+	return (characters == wildcards->next->content);
 }
 
-static size_t	get_next_wildcard(char *str_wildcard)
+static size_t	get_next_wildcard(char *str_wildcard, t_list *wildcards)
 {
 	size_t	length;
 
 	length = 1;
-	while (str_wildcard[length] && str_wildcard[length] != '*')
+	while (str_wildcard[length]
+		&& !is_wildcard(str_wildcard + length, wildcards))
+	{
 		length++;
+	}
 	return (length);
 }
 
@@ -70,7 +77,7 @@ bool	string_equal_wildcard(char *str_wildcard,
 	{
 		if (is_wildcard(str_wildcard, wildcards) && !str_wildcard[1])
 			return (true);
-		next_wildcard = get_next_wildcard(str_wildcard);
+		next_wildcard = get_next_wildcard(str_wildcard, wildcards);
 		char_pos = search_characters(str_wildcard, \
 				next_wildcard, str_b, &wildcards);
 		if (char_pos == -1)
