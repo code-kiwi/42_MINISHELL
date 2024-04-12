@@ -6,17 +6,17 @@
 /*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/11 12:39:55 by brappo            #+#    #+#             */
-/*   Updated: 2024/04/12 14:14:39 by brappo           ###   ########.fr       */
+/*   Updated: 2024/04/12 14:28:37 by brappo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-bool	is_wildcard(char *characters, t_list **wildcards)
+bool	is_wildcard(char *characters, t_list *wildcards)
 {
-	if (wildcards == NULL || *wildcards == NULL)
+	if (wildcards == NULL)
 		return (false);
-	return (characters == (*wildcards)->content);
+	return (characters == wildcards->content);
 }
 
 static size_t	get_next_wildcard(char *str_wildcard)
@@ -35,7 +35,7 @@ static ssize_t	search_characters(char *characters, \
 	ssize_t	char_pos;
 
 	char_pos = 0;
-	if (is_wildcard(characters, wildcards))
+	if (is_wildcard(characters, *wildcards))
 	{
 		*wildcards = (*wildcards)->next;
 		while (ft_strncmp(characters + 1, str + char_pos, \
@@ -65,10 +65,10 @@ bool	string_equal_wildcard(char *str_wildcard, char *str_b, t_list *wildcards)
 		return (str_wildcard == str_b);
 	while (*str_wildcard)
 	{
-		if (is_wildcard(&str_wildcard, wildcards) && !str_wildcard[1])
+		if (is_wildcard(str_wildcard, wildcards) && !str_wildcard[1])
 			return (true);
 		next_wildcard = get_next_wildcard(str_wildcard);
-		char_pos = search_characters(str_wildcard, next_wildcard, str_b, wildcards);
+		char_pos = search_characters(str_wildcard, next_wildcard, str_b, &wildcards);
 		if (char_pos == -1)
 			return (false);
 		str_b += char_pos;

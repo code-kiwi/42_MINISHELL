@@ -15,8 +15,6 @@
 #define TEST_OK_NUMBER 12
 #define TEST_KO_NUMBER 7
 
-bool	string_equal_wildcard(char *str_wildcard, char *str_b);
-
 void	get_tests_ok(char **tests)
 {
 	tests[0] = "test";
@@ -63,52 +61,64 @@ void	get_tests_ko(char **tests)
 	tests[13] = "autre testoijqx";
 }
 
-void	run_tests()
-{
-	char	*tests_OK[TEST_OK_NUMBER * 2];
-	char	*tests_KO[TEST_KO_NUMBER * 2];
-	bool	result;
-	size_t	index;
+// void	run_tests()
+// {
+// 	char	*tests_OK[TEST_OK_NUMBER * 2];
+// 	char	*tests_KO[TEST_KO_NUMBER * 2];
+// 	bool	result;
+// 	size_t	index;
 
-	index = 0;
-	printf("%s#########VALID TESTS############%s\n\n", GREEN, RESET);
-	get_tests_ok(tests_OK);
-	while (index < TEST_OK_NUMBER)
-	{
-		printf("%s%s%s equals %s%s%s ? : ", BLUE, tests_OK[index * 2], RESET, BLUE, tests_OK[index * 2 + 1], RESET);
-		result = string_equal_wildcard(tests_OK[index * 2], tests_OK[index * 2 + 1]);
-		if (result)
-			printf("%strue%s\n\n", GREEN, RESET);
-		else
-			printf("%sfalse%s\n\n", RED, RESET);
-		index++;
-	}
-	index = 0;
-	printf("%s#########ERROR TESTS############%s\n\n", RED, RESET);
-	get_tests_ko(tests_KO);
-	while (index < TEST_KO_NUMBER)
-	{
-		printf("%s%s%s equals %s%s%s ? : ", BLUE, tests_KO[index * 2], RESET, BLUE, tests_KO[index * 2 + 1], RESET);
-		result = string_equal_wildcard(tests_KO[index * 2], tests_KO[index * 2 + 1]);
-		if (result)
-			printf("%strue%s\n\n", GREEN, RESET);
-		else
-			printf("%sfalse%s\n\n", RED, RESET);
-		index++;
-	}
-}
+// 	index = 0;
+// 	printf("%s#########VALID TESTS############%s\n\n", GREEN, RESET);
+// 	get_tests_ok(tests_OK);
+// 	while (index < TEST_OK_NUMBER)
+// 	{
+// 		printf("%s%s%s equals %s%s%s ? : ", BLUE, tests_OK[index * 2], RESET, BLUE, tests_OK[index * 2 + 1], RESET);
+// 		result = string_equal_wildcard(tests_OK[index * 2], tests_OK[index * 2 + 1]);
+// 		if (result)
+// 			printf("%strue%s\n\n", GREEN, RESET);
+// 		else
+// 			printf("%sfalse%s\n\n", RED, RESET);
+// 		index++;
+// 	}
+// 	index = 0;
+// 	printf("%s#########ERROR TESTS############%s\n\n", RED, RESET);
+// 	get_tests_ko(tests_KO);
+// 	while (index < TEST_KO_NUMBER)
+// 	{
+// 		printf("%s%s%s equals %s%s%s ? : ", BLUE, tests_KO[index * 2], RESET, BLUE, tests_KO[index * 2 + 1], RESET);
+// 		result = string_equal_wildcard(tests_KO[index * 2], tests_KO[index * 2 + 1]);
+// 		if (result)
+// 			printf("%strue%s\n\n", GREEN, RESET);
+// 		else
+// 			printf("%sfalse%s\n\n", RED, RESET);
+// 		index++;
+// 	}
+// }
+
+// int	main(int argc, char **argv)
+// {
+// 	t_list	*result;
+
+// 	if (argc != 2)
+// 	{
+// 		run_tests();
+// 		return (0);
+// 	}
+// 	result = expand_wildcard(argv[1]);
+// 	ft_lstprint(result, print_token);
+// 	ft_lstclear(&result, t_token_free);
+// 	return (0);
+// }
 
 int	main(int argc, char **argv)
 {
-	t_list	*result;
+	char	*test;
 
 	if (argc != 2)
-	{
-		run_tests();
-		return (0);
-	}
-	result = expand_wildcard(argv[1]);
-	ft_lstprint(result, print_token);
-	ft_lstclear(&result, t_token_free);
+		return (1);
+	test = ft_strdup(argv[1]);
+	expand_string(&test, NULL);
+	free(test);
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/05 15:12:32 by brappo            #+#    #+#             */
-/*   Updated: 2024/04/12 14:16:38 by brappo           ###   ########.fr       */
+/*   Updated: 2024/04/12 14:35:19 by brappo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,8 +56,8 @@ bool	quote_removal(char **input, t_minishell *shell, t_list **wildcards_pos)
 		}
 		else if ((*input)[index] == '*' && !single_quoted && !double_quoted)
 		{
-			if (!lst_push_front_content(&wildcards_pos, *input + index, NULL))
-				return (ft_lstclear(&wildcards_pos, NULL), false);
+			if (!lst_push_front_content(wildcards_pos, *input + index, NULL))
+				return (ft_lstclear(wildcards_pos, NULL), false);
 		}
 		index++;
 	}
@@ -76,11 +76,12 @@ bool	expand_string(char **input, t_minishell *shell)
 		files = expand_wildcard(*input, wildcards_pos);
 		if (files == NULL)
 		{
-			ft_lstclear(wildcards_pos, NULL);
+			ft_lstclear(&wildcards_pos, NULL);
 			return (false);
 		}
-		ft_lstclear(files, t_token_free);
-		ft_lstclear(wildcards_pos, NULL);
+		ft_lstprint(files, print_token);
+		ft_lstclear(&files, t_token_free);
+		ft_lstclear(&wildcards_pos, NULL);
 	}
 	return (true);
 }
