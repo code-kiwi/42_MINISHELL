@@ -6,7 +6,7 @@
 /*   By: mhotting <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/29 09:51:37 by mhotting          #+#    #+#             */
-/*   Updated: 2024/03/29 10:11:47 by mhotting         ###   ########.fr       */
+/*   Updated: 2024/04/10 10:30:31 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,12 @@ void	node_free_single(t_node **node_ptr)
 		node_command_free(&(node->content));
 	else if (node->type == NODE_PIPE)
 		node_pipe_free(&(node->content));
+	else if (node->type == NODE_AND)
+		node_and_free(&(node->content));
+	else if (node->type == NODE_OR)
+		node_or_free(&(node->content));
+	else if (node->type == NODE_SUBSHELL)
+		node_subshell_free(&(node->content));
 	free(node);
 	*node_ptr = NULL;
 }

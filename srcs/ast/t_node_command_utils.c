@@ -6,7 +6,7 @@
 /*   By: mhotting <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/29 09:54:42 by mhotting          #+#    #+#             */
-/*   Updated: 2024/03/29 10:18:22 by mhotting         ###   ########.fr       */
+/*   Updated: 2024/04/10 10:39:06 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,8 @@ t_node	*node_command_create(int argc, char **argv)
 	t_node			*node;
 	t_node_command	*node_command;
 
+	if (argv == NULL)
+		return (NULL);
 	node = node_create_empty(NODE_COMMAND);
 	if (node == NULL)
 		return (NULL);
@@ -68,7 +70,7 @@ void	node_command_free(void **node_ptr)
 }
 
 /*
- *	Adds a new redirection to a node element
+ *	Adds a new redirection to a t_node of type NODE_COMMAND
  *	This node element has to be a t_node_command element (node type important)
  *	Returns true on SUCCESS
  *	Returns false on ERROR
