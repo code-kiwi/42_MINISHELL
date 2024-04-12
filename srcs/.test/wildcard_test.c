@@ -12,11 +12,12 @@
 
 #include "minishell.h"
 
-#define TEST_NUMBER 18
+#define TEST_OK_NUMBER 12
+#define TEST_KO_NUMBER 7
 
 bool	string_equal_wildcard(char *str_wildcard, char *str_b);
 
-void	get_tests(char **tests)
+void	get_tests_ok(char **tests)
 {
 	tests[0] = "test";
 	tests[1] = "test";
@@ -30,53 +31,82 @@ void	get_tests(char **tests)
 	tests[9] = "test";
 	tests[10] = "*est";
 	tests[11] = "qexgqwexyqhiuwehxuqhwxest";
-	tests[12] = "truc";
-	tests[13] = "machin";
+	tests[12] = "je*suis*un*test";
+	tests[13] = "jeqwexsuisiqjwxeunqoiwxetest";
 	tests[14] = "je*suis*un*test";
-	tests[15] = "jeqwexsuisiqjwxeunqoiwxetest";
-	tests[16] = "je*suis*un*test";
-	tests[17] = "jesuisuntest";
-	tests[18] = "autre test";
-	tests[19] = "autre testoijqx";
-	tests[20] = "machin***e";
-	tests[21] = "machine";
-	tests[22] = "i*ude";
-	tests[23] = "include";
-	tests[24] = "i*clude";
-	tests[25] = "includes";
-	tests[26] = "i*des*";
-	tests[27] = "includesfile";
-	tests[28] = "test sur plusieurs characteresA";
-	tests[29] = "test sur plusieurs characteresB";
-	tests[30] = "test sur plusieurs characteres";
-	tests[31] = "test sur plusieurs characteresC";
-	tests[32] = "test****s*characteres";
-	tests[33] = "test sur plusieurs characteres";
-	tests[34] = "test*sur*plusieurs*characteres";
-	tests[35] = "test sur plusieurscharacteresA";
+	tests[15] = "jesuisuntest";
+	tests[16] = "machin***e";
+	tests[17] = "machine";
+	tests[18] = "i*ude";
+	tests[19] = "include";
+	tests[20] = "i*des*";
+	tests[21] = "includesfile";
+	tests[22] = "test****s*characteres";
+	tests[23] = "test sur plusieurs characteres";
 }
 
-// int	main()
-// {
-// 	char	*tests[TEST_NUMBER * 2];
-// 	size_t	index;
+void	get_tests_ko(char **tests)
+{
+	tests[0] = "teste";
+	tests[1] = "test";
+	tests[2] = "truc";
+	tests[3] = "machin";
+	tests[4] = "i*clude";
+	tests[5] = "includes";
+	tests[6] = "test sur plusieurs characteresA";
+	tests[7] = "test sur plusieurs characteresB";
+	tests[8] = "test sur plusieurs characteres";
+	tests[9] = "test sur plusieurs characteresC";
+	tests[10] = "test*sur*plusieurs*characteres";
+	tests[11] = "test sur plusieurscharacteresA";
+	tests[12] = "autre test";
+	tests[13] = "autre testoijqx";
+}
 
-// 	index = 0;
-// 	get_tests(tests);
-// 	while (index < TEST_NUMBER)
-// 	{
-// 		printf("%s equals %s ? : %s\n", tests[index * 2], tests[index * 2 + 1], string_equal_wildcard(tests[index * 2], tests[index * 2 + 1]) ? "true" : "false");
-// 		index++;
-// 	}
-// 	return (0);
-// }
+void	run_tests()
+{
+	char	*tests_OK[TEST_OK_NUMBER * 2];
+	char	*tests_KO[TEST_KO_NUMBER * 2];
+	bool	result;
+	size_t	index;
+
+	index = 0;
+	printf("%s#########VALID TESTS############%s\n\n", GREEN, RESET);
+	get_tests_ok(tests_OK);
+	while (index < TEST_OK_NUMBER)
+	{
+		printf("%s%s%s equals %s%s%s ? : ", BLUE, tests_OK[index * 2], RESET, BLUE, tests_OK[index * 2 + 1], RESET);
+		result = string_equal_wildcard(tests_OK[index * 2], tests_OK[index * 2 + 1]);
+		if (result)
+			printf("%strue%s\n\n", GREEN, RESET);
+		else
+			printf("%sfalse%s\n\n", RED, RESET);
+		index++;
+	}
+	index = 0;
+	printf("%s#########ERROR TESTS############%s\n\n", RED, RESET);
+	get_tests_ko(tests_KO);
+	while (index < TEST_KO_NUMBER)
+	{
+		printf("%s%s%s equals %s%s%s ? : ", BLUE, tests_KO[index * 2], RESET, BLUE, tests_KO[index * 2 + 1], RESET);
+		result = string_equal_wildcard(tests_KO[index * 2], tests_KO[index * 2 + 1]);
+		if (result)
+			printf("%strue%s\n\n", GREEN, RESET);
+		else
+			printf("%sfalse%s\n\n", RED, RESET);
+		index++;
+	}
+}
 
 int	main(int argc, char **argv)
 {
 	t_list	*result;
 
 	if (argc != 2)
-		return (printf("need 2 arguments"), 1);
+	{
+		run_tests();
+		return (0);
+	}
 	result = expand_wildcard(argv[1]);
 	ft_lstprint(result, print_token);
 	ft_lstclear(&result, t_token_free);

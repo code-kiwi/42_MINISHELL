@@ -6,7 +6,7 @@
 /*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/11 12:39:55 by brappo            #+#    #+#             */
-/*   Updated: 2024/04/12 10:28:57 by brappo           ###   ########.fr       */
+/*   Updated: 2024/04/12 11:07:08 by brappo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,13 +37,13 @@ static ssize_t	search_characters(char *characters,
 				return (-1);
 			char_pos++;
 		}
-		char_pos += character_length;
+		char_pos += character_length - 1;
 	}
 	else
 	{
 		if (ft_strncmp(characters, str, character_length))
 			return (-1);
-		char_pos += character_length - 1;
+		char_pos += character_length;
 	}
 	return (char_pos);
 }
