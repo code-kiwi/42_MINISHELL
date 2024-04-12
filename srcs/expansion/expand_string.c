@@ -6,59 +6,80 @@
 /*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/05 15:12:32 by brappo            #+#    #+#             */
-/*   Updated: 2024/04/12 15:31:07 by brappo           ###   ########.fr       */
+/*   Updated: 2024/04/12 16:07:06 by brappo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static bool	remove_quote(char *input, bool value, size_t *index)
+static void	remove_quote(t_token_parser *parser, char *input)
 {
-	if (*input != '\'' && *input != '"')
-		return (value);
+	if (*input == '\'' && parser->double_quoted)
+		return ;
+	if (*input == '"' && parser->single_quoted)
+		return ;
 	ft_memmove(input, input + 1, ft_strlen(input));
-	*index -= 1;
-	return (!value);
+	*(parser->end) -= 1;
+	if (*input == '\'')
+		parser->single_quoted = !parser->single_quoted;
+	else if (*input == '"')
+		parser->double_quoted = !parser->double_quoted;
 }
 
-static bool	jump(size_t *current_index, ssize_t character_to_jump)
+static bool	handle_variable(t_token_parser *parser, \
+	char **input, t_minishell *shell)
 {
-	if (character_to_jump < 0)
-		return (false);
-	*current_index += character_to_jump - 1;
+	size_t	index;
+	ssize_t	var_length;
+
+	index = *(parser->end);
+	if ((*input)[index] == '$' && !parser->single_quoted)
+	{
+		var_length = expand_variable(input, index, \
+			parser->double_quoted, shell);
+		if (var_length < 0)
+			return (false);
+		index += var_length;
+	}
+	return (true);
+}
+
+static bool	handle_wildcard(t_token_parser *parser, \
+	t_list **wildcards_pos, char **input)
+{
+	size_t	index;
+
+	index = *(parser->end);
+	if ((*input)[index] == '*' && !is_quoted(parser))
+	{
+		if (!lst_push_front_content(wildcards_pos, *input + index, NULL))
+		{
+			ft_lstclear(wildcards_pos, NULL);
+			return (false);
+		}
+	}
 	return (true);
 }
 
 bool	quote_removal(char **input, t_minishell *shell, t_list **wildcards_pos)
 {
-	size_t	index;
-	bool	single_quoted;
-	bool	double_quoted;
-	ssize_t	var_length;
+	size_t			index;
+	t_token_parser	parser;
 
-	single_quoted = false;
-	double_quoted = false;
 	if (input == NULL || *input == NULL || wildcards_pos == NULL)
 		return (false);
+	t_token_parser_init(&parser);
+	parser.end = &index;
 	index = 0;
 	*wildcards_pos = NULL;
 	while ((*input)[index] != '\0')
 	{
-		if ((*input)[index] == '\'' && !double_quoted)
-			single_quoted = remove_quote(*input + index, single_quoted, &index);
-		else if ((*input)[index] == '\"' && !single_quoted)
-			double_quoted = remove_quote(*input + index, double_quoted, &index);
-		else if ((*input)[index] == '$' && !single_quoted)
-		{
-			var_length = expand_variable(input, index, double_quoted, shell);
-			if (!jump(&index, var_length))
-				return (false);
-		}
-		else if ((*input)[index] == '*' && !single_quoted && !double_quoted)
-		{
-			if (!lst_push_front_content(wildcards_pos, *input + index, NULL))
-				return (ft_lstclear(wildcards_pos, NULL), false);
-		}
+		if ((*input)[index] == '\'' || (*input)[index] == '"')
+			remove_quote(&parser, *input);
+		else if (handle_variable(&parser, input, shell) == false)
+			return (false);
+		else if (handle_wildcard(&parser, wildcards_pos, input) == false)
+			return (false);
 		index++;
 	}
 	ft_lstreverse(wildcards_pos);
