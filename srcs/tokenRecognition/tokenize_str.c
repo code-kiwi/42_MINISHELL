@@ -6,7 +6,7 @@
 /*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 14:59:56 by brappo            #+#    #+#             */
-/*   Updated: 2024/04/05 09:23:06 by brappo           ###   ########.fr       */
+/*   Updated: 2024/04/12 08:05:09 by brappo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,7 @@ t_list	*tokenize_str(char *str, t_token_parser *token_parser)
 	skip_blank(str, &index);
 	while (str[index] != '\0')
 	{
-		lst_push_front_content(&tokens, get_token(str, &index, token_parser));
+		lst_push_front_content(&tokens, get_token(str, &index, token_parser), t_token_free);
 		if (tokens == NULL || tokens->content == NULL)
 		{
 			ft_lstclear(&tokens, t_token_free);

@@ -6,7 +6,7 @@
 /*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/31 19:28:12 by mhotting          #+#    #+#             */
-/*   Updated: 2024/04/11 16:29:35 by brappo           ###   ########.fr       */
+/*   Updated: 2024/04/12 08:03:35 by brappo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,8 @@ bool	handle_quote(t_token_parser *token_parser, char character);
 int		array_find(void **array, bool (equal)(void *a, void *b), void *value);
 bool	is_prefix(void	*word, void *prefix);
 bool	is_operator_character(char character);
-t_list	*lst_push_front_content(t_list **head, void *content);
+t_list	*lst_push_front_content(t_list **head, 
+			void *content, void free_content(void *));
 char	*join_into_dest(char **dest, char *str);
 void	get_operation(char **operations);
 

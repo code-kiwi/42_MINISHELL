@@ -55,9 +55,9 @@ bool	string_equal_wildcard(char *str_wildcard, char *str_b)
 
 char	*expand_wildcard(char *str)
 {
-	char			*result;
 	DIR				*current_directory;
 	struct dirent	*file;
+	t_list			*result;
 
 	current_directory = opendir(".");
 	if (current_directory == NULL)
@@ -68,8 +68,7 @@ char	*expand_wildcard(char *str)
 	{
 		if (file->d_name[0] != '.' && string_equal_wildcard(str, file->d_name))
 		{
-			if (bridge_into_first(&result, file->d_name, " ") == false)
-				return (NULL);
+			lst_push_front_content(&result, t_token_init(), t_token_free);
 		}
 		file = readdir(current_directory);
 	}
