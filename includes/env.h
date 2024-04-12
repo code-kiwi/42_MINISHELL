@@ -6,7 +6,7 @@
 /*   By: mhotting <mhotting@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/02 23:48:56 by mhotting          #+#    #+#             */
-/*   Updated: 2024/04/04 14:01:11 by mhotting         ###   ########.fr       */
+/*   Updated: 2024/04/12 15:34:31 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ t_list			*env_extract(char **envp);
 char			*env_get(t_list *env, char *key);
 void			env_delete(t_list **env, char *key);
 bool			env_add(t_list **env, char *key, char *value);
+bool			env_add_int(t_list **env, char *key, int value);
 char			**env_get_all_array(t_list *env);
 
 // t_env_element functions

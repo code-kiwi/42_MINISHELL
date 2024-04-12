@@ -6,7 +6,7 @@
 /*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 10:17:54 by mhotting          #+#    #+#             */
-/*   Updated: 2024/04/12 13:51:49 by mhotting         ###   ########.fr       */
+/*   Updated: 2024/04/12 15:45:47 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,9 @@
 # include "env.h"
 # include "execution.h"
 # include "pid_list.h"
+# include "built_in.h"
 
+# define ERROR_MSG_ARGS			"Wrong arguments given to the function"
 # define ERROR_MSG_CLOSE		"Closing fd error"
 # define ERROR_MSG_FORK			"Impossible to fork"
 # define ERROR_MSG_MEM			"Memory allocation problem"
