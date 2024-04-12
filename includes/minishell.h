@@ -6,7 +6,7 @@
 /*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 10:17:54 by mhotting          #+#    #+#             */
-/*   Updated: 2024/04/11 15:49:19 by mhotting         ###   ########.fr       */
+/*   Updated: 2024/04/12 13:51:49 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@
 # define ERROR_MSG_MEM			"Memory allocation problem"
 # define ERROR_MSG_PIPE			"Impossible to pipe"
 # define ERROR_MSG_HEREDOC		"Impossible to read here_doc"
+# define ERROR_MSG_SUBSTITUTION "Invalid variable substitution"
 # define TOKENIZATION_ERROR 	"Tokenizing input"
 
 # define DGREAT 				">>"
@@ -76,5 +77,4 @@ char	**ft_split_key_val(char *str, char sep);
 char	*bridge(char *first, char *second, char *separator);
 char	*bridge_into_first(char **first, char *second, char *separator);
 void	ft_print_str_array(char **array);
-
 #endif
