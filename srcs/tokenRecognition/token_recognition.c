@@ -6,13 +6,13 @@
 /*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/02 13:01:05 by brappo            #+#    #+#             */
-/*   Updated: 2024/04/12 08:26:03 by brappo           ###   ########.fr       */
+/*   Updated: 2024/04/12 09:26:12 by brappo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h" 
 
-bool	add_end_token(t_list **tokens)
+static bool	add_end_token(t_list **tokens)
 {
 	t_list	*last_element;
 
@@ -25,7 +25,7 @@ bool	add_end_token(t_list **tokens)
 	return (false);
 }
 
-bool	is_command_end(t_token_parser *token_parser, t_list *tokens)
+static bool	is_command_end(t_token_parser *token_parser, t_list *tokens)
 {
 	t_token	*last_token;
 
@@ -43,7 +43,7 @@ bool	is_command_end(t_token_parser *token_parser, t_list *tokens)
 	return (true);
 }
 
-void	merge_inputs(t_minishell *shell, char *input, bool is_end_quoted)
+static void	merge_inputs(t_minishell *shell, char *input, bool is_end_quoted)
 {
 	char	*separator;
 
@@ -60,7 +60,7 @@ void	merge_inputs(t_minishell *shell, char *input, bool is_end_quoted)
 	}
 }
 
-t_list	*tokenize_input(t_minishell *shell, char *prompt,
+static t_list	*tokenize_input(t_minishell *shell, char *prompt,
 	t_token_parser *token_parser, bool is_end_quoted)
 {
 	char	*input;

@@ -6,13 +6,13 @@
 /*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/10 12:00:49 by brappo            #+#    #+#             */
-/*   Updated: 2024/04/11 13:58:43 by brappo           ###   ########.fr       */
+/*   Updated: 2024/04/12 09:27:15 by brappo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-t_list	*get_shell_end(t_list *tokens)
+static t_list	*get_shell_end(t_list *tokens)
 {
 	t_token	*token;
 	size_t	shell_open_count;
@@ -34,7 +34,7 @@ t_list	*get_shell_end(t_list *tokens)
 	return (NULL);
 }
 
-bool	add_redirections_subshell(t_list **tokens, t_node *subshell)
+static bool	add_redirections_subshell(t_list **tokens, t_node *subshell)
 {
 	t_token	*token;
 	t_token	*next_token;
@@ -56,7 +56,7 @@ bool	add_redirections_subshell(t_list **tokens, t_node *subshell)
 	return (true);
 }
 
-t_list	*extract_subshell_tokens(t_list *tokens)
+static t_list	*extract_subshell_tokens(t_list *tokens)
 {
 	t_list	*shell_end;
 	t_list	*sub_tokens;

@@ -6,13 +6,13 @@
 /*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 14:59:56 by brappo            #+#    #+#             */
-/*   Updated: 2024/04/12 08:26:25 by brappo           ###   ########.fr       */
+/*   Updated: 2024/04/12 09:25:49 by brappo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-bool	is_token_end(t_token *token, char character, \
+static bool	is_token_end(t_token *token, char character, \
 		t_token_parser *token_parser)
 {
 	if (character == '\0')
@@ -41,7 +41,7 @@ bool	is_token_end(t_token *token, char character, \
 	return (false);
 }
 
-void	skip_blank(char *input, size_t *index)
+static void	skip_blank(char *input, size_t *index)
 {
 	while (input[*index] != '\0')
 	{

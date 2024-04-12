@@ -6,13 +6,13 @@
 /*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 08:34:50 by brappo            #+#    #+#             */
-/*   Updated: 2024/04/05 16:20:57 by brappo           ###   ########.fr       */
+/*   Updated: 2024/04/12 09:24:49 by brappo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-bool	is_char_name(char c)
+static bool	is_char_name(char c)
 {
 	if (ft_isalnum(c))
 		return (true);
@@ -21,7 +21,7 @@ bool	is_char_name(char c)
 	return (false);
 }
 
-ssize_t	find_bracket(char *input, ssize_t variable_start)
+static ssize_t	find_bracket(char *input, ssize_t variable_start)
 {
 	char	*closing_bracket;
 
@@ -31,7 +31,7 @@ ssize_t	find_bracket(char *input, ssize_t variable_start)
 	return (closing_bracket - input);
 }
 
-bool	is_string_name(char *input, ssize_t start, ssize_t end)
+static bool	is_string_name(char *input, ssize_t start, ssize_t end)
 {
 	ssize_t	index;
 
@@ -47,7 +47,7 @@ bool	is_string_name(char *input, ssize_t start, ssize_t end)
 	return (true);
 }
 
-ssize_t	end_of_name(char *input, ssize_t variable_start)
+static ssize_t	end_of_name(char *input, ssize_t variable_start)
 {
 	ssize_t	index;
 

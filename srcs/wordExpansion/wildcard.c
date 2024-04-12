@@ -6,7 +6,7 @@
 /*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/11 12:39:55 by brappo            #+#    #+#             */
-/*   Updated: 2024/04/12 09:21:36 by brappo           ###   ########.fr       */
+/*   Updated: 2024/04/12 09:28:30 by brappo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,8 @@ static size_t	get_character_end(char *str_wildcard)
 	return (length);
 }
 
-ssize_t	search_characters(char *str_wildcard, size_t character_end, char *str_b)
+static ssize_t	search_characters(char *str_wildcard,
+	size_t character_end, char *str_b)
 {
 	ssize_t	char_pos;
 
@@ -73,7 +74,7 @@ bool	string_equal_wildcard(char *str_wildcard, char *str_b)
 		char_pos = search_characters(str_wildcard, character_end, str_b);
 		if (char_pos == -1)
 			return (false);
-		str_b == char_pos;
+		str_b += char_pos;
 		str_wildcard += character_end;
 	}
 	if (*str_wildcard != '*' && *str_b)

@@ -6,13 +6,13 @@
 /*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/05 15:12:32 by brappo            #+#    #+#             */
-/*   Updated: 2024/04/06 10:06:12 by brappo           ###   ########.fr       */
+/*   Updated: 2024/04/12 09:25:08 by brappo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-bool	remove_quote(char *input, bool value, size_t *index)
+static bool	remove_quote(char *input, bool value, size_t *index)
 {
 	if (*input != '\'' && *input != '"')
 		return (value);
@@ -21,7 +21,7 @@ bool	remove_quote(char *input, bool value, size_t *index)
 	return (!value);
 }
 
-bool	jump(size_t *current_index, ssize_t character_to_jump)
+static bool	jump(size_t *current_index, ssize_t character_to_jump)
 {
 	if (character_to_jump < 0)
 		return (false);
