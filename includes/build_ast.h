@@ -6,12 +6,13 @@
 /*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/10 10:37:10 by brappo            #+#    #+#             */
-/*   Updated: 2024/04/11 12:22:37 by brappo           ###   ########.fr       */
+/*   Updated: 2024/04/12 11:09:09 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef BUILD_AST_H
 # define BUILD_AST_H
+
 # include "minishell.h"
 
 bool	set_operator_type(t_list *tokens);
@@ -26,4 +27,4 @@ char	**get_argv(t_list *tokens);
 bool	is_cmd_token(t_list *tokens);
 bool	add_connector(t_node **current_node, t_node **head,
 			t_list *tokens, t_token_type connector);
-#endif // !BUILD_AST_H
+#endif
