@@ -12,7 +12,7 @@
 
 #include "minishell.h"
 
-#define TEST_OK_NUMBER 13
+#define TEST_OK_NUMBER 20
 #define TEST_KO_NUMBER 7
 
 bool	quote_removal(char **input, t_minishell *shell, t_list **wildcards_pos);
@@ -29,9 +29,12 @@ bool	equals(char *str_wildcard, char *b)
 
 	if (quote_removal(&str_wildcard, NULL, &wildcard_pos) == false)
 	{
-		printf("ERROR");
+		printf("ERROR\n");
 		return (false);
 	}
+	printf("%s %s\n", str_wildcard, b);
+	printf("initial : %p\n", str_wildcard);
+	ft_lstprint(wildcard_pos, print_pointeur);
 	result = string_equal_wildcard(str_wildcard, b, wildcard_pos);
 	ft_lstclear(&wildcard_pos, NULL);
 	return (result);
@@ -65,6 +68,20 @@ void	get_tests_ok(char **tests)
 	tests[23] = ft_strdup("test sur plusieurs characteres");
 	tests[24] = ft_strdup("test\"*\"");
 	tests[25] = ft_strdup("test*");
+	tests[26] = ft_strdup("*\"*\"");
+	tests[27] = ft_strdup("machintruc*");
+	tests[28] = ft_strdup("\'*\'*");
+	tests[29] = ft_strdup("*");
+	tests[30] = ft_strdup("*echo'*'");
+	tests[31] = ft_strdup("machinecho*");
+	tests[32] = ft_strdup("'machin'\"*\"*");
+	tests[33] = ft_strdup("machin*iuqwieyxuhqwiuhxeiqwhe");
+	tests[34] = ft_strdup("*");
+	tests[35] = ft_strdup("'*'");
+	tests[36] = ft_strdup("echo'*'truc");
+	tests[37] = ft_strdup("echo*truc");
+	tests[38] = ft_strdup("*'*'*");
+	tests[39] = ft_strdup("echo*truc");
 }
 
 void	get_tests_ko(char **tests)

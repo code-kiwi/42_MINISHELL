@@ -6,7 +6,7 @@
 /*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/05 15:12:32 by brappo            #+#    #+#             */
-/*   Updated: 2024/04/12 16:34:52 by brappo           ###   ########.fr       */
+/*   Updated: 2024/04/12 16:54:30 by brappo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,12 @@
 
 static void	remove_quote(t_token_parser *parser, char *input)
 {
-	ft_memmove(input, input + 1, ft_strlen(input));
-	*(parser->end) -= 1;
 	if (*input == '\'')
 		parser->single_quoted = !parser->single_quoted;
 	else if (*input == '"')
 		parser->double_quoted = !parser->double_quoted;
+	ft_memmove(input, input + 1, ft_strlen(input));
+	*(parser->end) -= 1;
 }
 
 static bool	handle_variable(t_token_parser *parser, \
