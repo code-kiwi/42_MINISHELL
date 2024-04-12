@@ -6,7 +6,7 @@
 /*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/02 13:01:05 by brappo            #+#    #+#             */
-/*   Updated: 2024/04/05 09:22:42 by brappo           ###   ########.fr       */
+/*   Updated: 2024/04/12 08:12:21 by brappo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ bool	add_end_token(t_list **tokens)
 	t_token	*end_token;
 	t_list	*new_node;
 
-	end_token = t_token_init();
+	end_token = t_token_init(NULL, END);
 	if (end_token == NULL)
 		return (false);
 	new_node = ft_lstnew((void *)end_token);

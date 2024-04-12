@@ -53,7 +53,7 @@ bool	string_equal_wildcard(char *str_wildcard, char *str_b)
 	return (true);
 }
 
-char	*expand_wildcard(char *str)
+t_list	*expand_wildcard(char *str)
 {
 	DIR				*current_directory;
 	struct dirent	*file;
@@ -68,12 +68,16 @@ char	*expand_wildcard(char *str)
 	{
 		if (file->d_name[0] != '.' && string_equal_wildcard(str, file->d_name))
 		{
-			lst_push_front_content(&result, t_token_init(), t_token_free);
+			if (lst_push_front_content(&result, t_token_init(file->d_name, WORD), t_token_free) == NULL)
+			{
+				ft_lstclear(&result, t_token_free);
+				return (NULL);
+			}
 		}
 		file = readdir(current_directory);
 	}
 	closedir(current_directory);
 	if (result == NULL)
-		return (ft_strdup(str));
+		lst_push_front_content(&result, t_token_init(ft_strdup(str), WORD), t_token_free);
 	return (result);
 }

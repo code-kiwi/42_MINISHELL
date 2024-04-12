@@ -6,7 +6,7 @@
 /*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/31 19:28:12 by mhotting          #+#    #+#             */
-/*   Updated: 2024/04/12 08:03:35 by brappo           ###   ########.fr       */
+/*   Updated: 2024/04/12 08:16:08 by brappo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ typedef struct s_token
 int		is_operator(t_token_parser *token_parser);
 bool	is_quoted(t_token_parser *token_parser);
 void	t_token_parser_init(t_token_parser *token_parser);
-t_token	*t_token_init(void);
+t_token	*t_token_init(char *str, t_token_type type);
 bool	is_blank(char character);
 void	t_token_free(void *token_void);
 t_list	*tokenize_str(char *str, t_token_parser *token_parser);
@@ -80,5 +80,5 @@ void	get_variable_key_coordinates(char *input, ssize_t *coordinates,
 bool	expand_string(char **input, t_minishell *shell);
 ssize_t	expand_variable(char **input, size_t variable_start,
 			bool double_quoted, t_minishell *shell);
-char	*expand_wildcard(char *str);
+t_list	*expand_wildcard(char *str);
 #endif

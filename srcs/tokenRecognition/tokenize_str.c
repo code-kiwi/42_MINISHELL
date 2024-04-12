@@ -6,7 +6,7 @@
 /*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 14:59:56 by brappo            #+#    #+#             */
-/*   Updated: 2024/04/12 08:05:09 by brappo           ###   ########.fr       */
+/*   Updated: 2024/04/12 08:13:57 by brappo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ t_token	*get_token(char *input, size_t *index, t_token_parser *token_parser)
 
 	start = *index;
 	token_parser->start = *index;
-	token = t_token_init();
+	token = t_token_init(NULL, END);
 	if (token == NULL)
 		return (NULL);
 	while (!is_token_end(token, input[*index], token_parser))

@@ -6,7 +6,7 @@
 /*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 15:09:19 by brappo            #+#    #+#             */
-/*   Updated: 2024/04/11 10:55:17 by brappo           ###   ########.fr       */
+/*   Updated: 2024/04/12 08:10:39 by brappo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,11 +18,16 @@ void	t_token_parser_init(t_token_parser *token_parser)
 	token_parser->double_quoted = false;
 }
 
-t_token	*t_token_init(void)
+t_token	*t_token_init(char *str, t_token_type type)
 {
 	t_token	*token;
 
+	if (type < 0 || type > 11)
+		return (NULL);
 	token = (t_token *)ft_calloc(1, sizeof(t_token));
+	token->str = str;
+	token->type = type;
+	token->length = ft_strlen(str);
 	return (token);
 }
 
