@@ -73,12 +73,12 @@ void	get_tests(char **tests)
 
 int	main(int argc, char **argv)
 {
-	char	*result;
+	t_list	*result;
 
 	if (argc != 2)
 		return (printf("need 2 arguments"), 1);
 	result = expand_wildcard(argv[1]);
-	printf("%s\n", result);
-	free(result);
+	ft_lstprint(result, print_token);
+	ft_lstclear(&result, t_token_free);
 	return (0);
 }

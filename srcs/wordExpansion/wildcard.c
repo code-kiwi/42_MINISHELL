@@ -6,7 +6,7 @@
 /*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/11 12:39:55 by brappo            #+#    #+#             */
-/*   Updated: 2024/04/12 09:28:30 by brappo           ###   ########.fr       */
+/*   Updated: 2024/04/12 09:39:17 by brappo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,8 +41,6 @@ static ssize_t	search_characters(char *str_wildcard,
 	char_pos = 0;
 	if (*str_wildcard == '*')
 	{
-		if (!str_wildcard[1])
-			return (true);
 		while (ft_strncmp(str_wildcard + 1, str_b + char_pos,
 				character_end - 1))
 		{
@@ -70,6 +68,8 @@ bool	string_equal_wildcard(char *str_wildcard, char *str_b)
 		return (str_wildcard == str_b);
 	while (*str_wildcard)
 	{
+		if (str_wildcard[0] == '*' && !str_wildcard[1])
+			return (true);
 		character_end = get_character_end(str_wildcard);
 		char_pos = search_characters(str_wildcard, character_end, str_b);
 		if (char_pos == -1)
