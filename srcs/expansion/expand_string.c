@@ -6,7 +6,7 @@
 /*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/05 15:12:32 by brappo            #+#    #+#             */
-/*   Updated: 2024/04/12 15:24:23 by brappo           ###   ########.fr       */
+/*   Updated: 2024/04/12 15:31:07 by brappo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,11 +75,6 @@ t_list	*expand_string(char **input, t_minishell *shell)
 	if (wildcards_pos != NULL)
 	{
 		files = expand_wildcard(*input, wildcards_pos);
-		if (files == NULL)
-		{
-			ft_lstclear(&wildcards_pos, NULL);
-			return (NULL);
-		}
 		ft_lstclear(&wildcards_pos, NULL);
 		return (files);
 	}

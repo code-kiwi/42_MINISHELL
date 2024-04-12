@@ -6,7 +6,7 @@
 /*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/31 19:28:12 by mhotting          #+#    #+#             */
-/*   Updated: 2024/04/12 14:50:45 by brappo           ###   ########.fr       */
+/*   Updated: 2024/04/12 15:27:28 by brappo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,6 +80,7 @@ void	get_variable_key_coordinates(char *input, ssize_t *coordinates,
 ssize_t	expand_variable(char **input, size_t variable_start,
 			bool double_quoted, t_minishell *shell);
 t_list	*expand_wildcard(char *str, t_list *wildcards);
-bool	string_equal_wildcard(char *str_wildcard, char *str_b, t_list *wildcards);
+bool	string_equal_wildcard(char *str_wildcard,
+			char *str_b, t_list *wildcards);
 t_list	*expand_string(char **input, t_minishell *shell);
 #endif
