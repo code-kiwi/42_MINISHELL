@@ -6,13 +6,14 @@
 /*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/28 09:32:38 by brappo            #+#    #+#             */
-/*   Updated: 2024/04/12 08:03:38 by brappo           ###   ########.fr       */
+/*   Updated: 2024/04/12 08:26:37 by brappo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-t_list	*lst_push_front_content(t_list **head, void *content, void free_content(void *))
+t_list	*lst_push_front_content(t_list **head,
+	void *content, void free_content(void *))
 {
 	t_list	*new_node;
 

@@ -6,7 +6,7 @@
 /*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/02 13:01:05 by brappo            #+#    #+#             */
-/*   Updated: 2024/04/12 08:12:21 by brappo           ###   ########.fr       */
+/*   Updated: 2024/04/12 08:26:03 by brappo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,20 +14,15 @@
 
 bool	add_end_token(t_list **tokens)
 {
-	t_token	*end_token;
-	t_list	*new_node;
+	t_list	*last_element;
 
-	end_token = t_token_init(NULL, END);
-	if (end_token == NULL)
-		return (false);
-	new_node = ft_lstnew((void *)end_token);
-	if (new_node == NULL)
+	last_element = ft_lstlast(*tokens);
+	if (lst_push_front_content(&last_element->next,
+			t_token_init(NULL, END), t_token_free))
 	{
-		t_token_free(end_token);
-		return (false);
+		return (true);
 	}
-	ft_lstadd_back(tokens, new_node);
-	return (true);
+	return (false);
 }
 
 bool	is_command_end(t_token_parser *token_parser, t_list *tokens)

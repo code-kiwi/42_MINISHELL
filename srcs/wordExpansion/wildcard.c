@@ -1,18 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   wilrdcards.c                                       :+:      :+:    :+:   */
+/*   wildcard.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/11 12:39:55 by brappo            #+#    #+#             */
-/*   Updated: 2024/04/11 12:58:06y brappo           ###   ########.fr       */
+/*   Updated: 2024/04/12 09:10:29 by brappo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-size_t	get_character_end(char *str_wildcard)
+static bool	add_word_token(t_list **head, char *str)
+{
+	t_token	*new_token;
+
+	new_token = t_token_init(ft_strdup(str), WORD);
+	if (lst_push_front_content(head,
+			new_token, t_token_free))
+		return (true);
+	return (false);
+}
+
+static size_t	get_character_end(char *str_wildcard)
 {
 	size_t	length;
 
@@ -41,12 +52,15 @@ bool	string_equal_wildcard(char *str_wildcard, char *str_b)
 					return (false);
 				str_b++;
 			}
-			str_b--;
+			str_b += character_end;
 		}
-		else if (ft_strncmp(str_wildcard, str_b, character_end))
-			return (false);
+		else
+		{
+			if (ft_strncmp(str_wildcard, str_b, character_end))
+				return (false);
+			str_b += character_end - 1;
+		}
 		str_wildcard += character_end;
-		str_b += character_end;
 	}
 	if (*str_wildcard != '*' && *str_b)
 		return (false);
@@ -64,20 +78,19 @@ t_list	*expand_wildcard(char *str)
 		return (NULL);
 	result = NULL;
 	file = readdir(current_directory);
+	if (file == NULL)
+		return (NULL);
 	while (file != NULL)
 	{
 		if (file->d_name[0] != '.' && string_equal_wildcard(str, file->d_name))
 		{
-			if (lst_push_front_content(&result, t_token_init(file->d_name, WORD), t_token_free) == NULL)
-			{
-				ft_lstclear(&result, t_token_free);
-				return (NULL);
-			}
+			if (!add_word_token(&result, file->d_name))
+				return (ft_lstclear(&result, t_token_free), NULL);
 		}
 		file = readdir(current_directory);
 	}
 	closedir(current_directory);
 	if (result == NULL)
-		lst_push_front_content(&result, t_token_init(ft_strdup(str), WORD), t_token_free);
+		add_word_token(&result, str);
 	return (result);
 }
