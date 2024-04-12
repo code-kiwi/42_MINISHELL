@@ -6,7 +6,7 @@
 /*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/28 11:06:44 by mhotting          #+#    #+#             */
-/*   Updated: 2024/04/11 12:38:18 by mhotting         ###   ########.fr       */
+/*   Updated: 2024/04/12 14:08:47 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ typedef struct s_redirection
 	char					*filename;
 }	t_redirection;
 
-// t_redirections functions
+// t_redirection_list functions
 t_redirection_list	*redirection_list_create(void);
 bool				redirection_list_add(t_redirection_list *redirs, \
 					char *op, char *filename);

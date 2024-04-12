@@ -6,7 +6,7 @@
 #    By: brappo <brappo@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/03/31 20:47:09 by mhotting          #+#    #+#              #
-#    Updated: 2024/04/12 13:47:40 by mhotting         ###   ########.fr        #
+#    Updated: 2024/04/12 14:00:28 by mhotting         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -73,63 +73,64 @@ MAIN					=	$(addprefix $(MAIN_DIR), $(MAIN_FILE))
 
 # AST
 AST_DIR					=	ast/
-AST_FILES				=	t_node_command_utils.c		\
-							t_node_pipe_utils.c			\
-							t_node_and_utils.c			\
-							t_node_or_utils.c			\
-							t_node_subshell_utils.c		\
-							t_node_utils.c				\
-							t_redirection_list_utils.c	\
+AST_FILES				=	t_node_command_utils.c			\
+							t_node_pipe_utils.c				\
+							t_node_and_utils.c				\
+							t_node_or_utils.c				\
+							t_node_subshell_utils.c			\
+							t_node_utils.c					\
+							t_redirection_list_utils.c		\
 							t_redirection_utils.c
 AST						=	$(addprefix $(AST_DIR), $(AST_FILES))
 
 # TOKEN RECOGNITION
 TOKENR_DIR				=	tokenRecognition/
-TOKENR_FILES			=	handle_quote.c				\
-							is_operator.c				\
-							token_recognition_utils.c	\
-							token_recognition.c			\
-							tokenize_str.c				\
-							token_list_merge.c			\
+TOKENR_FILES			=	handle_quote.c					\
+							is_operator.c					\
+							token_recognition_utils.c		\
+							token_recognition.c				\
+							tokenize_str.c					\
+							token_list_merge.c				\
 							temp.c
 TOKENR					=	$(addprefix $(TOKENR_DIR), $(TOKENR_FILES))
 
 # PROMPT
 PROMPT_DIR				=	prompt/
-PROMPT_FILES			=	prompt_handler.c \
+PROMPT_FILES			=	prompt_handler.c 				\
 							directory_utils.c
 PROMPT					=	$(addprefix $(PROMPT_DIR), $(PROMPT_FILES))
 
 # VARIABLE EXPANSION
 EXPANSION_DIR			=	wordExpansion/
-EXPANSION_FILES			=	get_variable_key.c	\
-							word_expansion.c	\
+EXPANSION_FILES			=	get_variable_key.c				\
+							word_expansion.c				\
 							expand_string.c
 
 EXPANSION				=	$(addprefix $(EXPANSION_DIR), $(EXPANSION_FILES))
 # ENV
 ENV_DIR					=	env/
-ENV_FILES				=	env_utils.c					\
+ENV_FILES				=	env_utils.c						\
 							t_env_element_utils.c
 ENV						=	$(addprefix $(ENV_DIR), $(ENV_FILES))
 
 # EXECUTION
 EXECUTION_DIR			=	execution/
-EXECUTION_FILES			=	execution.c					\
-							execution_node_command.c	\
-							execution_redirection_list.c
+EXECUTION_FILES			=	execution.c						\
+							execution_node_command.c		\
+							execution_redirection_list1.c	\
+							execution_redirection_list2.c
 EXECUTION				=	$(addprefix $(EXECUTION_DIR), $(EXECUTION_FILES))
 
 # UTILS
 UTILS_DIR				=	utils/
-UTILS_FILES				=	list_utils.c				\
-							t_minishell_utils.c			\
-							t_pid_list_utils.c			\
-							close_file_descriptor.c		\
-							string_utils.c				\
-							ft_split_key_val.c			\
-							ft_print_str_array.c		\
-							array_utils.c				\
+UTILS_FILES				=	list_utils.c					\
+							t_minishell_utils.c				\
+							t_pid_list_utils.c				\
+							close_file_descriptor.c			\
+							string_utils.c					\
+							ft_split_key_val.c				\
+							ft_print_str_array.c			\
+							array_utils.c					\
 							error.c
 UTILS					=	$(addprefix $(UTILS_DIR), $(UTILS_FILES))
 
