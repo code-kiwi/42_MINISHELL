@@ -12,8 +12,8 @@
 
 #include "minishell.h"
 
-#define TEST_OK_NUMBER 20
-#define TEST_KO_NUMBER 7
+#define TEST_OK_NUMBER 26
+#define TEST_KO_NUMBER 11
 
 bool	quote_removal(char **input, t_minishell *shell, t_list **wildcards_pos);
 
@@ -79,6 +79,18 @@ void	get_tests_ok(char **tests)
 	tests[37] = ft_strdup("echo*truc");
 	tests[38] = ft_strdup("*'*'*");
 	tests[39] = ft_strdup("echo*truc");
+	tests[40] = ft_strdup("ec***truc");
+	tests[41] = ft_strdup("echotruc");
+	tests[42] = ft_strdup("ec**\"*\"o*");
+	tests[43] = ft_strdup("ech*o");
+	tests[44] = ft_strdup("***ech***o***");
+	tests[45] = ft_strdup("echo");
+	tests[46] = ft_strdup("****");
+	tests[47] = ft_strdup("oijhazex");
+	tests[48] = ft_strdup("iuah*ex'*'");
+	tests[49] = ft_strdup("iuahoiazjexuiex*");
+	tests[50] = ft_strdup("truc*machin");
+	tests[51] = ft_strdup("truc'*'machin");
 }
 
 void	get_tests_ko(char **tests)
@@ -97,6 +109,14 @@ void	get_tests_ko(char **tests)
 	tests[11] = ft_strdup("test sur plusieurscharacteresA");
 	tests[12] = ft_strdup("autre test");
 	tests[13] = ft_strdup("autre testoijqx");
+	tests[14] = ft_strdup("ec'*'o");
+	tests[15] = ft_strdup("echo");
+	tests[16] = ft_strdup("echo\"*\"");
+	tests[17] = ft_strdup("echotruc");
+	tests[18] = ft_strdup("'*'");
+	tests[19] = ft_strdup("machin");
+	tests[20] = ft_strdup("machin\"*\"");
+	tests[21] = ft_strdup("machintruc");
 }
 
 void	run_tests()
