@@ -6,7 +6,7 @@
 /*   By: mhotting <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/11 12:37:09 by mhotting          #+#    #+#             */
-/*   Updated: 2024/04/11 16:44:45 by mhotting         ###   ########.fr       */
+/*   Updated: 2024/04/12 10:15:06 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,17 +113,19 @@ static void	exec_redirection_out(
 	info->fd_stdout = fd;
 }
 
-void	redirection_exec_dispatch(
-	t_list *current_redirection,
-	t_redirections_info *info,
-	bool only_heredoc, bool after_last_hd
+/*
+ *	Executes a redirection depending on its type
+ *	Calls the right executor, providing it the redirection information
+ *	The after_last_hd flag is used to know if we are making redirections after
+ *	the last here_doc redirection or not in order to avoid infile redirections
+ *	to overwrite a here_doc redirection
+ */
+static void	redirection_exec_dispatch(
+	t_redirection *redirection, t_redirections_info *info, bool after_last_hd
 )
 {
-	t_redirection	*redirection;
-
-	if (current_redirection == NULL)
+	if (redirection == NULL)
 		return ;
-	redirection = (t_redirection *) current_redirection->content;
 	if (redirection->type == REDIRECTION_TYPE_INFILE)
 		exec_redirection_infile(redirection, info, after_last_hd);
 	else if (redirection->type == REDIRECTION_TYPE_OUTFILE_TRUNC)
@@ -132,14 +134,21 @@ void	redirection_exec_dispatch(
 		exec_redirection_out(redirection, info, false);
 }
 
-static ssize_t	exec_heredocs(t_list *current_red, t_redirections_info *info)
+/*
+ *	Executes all the heredoc redirections from the given redirection list
+ *	Returns the position (into the list) of the last heredoc redirection
+ *	Returns -1 if no heredoc redirection has been encountered
+ */
+static ssize_t	exec_heredocs(t_list *redirections, t_redirections_info *info)
 {
 	ssize_t			position;
 	ssize_t			last_hd_pos;
 	t_redirection	*redirection;
+	t_list			*current_red;
 
-	if (current_red == NULL)
+	if (redirections == NULL)
 		return (-1);
+	current_red = redirections;
 	position = 0;
 	last_hd_pos = -1;
 	while (current_red != NULL)
@@ -156,11 +165,20 @@ static ssize_t	exec_heredocs(t_list *current_red, t_redirections_info *info)
 	return (last_hd_pos);
 }
 
+/*
+ *	Executes all the redirections stored into the given redirection list
+ *	Stores the redirection information into info member of redirection_list
+ *	Steps:
+ *		- executes all the heredoc redirections first
+ *		- executes the other redirections (using last heredoc's index in order
+ *		to make stdin redirections logical: from left to right)
+ */
 void	exec_redirection_list(t_redirection_list *redirection_list)
 {
-	t_list	*current;
-	ssize_t	position_last_heredoc;
-	ssize_t	position;
+	t_list			*current;
+	t_redirection	*redirection;
+	ssize_t			position_last_heredoc;
+	ssize_t			position;
 
 	if (redirection_list == NULL)
 		return ;
@@ -169,7 +187,8 @@ void	exec_redirection_list(t_redirection_list *redirection_list)
 	position = 0;
 	while (current != NULL)
 	{
-		redirection_exec_dispatch(current, &(redirection_list->info), false, \
+		redirection = (t_redirection *) current->content;
+		redirection_exec_dispatch(redirection, &(redirection_list->info), \
 			(position_last_heredoc != -1 && position > position_last_heredoc));
 		position++;
 		current = current->next;
