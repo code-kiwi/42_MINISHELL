@@ -6,7 +6,7 @@
 /*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 08:34:50 by brappo            #+#    #+#             */
-/*   Updated: 2024/04/05 16:20:57 by brappo           ###   ########.fr       */
+/*   Updated: 2024/04/12 09:59:57 by brappo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,10 +79,7 @@ void	get_variable_key_coordinates(char *input, ssize_t *coordinates,
 		key_start++;
 		key_end = find_bracket(input, key_start);
 		if (key_end == -1 || !is_string_name(input, key_start, key_end))
-		{
-			printf("bad variable substitution\n");
 			return ;
-		}
 	}
 	else
 		key_end = end_of_name(input, key_start);
