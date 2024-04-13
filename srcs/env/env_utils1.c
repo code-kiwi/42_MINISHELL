@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   env_utils.c                                        :+:      :+:    :+:   */
+/*   env_utils1.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mhotting <mhotting@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 00:17:49 by mhotting          #+#    #+#             */
-/*   Updated: 2024/04/04 14:13:09 by mhotting         ###   ########.fr       */
+/*   Updated: 2024/04/13 14:21:06 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,44 +92,6 @@ void	env_delete(t_list **env, char *key)
 	if (env == NULL || *env == NULL || key == NULL)
 		return ;
 	ft_lst_remove_if(env, key, env_element_cmp, env_element_free);
-}
-
-/*
- *	Adds a new t_env_element into the env given list
- *	Updates the list pointer if necessary
- *	If the key was already defined into the list, the previous value is
- *	updated with the new one.
- *	Returns true on SUCCESS, false on ERROR
- *	Error cases:
- *		- wrong input (env and key cannot be NULL)
- *		- memory allocation failed
- */
-bool	env_add(t_list **env, char *key, char *value)
-{
-	t_env_element	*env_elt;
-	t_list			*new;
-
-	if (env == NULL || key == NULL)
-	{
-		errno = ENODATA;
-		return (false);
-	}
-	env_elt = env_element_create(key, value);
-	if (env_elt == NULL)
-	{
-		errno = ENOMEM;
-		return (false);
-	}
-	new = ft_lstnew((void *)env_elt);
-	if (new == NULL)
-	{
-		env_element_free(env_elt);
-		errno = ENOMEM;
-		return (false);
-	}
-	env_delete(env, key);
-	ft_lstadd_front(env, new);
-	return (true);
 }
 
 /*

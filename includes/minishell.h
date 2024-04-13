@@ -6,7 +6,7 @@
 /*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 10:17:54 by mhotting          #+#    #+#             */
-/*   Updated: 2024/04/12 15:45:47 by mhotting         ###   ########.fr       */
+/*   Updated: 2024/04/13 18:06:55 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,8 @@
 # include "pid_list.h"
 # include "built_in.h"
 
+# define STATUS_CMD_NOT_FOUND	127
+# define STATUS_CMD_NOT_EXEC	126
 # define ERROR_MSG_ARGS			"Wrong arguments given to the function"
 # define ERROR_MSG_CLOSE		"Closing fd error"
 # define ERROR_MSG_FORK			"Impossible to fork"
@@ -37,6 +39,8 @@
 # define ERROR_MSG_PIPE			"Impossible to pipe"
 # define ERROR_MSG_HEREDOC		"Impossible to read here_doc"
 # define ERROR_MSG_SUBSTITUTION "Invalid variable substitution"
+# define ERROR_MSG_CMD_NOTFOUND	"Command not found"
+# define ERROR_MSG_CMD_EXEC		"Command execution impossible"
 # define TOKENIZATION_ERROR 	"Tokenizing input"
 
 # define DGREAT 				">>"

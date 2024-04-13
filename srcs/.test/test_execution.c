@@ -6,7 +6,7 @@
 /*   By: mhotting <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/05 09:51:24 by mhotting          #+#    #+#             */
-/*   Updated: 2024/04/11 15:52:06 by mhotting         ###   ########.fr       */
+/*   Updated: 2024/04/13 17:06:03 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -161,7 +161,7 @@ int	main(int argc, char **argv, char **envp)
 	if (!node_cmd_add_redirs1(node_c1))
 		exit(EXIT_FAILURE);
 	//node_cmd_print(node_c1);
-	exec_cmd_handler(&shell, node_c1, FD_UNSET, FD_UNSET);
+	exec_cmd_handler(&shell, node_c1, FD_UNSET, FD_UNSET, false);
 	node_free_single(&node_c1);
 	t_minishell_free(&shell);
 	return (0);
