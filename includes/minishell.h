@@ -6,7 +6,7 @@
 /*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 10:17:54 by mhotting          #+#    #+#             */
-/*   Updated: 2024/04/13 18:06:55 by mhotting         ###   ########.fr       */
+/*   Updated: 2024/04/14 11:54:12 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@
 # define ERROR_MSG_HEREDOC		"Impossible to read here_doc"
 # define ERROR_MSG_SUBSTITUTION "Invalid variable substitution"
 # define ERROR_MSG_CMD_NOTFOUND	"Command not found"
+# define ERROR_MSG_CMD_REDIR	"File descriptor redirection impossible"
 # define ERROR_MSG_CMD_EXEC		"Command execution impossible"
 # define TOKENIZATION_ERROR 	"Tokenizing input"
 
@@ -52,6 +53,7 @@
 # define PIPE					"|"
 # define OPERATOR_CHARACTER		"><&|"
 # define OPERATOR_NUMBER 		7
+# define PATH_STR_SEPERATOR		":"
 
 # define FD_UNSET				-2
 # define FD_ERROR				-1

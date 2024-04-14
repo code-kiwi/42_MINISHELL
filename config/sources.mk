@@ -6,7 +6,7 @@
 #    By: brappo <brappo@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/03/31 20:47:09 by mhotting          #+#    #+#              #
-#    Updated: 2024/04/12 16:13:44 by mhotting         ###   ########.fr        #
+#    Updated: 2024/04/14 12:13:20 by mhotting         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -119,6 +119,7 @@ EXECUTION_DIR			=	execution/
 EXECUTION_FILES			=	exec.c						\
 							exec_node_command.c			\
 							exec_cmd.c					\
+							exec_cmd_get_path.c			\
 							exec_builtin.c				\
 							exec_redirection_list1.c	\
 							exec_redirection_list2.c
