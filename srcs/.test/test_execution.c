@@ -6,7 +6,7 @@
 /*   By: mhotting <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/05 09:51:24 by mhotting          #+#    #+#             */
-/*   Updated: 2024/04/14 19:48:27 by mhotting         ###   ########.fr       */
+/*   Updated: 2024/04/14 21:04:16 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,10 +80,27 @@ bool	node_cmd_add_redirs1(t_node *node)
 		return (false);
 	}
 	if (
-		!node_command_add_redirection(node, "<<", "LIM")
+		!node_command_add_redirection(node, "<", "Makefile")
 		//|| !node_command_add_redirection(node, "<", "file2")
 		//|| !node_command_add_redirection(node, "<<", "LIM2")
-		|| !node_command_add_redirection(node, ">>", "file4")
+	)
+	{
+		handle_error(NULL, "Creating node's redirections impossible", 0);
+		return (false);
+	}
+	return (true);
+}
+
+bool	node_cmd_add_redirs2(t_node *node)
+{
+	if (node == NULL || node->type != NODE_COMMAND)
+	{
+		errno = EINVAL;
+		handle_error(NULL, "Impossible to create cmd node", 0);
+		return (false);
+	}
+	if (
+		!node_command_add_redirection(node, ">>", "file4")
 		|| !node_command_add_redirection(node, ">", "file3")
 	)
 	{
@@ -92,6 +109,44 @@ bool	node_cmd_add_redirs1(t_node *node)
 	}
 	return (true);
 }
+
+bool	node_cmd_add_redirs3(t_node *node)
+{
+	if (node == NULL || node->type != NODE_COMMAND)
+	{
+		errno = EINVAL;
+		handle_error(NULL, "Impossible to create cmd node", 0);
+		return (false);
+	}
+	if (
+		//!node_command_add_redirection(node, ">>", "file4")
+		!node_command_add_redirection(node, ">>", "file3")
+	)
+	{
+		handle_error(NULL, "Creating node's redirections impossible", 0);
+		return (false);
+	}
+	return (true);
+}
+
+/* ********************************************************************** */
+// NODE PIPE UTILS
+
+t_node	*node_pip_create(t_node *left, t_node *right)
+{
+	t_node	*node_pipe;
+
+	node_pipe = node_pipe_create();
+	if (node_pipe == NULL)
+	{
+		handle_error(NULL, "Impossible to create pipe node", 0);
+		return (NULL);
+	}
+	node_pipe->child_left = left;
+	node_pipe->child_right = right;
+	return (node_pipe);
+}
+
 
 void	node_cmd_print(t_node *node)
 {
@@ -149,6 +204,10 @@ int	main(int argc, char **argv, char **envp)
 {
 	t_minishell	shell;
 	t_node		*node_c1;
+	t_node		*node_c2;
+	t_node		*node_c3;
+	t_node		*node_pipe1;
+	t_node		*node_pipe2;
 	int			fd[2];
 
 	t_minishell_init(&shell, argc, argv, envp);
@@ -156,16 +215,43 @@ int	main(int argc, char **argv, char **envp)
 	t_minishell_add_pid(&shell, PID_ERROR);
 	t_minishell_add_pid(&shell, 64);
 	//t_minishell_print(&shell);
+	
+	// Creates node_c1
 	node_c1 = node_cmd_create("cat");
 	if (node_c1 == NULL)
 		exit(EXIT_FAILURE);
 	if (!node_cmd_add_redirs1(node_c1))
 		exit(EXIT_FAILURE);
 	//node_cmd_print(node_c1);
-	shell.ast = node_c1;
+	
+	// Creates node_c2
+	node_c2 = node_cmd_create("cat");
+	if (node_c2 == NULL)
+		exit(EXIT_FAILURE);
+	//if (!node_cmd_add_redirs2(node_c2))
+	//	exit(EXIT_FAILURE);
+	//node_cmd_print(node_c2);
+
+	// Creates node_c3
+	node_c3 = node_cmd_create("cat");
+	if (node_c3 == NULL)
+		exit(EXIT_FAILURE);
+	if (!node_cmd_add_redirs3(node_c3))
+		exit(EXIT_FAILURE);
+	//node_cmd_print(node_c3);
+
+	// Creates pipe node
+	node_pipe2 = node_pip_create(node_c2, node_c3);
+	if (node_pipe2 == NULL)
+		exit(EXIT_FAILURE);
+	node_pipe1 = node_pip_create(node_c1, node_pipe2);
+	if (node_pipe1 == NULL)
+		exit(EXIT_FAILURE);
+
+	shell.ast = node_pipe1;
 	fd[0] = FD_UNSET;
 	fd[1] = FD_UNSET;
-	exec_node_command(&shell, node_c1, fd, false);
+	exec_node(&shell, shell.ast, fd, false);
 	t_minishell_free(&shell);
 	return (0);
 }

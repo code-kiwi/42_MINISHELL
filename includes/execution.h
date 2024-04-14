@@ -6,7 +6,7 @@
 /*   By: mhotting <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/10 12:52:55 by mhotting          #+#    #+#             */
-/*   Updated: 2024/04/14 19:47:40 by mhotting         ###   ########.fr       */
+/*   Updated: 2024/04/14 20:35:53 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,12 @@
 # define EXECUTION_H
 
 # include "minishell.h"
+
+// General execution
+void	exec_node(t_minishell *shell, t_node *node, int fd[2], bool in_pipe);
+
+// Pipe execution
+void	exec_node_pipe(t_minishell *shell, t_node *node, int fd[2]);
 
 // Command execution
 char	*exec_cmd_get_path(t_minishell *shell, char *cmd);
