@@ -1,17 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   execution_node_command.c                           :+:      :+:    :+:   */
+/*   exec_node_command.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mhotting <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/10 12:39:49 by mhotting          #+#    #+#             */
-/*   Updated: 2024/04/12 15:46:19 by mhotting         ###   ########.fr       */
+/*   Updated: 2024/04/14 19:47:05 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+/*
+ *	Sets command file descriptors according to the given ones
+ */
 static void	exec_cmd_set_pipe_fds(t_node_command *cmd, int fd_in, int fd_out)
 {
 	if (cmd == NULL)
@@ -20,11 +23,22 @@ static void	exec_cmd_set_pipe_fds(t_node_command *cmd, int fd_in, int fd_out)
 	cmd->fd_out = fd_out;
 }
 
+/*
+ *	Sets the final command's file descriptors according to the command's
+ *	redirection_list member
+ *	Steps:
+ *		- executes the command redirections 
+ *		- sets the cmd file descriptors according to the redirection
+ *		execution results
+ *	If the command already had valid opened file desciptors, they are
+ *	overwritten by the new ones (after having been closed)
+ *	If there is no redirection to operate, the command's fds remain unchanged
+ */
 static void	exec_cmd_set_redirections_fds(t_node_command *cmd)
 {
 	t_redirection_list	*red;
 
-	if (cmd == NULL)
+	if (cmd == NULL || cmd->redirection_list == NULL)
 		return ;
 	red = cmd->redirection_list;
 	exec_redirection_list(red);
@@ -44,7 +58,21 @@ static void	exec_cmd_set_redirections_fds(t_node_command *cmd)
 	}
 }
 
-static void	exec_cmd_process(t_minishell *shell, t_node_command *cmd, bool in_pipe)
+/*
+ *	Executes the given command
+ *	A subprocess is created for the execution, except if we are outside of a
+ *	pipe and calling a builtin function
+ *	If a builtin is called outside of a pipe, the builtin is executed and the
+ *	shell env last status is set using the returned status from the builtin
+ *	If we are in a subprocess:
+ *		- We fork
+ *		- The subprocess executes the command (or builtin)
+ *		- The main process adds the subprocess' pid to the shell's pid list
+ *	Then the command's file descriptors are closed
+ */
+static void	exec_cmd_process(
+	t_minishell *shell, t_node_command *cmd, bool in_pipe
+)
 {
 	pid_t	pid;
 	int		returned_status;
@@ -72,8 +100,19 @@ static void	exec_cmd_process(t_minishell *shell, t_node_command *cmd, bool in_pi
 	node_command_close_fds(cmd);
 }
 
-void	exec_cmd_handler(
-	t_minishell *shell, t_node *node, int fd_in, int fd_out, bool in_pipe
+/*
+ *	Executes the given node of type command
+ *	Steps:
+ *		- checks the input args (valid shell, valid command node)
+ *		- sets the command file descriptors according to the given ones
+ *		(given fd[0] will be command's stdin, fd[1] command's stdout)
+ *		- sets the command redirections according to command's redirection
+ *		list member
+ *		- test if there was a redirection error
+ *		- executes the command
+ */
+void	exec_node_command(
+	t_minishell *shell, t_node *node, int fd[2], bool in_pipe
 )
 {
 	t_node_command	*cmd;
@@ -81,7 +120,7 @@ void	exec_cmd_handler(
 	if (node == NULL || node->type != NODE_COMMAND || node->content == NULL)
 		handle_error(shell, ERROR_MSG_ARGS, EXIT_FAILURE);
 	cmd = (t_node_command *) node->content;
-	exec_cmd_set_pipe_fds(cmd, fd_in, fd_out);
+	exec_cmd_set_pipe_fds(cmd, fd[0], fd[1]);
 	exec_cmd_set_redirections_fds(cmd);
 	if (cmd->fd_in == FD_ERROR || cmd->fd_out == FD_ERROR)
 	{

@@ -6,7 +6,7 @@
 /*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 13:10:16 by mhotting          #+#    #+#             */
-/*   Updated: 2024/04/12 13:51:33 by mhotting         ###   ########.fr       */
+/*   Updated: 2024/04/14 13:03:33 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,8 @@ void	t_minishell_free(t_minishell *shell)
 		else
 			t_minishell_wait_pids(shell);
 	}
+	if (shell->ast != NULL)
+		ast_free(&(shell->ast));
 }
 
 bool	t_minishell_add_pid(t_minishell *shell, pid_t pid)

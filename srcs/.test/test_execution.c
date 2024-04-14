@@ -6,7 +6,7 @@
 /*   By: mhotting <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/05 09:51:24 by mhotting          #+#    #+#             */
-/*   Updated: 2024/04/14 12:15:04 by mhotting         ###   ########.fr       */
+/*   Updated: 2024/04/14 19:48:27 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,10 +81,10 @@ bool	node_cmd_add_redirs1(t_node *node)
 	}
 	if (
 		!node_command_add_redirection(node, "<<", "LIM")
-		|| !node_command_add_redirection(node, "<", "file2")
-		|| !node_command_add_redirection(node, "<<", "LIM2")
-		|| !node_command_add_redirection(node, ">", "file3")
+		//|| !node_command_add_redirection(node, "<", "file2")
+		//|| !node_command_add_redirection(node, "<<", "LIM2")
 		|| !node_command_add_redirection(node, ">>", "file4")
+		|| !node_command_add_redirection(node, ">", "file3")
 	)
 	{
 		handle_error(NULL, "Creating node's redirections impossible", 0);
@@ -149,22 +149,23 @@ int	main(int argc, char **argv, char **envp)
 {
 	t_minishell	shell;
 	t_node		*node_c1;
+	int			fd[2];
 
 	t_minishell_init(&shell, argc, argv, envp);
 	//t_minishell_print(&shell);
 	t_minishell_add_pid(&shell, PID_ERROR);
 	t_minishell_add_pid(&shell, 64);
 	//t_minishell_print(&shell);
-	node_c1 = node_cmd_create("ls -la");
+	node_c1 = node_cmd_create("cat");
 	if (node_c1 == NULL)
 		exit(EXIT_FAILURE);
-	/*
 	if (!node_cmd_add_redirs1(node_c1))
 		exit(EXIT_FAILURE);
-	*/
 	//node_cmd_print(node_c1);
-	exec_cmd_handler(&shell, node_c1, FD_UNSET, FD_UNSET, false);
-	node_free_single(&node_c1);
+	shell.ast = node_c1;
+	fd[0] = FD_UNSET;
+	fd[1] = FD_UNSET;
+	exec_node_command(&shell, node_c1, fd, false);
 	t_minishell_free(&shell);
 	return (0);
 }

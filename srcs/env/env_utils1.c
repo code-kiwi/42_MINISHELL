@@ -6,7 +6,7 @@
 /*   By: mhotting <mhotting@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 00:17:49 by mhotting          #+#    #+#             */
-/*   Updated: 2024/04/13 14:21:06 by mhotting         ###   ########.fr       */
+/*   Updated: 2024/04/14 19:43:34 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ char	*env_get(t_list *env, char *key)
 	t_env_element	*env_elt;
 	char			*value;
 
-	if (env == NULL || key == NULL)
+	if (key == NULL)
 	{
 		errno = ENODATA;
 		return (NULL);
@@ -99,6 +99,7 @@ void	env_delete(t_list **env, char *key)
  *	from the given env list.
  *	This could be used for env builtin and for generating an env adpted to
  *	execve().
+ *	NB: if the given env is NULL, an empty NULL terminated array is returned
  *	In case of ERROR, returns NULL.
  */
 char	**env_get_all_array(t_list *env)
@@ -109,7 +110,7 @@ char	**env_get_all_array(t_list *env)
 	t_env_element	*env_elt;
 
 	if (env == NULL)
-		return (NULL);
+		return (ft_split("", ""));
 	size = ft_lstsize(env);
 	res = (char **) ft_calloc(size + 1, sizeof(char *));
 	if (res == NULL)

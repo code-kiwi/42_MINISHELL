@@ -6,12 +6,17 @@
 /*   By: mhotting <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/12 15:40:35 by mhotting          #+#    #+#             */
-/*   Updated: 2024/04/14 12:16:26 by mhotting         ###   ########.fr       */
+/*   Updated: 2024/04/14 19:52:56 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+/*
+ *	Closes process' stdin and stdout
+ *	Exits the process, freeing the resources, printing the error message
+ *	and returning the given status
+ */
 static void	exec_cmd_error(t_minishell *shell, char *err_msg, int status)
 {
 	fd_close(STDIN_FILENO);
@@ -19,6 +24,11 @@ static void	exec_cmd_error(t_minishell *shell, char *err_msg, int status)
 	handle_error(shell, err_msg, status);
 }
 
+/*
+ *	Redirects process' stdin and stdout according to the command redirections
+ *	In case of ERROR, the process exits after freeing all the resources
+ *	and with an error status
+ */
 static void	exec_cmd_redirect(t_minishell *shell, t_node_command *cmd)
 {
 	if (
@@ -40,6 +50,16 @@ static void	exec_cmd_redirect(t_minishell *shell, t_node_command *cmd)
 	}
 }
 
+/*
+ *	Executes an external command
+ *	Steps:
+ *		- Redirects process stdin and stdout according to command redirections
+ *		- Finds the right path to the given command
+ *		- Gets the shell's environment
+ *		- Executes the command using execve()
+ *	In case of ERROR, all the resources are freed and the process exits
+ *	with the right status
+ */
 static void	exec_cmd_extrenal(t_minishell *shell, t_node_command *cmd)
 {
 	char	*command_path;
@@ -49,7 +69,6 @@ static void	exec_cmd_extrenal(t_minishell *shell, t_node_command *cmd)
 		handle_error(shell, ERROR_MSG_ARGS, EXIT_FAILURE);
 	exec_cmd_redirect(shell, cmd);
 	command_path = exec_cmd_get_path(shell, (cmd->argv)[0]);
-	printf("TEST: %s\n", command_path);
 	if (command_path == NULL)
 		exec_cmd_error(shell, ERROR_MSG_CMD_NOTFOUND, STATUS_CMD_NOT_FOUND);
 	env = env_get_all_array(shell->env);
@@ -64,6 +83,16 @@ static void	exec_cmd_extrenal(t_minishell *shell, t_node_command *cmd)
 	exec_cmd_error(shell, ERROR_MSG_CMD_EXEC, STATUS_CMD_NOT_EXEC);
 }
 
+/*
+ *	Executes the given command into the given shell
+ *	This function is only called from a child process
+ *	If the command is a builtin:
+ *		- we execute the builtin
+ *		- we close the command file descriptors and free the shell ressources)
+ *		- we exit the subprocess with the bultin returned status
+ *	If we are with a command other than a builtin, exec_cmd_extrenal() is
+ *	called
+ */
 void	exec_cmd(t_minishell *shell, t_node_command *cmd)
 {
 	int	returned_status;
@@ -79,4 +108,3 @@ void	exec_cmd(t_minishell *shell, t_node_command *cmd)
 	}
 	exec_cmd_extrenal(shell, cmd);
 }
-
