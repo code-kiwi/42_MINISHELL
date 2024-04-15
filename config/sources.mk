@@ -6,7 +6,7 @@
 #    By: brappo <brappo@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/03/31 20:47:09 by mhotting          #+#    #+#              #
-#    Updated: 2024/04/14 20:40:06 by mhotting         ###   ########.fr        #
+#    Updated: 2024/04/15 03:22:40 by mhotting         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -118,6 +118,7 @@ ENV						=	$(addprefix $(ENV_DIR), $(ENV_FILES))
 EXECUTION_DIR			=	execution/
 EXECUTION_FILES			=	exec.c						\
 							exec_node_pipe.c			\
+							exec_node_logical.c			\
 							exec_node_command.c			\
 							exec_cmd.c					\
 							exec_cmd_get_path.c			\

@@ -6,7 +6,7 @@
 /*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 10:17:54 by mhotting          #+#    #+#             */
-/*   Updated: 2024/04/14 12:59:16 by mhotting         ###   ########.fr       */
+/*   Updated: 2024/04/15 02:44:55 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@
 # define ERROR_MSG_CLOSE		"Closing fd error"
 # define ERROR_MSG_FORK			"Impossible to fork"
 # define ERROR_MSG_MEM			"Memory allocation problem"
-# define ERROR_MSG_PIPE			"Impossible to pipe"
+# define ERROR_MSG_PIPE			"Impossible to open a pipe"
 # define ERROR_MSG_HEREDOC		"Impossible to read here_doc"
 # define ERROR_MSG_SUBSTITUTION "Invalid variable substitution"
 # define ERROR_MSG_CMD_NOTFOUND	"Command not found"

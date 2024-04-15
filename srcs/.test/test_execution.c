@@ -6,7 +6,7 @@
 /*   By: mhotting <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/05 09:51:24 by mhotting          #+#    #+#             */
-/*   Updated: 2024/04/14 21:04:16 by mhotting         ###   ########.fr       */
+/*   Updated: 2024/04/15 02:30:06 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -209,11 +209,10 @@ int	main(int argc, char **argv, char **envp)
 	t_node		*node_pipe1;
 	t_node		*node_pipe2;
 	int			fd[2];
+	int			status;
 
 	t_minishell_init(&shell, argc, argv, envp);
 	//t_minishell_print(&shell);
-	t_minishell_add_pid(&shell, PID_ERROR);
-	t_minishell_add_pid(&shell, 64);
 	//t_minishell_print(&shell);
 	
 	// Creates node_c1
@@ -252,6 +251,10 @@ int	main(int argc, char **argv, char **envp)
 	fd[0] = FD_UNSET;
 	fd[1] = FD_UNSET;
 	exec_node(&shell, shell.ast, fd, false);
+
+	status = t_minishell_wait_pids(&shell);
+	printf("Status: %d\n", status);
+
 	t_minishell_free(&shell);
-	return (0);
+	return (status);
 }
