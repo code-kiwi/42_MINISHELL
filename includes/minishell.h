@@ -6,7 +6,7 @@
 /*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 10:17:54 by mhotting          #+#    #+#             */
-/*   Updated: 2024/04/15 02:44:55 by mhotting         ###   ########.fr       */
+/*   Updated: 2024/04/15 11:20:42 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,7 @@
 # define ERROR_MSG_CMD_NOTFOUND	"Command not found"
 # define ERROR_MSG_CMD_REDIR	"File descriptor redirection impossible"
 # define ERROR_MSG_CMD_EXEC		"Command execution impossible"
+# define ERROR_MSG_DUP			"Impossible to duplicate a file descriptor"
 # define TOKENIZATION_ERROR 	"Tokenizing input"
 
 # define DGREAT 				">>"

@@ -6,7 +6,7 @@
 /*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 13:10:16 by mhotting          #+#    #+#             */
-/*   Updated: 2024/04/15 02:11:19 by mhotting         ###   ########.fr       */
+/*   Updated: 2024/04/15 13:06:24 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,4 +92,11 @@ int	t_minishell_wait_pids(t_minishell *shell)
 	}
 	pid_list_clear(&(shell->pid_list));
 	return (ret);
+}
+
+int	t_minishell_get_exec_status(t_minishell *shell)
+{
+	if (shell == NULL)
+		return (-1);
+	return (0);
 }

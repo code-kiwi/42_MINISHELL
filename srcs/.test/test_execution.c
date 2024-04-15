@@ -6,7 +6,7 @@
 /*   By: mhotting <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/05 09:51:24 by mhotting          #+#    #+#             */
-/*   Updated: 2024/04/15 02:30:06 by mhotting         ###   ########.fr       */
+/*   Updated: 2024/04/15 12:50:16 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ t_node	*node_cmd_create(char *cmd)
 	return (node);
 }
 
-bool	node_cmd_add_redirs1(t_node *node)
+bool	node_cmd_add_redirs(t_node *node, char *op, char *filename)
 {
 	if (node == NULL || node->type != NODE_COMMAND)
 	{
@@ -79,11 +79,7 @@ bool	node_cmd_add_redirs1(t_node *node)
 		handle_error(NULL, "Impossible to create cmd node", 0);
 		return (false);
 	}
-	if (
-		!node_command_add_redirection(node, "<", "Makefile")
-		//|| !node_command_add_redirection(node, "<", "file2")
-		//|| !node_command_add_redirection(node, "<<", "LIM2")
-	)
+	if (!node_command_add_redirection(node, op, filename))
 	{
 		handle_error(NULL, "Creating node's redirections impossible", 0);
 		return (false);
@@ -91,42 +87,21 @@ bool	node_cmd_add_redirs1(t_node *node)
 	return (true);
 }
 
-bool	node_cmd_add_redirs2(t_node *node)
+void	node_cmd_print(t_node *node)
 {
-	if (node == NULL || node->type != NODE_COMMAND)
-	{
-		errno = EINVAL;
-		handle_error(NULL, "Impossible to create cmd node", 0);
-		return (false);
-	}
-	if (
-		!node_command_add_redirection(node, ">>", "file4")
-		|| !node_command_add_redirection(node, ">", "file3")
-	)
-	{
-		handle_error(NULL, "Creating node's redirections impossible", 0);
-		return (false);
-	}
-	return (true);
-}
+	t_node_command	*node_cmd;
 
-bool	node_cmd_add_redirs3(t_node *node)
-{
-	if (node == NULL || node->type != NODE_COMMAND)
+	if (node == NULL || node->type != NODE_COMMAND || node->content == NULL)
 	{
 		errno = EINVAL;
-		handle_error(NULL, "Impossible to create cmd node", 0);
-		return (false);
+		handle_error(NULL, "Impossible to print the COMMAND node", 0);
+		return ;
 	}
-	if (
-		//!node_command_add_redirection(node, ">>", "file4")
-		!node_command_add_redirection(node, ">>", "file3")
-	)
-	{
-		handle_error(NULL, "Creating node's redirections impossible", 0);
-		return (false);
-	}
-	return (true);
+	node_cmd = (t_node_command *) node->content;
+	printf("----------\n");
+	printf("NODE COMMAND:\n");
+	ft_print_str_array(node_cmd->argv);
+	test_print_redirection_list(node_cmd->redirection_list);
 }
 
 /* ********************************************************************** */
@@ -139,7 +114,7 @@ t_node	*node_pip_create(t_node *left, t_node *right)
 	node_pipe = node_pipe_create();
 	if (node_pipe == NULL)
 	{
-		handle_error(NULL, "Impossible to create pipe node", 0);
+		handle_error(NULL, "Impossible to create PIPE node", 0);
 		return (NULL);
 	}
 	node_pipe->child_left = left;
@@ -147,23 +122,39 @@ t_node	*node_pip_create(t_node *left, t_node *right)
 	return (node_pipe);
 }
 
+/* ********************************************************************** */
+// NODE LOGICAL UTILS
 
-void	node_cmd_print(t_node *node)
+t_node	*node_and_create_test(t_node *left, t_node *right)
 {
-	t_node_command	*node_cmd;
+	t_node	*node_and;
 
-	if (node == NULL || node->type != NODE_COMMAND || node->content == NULL)
+	node_and = node_and_create();
+	if (node_and == NULL)
 	{
-		errno = EINVAL;
-		handle_error(NULL, "Impossible to print the cmd node", 0);
-		return ;
+		handle_error(NULL, "Impossible to create AND node", 0);
+		return (NULL);
 	}
-	node_cmd = (t_node_command *) node->content;
-	printf("----------\n");
-	printf("NODE COMMAND:\n");
-	ft_print_str_array(node_cmd->argv);
-	test_print_redirection_list(node_cmd->redirection_list);
+	node_and->child_left = left;
+	node_and->child_right = right;
+	return (node_and);
 }
+
+t_node	*node_or_create_test(t_node *left, t_node *right)
+{
+	t_node	*node_or;
+
+	node_or = node_or_create();
+	if (node_or == NULL)
+	{
+		handle_error(NULL, "Impossible to create OR node", 0);
+		return (NULL);
+	}
+	node_or->child_left = left;
+	node_or->child_right = right;
+	return (node_or);
+}
+
 
 /* ********************************************************************** */
 // T_MINISHELL UTILS
@@ -198,56 +189,139 @@ void	t_minishell_print(t_minishell *shell)
 }
 
 /* ********************************************************************** */
-// MAIN
+// AST_CREATION
 
-int	main(int argc, char **argv, char **envp)
+/*
+ *	Returns an AST for the command: "< Makefile cat | cat | cat > outfile"
+ */
+t_node	*ast_create1(void)
 {
-	t_minishell	shell;
-	t_node		*node_c1;
-	t_node		*node_c2;
-	t_node		*node_c3;
-	t_node		*node_pipe1;
-	t_node		*node_pipe2;
-	int			fd[2];
-	int			status;
+	t_node	*node_c1;
+	t_node	*node_c2;
+	t_node	*node_c3;
+	t_node	*node_pipe1;
+	t_node	*node_pipe2;
 
-	t_minishell_init(&shell, argc, argv, envp);
-	//t_minishell_print(&shell);
-	//t_minishell_print(&shell);
-	
 	// Creates node_c1
 	node_c1 = node_cmd_create("cat");
 	if (node_c1 == NULL)
-		exit(EXIT_FAILURE);
-	if (!node_cmd_add_redirs1(node_c1))
-		exit(EXIT_FAILURE);
-	//node_cmd_print(node_c1);
+		return (NULL);
+	if (!node_cmd_add_redirs(node_c1, "<", "Makefile"))
+		return (NULL);
 	
 	// Creates node_c2
 	node_c2 = node_cmd_create("cat");
 	if (node_c2 == NULL)
-		exit(EXIT_FAILURE);
-	//if (!node_cmd_add_redirs2(node_c2))
-	//	exit(EXIT_FAILURE);
-	//node_cmd_print(node_c2);
+		return (NULL);
 
 	// Creates node_c3
 	node_c3 = node_cmd_create("cat");
 	if (node_c3 == NULL)
-		exit(EXIT_FAILURE);
-	if (!node_cmd_add_redirs3(node_c3))
-		exit(EXIT_FAILURE);
-	//node_cmd_print(node_c3);
+		return (NULL);
+	if (!node_cmd_add_redirs(node_c3, ">", "outfile"))
+		return (NULL);
 
 	// Creates pipe node
 	node_pipe2 = node_pip_create(node_c2, node_c3);
 	if (node_pipe2 == NULL)
-		exit(EXIT_FAILURE);
+		return (NULL);
 	node_pipe1 = node_pip_create(node_c1, node_pipe2);
 	if (node_pipe1 == NULL)
-		exit(EXIT_FAILURE);
+		return (NULL);
+	return (node_pipe1);
+}
 
-	shell.ast = node_pipe1;
+/*
+ *	Returns an AST for the command: "ls -la && sleep 5"
+ */
+t_node	*ast_create2(void)
+{
+	t_node	*node_c1;
+	t_node	*node_c2;
+	t_node	*node_and;
+
+	// Creates node_c1
+	node_c1 = node_cmd_create("ls -la");
+	if (node_c1 == NULL)
+		return (NULL);
+	
+	// Creates node_c2
+	node_c2 = node_cmd_create("sleep 5");
+	if (node_c2 == NULL)
+		return (NULL);
+
+	// Creates and node
+	node_and = node_and_create_test(node_c1, node_c2);
+	if (node_and == NULL)
+		return (NULL);
+	return (node_and);
+}
+
+/*
+ *	Returns an AST for the command: "echo 1 | cat && echo 2"
+ */
+t_node	*ast_create3(void)
+{
+	t_node	*node_c1;
+	t_node	*node_c2;
+	t_node	*node_c3;
+	t_node	*node_and;
+	t_node	*node_pipe;
+
+	// Creates node_c1
+	node_c1 = node_cmd_create("echo 1");
+	if (node_c1 == NULL)
+		return (NULL);
+	
+	// Creates node_c2
+	node_c2 = node_cmd_create("cat");
+	if (node_c2 == NULL)
+		return (NULL);
+
+	// Creates node_c3
+	node_c3 = node_cmd_create("echo 2");
+	if (node_c3 == NULL)
+		return (NULL);
+
+	// Creates pipe node
+	node_pipe = node_pip_create(node_c1, node_c2);
+	if (node_pipe == NULL)
+		return (NULL);
+
+	// Creates and node
+	node_and = node_and_create_test(node_pipe, node_c3);
+	if (node_and == NULL)
+		return (NULL);
+	return (node_and);
+}
+
+/* ********************************************************************** */
+// MAIN
+
+#define NB_TESTS 3
+int	main(int argc, char **argv, char **envp)
+{
+	t_minishell	shell;
+	int			fd[2];
+	int			status;
+	int			chosen_test;
+
+	if (argc != 2)
+		handle_error(NULL, "INVALID ARGS FOR TESTING: please provide the test number", EXIT_FAILURE);
+	chosen_test = ft_atoi(argv[1]);
+	if (chosen_test < 1 && chosen_test > NB_TESTS)
+		handle_error(NULL, "INVALID ARGS FOR TESTING: invalid test number", EXIT_FAILURE);
+	t_minishell_init(&shell, argc, argv, envp);
+
+	if (chosen_test == 1)
+		shell.ast = ast_create1();
+	else if (chosen_test == 2)
+		shell.ast = ast_create2();
+	else if (chosen_test == 3)
+		shell.ast = ast_create3();
+
+	if (shell.ast == NULL)
+		handle_error(&shell, "AST CREATION FAILED", EXIT_FAILURE);
 	fd[0] = FD_UNSET;
 	fd[1] = FD_UNSET;
 	exec_node(&shell, shell.ast, fd, false);
