@@ -6,7 +6,7 @@
 /*   By: mhotting <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 09:41:09 by mhotting          #+#    #+#             */
-/*   Updated: 2024/04/15 12:57:00 by mhotting         ###   ########.fr       */
+/*   Updated: 2024/04/15 14:21:25 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,8 +47,7 @@ void	exec_node_logical(t_minishell *shell, t_node *node, int fd[2])
 	if (!exec_node_logical_clone_fds(fd, child_right_fds))
 		handle_error(shell, ERROR_MSG_DUP, EXIT_FAILURE);
 	exec_node(shell, node->child_left, fd, false);
-	status = t_minishell_wait_pids(shell);
-	// ADD status to env
+	status = t_minishell_get_exec_status(shell);
 	if (
 		(node->type == NODE_AND && status != EXIT_SUCCESS)
 		|| (node->type == NODE_OR && status == EXIT_SUCCESS)

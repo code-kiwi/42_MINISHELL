@@ -6,7 +6,7 @@
 /*   By: mhotting <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/05 09:51:24 by mhotting          #+#    #+#             */
-/*   Updated: 2024/04/15 12:50:16 by mhotting         ###   ########.fr       */
+/*   Updated: 2024/04/15 15:40:54 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -279,8 +279,10 @@ t_node	*ast_create3(void)
 		return (NULL);
 
 	// Creates node_c3
-	node_c3 = node_cmd_create("echo 2");
+	node_c3 = node_cmd_create("ech 2");
 	if (node_c3 == NULL)
+		return (NULL);
+	if (!node_cmd_add_redirs(node_c3, ">>", "outfile"))
 		return (NULL);
 
 	// Creates pipe node
@@ -326,9 +328,8 @@ int	main(int argc, char **argv, char **envp)
 	fd[1] = FD_UNSET;
 	exec_node(&shell, shell.ast, fd, false);
 
-	status = t_minishell_wait_pids(&shell);
-	printf("Status: %d\n", status);
-
+	t_minishell_get_exec_status(&shell);
+	status = shell.status;
 	t_minishell_free(&shell);
 	return (status);
 }

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   execution_redirection_list2.c                      :+:      :+:    :+:   */
+/*   exec_redirection_list2.c                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mhotting <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/11 12:37:09 by mhotting          #+#    #+#             */
-/*   Updated: 2024/04/12 14:30:46 by mhotting         ###   ########.fr       */
+/*   Updated: 2024/04/15 15:56:18 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -142,8 +142,7 @@ void	exec_redirection_out(
 		redirection == NULL || info == NULL || info->error_outfile
 		|| (
 			redirection->type != REDIRECTION_TYPE_OUTFILE_TRUNC
-			&& redirection->type != REDIRECTION_TYPE_OUTFILE_APPEND
-		)
+			&& redirection->type != REDIRECTION_TYPE_OUTFILE_APPEND)
 	)
 		return ;
 	if (redirection->type == REDIRECTION_TYPE_OUTFILE_TRUNC)
@@ -152,6 +151,7 @@ void	exec_redirection_out(
 		fd = open(redirection->filename, O_WRONLY | O_APPEND | O_CREAT, 0644);
 	if (fd == -1)
 	{
+		handle_error(NULL, redirection->filename, 0);
 		info->error_outfile = true;
 		if (info->fd_stdout != FD_UNSET)
 			fd_close_and_reset(&(info->fd_stdout));

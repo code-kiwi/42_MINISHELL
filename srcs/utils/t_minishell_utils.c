@@ -6,7 +6,7 @@
 /*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 13:10:16 by mhotting          #+#    #+#             */
-/*   Updated: 2024/04/15 13:06:24 by mhotting         ###   ########.fr       */
+/*   Updated: 2024/04/15 14:20:23 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ void	t_minishell_free(t_minishell *shell)
 		if (shell->is_child_process)
 			pid_list_clear(&(shell->pid_list));
 		else
-			t_minishell_wait_pids(shell);
+			t_minishell_get_exec_status(shell);
 	}
 	if (shell->ast != NULL)
 		ast_free(&(shell->ast));
@@ -65,7 +65,7 @@ bool	t_minishell_add_pid(t_minishell *shell, pid_t pid)
 	return (true);
 }
 
-int	t_minishell_wait_pids(t_minishell *shell)
+static int	t_minishell_wait_pids(t_minishell *shell)
 {
 	t_pid_list	*current;
 	int			ret;
@@ -96,7 +96,11 @@ int	t_minishell_wait_pids(t_minishell *shell)
 
 int	t_minishell_get_exec_status(t_minishell *shell)
 {
+	int	status;
+
 	if (shell == NULL)
-		return (-1);
-	return (0);
+		return (EXIT_FAILURE);
+	status = t_minishell_wait_pids(shell);
+	shell->status = status;
+	return (status);
 }

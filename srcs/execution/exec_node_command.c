@@ -75,15 +75,11 @@ static void	exec_cmd_process(
 )
 {
 	pid_t	pid;
-	int		returned_status;
 
 	if (shell == NULL || cmd == NULL || !cmd->argv || cmd->argv[0] == NULL)
 		handle_error(shell, ERROR_MSG_ARGS, EXIT_FAILURE);
 	if (is_built_in(cmd->argv[0]) && !in_pipe)
-	{
-		returned_status = exec_builtin(shell, cmd);
-		env_add_int(&(shell->env), "?", returned_status);
-	}
+		shell->status = exec_builtin(shell, cmd);
 	else
 	{
 		pid = fork();

@@ -6,7 +6,7 @@
 /*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 10:17:54 by mhotting          #+#    #+#             */
-/*   Updated: 2024/04/15 11:20:42 by mhotting         ###   ########.fr       */
+/*   Updated: 2024/04/15 15:54:38 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@
 # define ERROR_MSG_PIPE			"Impossible to open a pipe"
 # define ERROR_MSG_HEREDOC		"Impossible to read here_doc"
 # define ERROR_MSG_SUBSTITUTION "Invalid variable substitution"
-# define ERROR_MSG_CMD_NOTFOUND	"Command not found"
+# define ERROR_MSG_CMD_NFND		"Command not found"
 # define ERROR_MSG_CMD_REDIR	"File descriptor redirection impossible"
 # define ERROR_MSG_CMD_EXEC		"Command execution impossible"
 # define ERROR_MSG_DUP			"Impossible to duplicate a file descriptor"
@@ -71,16 +71,18 @@ typedef struct s_minishell
 	struct s_pid_list	*pid_list;
 	bool				is_child_process;
 	t_node				*ast;
+	int					status;
 }	t_minishell;
 
 // t_minshell functions
 void	t_minishell_init(t_minishell *shell, int ac, char **av, char **envp);
 void	t_minishell_free(t_minishell *shell);
 bool	t_minishell_add_pid(t_minishell *shell, pid_t pid);
-int		t_minishell_wait_pids(t_minishell *shell);
+int		t_minishell_get_exec_status(t_minishell *shell);
 
 // General functions
 void	handle_error(t_minishell *shell, char *error_msg, int exit_status);
+void	handle_error_cmd(t_minishell *shell, char *err_msg, char *cmd);
 void	fd_close_and_reset(int *fd);
 void	fd_close(int fd);
 char	**ft_split_key_val(char *str, char sep);
