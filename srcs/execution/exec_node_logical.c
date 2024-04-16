@@ -6,20 +6,19 @@
 /*   By: mhotting <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 09:41:09 by mhotting          #+#    #+#             */
-/*   Updated: 2024/04/15 14:21:25 by mhotting         ###   ########.fr       */
+/*   Updated: 2024/04/16 12:44:27 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static void	exec_node_logical_close_fds(int fds[2])
-{
-	if (fds[0] != FD_UNSET)
-		fd_close_and_reset(&(fds[0]));
-	if (fds[1] != FD_UNSET)
-		fd_close_and_reset(&(fds[1]));
-}
-
+/*
+ *	Clones the files descriptors stored into fds_src into fds_dest
+ *	Returns true on SUCCESS, false on ERROR
+ *	Error cases:
+ *		- call to dup() failed
+ *	If an ERROR occurs, both all the fds are closed and reset to FD_UNSET
+ */
 static bool	exec_node_logical_clone_fds(int fds_src[2], int fds_dest[2])
 {
 	fds_dest[0] = FD_UNSET;
@@ -30,30 +29,40 @@ static bool	exec_node_logical_clone_fds(int fds_src[2], int fds_dest[2])
 		fds_dest[1] = dup(fds_src[1]);
 	if (fds_dest[0] == -1 || fds_dest[1] == -1)
 	{
-		exec_node_logical_close_fds(fds_src);
-		exec_node_logical_close_fds(fds_dest);
+		exec_node_close_fds(fds_src);
+		exec_node_close_fds(fds_dest);
 		return (false);
 	}
 	return (true);
 }
 
-void	exec_node_logical(t_minishell *shell, t_node *node, int fd[2])
+/*
+ *	Executes a node of type NODE_AND or NODE_OR into the given shell
+ *	Executes the left child of the node, retrieves its execution status and,
+ *	depending on it (and on the node type), executes the right child
+ *	The given fds are duplicated in order to be able to use them into
+ *	both child nodes (because the left child execution could close fds while
+ *	the right child still needs them)
+ *	In case of ERROR (internal errors such as memory problem, etc.) the shell
+ *	stops its execution
+ */
+void	exec_node_logical(t_minishell *shell, t_node *node, int fds[2])
 {
 	int	child_right_fds[2];
 	int	status;
 
 	if (node == NULL || (node->type != NODE_AND && node->type != NODE_OR))
 		handle_error(shell, ERROR_MSG_ARGS, EXIT_FAILURE);
-	if (!exec_node_logical_clone_fds(fd, child_right_fds))
+	if (!exec_node_logical_clone_fds(fds, child_right_fds))
 		handle_error(shell, ERROR_MSG_DUP, EXIT_FAILURE);
-	exec_node(shell, node->child_left, fd, false);
+	exec_node(shell, node->child_left, fds, false);
 	status = t_minishell_get_exec_status(shell);
 	if (
 		(node->type == NODE_AND && status != EXIT_SUCCESS)
 		|| (node->type == NODE_OR && status == EXIT_SUCCESS)
 	)
 	{
-		exec_node_logical_close_fds(child_right_fds);
+		exec_node_close_fds(child_right_fds);
 		return ;
 	}
 	exec_node(shell, node->child_right, child_right_fds, false);

@@ -6,7 +6,7 @@
 /*   By: mhotting <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/10 12:52:55 by mhotting          #+#    #+#             */
-/*   Updated: 2024/04/15 11:35:56 by mhotting         ###   ########.fr       */
+/*   Updated: 2024/04/16 12:44:05 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,9 @@
 # include "minishell.h"
 
 // General execution
+void	exec_ast(t_minishell *shell);
 void	exec_node(t_minishell *shell, t_node *node, int fd[2], bool in_pipe);
+void	exec_node_close_fds(int fds[2]);
 
 // Pipe execution
 void	exec_node_pipe(t_minishell *shell, t_node *node, int fd[2]);
