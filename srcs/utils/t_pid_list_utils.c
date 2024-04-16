@@ -6,7 +6,7 @@
 /*   By: mhotting <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/10 14:54:49 by mhotting          #+#    #+#             */
-/*   Updated: 2024/04/15 02:03:23 by mhotting         ###   ########.fr       */
+/*   Updated: 2024/04/16 11:15:00 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,4 +68,20 @@ void	pid_list_clear(t_pid_list **list)
 		current = next;
 	}
 	*list = NULL;
+}
+
+/*
+ *	Returns the number of elements into the given pid list
+ */
+size_t	pid_list_size(t_pid_list *list)
+{
+	size_t	count;
+
+	count = 0;
+	while (list != NULL)
+	{
+		count++;
+		list = list->next;
+	}
+	return (count);
 }

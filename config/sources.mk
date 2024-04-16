@@ -6,7 +6,7 @@
 #    By: brappo <brappo@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/03/31 20:47:09 by mhotting          #+#    #+#              #
-#    Updated: 2024/04/15 03:22:40 by mhotting         ###   ########.fr        #
+#    Updated: 2024/04/16 11:23:11 by mhotting         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -58,7 +58,7 @@ ifdef testChosen
 		MAIN_FILE		=	test_prompt.c
 	else ifeq ($(testChosen), execution)
 		MAIN_DIR		=	.test/
-		MAIN_FILE		=	test_execution.c
+		MAIN_FILE		=	test_execution1.c test_execution2.c
 	else ifeq ($(testChosen), ast)
 		MAIN_DIR		=	.test/
 		MAIN_FILE		=	test_ast_creation.c
