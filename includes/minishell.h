@@ -6,7 +6,7 @@
 /*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 10:17:54 by mhotting          #+#    #+#             */
-/*   Updated: 2024/04/15 15:54:38 by mhotting         ###   ########.fr       */
+/*   Updated: 2024/04/16 20:17:19 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,7 @@
 # define ERROR_MSG_CMD_REDIR	"File descriptor redirection impossible"
 # define ERROR_MSG_CMD_EXEC		"Command execution impossible"
 # define ERROR_MSG_DUP			"Impossible to duplicate a file descriptor"
+# define ERROR_MSG_SHELL_CPY	"Impossible to create a subshell"
 # define TOKENIZATION_ERROR 	"Tokenizing input"
 
 # define DGREAT 				">>"
@@ -72,6 +73,7 @@ typedef struct s_minishell
 	bool				is_child_process;
 	t_node				*ast;
 	int					status;
+	t_minishell			*parent;
 }	t_minishell;
 
 // t_minshell functions
@@ -79,6 +81,7 @@ void	t_minishell_init(t_minishell *shell, int ac, char **av, char **envp);
 void	t_minishell_free(t_minishell *shell);
 bool	t_minishell_add_pid(t_minishell *shell, pid_t pid);
 int		t_minishell_get_exec_status(t_minishell *shell);
+void	t_minishell_init_subshell(t_minishell *sub, t_minishell *parent);
 
 // General functions
 void	handle_error(t_minishell *shell, char *error_msg, int exit_status);

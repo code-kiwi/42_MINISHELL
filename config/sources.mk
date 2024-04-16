@@ -6,7 +6,7 @@
 #    By: brappo <brappo@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/03/31 20:47:09 by mhotting          #+#    #+#              #
-#    Updated: 2024/04/16 11:23:11 by mhotting         ###   ########.fr        #
+#    Updated: 2024/04/16 20:12:37 by mhotting         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -135,7 +135,8 @@ BUILT_IN				=	$(addprefix $(BUILT_IN_DIR), $(BUILT_IN_FILES))
 # UTILS
 UTILS_DIR				=	utils/
 UTILS_FILES				=	list_utils.c				\
-							t_minishell_utils.c			\
+							t_minishell_utils1.c		\
+							t_minishell_utils2.c		\
 							t_pid_list_utils.c			\
 							close_file_descriptor.c		\
 							string_utils.c				\

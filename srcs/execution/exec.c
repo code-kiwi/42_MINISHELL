@@ -6,7 +6,7 @@
 /*   By: mhotting <mhotting@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/14 20:15:29 by mhotting          #+#    #+#             */
-/*   Updated: 2024/04/16 12:43:59 by mhotting         ###   ########.fr       */
+/*   Updated: 2024/04/16 19:23:46 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,15 +29,23 @@ void	exec_node_close_fds(int fds[2])
  *	Frees the memory used for this AST
  *	Waits for all the commands to be executed to update shell's execution status
  */
-void	exec_ast(t_minishell *shell)
+void	exec_ast(t_minishell *shell, int fds_given[2])
 {
-	int	fd[2];
+	int	fds[2];
 
 	if (shell == NULL)
 		handle_error(shell, ERROR_MSG_ARGS, EXIT_FAILURE);
-	fd[0] = FD_UNSET;
-	fd[1] = FD_UNSET;
-	exec_node(shell, shell->ast, fd, false);
+	if (fds_given != NULL)
+	{
+		fds[0] = fds_given[0];
+		fds[1] = fds_given[1];
+	}
+	else
+	{
+		fds[0] = FD_UNSET;
+		fds[1] = FD_UNSET;
+	}
+	exec_node(shell, shell->ast, fds, false);
 	ast_free(&(shell->ast));
 	t_minishell_get_exec_status(shell);
 }

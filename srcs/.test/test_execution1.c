@@ -6,7 +6,7 @@
 /*   By: mhotting <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/05 09:51:24 by mhotting          #+#    #+#             */
-/*   Updated: 2024/04/16 12:27:15 by mhotting         ###   ########.fr       */
+/*   Updated: 2024/04/16 19:24:03 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -209,7 +209,7 @@ int	main(int argc, char **argv, char **envp)
 	shell.ast = ast_create(chosen_test);
 	if (shell.ast == NULL)
 		handle_error(&shell, "AST CREATION FAILED", EXIT_FAILURE);
-	exec_ast(&shell);
+	exec_ast(&shell, NULL);
 	status = shell.status;
 	t_minishell_free(&shell);
 	return (status);
