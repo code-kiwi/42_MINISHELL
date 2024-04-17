@@ -6,13 +6,13 @@
 /*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/17 08:55:13 by brappo            #+#    #+#             */
-/*   Updated: 2024/04/17 10:02:57 by brappo           ###   ########.fr       */
+/*   Updated: 2024/04/17 14:18:41 by brappo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-bool	remove_quote(char character, t_token_parser *parser)
+static bool	remove_quote(char character, t_token_parser *parser)
 {
 	if (character == '"' && !parser->single_quoted)
 	{

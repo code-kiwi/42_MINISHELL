@@ -6,7 +6,7 @@
 /*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/05 15:12:32 by brappo            #+#    #+#             */
-/*   Updated: 2024/04/17 14:15:15 by brappo           ###   ########.fr       */
+/*   Updated: 2024/04/17 14:19:48 by brappo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ bool	quote_removal(char **input, t_minishell *shell, bool manage_variables)
 	return (true);
 }
 
-t_list	*expand_string(t_token *token, t_minishell *shell,\
+t_list	*expand_string(t_token *token, t_minishell *shell, \
 	bool manage_variables, bool pathname_expansion)
 {
 	t_list	*wildcards_pos;
