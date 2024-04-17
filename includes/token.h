@@ -6,7 +6,7 @@
 /*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/31 19:28:12 by mhotting          #+#    #+#             */
-/*   Updated: 2024/04/17 10:55:30 by brappo           ###   ########.fr       */
+/*   Updated: 2024/04/17 11:22:59 by brappo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,6 @@ bool	add_token(t_list **head, char *str, t_token_type type);
 bool	append_token_list(bool is_first_quoted, t_list *first, t_list *second);
 void	print_token(void *token_void);
 void	token_recognition(t_minishell *shell);
-void	token_error(t_minishell *shell);
 
 //variable expansion
 void	get_variable_key_coordinates(char *input, ssize_t *coordinates,

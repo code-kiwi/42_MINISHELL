@@ -6,7 +6,7 @@
 /*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 15:09:19 by brappo            #+#    #+#             */
-/*   Updated: 2024/04/17 11:20:44 by brappo           ###   ########.fr       */
+/*   Updated: 2024/04/17 11:22:46 by brappo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,11 +52,6 @@ bool	is_blank(char character)
 	if (character == ' ')
 		return (true);
 	return (false);
-}
-
-void	token_error(t_minishell *shell)
-{
-	handle_error(shell, TOKENIZATION_ERROR, EXIT_FAILURE);
 }
 
 bool	add_token(t_list **head, char *str, t_token_type type)
