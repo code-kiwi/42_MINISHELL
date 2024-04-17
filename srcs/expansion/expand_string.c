@@ -6,7 +6,7 @@
 /*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/05 15:12:32 by brappo            #+#    #+#             */
-/*   Updated: 2024/04/17 09:21:12 by brappo           ###   ########.fr       */
+/*   Updated: 2024/04/17 11:21:31 by brappo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,6 +80,8 @@ t_list	*expand_string(t_token *token, t_minishell *shell)
 		ft_lstclear(&wildcards_pos, NULL);
 		return (files);
 	}
-	files = ft_lstnew(token->str);
+	files = NULL;
+	if (!add_token(&files, token->str, token->type))
+		return (NULL);
 	return (files);
 }

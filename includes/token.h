@@ -6,7 +6,7 @@
 /*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/31 19:28:12 by mhotting          #+#    #+#             */
-/*   Updated: 2024/04/17 09:37:17 by brappo           ###   ########.fr       */
+/*   Updated: 2024/04/17 10:55:30 by brappo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,7 @@ t_list	*lst_push_front_content(t_list **head,
 			void *content, void free_content(void *));
 char	*join_into_dest(char **dest, char *str);
 void	get_operation(char **operations);
+bool	add_token(t_list **head, char *str, t_token_type type);
 
 //multi line input
 bool	append_token_list(bool is_first_quoted, t_list *first, t_list *second);

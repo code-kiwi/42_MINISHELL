@@ -162,27 +162,31 @@ void	run_tests()
 	}
 }
 
-int	main(int argc, char **argv)
+int	main(int argc, char **argv, char **envp)
 {
-	char	*test;
-	t_list	*result;
-	t_token	*token;
+	t_list		*result;
+	t_list		*tokens;
+	t_minishell	shell;
 
 	if (argc != 2)
 	{
 		run_tests();
 		return (0);
 	}
-	test = ft_strdup(argv[1]);
-	token = t_token_init(test, WORD);
-	result = expand_string(token, NULL);
-	if (result == NULL)
+	t_minishell_init(&shell, argc, argv, envp);
+	shell.input = ft_strdup(argv[1]);
+	token_recognition(&shell);
+	tokens = shell.tokens;
+	while (((t_token *)tokens->content)->type != END)
 	{
-		printf("ERROR");
-		return (1);
+		print_token((void *)tokens->content);
+		result = expand_string(tokens->content, &shell);
+		ft_lstprint(result, print_token);
+		ft_lstclear(&result, t_token_free);
+		tokens = tokens->next;
+		printf("\n\n");
 	}
-	ft_lstprint(result, print_token);
-	ft_lstclear(&result, t_token_free);
-	t_token_free((void *)token);
+	ft_lstclear(&shell.tokens, t_token_free);
+	t_minishell_free(&shell);
 	return (0);
 }

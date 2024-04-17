@@ -6,7 +6,7 @@
 /*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 15:09:19 by brappo            #+#    #+#             */
-/*   Updated: 2024/04/12 08:10:39 by brappo           ###   ########.fr       */
+/*   Updated: 2024/04/17 11:20:44 by brappo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,9 +22,11 @@ t_token	*t_token_init(char *str, t_token_type type)
 {
 	t_token	*token;
 
-	if (type < 0 || type > 11)
+	if (type < 0 || type > 12)
 		return (NULL);
 	token = (t_token *)ft_calloc(1, sizeof(t_token));
+	if (token == NULL)
+		return (NULL);
 	token->str = str;
 	token->type = type;
 	token->length = ft_strlen(str);
@@ -55,4 +57,24 @@ bool	is_blank(char character)
 void	token_error(t_minishell *shell)
 {
 	handle_error(shell, TOKENIZATION_ERROR, EXIT_FAILURE);
+}
+
+bool	add_token(t_list **head, char *str, t_token_type type)
+{
+	t_token	*new_token;
+	char	*str_dup;
+
+	str_dup = ft_strdup(str);
+	if (str_dup == NULL)
+		return (false);
+	new_token = t_token_init(str_dup, type);
+	if (new_token == NULL)
+	{
+		free(str_dup);
+		return (false);
+	}
+	if (lst_push_front_content(head, \
+			new_token, t_token_free))
+		return (true);
+	return (false);
 }

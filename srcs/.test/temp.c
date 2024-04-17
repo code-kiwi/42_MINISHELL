@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   temp.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 12:20:04 by brappo            #+#    #+#             */
-/*   Updated: 2024/04/12 19:07:31 by root             ###   ########.fr       */
+/*   Updated: 2024/04/17 11:07:45 by brappo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,12 +26,13 @@ void	get_enum_str(char **array)
 	array[9] = "PIPE";
 	array[10] = "SHELL_OPEN";
 	array[11] = "SHELL_CLOSE";
+	array[12] = "ASSIGNEMENT WORD";
 }
 
 void	print_token(void *token_void)
 {
 	t_token	*token;
-	char	*enum_strs[12];
+	char	*enum_strs[13];
 
 	if (token_void == NULL)
 		return ;
@@ -40,8 +41,9 @@ void	print_token(void *token_void)
 		printf("%s : ", token->str);
 	get_enum_str(enum_strs);
 	printf("\033[0;35m");
-	if (token->type > 11 || token->type < 0)
+	if (token->type > 12 || token->type < 0)
 		printf("ERROR");
-	printf("%s", enum_strs[token->type]);
+	else
+		printf("%s", enum_strs[token->type]);
 	printf("\033[0m");
 }
