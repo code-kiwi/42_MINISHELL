@@ -6,7 +6,7 @@
 /*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/28 10:26:15 by brappo            #+#    #+#             */
-/*   Updated: 2024/04/10 10:08:16 by brappo           ###   ########.fr       */
+/*   Updated: 2024/04/10 14:09:17 by brappo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,4 +63,26 @@ char	*bridge_into_first(char **first, char *second, char *separator)
 	free(*first);
 	*first = temp;
 	return (temp);
+}
+
+bool	string_equals(void *a, void *b)
+{
+	size_t	length;
+	size_t	index;
+	char	*a_str;
+	char	*b_str;
+
+	if (a == NULL || b == NULL)
+		return (a == b);
+	a_str = (char *)a;
+	b_str = (char *)b;
+	length = ft_strlen(a_str);
+	index = 0;
+	while (index <= length)
+	{
+		if (a_str[index] != b_str[index])
+			return (false);
+		index++;
+	}
+	return (true);
 }
