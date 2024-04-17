@@ -6,7 +6,7 @@
 /*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 14:59:56 by brappo            #+#    #+#             */
-/*   Updated: 2024/04/17 09:27:41 by brappo           ###   ########.fr       */
+/*   Updated: 2024/04/17 09:30:36 by brappo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,11 +18,7 @@ static bool	is_token_end(t_token *token, char character, \
 	if (character == '\0')
 		return (true);
 	if (token->type == OPERATOR)
-	{
-		if (is_operator(token_parser) != -1)
-			return (false);
-		return (true);
-	}
+		return (is_operator(token_parser) == -1);
 	if (handle_quote(token_parser, character))
 		return (false);
 	if (!is_quoted(token_parser))
