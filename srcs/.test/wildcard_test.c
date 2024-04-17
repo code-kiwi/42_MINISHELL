@@ -15,7 +15,7 @@
 #define TEST_OK_NUMBER 26
 #define TEST_KO_NUMBER 11
 
-bool	quote_removal(char **input, t_minishell *shell, t_list **wildcards_pos);
+bool	quote_removal(char **input, t_minishell *shell);
 
 void	print_pointeur(void *pointeur)
 {
@@ -27,9 +27,13 @@ bool	equals(char *str_wildcard, char *b)
 	t_list	*wildcard_pos;
 	bool	result;
 
-	if (quote_removal(&str_wildcard, NULL, &wildcard_pos) == false)
+	wildcard_pos = NULL;
+	if (!search_wildcards(str_wildcard, &wildcard_pos))
+		return (false);
+	if (quote_removal(&str_wildcard, NULL) == false)
 	{
 		printf("ERROR\n");
+		ft_lstclear(&wildcard_pos, NULL);
 		return (false);
 	}
 	result = string_equal_wildcard(str_wildcard, b, wildcard_pos);
@@ -162,6 +166,7 @@ int	main(int argc, char **argv)
 {
 	char	*test;
 	t_list	*result;
+	t_token	*token;
 
 	if (argc != 2)
 	{
@@ -169,7 +174,8 @@ int	main(int argc, char **argv)
 		return (0);
 	}
 	test = ft_strdup(argv[1]);
-	result = expand_string(&test, NULL);
+	token = t_token_init(test, WORD);
+	result = expand_string(token, NULL);
 	if (result == NULL)
 	{
 		printf("ERROR");
@@ -177,6 +183,6 @@ int	main(int argc, char **argv)
 	}
 	ft_lstprint(result, print_token);
 	ft_lstclear(&result, t_token_free);
-	free(test);
+	t_token_free((void *)token);
 	return (0);
 }
