@@ -6,7 +6,7 @@
 /*   By: mhotting <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/05 09:51:24 by mhotting          #+#    #+#             */
-/*   Updated: 2024/04/16 19:24:03 by mhotting         ###   ########.fr       */
+/*   Updated: 2024/04/17 12:15:39 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -155,6 +155,92 @@ t_node	*node_or_create_test(t_node *left, t_node *right)
 	node_or->child_left = left;
 	node_or->child_right = right;
 	return (node_or);
+}
+
+/* ********************************************************************** */
+// NODE SUBSHELL UTILS
+
+bool	node_sub_add_redirs(t_node *node, char *op, char *filename)
+{
+	if (node == NULL || node->type != NODE_SUBSHELL)
+	{
+		errno = EINVAL;
+		handle_error(NULL, "Impossible to create add redir to subshell node", 0);
+		return (false);
+	}
+	if (!node_subshell_add_redirection(node, op, filename))
+	{
+		handle_error(NULL, "Creating node's redirection impossible", 0);
+		return (false);
+	}
+	return (true);
+}
+
+static t_list	*node_subshell_create_tokens(void)
+{
+	t_list	*token_list;
+	t_list	*new;
+	t_token	*token;
+	
+	token_list = NULL;
+	token = t_token_init();
+	if (token == NULL)
+		return (NULL);
+	token->str = ft_strdup("test1");
+	token->type = WORD;
+	new = ft_lstnew((void *) token);
+	if (new == NULL)
+	{
+		t_token_free(token);
+		return (token_list);
+	}
+	ft_lstadd_back(&token_list, new);
+	token = t_token_init();
+	if (token == NULL)
+		return (token_list);
+	token->str = ft_strdup("test2");
+	token->type = WORD;
+	new = ft_lstnew((void *) token);
+	if (new == NULL)
+	{
+		t_token_free(token);
+		return (token_list);
+	}
+	ft_lstadd_back(&token_list, new);
+	token = t_token_init();
+	if (token == NULL)
+		return (token_list);
+	token->str = ft_strdup("test3");
+	token->type = WORD;
+	new = ft_lstnew((void *) token);
+	if (new == NULL)
+	{
+		t_token_free(token);
+		return (token_list);
+	}
+	ft_lstadd_back(&token_list, new);
+	return (token_list);
+}
+
+t_node	*node_subshell_create_test(void)
+{
+	t_node	*node_sub;
+	t_list	*token_list;
+
+	token_list = node_subshell_create_tokens();
+	//ft_lstprint(token_list, print_token);
+	if (token_list == NULL)
+	{
+		handle_error(NULL, "Impossible to create tokens for SUBSHELL node", 0);
+		return (NULL);
+	}
+	node_sub = node_subshell_create(token_list);
+	if (node_sub == NULL)
+	{
+		handle_error(NULL, "Impossible to create SUBSHELL node", 0);
+		return (NULL);
+	}
+	return (node_sub);
 }
 
 

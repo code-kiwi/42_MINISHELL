@@ -6,7 +6,7 @@
 /*   By: mhotting <mhotting@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 13:52:21 by mhotting          #+#    #+#             */
-/*   Updated: 2024/04/16 20:46:55 by mhotting         ###   ########.fr       */
+/*   Updated: 2024/04/17 12:56:59 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,6 @@ static t_node	*node_cmd_create(char *cmd)
 	return (node);
 }
 
-/*
 static bool	node_cmd_add_redirs(t_node *node, char *op, char *filename)
 {
 	if (node == NULL || node->type != NODE_COMMAND)
@@ -56,7 +55,6 @@ static bool	node_cmd_add_redirs(t_node *node, char *op, char *filename)
 	}
 	return (true);
 }
-*/
 
 static t_node	*node_pip_create(t_node *left, t_node *right)
 {
@@ -115,21 +113,23 @@ static t_node	*TEMP_build_ast(t_list	*token_list)
 	(void) token_list;
 
 	// Creates node_c1
-	node_c1 = node_cmd_create("echo 1");
+	node_c1 = node_cmd_create("cat");
 	if (node_c1 == NULL)
 		return (NULL);
-	
+	if (!node_cmd_add_redirs(node_c1, ">", "outfile"))
+		return (NULL);
+
 	// Creates node_c2
-	node_c2 = node_cmd_create("cat");
+	node_c2 = node_cmd_create("echo 13");
 	if (node_c2 == NULL)
 		return (NULL);
 
 	// Creates node_c3
-	node_c3 = node_cmd_create("echo 2");
+	node_c3 = node_cmd_create("echo 23");
 	if (node_c3 == NULL)
 		return (NULL);
-	//if (!node_cmd_add_redirs(node_c3, ">>", "outfile"))
-	//	return (NULL);
+	if (!node_cmd_add_redirs(node_c3, ">", "outfile2"))
+		return (NULL);
 
 	// Creates pipe node
 	node_pipe = node_pip_create(node_c1, node_c2);
@@ -147,12 +147,9 @@ static t_node	*TEMP_build_ast(t_list	*token_list)
 /* ********************************************************************** */
 
 static void	exec_subshell_error(
-	t_minishell *shell, t_node_subshell *sub, int fds[2]
+	t_minishell *shell, int fds[2]
 )
 {
-	if (shell == NULL || sub == NULL)
-		handle_error(shell, ERROR_MSG_ARGS, EXIT_FAILURE);
-	node_subshell_free((void **) &sub);
 	exec_node_close_fds(fds);
 	t_minishell_free(shell);
 	exit(EXIT_FAILURE);
@@ -193,24 +190,32 @@ static void	exec_subshell_set_fds(
 	}
 }
 
+/*
+ *	NB: we do not need to free the given node because it is a part of the AST
+ *	stored into mainshell->ast member
+ */
 static void	exec_subshell(
-	t_minishell *mainshell, t_node_subshell *node_sub, int fds[2]
+	t_minishell *mainshell, t_node *node, int fds[2]
 )
 {
-	t_minishell	subshell;
-	int			fds_subshell[2];
-	int			status;
+	t_minishell		subshell;
+	int				fds_subshell[2];
+	int				status;
+	t_node_subshell	*node_sub;
 
-	if (mainshell == NULL || node_sub == NULL)
-		handle_error(mainshell, ERROR_MSG_ARGS, EXIT_FAILURE);
+	if (
+		mainshell == NULL || node == NULL || node->content == NULL
+		|| fds[0] == FD_ERROR || fds[1] == FD_ERROR
+	)
+		exec_subshell_error(mainshell, fds);
+	node_sub = (t_node_subshell *) node->content;
 	t_minishell_init_subshell(&subshell, mainshell);
 	exec_subshell_set_fds(node_sub, fds, fds_subshell);
 	if (fds_subshell[0] == FD_ERROR || fds_subshell[1] == FD_ERROR)
-		exec_subshell_error(&subshell, node_sub, fds_subshell);
+		exec_subshell_error(&subshell, fds_subshell);
 	subshell.ast = TEMP_build_ast(node_sub->token_list);
 	if (subshell.ast == NULL)
-		exec_subshell_error(&subshell, node_sub, fds_subshell);
-	node_subshell_free((void **) &node_sub);
+		exec_subshell_error(&subshell, fds_subshell);
 	exec_ast(&subshell, fds_subshell);
 	status = subshell.status;
 	t_minishell_free(&subshell);
@@ -231,7 +236,7 @@ void	exec_node_subshell(t_minishell *shell, t_node *node, int fds[2])
 	if (pid == 0)
 	{
 		shell->is_child_process = true;
-		exec_subshell(shell, node_sub, fds);
+		exec_subshell(shell, node, fds);
 	}
 	if (!t_minishell_add_pid(shell, pid))
 		handle_error(shell, ERROR_MSG_MEM, EXIT_FAILURE);

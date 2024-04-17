@@ -6,7 +6,7 @@
 #    By: brappo <brappo@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/03/31 20:47:09 by mhotting          #+#    #+#              #
-#    Updated: 2024/04/16 20:12:37 by mhotting         ###   ########.fr        #
+#    Updated: 2024/04/17 11:01:02 by mhotting         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -119,6 +119,7 @@ EXECUTION_DIR			=	execution/
 EXECUTION_FILES			=	exec.c						\
 							exec_node_pipe.c			\
 							exec_node_logical.c			\
+							exec_node_subshell.c		\
 							exec_node_command.c			\
 							exec_cmd.c					\
 							exec_cmd_get_path.c			\

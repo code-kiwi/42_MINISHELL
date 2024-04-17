@@ -6,7 +6,7 @@
 /*   By: mhotting <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/10 12:52:55 by mhotting          #+#    #+#             */
-/*   Updated: 2024/04/16 19:23:36 by mhotting         ###   ########.fr       */
+/*   Updated: 2024/04/17 11:30:50 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,9 @@ void	exec_node_pipe(t_minishell *shell, t_node *node, int fd[2]);
 
 // Logical execution
 void	exec_node_logical(t_minishell *shell, t_node *node, int fd[2]);
+
+// Subshell execution
+void	exec_node_subshell(t_minishell *shell, t_node *node, int fds[2]);
 
 // Command execution
 char	*exec_cmd_get_path(t_minishell *shell, char *cmd);
