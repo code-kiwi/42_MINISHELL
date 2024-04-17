@@ -6,7 +6,7 @@
 /*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/05 15:12:32 by brappo            #+#    #+#             */
-/*   Updated: 2024/04/17 14:19:48 by brappo           ###   ########.fr       */
+/*   Updated: 2024/04/17 14:34:09 by brappo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,7 @@ t_list	*expand_string(t_token *token, t_minishell *shell, \
 		ft_lstclear(&wildcards_pos, NULL);
 		return (NULL);
 	}
-	if (wildcards_pos != NULL)
+	if (pathname_expansion)
 		files = expand_wildcard(token->str, wildcards_pos);
 	else
 		add_token(&files, token->str, token->type);
