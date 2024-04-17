@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   t_node_command_utils.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mhotting <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/29 09:54:42 by mhotting          #+#    #+#             */
-/*   Updated: 2024/04/12 13:51:11 by mhotting         ###   ########.fr       */
+/*   Updated: 2024/04/17 14:49:35 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,8 @@ t_node	*node_command_create(int argc, char **argv)
 
 /*
  *	Frees the memory allocated to a t_node_command
- *	Frees its argv component (frees all the strings contained in this argv)
+ *	Frees its argv component (frees only the main pointer as the strings into
+ *	argv are still stored into the token list)
  *	Frees the redirections component
  *	Frees the t_node_command itself and sets the pointer to NULL
  */
@@ -60,8 +61,6 @@ void	node_command_free(void **node_ptr)
 	if (node_ptr == NULL || *node_ptr == NULL)
 		return ;
 	node = (t_node_command *) *node_ptr;
-	while (node->argc--)
-		free((node->argv)[node->argc]);
 	free(node->argv);
 	redirection_list_free(&(node->redirection_list));
 	node_command_close_fds(*node_ptr);

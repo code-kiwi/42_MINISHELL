@@ -6,7 +6,7 @@
 /*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 10:17:54 by mhotting          #+#    #+#             */
-/*   Updated: 2024/04/16 20:17:19 by mhotting         ###   ########.fr       */
+/*   Updated: 2024/04/17 14:38:23 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@
 # include "execution.h"
 # include "pid_list.h"
 # include "built_in.h"
+# include "build_ast.h"
 
 # define STATUS_CMD_NOT_FOUND	127
 # define STATUS_CMD_NOT_EXEC	126
@@ -44,6 +45,7 @@
 # define ERROR_MSG_CMD_EXEC		"Command execution impossible"
 # define ERROR_MSG_DUP			"Impossible to duplicate a file descriptor"
 # define ERROR_MSG_SHELL_CPY	"Impossible to create a subshell"
+# define ERROR_MSG_AST_CREATION	"AST creation failed"
 # define TOKENIZATION_ERROR 	"Tokenizing input"
 
 # define DGREAT 				">>"
@@ -53,13 +55,14 @@
 # define OR_IF					"||"
 # define AND_IF					"&&"
 # define PIPE					"|"
-# define OPERATOR_CHARACTER		"><&|"
-# define OPERATOR_NUMBER 		7
+# define SHELL_OPEN				"("
+# define SHELL_CLOSE			")"
+# define OPERATOR_CHARACTER		"><&|()"
+# define OPERATOR_NUMBER		9
 # define PATH_STR_SEPERATOR		":"
 
 # define FD_UNSET				-2
 # define FD_ERROR				-1
-
 # define PID_ERROR				0
 
 # define MULTIPLE_LINE_PROMPT	"> "
@@ -92,4 +95,6 @@ char	**ft_split_key_val(char *str, char sep);
 char	*bridge(char *first, char *second, char *separator);
 char	*bridge_into_first(char **first, char *second, char *separator);
 void	ft_print_str_array(char **array);
+bool	string_equals(void *a, void *b);
+void	**to_array(t_list *lst);
 #endif

@@ -6,7 +6,7 @@
 #    By: brappo <brappo@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/03/31 20:47:09 by mhotting          #+#    #+#              #
-#    Updated: 2024/04/17 13:27:01 by mhotting         ###   ########.fr        #
+#    Updated: 2024/04/17 14:16:47 by mhotting         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -62,12 +62,14 @@ ifdef testChosen
 	else ifeq ($(testChosen), ast)
 		MAIN_DIR		=	.test/
 		MAIN_FILE		=	test_ast_creation.c
-	endif
-	ifeq ($(testChosen), expansion)
+	else ifeq ($(testChosen), expansion)
 		MAIN_DIR		=	.test/
 		MAIN_FILE		=	test_variable_expansion.c
+	else ifeq ($(testChosen), ast_building)
+		MAIN_DIR		=	.test/
+		MAIN_FILE		=	test_ast_building.c	ast_printing.c
 	endif
-
+	MAIN_FILE			+=	temp.c
 endif
 MAIN					=	$(addprefix $(MAIN_DIR), $(MAIN_FILE))
 
@@ -90,8 +92,7 @@ TOKENR_FILES			=	handle_quote.c				\
 							token_recognition_utils.c	\
 							token_recognition.c			\
 							tokenize_str.c				\
-							token_list_merge.c			\
-							temp.c
+							token_list_merge.c
 TOKENR					=	$(addprefix $(TOKENR_DIR), $(TOKENR_FILES))
 
 # PROMPT
@@ -132,6 +133,16 @@ BUILT_IN_DIR			=	built_in/
 BUILT_IN_FILES			=	built_in_utils.c
 BUILT_IN				=	$(addprefix $(BUILT_IN_DIR), $(BUILT_IN_FILES))
 
+#AST BUILDING
+AST_BUILDING_DIR		=	ast_building/
+AST_BUILDING_FILES		=	add_command.c				\
+							add_operator_node.c			\
+							add_subshell.c				\
+							build_ast_utils.c			\
+							build_ast.c					\
+							get_argv.c
+AST_BUILDING			=	$(addprefix $(AST_BUILDING_DIR), $(AST_BUILDING_FILES))
+
 # UTILS
 UTILS_DIR				=	utils/
 UTILS_FILES				=	list_utils.c				\
@@ -149,7 +160,8 @@ UTILS					=	$(addprefix $(UTILS_DIR), $(UTILS_FILES))
 # SOURCES GENERAL
 SRCS_MAIN_DIR			=	srcs/
 SRCS_FILES				=	$(MAIN)	$(AST) $(TOKENR) $(PROMPT) $(ENV)			\
-							$(EXPANSION) $(EXECUTION) $(BUILT_IN) $(UTILS)
+							$(EXPANSION) $(EXECUTION) $(BUILT_IN)				\
+							$(AST_BUILDING) $(UTILS)
 SRCS					=	$(addprefix $(SRCS_MAIN_DIR), $(SRCS_FILES))
 
 # OBJECTS GENERAL
