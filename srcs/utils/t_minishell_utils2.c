@@ -6,12 +6,16 @@
 /*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 13:10:16 by mhotting          #+#    #+#             */
-/*   Updated: 2024/04/16 19:37:28 by mhotting         ###   ########.fr       */
+/*   Updated: 2024/04/17 13:38:02 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+/*
+ *	Adds a pid to the given shell's pid list
+ *	Returns true on SUCCESS, false on ERROR
+ */
 bool	t_minishell_add_pid(t_minishell *shell, pid_t pid)
 {
 	t_pid_list	*new;
@@ -28,6 +32,12 @@ bool	t_minishell_add_pid(t_minishell *shell, pid_t pid)
 	return (true);
 }
 
+/*
+ *	Returns the status from the execution of the process whose pid was saved
+ *	into the shell's pid_list member
+ *	Clears the shell's pid_list member
+ *	If the list is empty, returns EXIT_SUCCESS as a default value
+ */
 static int	t_minishell_wait_pids(t_minishell *shell)
 {
 	t_pid_list	*current;
@@ -57,6 +67,11 @@ static int	t_minishell_wait_pids(t_minishell *shell)
 	return (ret);
 }
 
+/*
+ *	Returns the shell's current status (by checking all the subprocess'
+ *	execution status)
+ *	If the shell's pid list is empty, the current shell's status is returned
+ */
 int	t_minishell_get_exec_status(t_minishell *shell)
 {
 	int		status;

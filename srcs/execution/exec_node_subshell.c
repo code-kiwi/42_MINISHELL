@@ -6,12 +6,11 @@
 /*   By: mhotting <mhotting@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 13:52:21 by mhotting          #+#    #+#             */
-/*   Updated: 2024/04/17 12:56:59 by mhotting         ###   ########.fr       */
+/*   Updated: 2024/04/17 13:42:25 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
 
 /* ********************************************************************** */
 // TEMPORARY CODE
@@ -146,15 +145,22 @@ static t_node	*TEMP_build_ast(t_list	*token_list)
 // END TEMPORARY CODE
 /* ********************************************************************** */
 
-static void	exec_subshell_error(
-	t_minishell *shell, int fds[2]
-)
+/*
+ *	Frees the memory, closes the given fds and exits the program with error
+ *	status
+ *	NB: Freeing the given shell will free its parent shells recursively
+ */
+static void	exec_subshell_error(t_minishell *shell, int fds[2])
 {
 	exec_node_close_fds(fds);
 	t_minishell_free(shell);
 	exit(EXIT_FAILURE);
 }
 
+/*
+ *	Sets fds_subshells members to the values of fds members, setting those ones
+ *	to FD_UNSET value
+ */
 static void	exec_subshell_set_fds_initial(int fds[2], int fds_subshell[2])
 {
 	fds_subshell[0] = fds[0];
@@ -163,6 +169,13 @@ static void	exec_subshell_set_fds_initial(int fds[2], int fds_subshell[2])
 	fds[1] = FD_UNSET;
 }
 
+/*
+ *	Stores the final node_subshell redirections into fds_subshell
+ *	The given fds values will be given to fds_subshell
+ *	Then we execute the node_subshell redirections and if they lead to valid
+ *	files descriptors, they will overwrite the previous ones
+ *	NB: when overwriting, the previous fds are closed in order to avoid fd leaks
+ */
 static void	exec_subshell_set_fds(
 	t_node_subshell *node_sub, int fds[2], int fds_subshell[2]
 )
@@ -191,12 +204,19 @@ static void	exec_subshell_set_fds(
 }
 
 /*
+ *	Process the execution of the given subshell node
+ *	Supposed to be called from a subprocess of the shell main's process
+ *	Steps:
+ *		- a new instance of t_minishell is created in order to have a fresh
+ *		list of pids, corresponding to the subshell ones
+ *		- the redirections are performed
+ *		- the AST is evaluated according to the node's token_list
+ *		- the AST is executed
+ *		- resources are freed and the process exits with the subshell status
  *	NB: we do not need to free the given node because it is a part of the AST
  *	stored into mainshell->ast member
  */
-static void	exec_subshell(
-	t_minishell *mainshell, t_node *node, int fds[2]
-)
+static void	exec_subshell(t_minishell *mainshell, t_node *node, int fds[2])
 {
 	t_minishell		subshell;
 	int				fds_subshell[2];
@@ -222,14 +242,22 @@ static void	exec_subshell(
 	exit(status);
 }
 
+/*
+ *	Prepares the execution of the given subshell node
+ *	Steps:
+ *		- forks in order to do the subshell execution into a child process
+ *		- in the child process lauches the execution
+ *		- in the parent process, adds the subprocess' pid to the
+ *		shell's pid list
+ *	NB: The given fds are closed in order to avoid fd leaks, but this does not
+ *	close them for the child process
+ */
 void	exec_node_subshell(t_minishell *shell, t_node *node, int fds[2])
 {
 	pid_t			pid;
-	t_node_subshell	*node_sub;
 
 	if (node == NULL || node->type != NODE_SUBSHELL || node->content == NULL)
 		handle_error(shell, ERROR_MSG_ARGS, EXIT_FAILURE);
-	node_sub = (t_node_subshell *) node->content;
 	pid = fork();
 	if (pid == -1)
 		handle_error(shell, ERROR_MSG_FORK, EXIT_FAILURE);

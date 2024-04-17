@@ -6,7 +6,7 @@
 #    By: brappo <brappo@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/03/31 20:47:09 by mhotting          #+#    #+#              #
-#    Updated: 2024/04/17 11:01:02 by mhotting         ###   ########.fr        #
+#    Updated: 2024/04/17 13:27:01 by mhotting         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -109,8 +109,7 @@ EXPANSION_FILES			=	get_variable_key.c			\
 EXPANSION				=	$(addprefix $(EXPANSION_DIR), $(EXPANSION_FILES))
 # ENV
 ENV_DIR					=	env/
-ENV_FILES				=	env_utils1.c				\
-							env_utils2.c				\
+ENV_FILES				=	env_utils.c					\
 							t_env_element_utils.c
 ENV						=	$(addprefix $(ENV_DIR), $(ENV_FILES))
 

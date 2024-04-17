@@ -6,12 +6,16 @@
 /*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 13:10:16 by mhotting          #+#    #+#             */
-/*   Updated: 2024/04/16 20:18:31 by mhotting         ###   ########.fr       */
+/*   Updated: 2024/04/17 13:33:10 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+/*
+ *	Initializes the given shell with empty fields
+ *	Then uses the given envp to initialize the shell's env member
+ */
 void	t_minishell_init(t_minishell *shell, int argc, char **argv, char **envp)
 {
 	if (shell == NULL)
@@ -27,6 +31,14 @@ void	t_minishell_init(t_minishell *shell, int argc, char **argv, char **envp)
 	shell->status = 0;
 }
 
+/*
+ *	Frees all the resources used by the given shell
+ *	NB:
+ *		- if the shell is_child process is true, the shell's pid_list elements
+ *		are not subjected to the waitpid() calls
+ *		- if the shell's parent member is not NULL, the parents are freed using
+ *		recursive call to t_minishell_free()
+ */
 void	t_minishell_free(t_minishell *shell)
 {
 	rl_clear_history();
@@ -52,6 +64,12 @@ void	t_minishell_free(t_minishell *shell)
 		ast_free(&(shell->ast));
 }
 
+/*
+ *	Initializes the given subshell using the information from its given parent
+ *	The subshell's members are set with their default values but the env member
+ *	is "stolen" from the parent
+ *	The parent member is also initialized
+ */
 void	t_minishell_init_subshell(t_minishell *sub, t_minishell *parent)
 {
 	if (sub == NULL || parent == NULL)

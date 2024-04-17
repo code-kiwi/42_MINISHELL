@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   env_utils1.c                                       :+:      :+:    :+:   */
+/*   env_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mhotting <mhotting@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 00:17:49 by mhotting          #+#    #+#             */
-/*   Updated: 2024/04/14 19:43:34 by mhotting         ###   ########.fr       */
+/*   Updated: 2024/04/17 13:25:39 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,4 +129,42 @@ char	**env_get_all_array(t_list *env)
 		env = env->next;
 	}
 	return (res);
+}
+
+/*
+ *	Adds a new t_env_element into the env given list
+ *	Updates the list pointer if necessary
+ *	If the key was already defined into the list, the previous value is
+ *	updated with the new one.
+ *	Returns true on SUCCESS, false on ERROR
+ *	Error cases:
+ *		- wrong input (env and key cannot be NULL)
+ *		- memory allocation failed
+ */
+bool	env_add(t_list **env, char *key, char *value)
+{
+	t_env_element	*env_elt;
+	t_list			*new;
+
+	if (env == NULL || key == NULL)
+	{
+		errno = ENODATA;
+		return (false);
+	}
+	env_elt = env_element_create(key, value);
+	if (env_elt == NULL)
+	{
+		errno = ENOMEM;
+		return (false);
+	}
+	new = ft_lstnew((void *)env_elt);
+	if (new == NULL)
+	{
+		env_element_free(env_elt);
+		errno = ENOMEM;
+		return (false);
+	}
+	env_delete(env, key);
+	ft_lstadd_front(env, new);
+	return (true);
 }
