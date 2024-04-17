@@ -6,7 +6,7 @@
 /*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 13:10:16 by mhotting          #+#    #+#             */
-/*   Updated: 2024/04/10 16:55:24 by brappo           ###   ########.fr       */
+/*   Updated: 2024/04/17 11:35:01 by brappo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,4 +34,6 @@ void	t_minishell_free(t_minishell *shell)
 	rl_clear_history();
 	if (shell->env != NULL)
 		ft_lstclear(&(shell->env), env_element_free);
+	if (shell->tokens != NULL)
+		ft_lstclear(&shell->tokens, t_token_free);
 }
