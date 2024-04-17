@@ -6,7 +6,7 @@
 /*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/31 19:28:12 by mhotting          #+#    #+#             */
-/*   Updated: 2024/04/17 11:22:59 by brappo           ###   ########.fr       */
+/*   Updated: 2024/04/17 14:08:04 by brappo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,15 +75,4 @@ bool	add_token(t_list **head, char *str, t_token_type type);
 bool	append_token_list(bool is_first_quoted, t_list *first, t_list *second);
 void	print_token(void *token_void);
 void	token_recognition(t_minishell *shell);
-
-//variable expansion
-void	get_variable_key_coordinates(char *input, ssize_t *coordinates,
-			size_t variable_start);
-ssize_t	expand_variable(char **input, size_t variable_start,
-			bool double_quoted, t_minishell *shell);
-t_list	*expand_wildcard(char *str, t_list *wildcards);
-bool	string_equal_wildcard(char *str_wildcard,
-			char *str_b, t_list *wildcards);
-t_list	*expand_string(t_token *token, t_minishell *shell);
-bool	search_wildcards(char *input, t_list **wildcards_pos);
 #endif
