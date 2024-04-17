@@ -6,7 +6,7 @@
 /*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/29 09:54:42 by mhotting          #+#    #+#             */
-/*   Updated: 2024/04/11 11:27:11 by brappo           ###   ########.fr       */
+/*   Updated: 2024/04/12 10:29:14 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,10 +31,7 @@ t_node	*node_command_create(int argc, char **argv)
 		return (NULL);
 	node_command = (t_node_command *) malloc(sizeof(t_node_command));
 	if (node_command == NULL)
-	{
-		free(node);
-		return (NULL);
-	}
+		return (free(node), NULL);
 	node_command->argc = argc;
 	node_command->argv = argv;
 	node_command->redirection_list = redirection_list_create();
@@ -44,6 +41,8 @@ t_node	*node_command_create(int argc, char **argv)
 		free(node);
 		return (NULL);
 	}
+	node_command->fd_in = FD_UNSET;
+	node_command->fd_out = FD_UNSET;
 	node->content = (void *) node_command;
 	return (node);
 }
@@ -63,6 +62,10 @@ void	node_command_free(void **node_ptr)
 	node = (t_node_command *) *node_ptr;
 	free(node->argv);
 	redirection_list_free(&(node->redirection_list));
+	if (node->fd_in != FD_UNSET)
+		fd_close_and_reset(&(node->fd_in));
+	if (node->fd_out != FD_UNSET)
+		fd_close_and_reset(&(node->fd_out));
 	free(node);
 	*node_ptr = NULL;
 }
