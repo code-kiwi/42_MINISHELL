@@ -6,7 +6,7 @@
 /*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/05 15:12:32 by brappo            #+#    #+#             */
-/*   Updated: 2024/04/12 16:54:30 by brappo           ###   ########.fr       */
+/*   Updated: 2024/04/17 09:21:12 by brappo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,65 +37,49 @@ static bool	handle_variable(t_token_parser *parser, \
 	return (true);
 }
 
-static bool	handle_wildcard(t_token_parser *parser, \
-	t_list **wildcards_pos, char **input)
-{
-	size_t	index;
-
-	index = *(parser->end);
-	if ((*input)[index] == '*' && !is_quoted(parser))
-	{
-		if (!lst_push_front_content(wildcards_pos, *input + index, NULL))
-		{
-			ft_lstclear(wildcards_pos, NULL);
-			return (false);
-		}
-	}
-	return (true);
-}
-
-bool	quote_removal(char **input, t_minishell *shell, t_list **wildcards_pos)
+bool	quote_removal(char **input, t_minishell *shell)
 {
 	size_t			index;
 	t_token_parser	parser;
 
-	if (input == NULL || *input == NULL || wildcards_pos == NULL)
+	if (input == NULL || *input == NULL)
 		return (false);
 	t_token_parser_init(&parser);
 	parser.end = &index;
 	index = 0;
-	*wildcards_pos = NULL;
 	while ((*input)[index] != '\0')
 	{
 		if (((*input)[index] == '\'' && !parser.double_quoted)
 			|| ((*input)[index] == '"' && !parser.single_quoted))
 			remove_quote(&parser, *input + index);
-		else if ((*input)[index] == '$' && !parser.single_quoted)
-		{
-			if (handle_variable(&parser, input, shell) == false)
-				return (false);
-		}
-		else if (handle_wildcard(&parser, wildcards_pos, input) == false)
+		else if ((*input)[index] == '$' && !parser.single_quoted
+			&& !handle_variable(&parser, input, shell))
 			return (false);
 		index++;
 	}
-	ft_lstreverse(wildcards_pos);
 	return (true);
 }
 
-t_list	*expand_string(char **input, t_minishell *shell)
+t_list	*expand_string(t_token *token, t_minishell *shell)
 {
 	t_list	*wildcards_pos;
 	t_list	*files;
 
-	if (quote_removal(input, shell, &wildcards_pos) == false)
+	wildcards_pos = NULL;
+	if (token->type != ASSIGNEMENT_WORD
+		&& !search_wildcards(token->str, &wildcards_pos))
 		return (NULL);
+	if (!quote_removal(&token->str, shell))
+	{
+		ft_lstclear(&wildcards_pos, NULL);
+		return (NULL);
+	}
 	if (wildcards_pos != NULL)
 	{
-		files = expand_wildcard(*input, wildcards_pos);
+		files = expand_wildcard(token->str, wildcards_pos);
 		ft_lstclear(&wildcards_pos, NULL);
 		return (files);
 	}
-	files = ft_lstnew(*input);
+	files = ft_lstnew(token->str);
 	return (files);
 }

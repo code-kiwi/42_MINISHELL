@@ -6,7 +6,7 @@
 /*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/31 19:28:12 by mhotting          #+#    #+#             */
-/*   Updated: 2024/04/12 15:27:28 by brappo           ###   ########.fr       */
+/*   Updated: 2024/04/17 09:20:23 by brappo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,8 @@ typedef enum e_token_type
 	OPERATOR_OR_IF,
 	OPERATOR_PIPE,
 	OPERATOR_SHELL_OPEN,
-	OPERATOR_SHELL_CLOSE
+	OPERATOR_SHELL_CLOSE,
+	ASSIGNEMENT_WORD
 }	t_token_type;
 
 typedef struct s_token_parser
@@ -83,4 +84,5 @@ t_list	*expand_wildcard(char *str, t_list *wildcards);
 bool	string_equal_wildcard(char *str_wildcard,
 			char *str_b, t_list *wildcards);
 t_list	*expand_string(char **input, t_minishell *shell);
+bool	search_wildcards(char *input, t_list **wildcards_pos);
 #endif
