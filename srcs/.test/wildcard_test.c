@@ -15,22 +15,67 @@
 #define TEST_OK_NUMBER 26
 #define TEST_KO_NUMBER 11
 
-bool	quote_removal(char **input, t_minishell *shell, bool manage_variables);
+static bool	remove_quote(char character, t_token_parser *parser)
+{
+	if (character == '"' && !parser->single_quoted)
+	{
+		parser->double_quoted = !parser->double_quoted;
+		return (true);
+	}
+	if (character == '\'' && !parser->double_quoted)
+	{
+		parser->single_quoted = !parser->single_quoted;
+		return (true);
+	}
+	return (false);
+}
+
+bool	search_wildcards(char *input, t_list **wildcards_pos)
+{
+	size_t			index;
+	t_token_parser	parser;
+	size_t			removed_quote;
+
+	if (!input || !wildcards_pos || *wildcards_pos)
+		return (false);
+	t_token_parser_init(&parser);
+	parser.end = &index;
+	index = 0;
+	removed_quote = 0;
+	while (input[index] != '\0')
+	{
+		if (remove_quote(input[index], &parser))
+			removed_quote += 1;
+		else if (input[index] == '*' && !is_quoted(&parser))
+		{
+			if (!lst_push_front_content(wildcards_pos,
+					input + index - removed_quote, NULL))
+				return (ft_lstclear(wildcards_pos, NULL), false);
+		}
+		index++;
+	}
+	ft_lstreverse(wildcards_pos);
+	return (true);
+}
+
+t_list	*expand_string(char *str, t_minishell *shell, char options);
 
 void	print_pointeur(void *pointeur)
 {
 	printf("%p\n", pointeur);
 }
 
-bool	equals(char *str_wildcard, char *b)
+bool	equals(char *str_wildcard, char *b, t_minishell *shell)
 {
 	t_list	*wildcard_pos;
 	bool	result;
+	t_list	*new_arguments;
 
 	wildcard_pos = NULL;
 	if (!search_wildcards(str_wildcard, &wildcard_pos))
 		return (false);
-	if (quote_removal(&str_wildcard, NULL, false) == false)
+	new_arguments = expand_string(str_wildcard, shell, O_QUOTE);
+	if (new_arguments == NULL)
 	{
 		printf("ERROR\n");
 		ft_lstclear(&wildcard_pos, NULL);
@@ -38,6 +83,7 @@ bool	equals(char *str_wildcard, char *b)
 	}
 	result = string_equal_wildcard(str_wildcard, b, wildcard_pos);
 	ft_lstclear(&wildcard_pos, NULL);
+	ft_lstclear(&new_arguments, free);
 	return (result);
 }
 
@@ -123,20 +169,22 @@ void	get_tests_ko(char **tests)
 	tests[21] = ft_strdup("machintruc");
 }
 
-void	run_tests()
+void	run_tests(int argc, char **argv, char **envp)
 {
 	char	*tests_OK[TEST_OK_NUMBER * 2];
 	char	*tests_KO[TEST_KO_NUMBER * 2];
+	t_minishell	shell;
 	bool	result;
 	size_t	index;
 
 	index = 0;
+	t_minishell_init(&shell, argc, argv, envp);
 	printf("%s#########VALID TESTS############%s\n\n", GREEN, RESET);
 	get_tests_ok(tests_OK);
 	while (index < TEST_OK_NUMBER)
 	{
 		printf("%s%s%s equals %s%s%s ? : ", BLUE, tests_OK[index * 2], RESET, BLUE, tests_OK[index * 2 + 1], RESET);
-		result = equals(tests_OK[index * 2], tests_OK[index * 2 + 1]);
+		result = equals(tests_OK[index * 2], tests_OK[index * 2 + 1], &shell);
 		if (result)
 			printf("%strue%s\n\n", GREEN, RESET);
 		else
@@ -151,7 +199,7 @@ void	run_tests()
 	while (index < TEST_KO_NUMBER)
 	{
 		printf("%s%s%s equals %s%s%s ? : ", BLUE, tests_KO[index * 2], RESET, BLUE, tests_KO[index * 2 + 1], RESET);
-		result = equals(tests_KO[index * 2], tests_KO[index * 2 + 1]);
+		result = equals(tests_KO[index * 2], tests_KO[index * 2 + 1], &shell);
 		if (result)
 			printf("%strue%s\n\n", GREEN, RESET);
 		else
@@ -171,7 +219,7 @@ int	main(int argc, char **argv, char **envp)
 
 	if (argc != 2)
 	{
-		run_tests();
+		run_tests(argc, argv, envp);
 		return (0);
 	}
 	t_minishell_init(&shell, argc, argv, envp);
@@ -182,7 +230,7 @@ int	main(int argc, char **argv, char **envp)
 	while (token->type != END)
 	{
 		print_token((void *)tokens->content);
-		result = expand_string(tokens->content, &shell, true, token->type != ASSIGNEMENT_WORD);
+		result = expand_string(token->str, &shell, O_PATH | O_VAR | O_QUOTE);
 		ft_lstprint(result, print_token);
 		ft_lstclear(&result, t_token_free);
 		tokens = tokens->next;

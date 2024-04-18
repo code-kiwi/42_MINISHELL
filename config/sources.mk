@@ -6,7 +6,7 @@
 #    By: brappo <brappo@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/03/31 20:47:09 by mhotting          #+#    #+#              #
-#    Updated: 2024/04/17 11:41:12 by brappo           ###   ########.fr        #
+#    Updated: 2024/04/18 09:37:27 by brappo           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -106,8 +106,7 @@ EXPANSION_FILES			=	get_variable_key.c		\
 							word_expansion.c		\
 							expand_string.c			\
 							expand_wildcard.c		\
-							string_equal_wildcard.c	\
-							search_wildcards.c
+							string_equal_wildcard.c
 
 EXPANSION				=	$(addprefix $(EXPANSION_DIR), $(EXPANSION_FILES))
 # ENV

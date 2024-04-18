@@ -6,29 +6,32 @@
 /*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/05 15:12:32 by brappo            #+#    #+#             */
-/*   Updated: 2024/04/17 14:34:09 by brappo           ###   ########.fr       */
+/*   Updated: 2024/04/18 11:27:40 by brappo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static void	remove_quote(t_token_parser *parser, char *input)
+static void	remove_quote(t_token_parser *parser, char *input, char options)
 {
 	if (*input == '\'')
 		parser->single_quoted = !parser->single_quoted;
 	else if (*input == '"')
 		parser->double_quoted = !parser->double_quoted;
-	ft_memmove(input, input + 1, ft_strlen(input));
-	*(parser->end) -= 1;
+	if (options & 1)
+	{
+		ft_memmove(input, input + 1, ft_strlen(input));
+		*(parser->end) -= 1;
+	}
 }
 
 static bool	handle_variable(t_token_parser *parser, \
-	char **input, t_minishell *shell, bool manage_variables)
+	char **input, t_minishell *shell, char options)
 {
 	size_t	index;
 	ssize_t	var_length;
 
-	if (!manage_variables)
+	if (!((options >> 1) & 1))
 		return (true);
 	index = *(parser->end);
 	if ((*input)[index] != '$' || parser->single_quoted)
@@ -41,47 +44,72 @@ static bool	handle_variable(t_token_parser *parser, \
 	return (true);
 }
 
-bool	quote_removal(char **input, t_minishell *shell, bool manage_variables)
+static bool	handle_wildcards(t_list **wildcards_pos, t_token_parser *parser, \
+	char *input, char options)
 {
-	size_t			index;
-	t_token_parser	parser;
+	size_t	index;
 
-	if (input == NULL || *input == NULL)
-		return (false);
-	t_token_parser_init(&parser);
-	parser.end = &index;
-	index = 0;
-	while ((*input)[index] != '\0')
+	index = *(parser->end);
+	if (!((options >> 2) & 1))
+		return (true);
+	if (input[index] == '*' && !is_quoted(parser))
 	{
-		if (((*input)[index] == '\'' && !parser.double_quoted)
-			|| ((*input)[index] == '"' && !parser.single_quoted))
-			remove_quote(&parser, *input + index);
-		else if (!handle_variable(&parser, input, shell, manage_variables))
+		if (!lst_push_front_content(wildcards_pos,
+				input + index, NULL))
+		{
+			ft_lstclear(wildcards_pos, NULL);
 			return (false);
-		index++;
+		}
 	}
 	return (true);
 }
 
-t_list	*expand_string(t_token *token, t_minishell *shell, \
-	bool manage_variables, bool pathname_expansion)
+static t_list	*get_arguments(char *str, t_list *wildcards)
 {
-	t_list	*wildcards_pos;
-	t_list	*files;
+	char	*str_dup;
+	t_list	*arguments;
 
-	wildcards_pos = NULL;
-	files = NULL;
-	if (pathname_expansion && !search_wildcards(token->str, &wildcards_pos))
-		return (NULL);
-	if (!quote_removal(&token->str, shell, manage_variables))
+	if (wildcards == NULL)
 	{
-		ft_lstclear(&wildcards_pos, NULL);
-		return (NULL);
+		str_dup = ft_strdup(str);
+		if (str_dup == NULL)
+			return (NULL);
+		arguments = ft_lstnew(str_dup);
+		if (arguments == NULL)
+			free(str_dup);
+		return (arguments);
 	}
-	if (pathname_expansion)
-		files = expand_wildcard(token->str, wildcards_pos);
 	else
-		add_token(&files, token->str, token->type);
-	ft_lstclear(&wildcards_pos, NULL);
-	return (files);
+	{
+		arguments = expand_wildcard(str, wildcards);
+		ft_lstclear(&arguments, free);
+		return (arguments);
+	}
+}
+
+t_list	*expand_string(char *str, t_minishell *shell, char options)
+{
+	size_t			index;
+	t_token_parser	parser;
+	t_list			*wildcard_pos;
+
+	if (str == NULL || shell == NULL)
+		return (NULL);
+	t_token_parser_init(&parser);
+	parser.end = &index;
+	index = 0;
+	wildcard_pos = NULL;
+	while (str[index] != '\0')
+	{
+		if ((str[index] == '\'' && !parser.double_quoted)
+			|| (str[index] == '"' && !parser.single_quoted))
+			remove_quote(&parser, str + index, options);
+		else if (str[index] == '$' \
+			&& !handle_variable(&parser, &str, shell, options))
+			return (NULL);
+		else if (!handle_wildcards(&wildcard_pos, &parser, str, options))
+			return (NULL);
+		index++;
+	}
+	return (get_arguments(str, wildcard_pos));
 }

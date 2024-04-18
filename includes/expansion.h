@@ -6,7 +6,7 @@
 /*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/17 12:31:28 by brappo            #+#    #+#             */
-/*   Updated: 2024/04/17 14:20:01 by brappo           ###   ########.fr       */
+/*   Updated: 2024/04/18 11:27:59 by brappo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,10 @@
 
 typedef struct s_minishell	t_minishell;
 
+# define O_QUOTE 1
+# define O_VAR 2
+# define O_PATH 4
+
 void	get_variable_key_coordinates(char *input, ssize_t *coordinates,
 			size_t variable_start);
 ssize_t	expand_variable(char **input, size_t variable_start,
@@ -23,8 +27,7 @@ ssize_t	expand_variable(char **input, size_t variable_start,
 t_list	*expand_wildcard(char *str, t_list *wildcards);
 bool	string_equal_wildcard(char *str_wildcard,
 			char *str_b, t_list *wildcards);
-t_list	*expand_string(t_token *token, t_minishell *shell, \
-			bool manage_variables, bool pathname_expansion);
+t_list	*expand_string(char *str, t_minishell *shell, char options);
 bool	search_wildcards(char *input, t_list **wildcards_pos);
 
 #endif // !EXPANSION_H
