@@ -86,7 +86,7 @@ bool	equals(char **str_wildcard, char *b, t_minishell *shell)
 
 #define TEST_OK_NUMBER 26
 #define TEST_KO_NUMBER 11
-#define TEST_FINALS_NUMBER 7
+#define TEST_FINALS_NUMBER 8
 
 void	get_tests_ok(char **tests)
 {
@@ -170,7 +170,7 @@ void	get_tests_ko(char **tests)
 	tests[21] = ft_strdup("machintruc");
 }
 
-void	get_tests_finals(char **tests)
+void	get_tests_finals(char **tests, t_minishell *shell)
 {
 	tests[0] = ft_strdup("*");
 	tests[1] = ft_strdup("$HOME");
@@ -179,6 +179,8 @@ void	get_tests_finals(char **tests)
 	tests[4] = ft_strdup("conf*");
 	tests[5] = ft_strdup("conf");
 	tests[6] = ft_strdup("mini*");
+	env_add(&shell->env, "$minishell", "mini");
+	tests[7] = ft_strdup("$minishell");
 }
 
 char	*concatenate_content(t_list *lst)
@@ -198,7 +200,7 @@ char	*concatenate_content(t_list *lst)
 	return (result);
 }
 
-void	run_tests(t_minishell *shell, char **envp)
+void	run_tests(t_minishell *shell)
 {
 	char	*tests_OK[TEST_OK_NUMBER * 2];
 	char	*tests_KO[TEST_KO_NUMBER * 2];
@@ -207,7 +209,10 @@ void	run_tests(t_minishell *shell, char **envp)
 	t_list	*result_lst;
 	char	*result_str;
 	size_t	index;
+	char	**envp;
+	char	*temp;
 
+	envp = env_get_all_array(shell->env);
 	index = 0;
 	printf("%s#########VALID TESTS############%s\n\n", GREEN, RESET);
 	get_tests_ok(tests_OK);
@@ -240,19 +245,22 @@ void	run_tests(t_minishell *shell, char **envp)
 	}
 	index = 0;
 	printf("%s#########FINALS TESTS############%s\n\n", RED, RESET); 
-	get_tests_finals(tests_finals);
+	get_tests_finals(tests_finals, shell);
 	while (index < TEST_FINALS_NUMBER)
 	{
+		temp = ft_strdup(tests_finals[index]);
 		printf("%s%s%s\n", BLUE, tests_finals[index], RESET);
 		result_lst = expand_string(&tests_finals[index], shell, O_QUOTE | O_PATH | O_VAR);
 		result_str = concatenate_content(result_lst);
-		echo_string(tests_finals[index], envp, result_str);
+		echo_string(temp, envp, result_str);
 		printf("perso : %s\n", result_str);
 		ft_lstclear(&result_lst, free);
 		free(result_str);
 		free(tests_finals[index]);
+		free(temp);
 		index++;
 	}
+	ft_free_str_array(&envp);
 }
 
 void	print_str(void *str)
@@ -270,7 +278,7 @@ int	main(int argc, char **argv, char **envp)
 	t_minishell_init(&shell, argc, argv, envp);
 	if (argc != 2)
 	{
-		run_tests(&shell, envp);
+		run_tests(&shell);
 		t_minishell_free(&shell);
 		return (0);
 	}

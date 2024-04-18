@@ -6,7 +6,7 @@
 /*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/05 15:12:32 by brappo            #+#    #+#             */
-/*   Updated: 2024/04/18 19:02:09 by brappo           ###   ########.fr       */
+/*   Updated: 2024/04/18 20:07:15 by brappo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,19 +28,19 @@ static void	remove_quote(t_token_parser *parser, char *input, char options)
 static bool	handle_variable(t_token_parser *parser, \
 	char **input, t_minishell *shell, char options)
 {
-	size_t	index;
+	size_t	*index;
 	ssize_t	var_length;
 
 	if (!((options >> 1) & 1))
 		return (true);
-	index = *(parser->end);
-	if ((*input)[index] != '$' || parser->single_quoted)
+	index = parser->end;
+	if ((*input)[*index] != '$' || parser->single_quoted)
 		return (true);
-	var_length = expand_variable(input, index, \
+	var_length = expand_variable(input, *index, \
 		parser->double_quoted, shell);
 	if (var_length < 0)
 		return (false);
-	index += var_length;
+	*index += var_length - 1;
 	return (true);
 }
 
@@ -105,10 +105,10 @@ t_list	*expand_string(char **str, t_minishell *shell, char options)
 		if (((*str)[index] == '\'' && !parser.double_quoted)
 			|| ((*str)[index] == '"' && !parser.single_quoted))
 			remove_quote(&parser, *str + index, options);
+		else if (!handle_wildcards(&wildcard_pos, &parser, *str, options))
+			return (NULL);
 		else if ((*str)[index] == '$' \
 			&& !handle_variable(&parser, str, shell, options))
-			return (NULL);
-		else if (!handle_wildcards(&wildcard_pos, &parser, *str, options))
 			return (NULL);
 		index++;
 	}
