@@ -56,6 +56,7 @@ bool	search_wildcards(char *input, t_list **wildcards_pos)
 }
 
 t_list	*expand_string(char *str, t_minishell *shell, char options);
+void	echo_string(char *str, char **envp, char *result_perso);
 
 void	print_pointeur(void *pointeur)
 {
@@ -86,6 +87,7 @@ bool	equals(char *str_wildcard, char *b, t_minishell *shell)
 
 #define TEST_OK_NUMBER 26
 #define TEST_KO_NUMBER 11
+#define TEST_FINALS_NUMBER 1
 
 void	get_tests_ok(char **tests)
 {
@@ -169,11 +171,34 @@ void	get_tests_ko(char **tests)
 	tests[21] = ft_strdup("machintruc");
 }
 
-void	run_tests(t_minishell *shell)
+void	get_tests_finals(char **tests)
+{
+	tests[0] = ft_strdup("*");
+}
+
+char	*concatenate_content(t_list *lst)
+{
+	char	*result;
+	t_list	*current;
+
+	result = ft_strdup((char *)(lst->content));
+	current = lst->next;
+	while (current != NULL)
+	{
+		result = bridge_into_first(&result, (char *)current->content, " ");
+		current = current->next;
+	}
+	return (result);
+}
+
+void	run_tests(t_minishell *shell, char **envp)
 {
 	char	*tests_OK[TEST_OK_NUMBER * 2];
 	char	*tests_KO[TEST_KO_NUMBER * 2];
+	char	*tests_finals[TEST_FINALS_NUMBER];
 	bool	result;
+	t_list	*result_lst;
+	char	*result_str;
 	size_t	index;
 
 	index = 0;
@@ -206,6 +231,20 @@ void	run_tests(t_minishell *shell)
 		free(tests_KO[index * 2 + 1]);
 		index++;
 	}
+	index = 0;
+	printf("%s#########FINALS TESTS############%s\n\n", RED, RESET); 
+	get_tests_finals(tests_finals);
+	while (index < TEST_FINALS_NUMBER)
+	{
+		printf("%s%s%s\n", BLUE, tests_finals[index], RESET);
+		result_lst = expand_string(tests_finals[index], shell, O_QUOTE | O_PATH | O_PATH);
+		result_str = concatenate_content(result_lst);
+		echo_string(tests_finals[index], envp, result_str);
+		printf("perso : %s\n", result_str);
+		ft_lstclear(&result_lst, free);
+		free(tests_finals[index]);
+		index++;
+	}
 }
 
 void	print_str(void *str)
@@ -223,12 +262,10 @@ int	main(int argc, char **argv, char **envp)
 	t_minishell_init(&shell, argc, argv, envp);
 	if (argc != 2)
 	{
-		run_tests(&shell);
+		run_tests(&shell, envp);
 		t_minishell_free(&shell);
 		return (0);
 	}
-	env_add(&shell.env, "test", "truc");
-	env_add(&shell.env, "machin", "bidule");
 	shell.input = ft_strdup(argv[1]);
 	token_recognition(&shell);
 	tokens = shell.tokens;
