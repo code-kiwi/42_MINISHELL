@@ -86,7 +86,7 @@ bool	equals(char **str_wildcard, char *b, t_minishell *shell)
 
 #define TEST_OK_NUMBER 26
 #define TEST_KO_NUMBER 11
-#define TEST_FINALS_NUMBER 8
+#define TEST_FINALS_NUMBER 11
 
 void	get_tests_ok(char **tests)
 {
@@ -179,8 +179,11 @@ void	get_tests_finals(char **tests, t_minishell *shell)
 	tests[4] = ft_strdup("conf*");
 	tests[5] = ft_strdup("conf");
 	tests[6] = ft_strdup("mini*");
-	env_add(&shell->env, "$minishell", "mini");
+	env_add(&shell->env, "minishell", "mini");
 	tests[7] = ft_strdup("$minishell");
+	tests[8] = ft_strdup("$minishell*");
+	tests[9] = ft_strdup("${minishell}shell");
+	tests[10] = ft_strdup("$minishellshell");
 }
 
 char	*concatenate_content(t_list *lst)
@@ -212,7 +215,6 @@ void	run_tests(t_minishell *shell)
 	char	**envp;
 	char	*temp;
 
-	envp = env_get_all_array(shell->env);
 	index = 0;
 	printf("%s#########VALID TESTS############%s\n\n", GREEN, RESET);
 	get_tests_ok(tests_OK);
@@ -246,6 +248,7 @@ void	run_tests(t_minishell *shell)
 	index = 0;
 	printf("%s#########FINALS TESTS############%s\n\n", RED, RESET); 
 	get_tests_finals(tests_finals, shell);
+	envp = env_get_all_array(shell->env);
 	while (index < TEST_FINALS_NUMBER)
 	{
 		temp = ft_strdup(tests_finals[index]);
