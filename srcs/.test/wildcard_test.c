@@ -55,7 +55,6 @@ bool	search_wildcards(char *input, t_list **wildcards_pos)
 	return (true);
 }
 
-t_list	*expand_string(char *str, t_minishell *shell, char options);
 void	echo_string(char *str, char **envp, char *result_perso);
 
 void	print_pointeur(void *pointeur)
@@ -63,14 +62,14 @@ void	print_pointeur(void *pointeur)
 	printf("%p\n", pointeur);
 }
 
-bool	equals(char *str_wildcard, char *b, t_minishell *shell)
+bool	equals(char **str_wildcard, char *b, t_minishell *shell)
 {
 	t_list	*wildcard_pos;
 	bool	result;
 	t_list	*new_arguments;
 
 	wildcard_pos = NULL;
-	if (!search_wildcards(str_wildcard, &wildcard_pos))
+	if (!search_wildcards(*str_wildcard, &wildcard_pos))
 		return (false);
 	new_arguments = expand_string(str_wildcard, shell, O_QUOTE);
 	if (new_arguments == NULL)
@@ -79,7 +78,7 @@ bool	equals(char *str_wildcard, char *b, t_minishell *shell)
 		ft_lstclear(&wildcard_pos, NULL);
 		return (false);
 	}
-	result = string_equal_wildcard(str_wildcard, b, wildcard_pos);
+	result = string_equal_wildcard(*str_wildcard, b, wildcard_pos);
 	ft_lstclear(&wildcard_pos, NULL);
 	ft_lstclear(&new_arguments, free);
 	return (result);
@@ -87,7 +86,7 @@ bool	equals(char *str_wildcard, char *b, t_minishell *shell)
 
 #define TEST_OK_NUMBER 26
 #define TEST_KO_NUMBER 11
-#define TEST_FINALS_NUMBER 1
+#define TEST_FINALS_NUMBER 7
 
 void	get_tests_ok(char **tests)
 {
@@ -174,6 +173,12 @@ void	get_tests_ko(char **tests)
 void	get_tests_finals(char **tests)
 {
 	tests[0] = ft_strdup("*");
+	tests[1] = ft_strdup("$HOME");
+	tests[2] = ft_strdup("$USER");
+	tests[3] = ft_strdup("$biduletruc");
+	tests[4] = ft_strdup("conf*");
+	tests[5] = ft_strdup("conf");
+	tests[6] = ft_strdup("mini*");
 }
 
 char	*concatenate_content(t_list *lst)
@@ -181,6 +186,8 @@ char	*concatenate_content(t_list *lst)
 	char	*result;
 	t_list	*current;
 
+	if (lst == NULL)
+		return (NULL);
 	result = ft_strdup((char *)(lst->content));
 	current = lst->next;
 	while (current != NULL)
@@ -207,7 +214,7 @@ void	run_tests(t_minishell *shell, char **envp)
 	while (index < TEST_OK_NUMBER)
 	{
 		printf("%s%s%s equals %s%s%s ? : ", BLUE, tests_OK[index * 2], RESET, BLUE, tests_OK[index * 2 + 1], RESET);
-		result = equals(tests_OK[index * 2], tests_OK[index * 2 + 1], shell);
+		result = equals(&tests_OK[index * 2], tests_OK[index * 2 + 1], shell);
 		if (result)
 			printf("%strue%s\n\n", GREEN, RESET);
 		else
@@ -222,7 +229,7 @@ void	run_tests(t_minishell *shell, char **envp)
 	while (index < TEST_KO_NUMBER)
 	{
 		printf("%s%s%s equals %s%s%s ? : ", BLUE, tests_KO[index * 2], RESET, BLUE, tests_KO[index * 2 + 1], RESET);
-		result = equals(tests_KO[index * 2], tests_KO[index * 2 + 1], shell);
+		result = equals(&tests_KO[index * 2], tests_KO[index * 2 + 1], shell);
 		if (result)
 			printf("%strue%s\n\n", GREEN, RESET);
 		else
@@ -237,11 +244,12 @@ void	run_tests(t_minishell *shell, char **envp)
 	while (index < TEST_FINALS_NUMBER)
 	{
 		printf("%s%s%s\n", BLUE, tests_finals[index], RESET);
-		result_lst = expand_string(tests_finals[index], shell, O_QUOTE | O_PATH | O_PATH);
+		result_lst = expand_string(&tests_finals[index], shell, O_QUOTE | O_PATH | O_VAR);
 		result_str = concatenate_content(result_lst);
 		echo_string(tests_finals[index], envp, result_str);
 		printf("perso : %s\n", result_str);
 		ft_lstclear(&result_lst, free);
+		free(result_str);
 		free(tests_finals[index]);
 		index++;
 	}
@@ -273,7 +281,7 @@ int	main(int argc, char **argv, char **envp)
 	while (token->type != END)
 	{
 		print_token((void *)tokens->content);
-		result = expand_string(token->str, &shell, O_PATH | O_VAR | O_QUOTE);
+		result = expand_string(&token->str, &shell, O_PATH | O_VAR | O_QUOTE);
 		if (result == NULL)
 			printf("ERROR");
 		ft_lstprint(result, print_str);

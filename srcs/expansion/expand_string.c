@@ -6,7 +6,7 @@
 /*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/05 15:12:32 by brappo            #+#    #+#             */
-/*   Updated: 2024/04/18 11:59:51 by brappo           ###   ########.fr       */
+/*   Updated: 2024/04/18 19:02:09 by brappo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,29 +88,29 @@ static t_list	*get_arguments(char *str, t_list *wildcards)
 	}
 }
 
-t_list	*expand_string(char *str, t_minishell *shell, char options)
+t_list	*expand_string(char **str, t_minishell *shell, char options)
 {
 	size_t			index;
 	t_token_parser	parser;
 	t_list			*wildcard_pos;
 
-	if (str == NULL || shell == NULL)
+	if (str == NULL || *str == NULL || shell == NULL)
 		return (NULL);
 	t_token_parser_init(&parser);
 	parser.end = &index;
 	index = 0;
 	wildcard_pos = NULL;
-	while (str[index] != '\0')
+	while ((*str)[index] != '\0')
 	{
-		if ((str[index] == '\'' && !parser.double_quoted)
-			|| (str[index] == '"' && !parser.single_quoted))
-			remove_quote(&parser, str + index, options);
-		else if (str[index] == '$' \
-			&& !handle_variable(&parser, &str, shell, options))
+		if (((*str)[index] == '\'' && !parser.double_quoted)
+			|| ((*str)[index] == '"' && !parser.single_quoted))
+			remove_quote(&parser, *str + index, options);
+		else if ((*str)[index] == '$' \
+			&& !handle_variable(&parser, str, shell, options))
 			return (NULL);
-		else if (!handle_wildcards(&wildcard_pos, &parser, str, options))
+		else if (!handle_wildcards(&wildcard_pos, &parser, *str, options))
 			return (NULL);
 		index++;
 	}
-	return (get_arguments(str, wildcard_pos));
+	return (get_arguments(*str, wildcard_pos));
 }
