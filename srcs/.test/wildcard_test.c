@@ -86,7 +86,7 @@ bool	equals(char **str_wildcard, char *b, t_minishell *shell)
 
 #define TEST_OK_NUMBER 26
 #define TEST_KO_NUMBER 11
-#define TEST_FINALS_NUMBER 11
+#define TEST_FINALS_NUMBER 12
 
 void	get_tests_ok(char **tests)
 {
@@ -184,6 +184,8 @@ void	get_tests_finals(char **tests, t_minishell *shell)
 	tests[8] = ft_strdup("$minishell*");
 	tests[9] = ft_strdup("${minishell}shell");
 	tests[10] = ft_strdup("$minishellshell");
+	env_add(&shell->env, "truc", "ni"),
+	tests[11] = ft_strdup("'mi'\"$truc\"*");
 }
 
 char	*concatenate_content(t_list *lst)
