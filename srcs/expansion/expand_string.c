@@ -6,7 +6,7 @@
 /*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/05 15:12:32 by brappo            #+#    #+#             */
-/*   Updated: 2024/04/18 11:27:40 by brappo           ###   ########.fr       */
+/*   Updated: 2024/04/18 11:59:51 by brappo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,8 +81,9 @@ static t_list	*get_arguments(char *str, t_list *wildcards)
 	}
 	else
 	{
+		ft_lstreverse(&wildcards);
 		arguments = expand_wildcard(str, wildcards);
-		ft_lstclear(&arguments, free);
+		ft_lstclear(&wildcards, NULL);
 		return (arguments);
 	}
 }

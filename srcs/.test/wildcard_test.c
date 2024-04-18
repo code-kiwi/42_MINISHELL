@@ -12,9 +12,6 @@
 
 #include "minishell.h"
 
-#define TEST_OK_NUMBER 26
-#define TEST_KO_NUMBER 11
-
 static bool	remove_quote(char character, t_token_parser *parser)
 {
 	if (character == '"' && !parser->single_quoted)
@@ -86,6 +83,9 @@ bool	equals(char *str_wildcard, char *b, t_minishell *shell)
 	ft_lstclear(&new_arguments, free);
 	return (result);
 }
+
+#define TEST_OK_NUMBER 26
+#define TEST_KO_NUMBER 11
 
 void	get_tests_ok(char **tests)
 {
@@ -169,22 +169,20 @@ void	get_tests_ko(char **tests)
 	tests[21] = ft_strdup("machintruc");
 }
 
-void	run_tests(int argc, char **argv, char **envp)
+void	run_tests(t_minishell *shell)
 {
 	char	*tests_OK[TEST_OK_NUMBER * 2];
 	char	*tests_KO[TEST_KO_NUMBER * 2];
-	t_minishell	shell;
 	bool	result;
 	size_t	index;
 
 	index = 0;
-	t_minishell_init(&shell, argc, argv, envp);
 	printf("%s#########VALID TESTS############%s\n\n", GREEN, RESET);
 	get_tests_ok(tests_OK);
 	while (index < TEST_OK_NUMBER)
 	{
 		printf("%s%s%s equals %s%s%s ? : ", BLUE, tests_OK[index * 2], RESET, BLUE, tests_OK[index * 2 + 1], RESET);
-		result = equals(tests_OK[index * 2], tests_OK[index * 2 + 1], &shell);
+		result = equals(tests_OK[index * 2], tests_OK[index * 2 + 1], shell);
 		if (result)
 			printf("%strue%s\n\n", GREEN, RESET);
 		else
@@ -199,7 +197,7 @@ void	run_tests(int argc, char **argv, char **envp)
 	while (index < TEST_KO_NUMBER)
 	{
 		printf("%s%s%s equals %s%s%s ? : ", BLUE, tests_KO[index * 2], RESET, BLUE, tests_KO[index * 2 + 1], RESET);
-		result = equals(tests_KO[index * 2], tests_KO[index * 2 + 1], &shell);
+		result = equals(tests_KO[index * 2], tests_KO[index * 2 + 1], shell);
 		if (result)
 			printf("%strue%s\n\n", GREEN, RESET);
 		else
@@ -210,6 +208,11 @@ void	run_tests(int argc, char **argv, char **envp)
 	}
 }
 
+void	print_str(void *str)
+{
+	printf("%s\n", (char *)str);
+}
+
 int	main(int argc, char **argv, char **envp)
 {
 	t_list		*result;
@@ -217,12 +220,15 @@ int	main(int argc, char **argv, char **envp)
 	t_minishell	shell;
 	t_token		*token;
 
+	t_minishell_init(&shell, argc, argv, envp);
 	if (argc != 2)
 	{
-		run_tests(argc, argv, envp);
+		run_tests(&shell);
+		t_minishell_free(&shell);
 		return (0);
 	}
-	t_minishell_init(&shell, argc, argv, envp);
+	env_add(&shell.env, "test", "truc");
+	env_add(&shell.env, "machin", "bidule");
 	shell.input = ft_strdup(argv[1]);
 	token_recognition(&shell);
 	tokens = shell.tokens;
@@ -231,8 +237,10 @@ int	main(int argc, char **argv, char **envp)
 	{
 		print_token((void *)tokens->content);
 		result = expand_string(token->str, &shell, O_PATH | O_VAR | O_QUOTE);
-		ft_lstprint(result, print_token);
-		ft_lstclear(&result, t_token_free);
+		if (result == NULL)
+			printf("ERROR");
+		ft_lstprint(result, print_str);
+		ft_lstclear(&result, free);
 		tokens = tokens->next;
 		token = tokens->content;
 		printf("\n\n");

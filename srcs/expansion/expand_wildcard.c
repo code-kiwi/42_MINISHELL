@@ -6,7 +6,7 @@
 /*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/12 10:28:30 by brappo            #+#    #+#             */
-/*   Updated: 2024/04/18 11:10:56 by brappo           ###   ########.fr       */
+/*   Updated: 2024/04/18 12:00:09 by brappo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,11 @@ t_list	*expand_wildcard(char *str, t_list *wildcards)
 		if (file->d_name[0] != '.'
 			&& string_equal_wildcard(str, file->d_name, wildcards))
 		{
-			if (lst_push_front_content(&result, ft_strdup(file->d_name), free))
+			if (!lst_push_front_content(&result, ft_strdup(file->d_name), free))
+			{
+				closedir(current_directory);
 				return (ft_lstclear(&result, free), NULL);
+			}
 		}
 		file = readdir(current_directory);
 	}
