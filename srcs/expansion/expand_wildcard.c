@@ -6,11 +6,37 @@
 /*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/12 10:28:30 by brappo            #+#    #+#             */
-/*   Updated: 2024/04/18 12:03:21 by brappo           ###   ########.fr       */
+/*   Updated: 2024/04/18 16:56:12 by brappo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+static int	alphabetic_compare(void *a, void *b)
+{
+	size_t	index;
+	char	character_a;
+	char	character_b;
+
+	index = 0;
+	if (a == NULL || b == NULL)
+		return (a - b);
+	character_a = *(char *)a;
+	character_b = *(char *)b;
+	while (character_a)
+	{
+		if (character_a >= 65 && character_a <= 90)
+			character_a += 32;
+		if (character_b >= 65 && character_b <= 90)
+			character_b += 32;
+		if (character_a != character_b)
+			return (character_a - character_b);
+		character_a = *(char *)(a + index);
+		character_b = *(char *)(b + index);
+		index++;
+	}
+	return (0);
+}
 
 t_list	*expand_wildcard(char *str, t_list *wildcards)
 {
@@ -38,5 +64,5 @@ t_list	*expand_wildcard(char *str, t_list *wildcards)
 		file = readdir(current_directory);
 	}
 	closedir(current_directory);
-	return (result);
+	return (lst_sort(&result, alphabetic_compare));
 }
