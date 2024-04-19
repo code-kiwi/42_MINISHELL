@@ -6,7 +6,7 @@
 #    By: brappo <brappo@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/03/31 20:47:09 by mhotting          #+#    #+#              #
-#    Updated: 2024/04/12 10:33:04 by mhotting         ###   ########.fr        #
+#    Updated: 2024/04/17 14:16:47 by mhotting         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -39,6 +39,9 @@ LIBFT_HEADERS_FILE		=	libft.h
 LIBFT_HEADERS			=	$(addprefix $(LIBFT_HEADERS_DIR), $(LIBFT_HEADERS_FILE))
 LIBFT_FLAGS				=	-L$(LIBFT_DIR) -lft 
 
+# SCRIPT HEADERS SYMLINKS CREATION
+HEADER_LINK_SCRIPT		=	config/create_sym_limk.sh
+HEADER_LINK_SCRIPT_CLS	=	config/remove_sym_limk.sh
 
 # MAIN
 MAIN_DIR				=	main/
@@ -53,6 +56,9 @@ ifdef testChosen
 	else ifeq ($(testChosen), prompt)
 		MAIN_DIR		=	.test/
 		MAIN_FILE		=	test_prompt.c
+	else ifeq ($(testChosen), execution)
+		MAIN_DIR		=	.test/
+		MAIN_FILE		=	test_execution1.c test_execution2.c
 	else ifeq ($(testChosen), ast)
 		MAIN_DIR		=	.test/
 		MAIN_FILE		=	test_ast_creation.c
@@ -61,8 +67,7 @@ ifdef testChosen
 		MAIN_FILE		=	test_variable_expansion.c
 	else ifeq ($(testChosen), ast_building)
 		MAIN_DIR		=	.test/
-		MAIN_FILE		=	test_ast_building.c	\
-							ast_printing.c
+		MAIN_FILE		=	test_ast_building.c	ast_printing.c
 	endif
 	MAIN_FILE			+=	temp.c
 endif
@@ -92,14 +97,14 @@ TOKENR					=	$(addprefix $(TOKENR_DIR), $(TOKENR_FILES))
 
 # PROMPT
 PROMPT_DIR				=	prompt/
-PROMPT_FILES			=	prompt_handler.c \
+PROMPT_FILES			=	prompt_handler.c 			\
 							directory_utils.c
 PROMPT					=	$(addprefix $(PROMPT_DIR), $(PROMPT_FILES))
 
 # VARIABLE EXPANSION
 EXPANSION_DIR			=	wordExpansion/
-EXPANSION_FILES			=	get_variable_key.c	\
-							word_expansion.c	\
+EXPANSION_FILES			=	get_variable_key.c			\
+							word_expansion.c			\
 							expand_string.c
 
 EXPANSION				=	$(addprefix $(EXPANSION_DIR), $(EXPANSION_FILES))
@@ -109,21 +114,41 @@ ENV_FILES				=	env_utils.c					\
 							t_env_element_utils.c
 ENV						=	$(addprefix $(ENV_DIR), $(ENV_FILES))
 
+# EXECUTION
+EXECUTION_DIR			=	execution/
+EXECUTION_FILES			=	exec.c						\
+							exec_node_pipe.c			\
+							exec_node_logical.c			\
+							exec_node_subshell.c		\
+							exec_node_command.c			\
+							exec_cmd.c					\
+							exec_cmd_get_path.c			\
+							exec_builtin.c				\
+							exec_redirection_list1.c	\
+							exec_redirection_list2.c
+EXECUTION				=	$(addprefix $(EXECUTION_DIR), $(EXECUTION_FILES))
+
+# BUILT_IN
+BUILT_IN_DIR			=	built_in/
+BUILT_IN_FILES			=	built_in_utils.c
+BUILT_IN				=	$(addprefix $(BUILT_IN_DIR), $(BUILT_IN_FILES))
+
 #AST BUILDING
 AST_BUILDING_DIR		=	ast_building/
-AST_BUILDING_FILES		=	add_command.c \
-							add_operator_node.c \
-							add_subshell.c		\
-							build_ast_utils.c	\
-							build_ast.c			\
+AST_BUILDING_FILES		=	add_command.c				\
+							add_operator_node.c			\
+							add_subshell.c				\
+							build_ast_utils.c			\
+							build_ast.c					\
 							get_argv.c
-
 AST_BUILDING			=	$(addprefix $(AST_BUILDING_DIR), $(AST_BUILDING_FILES))
 
 # UTILS
 UTILS_DIR				=	utils/
 UTILS_FILES				=	list_utils.c				\
-							t_minishell_utils.c			\
+							t_minishell_utils1.c		\
+							t_minishell_utils2.c		\
+							t_pid_list_utils.c			\
 							close_file_descriptor.c		\
 							string_utils.c				\
 							ft_split_key_val.c			\
@@ -134,7 +159,9 @@ UTILS					=	$(addprefix $(UTILS_DIR), $(UTILS_FILES))
 
 # SOURCES GENERAL
 SRCS_MAIN_DIR			=	srcs/
-SRCS_FILES				=	$(MAIN)	$(AST) $(TOKENR) $(PROMPT) $(ENV) $(EXPANSION) $(AST_BUILDING) $(UTILS)
+SRCS_FILES				=	$(MAIN)	$(AST) $(TOKENR) $(PROMPT) $(ENV)			\
+							$(EXPANSION) $(EXECUTION) $(BUILT_IN)				\
+							$(AST_BUILDING) $(UTILS)
 SRCS					=	$(addprefix $(SRCS_MAIN_DIR), $(SRCS_FILES))
 
 # OBJECTS GENERAL

@@ -6,7 +6,7 @@
 /*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/31 19:28:12 by mhotting          #+#    #+#             */
-/*   Updated: 2024/04/10 15:30:30 by brappo           ###   ########.fr       */
+/*   Updated: 2024/04/17 14:11:52 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,6 @@
 # define TOKEN_H
 
 # include "minishell.h"
-
-# define MULTIPLE_LINE_PROMPT "> "
-# define ERROR_SUBSTITUTION "Invalid variable substitution"
 
 typedef struct s_minishell	t_minishell;
 
