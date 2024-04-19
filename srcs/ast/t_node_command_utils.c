@@ -6,7 +6,7 @@
 /*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/29 09:54:42 by mhotting          #+#    #+#             */
-/*   Updated: 2024/04/12 10:29:14 by mhotting         ###   ########.fr       */
+/*   Updated: 2024/04/17 14:49:35 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,8 @@ t_node	*node_command_create(int argc, char **argv)
 
 /*
  *	Frees the memory allocated to a t_node_command
- *	Frees its argv component (frees all the strings contained in this argv)
+ *	Frees its argv component (frees only the main pointer as the strings into
+ *	argv are still stored into the token list)
  *	Frees the redirections component
  *	Frees the t_node_command itself and sets the pointer to NULL
  */
@@ -62,10 +63,7 @@ void	node_command_free(void **node_ptr)
 	node = (t_node_command *) *node_ptr;
 	free(node->argv);
 	redirection_list_free(&(node->redirection_list));
-	if (node->fd_in != FD_UNSET)
-		fd_close_and_reset(&(node->fd_in));
-	if (node->fd_out != FD_UNSET)
-		fd_close_and_reset(&(node->fd_out));
+	node_command_close_fds(*node_ptr);
 	free(node);
 	*node_ptr = NULL;
 }
@@ -90,4 +88,18 @@ bool	node_command_add_redirection(t_node *node, char *op, char *filename)
 		return (false);
 	cmd = (t_node_command *) node->content;
 	return (redirection_list_add(cmd->redirection_list, op, filename));
+}
+
+/*
+ *	Closes fd_in and fd_out members from the given t_node_command
+ *	Resets their value to FD_UNSET if they were valid file descriptors
+ */
+void	node_command_close_fds(t_node_command *cmd)
+{
+	if (cmd == NULL)
+		return ;
+	if (cmd->fd_in != FD_UNSET && cmd->fd_in != FD_ERROR)
+		fd_close_and_reset(&(cmd->fd_in));
+	if (cmd->fd_out != FD_UNSET && cmd->fd_out != FD_ERROR)
+		fd_close_and_reset(&(cmd->fd_out));
 }
