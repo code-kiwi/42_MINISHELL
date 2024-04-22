@@ -1,5 +1,16 @@
 #!/bin/bash
 
+# --------------------
+# Creates symlinks into includes/ from each header into libft/includes/
+targetdir="includes"
+
+for header_file in libft/includes/*.h
+do
+	ln -sf "../$header_file" "$targetdir"
+done
+
+# --------------------
+# Creates symlinks into srcs/, from each header file into includes/
 dirs="srcs/*"
 dirs="$dirs srcs/.test"
 
