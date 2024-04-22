@@ -4,7 +4,7 @@
 # Creates symlinks into includes/ from each header into libft/includes/
 targetdir="includes"
 
-for header_file in libft/includes/*.h
+for header_file in libft/includes/*.h;
 do
 	ln -sf "../$header_file" "$targetdir"
 done
