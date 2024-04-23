@@ -6,7 +6,7 @@
 /*   By: mhotting <mhotting@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/14 10:53:09 by mhotting          #+#    #+#             */
-/*   Updated: 2024/04/14 19:52:33 by mhotting         ###   ########.fr       */
+/*   Updated: 2024/04/23 21:59:47 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,8 @@
  *	As soon as one valid path is found (existing and executable file), it
  *	is returned
  *	If no path was found or if an error occurred, returns NULL
- *	If the given command contains a slash, returns a duplicate of given_cmd
+ *	If the given command contains a slash, returns a duplicate of given_cmd if
+ *	given_cmd exists and corresponds to an executable file
  */
 static char	*get_command_path(char **paths, char *given_cmd)
 {
@@ -28,7 +29,11 @@ static char	*get_command_path(char **paths, char *given_cmd)
 	if (paths == NULL || given_cmd == NULL)
 		return (NULL);
 	if (ft_strchr(given_cmd, '/') != NULL)
-		return (ft_strdup(given_cmd));
+	{
+		if (access(given_cmd, F_OK | X_OK) == 0)
+			return (ft_strdup(given_cmd));
+		return (NULL);
+	}
 	i = 0;
 	while (paths[i] != NULL)
 	{
@@ -104,7 +109,8 @@ char	**get_all_paths(t_minishell *shell)
 
 /*
  *	Returns the valid path to a given command name
- *	If the command's name contains a slash, then is is just duplicated
+ *	If the command's name contains a slash, then is is just duplicated (if the
+ *	given command exists and corresponds to an executable file)
  *	Else:
  *		- we retrieve the PATH envrionment variable from the given shell
  *		- we test all the paths from path in order to find an existing
@@ -123,7 +129,11 @@ char	*exec_cmd_get_path(t_minishell *shell, char *cmd)
 	if (shell == NULL || cmd == NULL)
 		return (NULL);
 	if (ft_strchr(cmd, '/') != NULL)
-		return (ft_strdup(cmd));
+	{
+		if (access(cmd, F_OK | X_OK) == 0)
+			return (ft_strdup(cmd));
+		return (NULL);
+	}
 	paths = get_all_paths(shell);
 	if (paths == NULL)
 		return (NULL);

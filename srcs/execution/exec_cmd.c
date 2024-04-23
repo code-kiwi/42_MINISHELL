@@ -6,7 +6,7 @@
 /*   By: mhotting <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/12 15:40:35 by mhotting          #+#    #+#             */
-/*   Updated: 2024/04/19 14:54:28 by mhotting         ###   ########.fr       */
+/*   Updated: 2024/04/23 21:44:14 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,14 +59,44 @@ static void	exec_cmd_redirect(t_minishell *shell, t_node_command *cmd)
 /*
  *	Executes an external command
  *	Steps:
- *		- Redirects process stdin and stdout according to command redirections
+ *		- checks input args
+ *		- stores cmd->argv into a local variable
+ *		- frees the AST (this enables to close all the AST opened file
+ *		descriptors)
+ *		- executes the command calling execve()
+ *		- frees the resources if execve() call failed (on SUCCESS, the program
+ *		should never reach this step
+ */
+static void	exec_cmd_external_process(
+	t_minishell *shell, t_node_command *cmd, char **env, char *command_path
+)
+{
+	char	**argv;
+
+	if (shell == NULL || cmd == NULL || env == NULL || command_path == NULL)
+		handle_error(shell, ERROR_MSG_ARGS, EXIT_FAILURE);
+	argv = cmd->argv;
+	cmd->argv = NULL;
+	ast_free(&(shell->ast));
+	execve(command_path, argv, env);
+	free(argv);
+	free(command_path);
+	ft_free_str_array(&env);
+	exec_cmd_error(shell, ERROR_MSG_CMD_EXEC, STATUS_CMD_NOT_EXEC, NULL);
+}
+
+/*
+ *	Prepeares the execution of an external command
+ *	Steps:
+ *		- Redirects process stdin and stdout according to command's redirections
  *		- Finds the right path to the given command
  *		- Gets the shell's environment
- *		- Executes the command using execve()
+ *		- Calls exec_cmd_external_process() in order to execute the command,
+ *		handle properly resources and deal with errors
  *	In case of ERROR, all the resources are freed and the process exits
  *	with the right status
  */
-static void	exec_cmd_extrenal(t_minishell *shell, t_node_command *cmd)
+static void	exec_cmd_external(t_minishell *shell, t_node_command *cmd)
 {
 	char	*command_path;
 	char	**env;
@@ -83,10 +113,7 @@ static void	exec_cmd_extrenal(t_minishell *shell, t_node_command *cmd)
 		free(command_path);
 		exec_cmd_error(shell, ERROR_MSG_MEM, EXIT_FAILURE, NULL);
 	}
-	execve(command_path, cmd->argv, env);
-	free(command_path);
-	ft_free_str_array(&env);
-	exec_cmd_error(shell, ERROR_MSG_CMD_EXEC, STATUS_CMD_NOT_EXEC, NULL);
+	exec_cmd_external_process(shell, cmd, env, command_path);
 }
 
 /*
@@ -112,5 +139,5 @@ void	exec_cmd(t_minishell *shell, t_node_command *cmd)
 		t_minishell_free(shell);
 		exit(returned_status);
 	}
-	exec_cmd_extrenal(shell, cmd);
+	exec_cmd_external(shell, cmd);
 }
