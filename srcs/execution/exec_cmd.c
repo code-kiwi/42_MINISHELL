@@ -6,7 +6,7 @@
 /*   By: mhotting <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/12 15:40:35 by mhotting          #+#    #+#             */
-/*   Updated: 2024/04/23 21:44:14 by mhotting         ###   ########.fr       */
+/*   Updated: 2024/04/24 13:25:15 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -132,7 +132,7 @@ void	exec_cmd(t_minishell *shell, t_node_command *cmd)
 
 	if (shell == NULL || cmd == NULL || !cmd->argv)
 		handle_error(shell, ERROR_MSG_ARGS, EXIT_FAILURE);
-	if (is_built_in(cmd->argv[0]))
+	if (is_built_in(shell->bi_funcs, cmd->argv[0]))
 	{
 		returned_status = exec_builtin(shell, cmd);
 		node_command_close_fds(cmd);

@@ -6,7 +6,7 @@
 /*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 10:17:54 by mhotting          #+#    #+#             */
-/*   Updated: 2024/04/17 14:38:23 by mhotting         ###   ########.fr       */
+/*   Updated: 2024/04/24 13:45:38 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,7 @@
 # define ERROR_MSG_DUP			"Impossible to duplicate a file descriptor"
 # define ERROR_MSG_SHELL_CPY	"Impossible to create a subshell"
 # define ERROR_MSG_AST_CREATION	"AST creation failed"
+# define ERROR_MSG_WRONG_BI		"The built-in does not exist"
 # define TOKENIZATION_ERROR 	"Tokenizing input"
 
 # define DGREAT 				">>"
@@ -77,6 +78,7 @@ typedef struct s_minishell
 	t_node				*ast;
 	int					status;
 	t_minishell			*parent;
+	t_bi_component		bi_funcs[NB_BUILT_IN];
 }	t_minishell;
 
 // t_minshell functions
@@ -97,4 +99,5 @@ char	*bridge_into_first(char **first, char *second, char *separator);
 void	ft_print_str_array(char **array);
 bool	string_equals(void *a, void *b);
 void	**to_array(t_list *lst);
+
 #endif

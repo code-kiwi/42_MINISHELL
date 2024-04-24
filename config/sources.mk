@@ -6,7 +6,7 @@
 #    By: brappo <brappo@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/03/31 20:47:09 by mhotting          #+#    #+#              #
-#    Updated: 2024/04/17 14:16:47 by mhotting         ###   ########.fr        #
+#    Updated: 2024/04/24 13:24:11 by mhotting         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -130,7 +130,8 @@ EXECUTION				=	$(addprefix $(EXECUTION_DIR), $(EXECUTION_FILES))
 
 # BUILT_IN
 BUILT_IN_DIR			=	built_in/
-BUILT_IN_FILES			=	built_in_utils.c
+BUILT_IN_FILES			=	built_in_utils.c			\
+							built_in_exit.c
 BUILT_IN				=	$(addprefix $(BUILT_IN_DIR), $(BUILT_IN_FILES))
 
 #AST BUILDING
