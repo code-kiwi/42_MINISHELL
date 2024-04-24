@@ -6,7 +6,7 @@
 #    By: brappo <brappo@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/03/31 20:47:09 by mhotting          #+#    #+#              #
-#    Updated: 2024/04/17 14:16:47 by mhotting         ###   ########.fr        #
+#    Updated: 2024/04/19 12:29:40 by brappo           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -68,6 +68,9 @@ ifdef testChosen
 	else ifeq ($(testChosen), ast_building)
 		MAIN_DIR		=	.test/
 		MAIN_FILE		=	test_ast_building.c	ast_printing.c
+	else ifeq ($(testChosen), signals)
+		MAIN_DIR		=	.test/
+		MAIN_FILE		=	signals_tests.c
 	endif
 	MAIN_FILE			+=	temp.c
 endif
