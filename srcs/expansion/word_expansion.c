@@ -6,7 +6,7 @@
 /*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 14:03:37 by brappo            #+#    #+#             */
-/*   Updated: 2024/04/18 19:47:46 by brappo           ###   ########.fr       */
+/*   Updated: 2024/04/19 15:35:09 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,7 @@ ssize_t	expand_variable(char **input, size_t variable_start,
 	get_variable_key_coordinates(*input, key_coordinates, variable_start);
 	if (key_coordinates[0] == -1)
 	{
-		handle_error(NULL, ERROR_SUBSTITUTION, 0);
+		handle_error(NULL, ERROR_MSG_SUBSTITUTION, 0);
 		return (-1);
 	}
 	if ((size_t)key_coordinates[1] == variable_start + 1)

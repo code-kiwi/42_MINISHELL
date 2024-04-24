@@ -6,7 +6,7 @@
 /*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 13:24:53 by mhotting          #+#    #+#             */
-/*   Updated: 2024/04/03 13:21:11 by brappo           ###   ########.fr       */
+/*   Updated: 2024/04/15 15:45:47 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,4 +30,20 @@ void	handle_error(t_minishell *shell, char *err_msg, int exit_status)
 		ft_dprintf(STDERR_FILENO, "Error: %s\n", err_msg);
 	if (exit_status)
 		exit(exit_status);
+}
+
+/*
+ *	Handles errors onnly for unexisting command errors
+ *	This error is formatted differently than the other erros
+ *	If a t_minishell data is given, it frees all the memory used by it
+ *	An error message can be provided
+ *	If the exit status provided corresponds to an error status,
+ *	the program exits
+ */
+void	handle_error_cmd(t_minishell *shell, char *err_msg, char *cmd)
+{
+	ft_dprintf(STDERR_FILENO, "Error: %s: %s\n", err_msg, cmd);
+	if (shell != NULL)
+		t_minishell_free(shell);
+	exit(STATUS_CMD_NOT_FOUND);
 }

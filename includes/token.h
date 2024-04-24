@@ -6,7 +6,7 @@
 /*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/31 19:28:12 by mhotting          #+#    #+#             */
-/*   Updated: 2024/04/17 14:08:04 by brappo           ###   ########.fr       */
+/*   Updated: 2024/04/19 15:34:13 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,6 @@
 # define TOKEN_H
 
 # include "minishell.h"
-
-# define MULTIPLE_LINE_PROMPT "> "
-# define ERROR_SUBSTITUTION "Invalid variable substitution"
 
 typedef struct s_minishell	t_minishell;
 
@@ -75,4 +72,5 @@ bool	add_token(t_list **head, char *str, t_token_type type);
 bool	append_token_list(bool is_first_quoted, t_list *first, t_list *second);
 void	print_token(void *token_void);
 void	token_recognition(t_minishell *shell);
+
 #endif
