@@ -6,7 +6,7 @@
 /*   By: mhotting <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/12 15:44:49 by mhotting          #+#    #+#             */
-/*   Updated: 2024/04/24 15:26:39 by mhotting         ###   ########.fr       */
+/*   Updated: 2024/04/24 16:31:40 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@
 # define EXIT_MSG_LITERAL		"%s\n"
 # define EXIT_MSG_ARG_NON_NUM	"Error: exit: %s: numeric argument required\n"
 # define EXIT_MSG_TOO_MANY_ARGS	"Error: exit: too many arguments"
+# define ECHO_MSG_LITERAL		"Error: echo: %s\n"
 
 typedef int	(*t_bi_func)(t_minishell *shell, char **argv);
 

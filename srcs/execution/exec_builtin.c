@@ -6,7 +6,7 @@
 /*   By: mhotting <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/12 15:39:46 by mhotting          #+#    #+#             */
-/*   Updated: 2024/04/24 13:46:57 by mhotting         ###   ########.fr       */
+/*   Updated: 2024/04/24 15:30:49 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,11 @@
 
 /*
  *	Dummy function (temporary)
+ *	To ADD:
+ *		- SAVE STDIN AND STDOUT (STDIN ?)
+ *		- REDIRECTS STDIN AND STDOUT to cmd fds
+ *		- EXECUTE THE CMD
+ *		- RESTORE STDIN ADN STDOUT
  */
 int	exec_builtin(t_minishell *shell, t_node_command *cmd)
 {
