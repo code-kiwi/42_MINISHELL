@@ -6,7 +6,7 @@
 #    By: brappo <brappo@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/03/31 20:47:09 by mhotting          #+#    #+#              #
-#    Updated: 2024/04/24 14:37:27 by mhotting         ###   ########.fr        #
+#    Updated: 2024/04/24 15:17:34 by mhotting         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -135,7 +135,14 @@ EXECUTION				=	$(addprefix $(EXECUTION_DIR), $(EXECUTION_FILES))
 # BUILT_IN
 BUILT_IN_DIR			=	built_in/
 BUILT_IN_FILES			=	built_in_utils.c			\
-							built_in_exit.c
+							echo.c						\
+							cd.c						\
+							pwd.c						\
+							export.c					\
+							unset.c						\
+							env.c						\
+							exit.c						\
+							which.c
 BUILT_IN				=	$(addprefix $(BUILT_IN_DIR), $(BUILT_IN_FILES))
 
 #AST BUILDING
