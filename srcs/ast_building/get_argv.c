@@ -6,7 +6,7 @@
 /*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/11 11:35:42 by brappo            #+#    #+#             */
-/*   Updated: 2024/04/11 11:36:11 by brappo           ###   ########.fr       */
+/*   Updated: 2024/04/12 09:27:33 by brappo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ bool	is_cmd_token(t_list *tokens)
 	return (token->type == WORD || is_redirection(token->type));
 }
 
-size_t	count_argv(t_list *tokens)
+static size_t	count_argv(t_list *tokens)
 {
 	t_token	*token;
 	size_t	argv_count;

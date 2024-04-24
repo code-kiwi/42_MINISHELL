@@ -6,7 +6,7 @@
 #    By: brappo <brappo@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/03/31 20:47:09 by mhotting          #+#    #+#              #
-#    Updated: 2024/04/17 14:16:47 by mhotting         ###   ########.fr        #
+#    Updated: 2024/04/19 15:31:31 by mhotting         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -64,10 +64,13 @@ ifdef testChosen
 		MAIN_FILE		=	test_ast_creation.c
 	else ifeq ($(testChosen), expansion)
 		MAIN_DIR		=	.test/
-		MAIN_FILE		=	test_variable_expansion.c
+		MAIN_FILE		=	test_variable_expansion.c echo_string.c
 	else ifeq ($(testChosen), ast_building)
 		MAIN_DIR		=	.test/
 		MAIN_FILE		=	test_ast_building.c	ast_printing.c
+	else ifeq ($(testChosen), wildcard)
+		MAIN_DIR		=	.test/
+		MAIN_FILE		=	wildcard_test.c echo_string.c
 	endif
 	MAIN_FILE			+=	temp.c
 endif
@@ -102,11 +105,12 @@ PROMPT_FILES			=	prompt_handler.c 			\
 PROMPT					=	$(addprefix $(PROMPT_DIR), $(PROMPT_FILES))
 
 # VARIABLE EXPANSION
-EXPANSION_DIR			=	wordExpansion/
-EXPANSION_FILES			=	get_variable_key.c			\
-							word_expansion.c			\
-							expand_string.c
-
+EXPANSION_DIR			=	expansion/
+EXPANSION_FILES			=	get_variable_key.c		\
+							word_expansion.c		\
+							expand_string.c			\
+							expand_wildcard.c		\
+							string_equal_wildcard.c
 EXPANSION				=	$(addprefix $(EXPANSION_DIR), $(EXPANSION_FILES))
 # ENV
 ENV_DIR					=	env/

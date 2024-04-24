@@ -6,13 +6,13 @@
 /*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/10 12:00:04 by brappo            #+#    #+#             */
-/*   Updated: 2024/04/11 12:22:11 by brappo           ###   ########.fr       */
+/*   Updated: 2024/04/12 09:26:50 by brappo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-bool	add_redirections_command(t_list **tokens, t_node *cmd)
+static bool	add_redirections_command(t_list **tokens, t_node *cmd)
 {
 	t_token	*token;
 	t_token	*next_token;
