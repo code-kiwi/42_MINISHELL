@@ -6,7 +6,7 @@
 /*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/12 10:28:30 by brappo            #+#    #+#             */
-/*   Updated: 2024/04/18 17:01:57 by brappo           ###   ########.fr       */
+/*   Updated: 2024/04/24 09:48:10 by brappo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,8 +49,6 @@ t_list	*expand_wildcard(char *str, t_list *wildcards)
 		return (NULL);
 	result = NULL;
 	file = readdir(current_directory);
-	if (file == NULL)
-		return (NULL);
 	while (file != NULL)
 	{
 		if (file->d_name[0] != '.'
