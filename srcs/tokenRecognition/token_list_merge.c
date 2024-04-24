@@ -6,7 +6,7 @@
 /*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/02 20:42:20 by root              #+#    #+#             */
-/*   Updated: 2024/04/05 09:07:39 by mhotting         ###   ########.fr       */
+/*   Updated: 2024/04/12 09:26:27 by brappo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@
 							azex"
 	Working.
 */
-bool	merge_tokens_node(t_list *first, t_list *next)
+static bool	merge_tokens_node(t_list *first, t_list *next)
 {
 	t_token	*first_token;
 	t_token	*next_token;

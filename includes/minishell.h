@@ -6,7 +6,7 @@
 /*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 10:17:54 by mhotting          #+#    #+#             */
-/*   Updated: 2024/04/24 13:45:38 by mhotting         ###   ########.fr       */
+/*   Updated: 2024/04/24 14:37:43 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 # include <errno.h>
 # include <readline/readline.h>
 # include <readline/history.h>
+# include <dirent.h>
 # include <sys/wait.h>
 # include <sys/types.h>
 
@@ -30,6 +31,7 @@
 # include "pid_list.h"
 # include "built_in.h"
 # include "build_ast.h"
+# include "expansion.h"
 
 # define STATUS_CMD_NOT_FOUND	127
 # define STATUS_CMD_NOT_EXEC	126

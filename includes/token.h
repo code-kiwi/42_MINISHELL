@@ -6,7 +6,7 @@
 /*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/31 19:28:12 by mhotting          #+#    #+#             */
-/*   Updated: 2024/04/17 14:11:52 by mhotting         ###   ########.fr       */
+/*   Updated: 2024/04/19 15:34:13 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,8 @@ typedef enum e_token_type
 	OPERATOR_OR_IF,
 	OPERATOR_PIPE,
 	OPERATOR_SHELL_OPEN,
-	OPERATOR_SHELL_CLOSE
+	OPERATOR_SHELL_CLOSE,
+	ASSIGNEMENT_WORD
 }	t_token_type;
 
 typedef struct s_token_parser
@@ -53,7 +54,7 @@ typedef struct s_token
 int		is_operator(t_token_parser *token_parser);
 bool	is_quoted(t_token_parser *token_parser);
 void	t_token_parser_init(t_token_parser *token_parser);
-t_token	*t_token_init(void);
+t_token	*t_token_init(char *str, t_token_type type);
 bool	is_blank(char character);
 void	t_token_free(void *token_void);
 t_list	*tokenize_str(char *str, t_token_parser *token_parser);
@@ -61,20 +62,15 @@ bool	handle_quote(t_token_parser *token_parser, char character);
 int		array_find(void **array, bool (equal)(void *a, void *b), void *value);
 bool	is_prefix(void	*word, void *prefix);
 bool	is_operator_character(char character);
-t_list	*lst_push_front_content(t_list **head, void *content);
+t_list	*lst_push_front_content(t_list **head,
+			void *content, void free_content(void *));
 char	*join_into_dest(char **dest, char *str);
 void	get_operation(char **operations);
+bool	add_token(t_list **head, char *str, t_token_type type);
 
 //multi line input
 bool	append_token_list(bool is_first_quoted, t_list *first, t_list *second);
 void	print_token(void *token_void);
 void	token_recognition(t_minishell *shell);
-void	token_error(t_minishell *shell);
 
-//variable expansion
-void	get_variable_key_coordinates(char *input, ssize_t *coordinates,
-			size_t variable_start);
-bool	expand_string(char **input, t_minishell *shell);
-ssize_t	expand_variable(char **input, size_t variable_start,
-			bool double_quoted, t_minishell *shell);
 #endif

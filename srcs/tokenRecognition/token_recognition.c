@@ -6,31 +6,26 @@
 /*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/02 13:01:05 by brappo            #+#    #+#             */
-/*   Updated: 2024/04/05 09:22:42 by brappo           ###   ########.fr       */
+/*   Updated: 2024/04/17 11:24:21 by brappo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h" 
 
-bool	add_end_token(t_list **tokens)
+static bool	add_end_token(t_list **tokens)
 {
-	t_token	*end_token;
-	t_list	*new_node;
+	t_list	*last_element;
 
-	end_token = t_token_init();
-	if (end_token == NULL)
-		return (false);
-	new_node = ft_lstnew((void *)end_token);
-	if (new_node == NULL)
+	last_element = ft_lstlast(*tokens);
+	if (lst_push_front_content(&last_element->next,
+			t_token_init(NULL, END), t_token_free))
 	{
-		t_token_free(end_token);
-		return (false);
+		return (true);
 	}
-	ft_lstadd_back(tokens, new_node);
-	return (true);
+	return (false);
 }
 
-bool	is_command_end(t_token_parser *token_parser, t_list *tokens)
+static bool	is_command_end(t_token_parser *token_parser, t_list *tokens)
 {
 	t_token	*last_token;
 
@@ -48,12 +43,12 @@ bool	is_command_end(t_token_parser *token_parser, t_list *tokens)
 	return (true);
 }
 
-void	merge_inputs(t_minishell *shell, char *input, bool is_end_quoted)
+static void	merge_inputs(t_minishell *shell, char *input, bool is_end_quoted)
 {
 	char	*separator;
 
 	if (input == NULL)
-		token_error(shell);
+		handle_error(shell, TOKENIZATION_ERROR, EXIT_FAILURE);
 	if (is_end_quoted)
 		separator = "\n";
 	else
@@ -61,11 +56,11 @@ void	merge_inputs(t_minishell *shell, char *input, bool is_end_quoted)
 	if (bridge_into_first(&shell->input, input, separator) == false)
 	{
 		free(input);
-		token_error(shell);
+		handle_error(shell, TOKENIZATION_ERROR, EXIT_FAILURE);
 	}
 }
 
-t_list	*tokenize_input(t_minishell *shell, char *prompt,
+static t_list	*tokenize_input(t_minishell *shell, char *prompt,
 	t_token_parser *token_parser, bool is_end_quoted)
 {
 	char	*input;
@@ -92,7 +87,7 @@ void	token_recognition(t_minishell *shell)
 	t_token_parser_init(&token_parser);
 	shell->tokens = tokenize_str(shell->input, &token_parser);
 	if (shell->tokens == NULL && (shell->input == NULL || *shell->input))
-		token_error(shell);
+		handle_error(shell, TOKENIZATION_ERROR, EXIT_FAILURE);
 	while (is_command_end(&token_parser, shell->tokens) == false)
 	{
 		is_end_quoted = is_quoted(&token_parser);
@@ -101,9 +96,9 @@ void	token_recognition(t_minishell *shell)
 		if (!append_token_list(is_end_quoted, shell->tokens, second_tokens))
 		{
 			ft_lstclear(&second_tokens, t_token_free);
-			token_error(shell);
+			handle_error(shell, TOKENIZATION_ERROR, EXIT_FAILURE);
 		}
 	}
 	if (add_end_token(&shell->tokens) == false)
-		token_error(shell);
+		handle_error(shell, TOKENIZATION_ERROR, EXIT_FAILURE);
 }
