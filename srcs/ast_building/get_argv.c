@@ -6,11 +6,14 @@
 /*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/11 11:35:42 by brappo            #+#    #+#             */
-/*   Updated: 2024/04/12 09:27:33 by brappo           ###   ########.fr       */
+/*   Updated: 2024/04/25 11:18:36 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include <stdlib.h>
+#include <stdbool.h>
+#include "libft.h"
+#include "token.h"
 
 bool	is_redirection(t_token_type token_type)
 {

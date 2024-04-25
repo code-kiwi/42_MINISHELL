@@ -6,11 +6,15 @@
 /*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 14:59:56 by brappo            #+#    #+#             */
-/*   Updated: 2024/04/17 09:36:40 by brappo           ###   ########.fr       */
+/*   Updated: 2024/04/25 11:54:37 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <stdlib.h>
+#include <stdbool.h>
+#include "libft.h"
 #include "minishell.h"
+#include "token.h"
 
 static bool	is_token_end(t_token *token, char character, \
 		t_token_parser *token_parser)

@@ -6,11 +6,17 @@
 /*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 14:03:37 by brappo            #+#    #+#             */
-/*   Updated: 2024/04/19 15:35:09 by mhotting         ###   ########.fr       */
+/*   Updated: 2024/04/25 11:45:55 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <stdlib.h>
+#include <stdbool.h>
+#include <errno.h>
+#include "libft.h"
 #include "minishell.h"
+#include "env.h"
+#include "expansion.h"
 
 static bool	replace_key(char **input, ssize_t *key_coordinates, char *value,
 	size_t variable_start)

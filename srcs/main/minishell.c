@@ -6,11 +6,19 @@
 /*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 10:14:16 by mhotting          #+#    #+#             */
-/*   Updated: 2024/04/19 15:35:33 by mhotting         ###   ########.fr       */
+/*   Updated: 2024/04/25 11:50:22 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <stdbool.h>
+#include <readline/history.h>
 #include "minishell.h"
+#include "prompt.h"
+#include "libft.h"
+#include "token.h"
+#include "node.h"
+#include "build_ast.h"
+#include "execution.h"
 
 int	main(int argc, char **argv, char **envp)
 {

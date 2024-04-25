@@ -6,11 +6,14 @@
 /*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 15:09:19 by brappo            #+#    #+#             */
-/*   Updated: 2024/04/18 10:18:28 by brappo           ###   ########.fr       */
+/*   Updated: 2024/04/25 11:53:49 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include <stdlib.h>
+#include <stdbool.h>
+#include "libft.h"
+#include "token.h"
 
 void	t_token_parser_init(t_token_parser *token_parser)
 {

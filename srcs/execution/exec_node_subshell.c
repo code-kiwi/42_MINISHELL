@@ -6,11 +6,17 @@
 /*   By: mhotting <mhotting@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 13:52:21 by mhotting          #+#    #+#             */
-/*   Updated: 2024/04/17 14:05:45 by mhotting         ###   ########.fr       */
+/*   Updated: 2024/04/25 11:38:16 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <stdlib.h>
+#include <unistd.h>
 #include "minishell.h"
+#include "execution.h"
+#include "node.h"
+#include "redirections.h"
+#include "build_ast.h"
 
 /*
  *	Frees the memory, closes the given fds and exits the program with error

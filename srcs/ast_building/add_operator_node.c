@@ -6,11 +6,15 @@
 /*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/10 12:01:32 by brappo            #+#    #+#             */
-/*   Updated: 2024/04/11 12:07:39 by brappo           ###   ########.fr       */
+/*   Updated: 2024/04/25 11:15:41 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include <stdlib.h>
+#include "libft.h"
+#include "node.h"
+#include "build_ast.h"
+#include "token.h"
 
 bool	add_pipe(t_node **current_node, t_node **head, t_list *tokens)
 {

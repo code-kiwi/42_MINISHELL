@@ -6,14 +6,14 @@
 /*   By: mhotting <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/10 14:50:52 by mhotting          #+#    #+#             */
-/*   Updated: 2024/04/16 11:15:25 by mhotting         ###   ########.fr       */
+/*   Updated: 2024/04/25 10:54:22 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PID_LIST_H
 # define PID_LIST_H
 
-# include "minishell.h"
+# include <stdlib.h>
 
 typedef struct s_pid_list
 {

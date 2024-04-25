@@ -6,11 +6,16 @@
 /*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/12 10:28:30 by brappo            #+#    #+#             */
-/*   Updated: 2024/04/24 09:48:10 by brappo           ###   ########.fr       */
+/*   Updated: 2024/04/25 11:43:26 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include <stdlib.h>
+#include <sys/types.h>
+#include <dirent.h>
+#include "libft.h"
+#include "token.h"
+#include "expansion.h"
 
 static int	alphabetic_compare(void *a, void *b)
 {

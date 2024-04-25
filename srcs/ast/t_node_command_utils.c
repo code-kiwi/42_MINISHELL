@@ -6,11 +6,14 @@
 /*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/29 09:54:42 by mhotting          #+#    #+#             */
-/*   Updated: 2024/04/17 14:49:35 by mhotting         ###   ########.fr       */
+/*   Updated: 2024/04/25 11:04:53 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <stdlib.h>
 #include "minishell.h"
+#include "node.h"
+#include "redirections.h"
 
 /*
  *	Allocates a t_node with an allocated t_node_command as content.

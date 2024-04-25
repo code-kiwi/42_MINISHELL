@@ -6,11 +6,11 @@
 /*   By: mhotting <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 14:02:21 by mhotting          #+#    #+#             */
-/*   Updated: 2024/04/04 14:05:27 by mhotting         ###   ########.fr       */
+/*   Updated: 2024/04/25 11:57:08 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include <stdio.h>
 
 /*
  *	Prints a NULL terminated array of strings

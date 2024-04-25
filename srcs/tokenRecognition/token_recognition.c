@@ -6,11 +6,15 @@
 /*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/02 13:01:05 by brappo            #+#    #+#             */
-/*   Updated: 2024/04/17 11:24:21 by brappo           ###   ########.fr       */
+/*   Updated: 2024/04/25 11:52:55 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h" 
+#include <stdlib.h>
+#include "libft.h"
+#include "minishell.h"
+#include "token.h"
+#include <readline/readline.h>
 
 static bool	add_end_token(t_list **tokens)
 {

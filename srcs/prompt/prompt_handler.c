@@ -6,11 +6,14 @@
 /*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 13:02:08 by mhotting          #+#    #+#             */
-/*   Updated: 2024/04/04 11:43:30 by brappo           ###   ########.fr       */
+/*   Updated: 2024/04/25 11:50:36 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <stdlib.h>
+#include <readline/readline.h>
 #include "minishell.h"
+#include "prompt.h"
 
 char	*prompt(t_minishell *shell)
 {

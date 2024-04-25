@@ -6,11 +6,14 @@
 /*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/02 20:42:20 by root              #+#    #+#             */
-/*   Updated: 2024/04/12 09:26:27 by brappo           ###   ########.fr       */
+/*   Updated: 2024/04/25 11:52:06 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <stdlib.h>
+#include "libft.h"
 #include "minishell.h"
+#include "token.h"
 
 /*
 	When merging tokens, the "next" string is joined with the "first" string.
