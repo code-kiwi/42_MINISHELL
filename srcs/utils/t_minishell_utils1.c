@@ -6,11 +6,19 @@
 /*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 13:10:16 by mhotting          #+#    #+#             */
-/*   Updated: 2024/04/17 13:33:10 by mhotting         ###   ########.fr       */
+/*   Updated: 2024/04/25 12:00:12 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <stdlib.h>
+#include <stdbool.h>
+#include <readline/readline.h>
+#include "libft.h"
 #include "minishell.h"
+#include "env.h"
+#include "token.h"
+#include "node.h"
+#include "pid_list.h"
 
 /*
  *	Initializes the given shell with empty fields

@@ -6,11 +6,15 @@
 /*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/10 12:00:49 by brappo            #+#    #+#             */
-/*   Updated: 2024/04/12 09:27:15 by brappo           ###   ########.fr       */
+/*   Updated: 2024/04/25 11:16:25 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include <stdlib.h>
+#include "libft.h"
+#include "node.h"
+#include "build_ast.h"
+#include "token.h"
 
 static t_list	*get_shell_end(t_list *tokens)
 {

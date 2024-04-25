@@ -6,11 +6,13 @@
 /*   By: mhotting <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/29 09:58:05 by mhotting          #+#    #+#             */
-/*   Updated: 2024/03/29 11:14:25 by mhotting         ###   ########.fr       */
+/*   Updated: 2024/04/25 11:08:03 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <stdlib.h>
 #include "minishell.h"
+#include "node.h"
 
 /*
  *	Allocates a t_node with an allocated t_node_pipe as content.

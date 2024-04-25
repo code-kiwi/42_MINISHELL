@@ -6,14 +6,19 @@
 /*   By: mhotting <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/10 12:52:55 by mhotting          #+#    #+#             */
-/*   Updated: 2024/04/17 11:30:50 by mhotting         ###   ########.fr       */
+/*   Updated: 2024/04/25 11:34:48 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef EXECUTION_H
 # define EXECUTION_H
 
-# include "minishell.h"
+typedef struct s_minishell			t_minishell;
+typedef struct s_node				t_node;
+typedef struct s_node_command		t_node_command;
+typedef struct s_redirection		t_redirection;
+typedef struct s_redirection_list	t_redirection_list;
+typedef struct s_redirections_info	t_redirections_info;
 
 // General execution
 void	exec_ast(t_minishell *shell, int fds_given[2]);

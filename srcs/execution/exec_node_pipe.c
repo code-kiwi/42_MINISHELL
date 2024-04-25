@@ -6,11 +6,15 @@
 /*   By: mhotting <mhotting@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/14 19:49:27 by mhotting          #+#    #+#             */
-/*   Updated: 2024/04/17 11:57:09 by mhotting         ###   ########.fr       */
+/*   Updated: 2024/04/25 11:37:13 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <stdlib.h>
+#include <unistd.h>
 #include "minishell.h"
+#include "execution.h"
+#include "node.h"
 
 /*
  *	Executes a node of type NODE_PIPE into the given shell

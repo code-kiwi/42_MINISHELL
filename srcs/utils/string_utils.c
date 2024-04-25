@@ -6,11 +6,13 @@
 /*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/28 10:26:15 by brappo            #+#    #+#             */
-/*   Updated: 2024/04/17 11:34:23 by brappo           ###   ########.fr       */
+/*   Updated: 2024/04/25 11:58:12 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include <stdlib.h>
+#include <stdbool.h>
+#include "libft.h"
 
 bool	is_prefix(void	*word, void *prefix)
 {

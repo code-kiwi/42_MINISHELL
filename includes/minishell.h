@@ -6,32 +6,20 @@
 /*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 10:17:54 by mhotting          #+#    #+#             */
-/*   Updated: 2024/04/19 15:32:09 by mhotting         ###   ########.fr       */
+/*   Updated: 2024/04/25 11:07:08 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
-# include <fcntl.h>
-# include <stdio.h>
-# include <errno.h>
-# include <readline/readline.h>
-# include <readline/history.h>
-# include <dirent.h>
-# include <sys/wait.h>
+# include <stdbool.h>
+# include <stdlib.h>
 # include <sys/types.h>
 
-# include "prompt.h"
-# include "libft.h"
-# include "node.h"
-# include "token.h"
-# include "env.h"
-# include "execution.h"
-# include "pid_list.h"
-# include "built_in.h"
-# include "build_ast.h"
-# include "expansion.h"
+typedef struct s_list		t_list;
+typedef struct s_node		t_node;
+typedef struct s_minishell	t_minishell;
 
 # define STATUS_CMD_NOT_FOUND	127
 # define STATUS_CMD_NOT_EXEC	126
@@ -69,7 +57,7 @@
 
 # define MULTIPLE_LINE_PROMPT	"> "
 
-typedef struct s_minishell
+struct s_minishell
 {
 	char				*input;
 	t_list				*env;
@@ -79,7 +67,7 @@ typedef struct s_minishell
 	t_node				*ast;
 	int					status;
 	t_minishell			*parent;
-}	t_minishell;
+};
 
 // t_minshell functions
 void	t_minishell_init(t_minishell *shell, int ac, char **av, char **envp);

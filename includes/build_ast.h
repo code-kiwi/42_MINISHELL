@@ -6,14 +6,19 @@
 /*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/10 10:37:10 by brappo            #+#    #+#             */
-/*   Updated: 2024/04/12 11:09:09 by mhotting         ###   ########.fr       */
+/*   Updated: 2024/04/25 12:09:19 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef BUILD_AST_H
 # define BUILD_AST_H
 
-# include "minishell.h"
+# include <stdbool.h>
+# include <stdlib.h>
+
+typedef struct s_list		t_list;
+typedef struct s_node		t_node;
+typedef enum e_token_type	t_token_type;
 
 bool	set_operator_type(t_list *tokens);
 size_t	array_size(void **array);

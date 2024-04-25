@@ -6,11 +6,16 @@
 /*   By: mhotting <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/11 12:37:09 by mhotting          #+#    #+#             */
-/*   Updated: 2024/04/15 15:56:18 by mhotting         ###   ########.fr       */
+/*   Updated: 2024/04/25 11:40:23 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <stdlib.h>
+#include <stdbool.h>
+#include <fcntl.h>
+#include "libft.h"
 #include "minishell.h"
+#include "redirections.h"
 
 /*
  *	Reads lines from STDIN_FILENO and writes them into the given fd_to_write

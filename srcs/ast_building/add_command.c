@@ -6,11 +6,15 @@
 /*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/10 12:00:04 by brappo            #+#    #+#             */
-/*   Updated: 2024/04/12 09:26:50 by brappo           ###   ########.fr       */
+/*   Updated: 2024/04/25 11:14:18 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include <stdlib.h>
+#include "libft.h"
+#include "token.h"
+#include "node.h"
+#include "build_ast.h"
 
 static bool	add_redirections_command(t_list **tokens, t_node *cmd)
 {
