@@ -10,6 +10,7 @@
 - We need to expand the content of the heredoc
 - lorsque l'on fait `$test` alors que test n'est pas une variable définie, il affiche juste une string vide, tu préfères que je teste si le résultat est null pour le remplacer par une string vide dans mon code ou alors dans env_get
 - add pwd to the env on shell start
+- **ALL** here_docs are performed before any command execution! (`echo "test" && << LIM cat`)
 
 We have to discuss the env implementation (do we rebuild the env string array every time we need or do we store it into shell main structure?)
 Idem for path: should we save the path into a variable of the shell and modify it only when the PATH has evolved?
