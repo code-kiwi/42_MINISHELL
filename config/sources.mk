@@ -6,7 +6,7 @@
 #    By: brappo <brappo@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/03/31 20:47:09 by mhotting          #+#    #+#              #
-#    Updated: 2024/04/24 15:17:34 by mhotting         ###   ########.fr        #
+#    Updated: 2024/04/25 14:46:11 by mhotting         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -106,15 +106,16 @@ PROMPT					=	$(addprefix $(PROMPT_DIR), $(PROMPT_FILES))
 
 # VARIABLE EXPANSION
 EXPANSION_DIR			=	expansion/
-EXPANSION_FILES			=	get_variable_key.c		\
-							word_expansion.c		\
-							expand_string.c			\
-							expand_wildcard.c		\
+EXPANSION_FILES			=	get_variable_key.c			\
+							word_expansion.c			\
+							expand_string.c				\
+							expand_wildcard.c			\
 							string_equal_wildcard.c
 EXPANSION				=	$(addprefix $(EXPANSION_DIR), $(EXPANSION_FILES))
 # ENV
 ENV_DIR					=	env/
-ENV_FILES				=	env_utils.c					\
+ENV_FILES				=	env_utils1.c				\
+							env_utils2.c				\
 							t_env_element_utils.c
 ENV						=	$(addprefix $(ENV_DIR), $(ENV_FILES))
 

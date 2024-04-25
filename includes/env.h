@@ -6,7 +6,7 @@
 /*   By: mhotting <mhotting@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/02 23:48:56 by mhotting          #+#    #+#             */
-/*   Updated: 2024/04/25 10:47:12 by mhotting         ###   ########.fr       */
+/*   Updated: 2024/04/25 14:44:01 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,10 +28,11 @@ typedef struct s_env_element
 
 // env general functions
 t_list			*env_extract(char **envp);
-char			*env_get(t_list *env, char *key);
 void			env_delete(t_list **env, char *key);
 bool			env_add(t_list **env, char *key, char *value);
 char			**env_get_all_array(t_list *env);
+char			*env_get(t_list *env, char *key);
+bool			env_exists(t_list *env, char *key);
 
 // t_env_element functions
 t_env_element	*env_element_create(char *key, char *value);

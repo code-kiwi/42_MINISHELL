@@ -6,7 +6,7 @@
 /*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 00:17:49 by mhotting          #+#    #+#             */
-/*   Updated: 2024/04/25 11:20:24 by mhotting         ###   ########.fr       */
+/*   Updated: 2024/04/25 14:43:08 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,41 +50,6 @@ t_list	*env_extract(char **envp)
 		++envp;
 	}
 	return (env);
-}
-
-/*
- *	Returns the value corresponding to the given key inside of the env list.
- *	The returned value is returned as a freshly allocated string.
- *	If key is not stored into env, returns NULL.
- *	In case of ERROR, NULL is returned and errno is properly set.
- */
-char	*env_get(t_list *env, char *key)
-{
-	t_list			*node;
-	t_env_element	*env_elt;
-	char			*value;
-
-	if (key == NULL)
-	{
-		errno = ENODATA;
-		return (NULL);
-	}
-	node = ft_lstfind(env, key, env_element_cmp);
-	if (node == NULL || node->content == NULL)
-		return (NULL);
-	env_elt = (t_env_element *)(node->content);
-	if (env_elt->value == NULL)
-	{
-		errno = ENODATA;
-		return (NULL);
-	}
-	value = ft_strdup(env_elt->value);
-	if (value == NULL)
-	{
-		errno = ENOMEM;
-		return (NULL);
-	}
-	return (value);
 }
 
 /*
