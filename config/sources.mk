@@ -6,7 +6,7 @@
 #    By: brappo <brappo@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/03/31 20:47:09 by mhotting          #+#    #+#              #
-#    Updated: 2024/04/25 14:46:11 by mhotting         ###   ########.fr        #
+#    Updated: 2024/04/25 17:41:27 by mhotting         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -137,7 +137,8 @@ EXECUTION				=	$(addprefix $(EXECUTION_DIR), $(EXECUTION_FILES))
 BUILT_IN_DIR			=	built_in/
 BUILT_IN_FILES			=	built_in_utils.c			\
 							echo.c						\
-							cd.c						\
+							cd1.c						\
+							cd2.c						\
 							pwd.c						\
 							export.c					\
 							unset.c						\
