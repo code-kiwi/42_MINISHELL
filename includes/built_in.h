@@ -6,17 +6,16 @@
 /*   By: mhotting <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/12 15:44:49 by mhotting          #+#    #+#             */
-/*   Updated: 2024/04/24 17:09:34 by mhotting         ###   ########.fr       */
+/*   Updated: 2024/04/25 12:46:41 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef BUILT_IN_H
 # define BUILT_IN_H
 
-# include "minishell.h"
+# include <stdbool.h>
 
 # define NB_BUILT_IN 8
-
 # define STATUS_EXIT_BAD_ARG	2
 # define MSG_LITERAL			"%s\n"
 # define EXIT_MSG_BASIC			"exit"
@@ -25,7 +24,8 @@
 # define ECHO_MSG_LITERAL		"Error: echo: %s\n"
 # define PWD_MSG_ERROR			"Error: pwd failed"
 
-typedef int	(*t_bi_func)(t_minishell *shell, char **argv);
+typedef struct s_minishell	t_minishell;
+typedef int					(*t_bi_func)(t_minishell *shell, char **argv);
 
 typedef struct s_bi_component
 {

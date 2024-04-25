@@ -6,14 +6,14 @@
 /*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 13:09:18 by brappo            #+#    #+#             */
-/*   Updated: 2024/04/06 09:56:19 by brappo           ###   ########.fr       */
+/*   Updated: 2024/04/25 10:54:52 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PROMPT_H
 # define PROMPT_H
 
-# include "minishell.h"
+# include <stdlib.h>
 
 # define ERROR_MSG_PROMPT "Prompt function error"
 # define ERROR_CWD "Cannot get current working directory path"

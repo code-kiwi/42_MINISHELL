@@ -6,11 +6,14 @@
 /*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/05 15:12:32 by brappo            #+#    #+#             */
-/*   Updated: 2024/04/24 09:45:17 by brappo           ###   ########.fr       */
+/*   Updated: 2024/04/25 11:41:49 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include <stdbool.h>
+#include "libft.h"
+#include "token.h"
+#include "expansion.h"
 
 static void	remove_quote(t_token_parser *parser, char *input, char options)
 {

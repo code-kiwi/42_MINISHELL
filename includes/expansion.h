@@ -6,14 +6,16 @@
 /*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/17 12:31:28 by brappo            #+#    #+#             */
-/*   Updated: 2024/04/18 18:52:32 by brappo           ###   ########.fr       */
+/*   Updated: 2024/04/25 10:52:24 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef EXPANSION_H
 # define EXPANSION_H
-# include "minishell.h"
 
+# include <stdlib.h>
+
+typedef struct s_list		t_list;
 typedef struct s_minishell	t_minishell;
 
 # define O_QUOTE 1
@@ -31,4 +33,4 @@ t_list	*expand_string(char **str, t_minishell *shell, char options);
 bool	search_wildcards(char *input, t_list **wildcards_pos);
 t_list	*lst_sort(t_list **to_sort, int (*cmp)(void *, void *));
 
-#endif // !EXPANSION_H
+#endif

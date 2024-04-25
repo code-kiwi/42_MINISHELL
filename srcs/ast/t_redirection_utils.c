@@ -6,11 +6,14 @@
 /*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/28 12:32:34 by mhotting          #+#    #+#             */
-/*   Updated: 2024/03/30 11:35:35 by brappo           ###   ########.fr       */
+/*   Updated: 2024/04/25 11:11:23 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <stdlib.h>
+#include "libft.h"
 #include "minishell.h"
+#include "redirections.h"
 
 /*
  *	Returns the type of redirection accordig to the given operator

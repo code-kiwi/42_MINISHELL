@@ -6,11 +6,13 @@
 /*   By: mhotting <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/29 09:51:37 by mhotting          #+#    #+#             */
-/*   Updated: 2024/04/10 10:30:31 by mhotting         ###   ########.fr       */
+/*   Updated: 2024/04/25 11:09:22 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include <stdlib.h>
+#include "libft.h"
+#include "node.h"
 
 /*
  *	Allocates a t_node and returns a pointer to it.

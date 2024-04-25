@@ -6,11 +6,15 @@
 /*   By: mhotting <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 15:10:53 by mhotting          #+#    #+#             */
-/*   Updated: 2024/04/24 17:09:41 by mhotting         ###   ########.fr       */
+/*   Updated: 2024/04/25 12:45:06 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <stdlib.h>
+#include <unistd.h>
+#include "libft.h"
 #include "minishell.h"
+#include "built_in.h"
 
 int	bi_pwd(t_minishell *shell, char **argv)
 {

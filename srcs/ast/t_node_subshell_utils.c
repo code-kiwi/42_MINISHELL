@@ -6,11 +6,15 @@
 /*   By: mhotting <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/10 10:07:01 by mhotting          #+#    #+#             */
-/*   Updated: 2024/04/10 10:39:53 by mhotting         ###   ########.fr       */
+/*   Updated: 2024/04/25 11:16:34 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include <stdlib.h>
+#include "libft.h"
+#include "node.h"
+#include "redirections.h"
+#include "token.h"
 
 /*
  *	Allocates a t_node with an allocated t_node_subshell as content.

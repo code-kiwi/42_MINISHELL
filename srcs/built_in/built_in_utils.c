@@ -6,11 +6,14 @@
 /*   By: mhotting <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/12 15:43:07 by mhotting          #+#    #+#             */
-/*   Updated: 2024/04/24 15:22:25 by mhotting         ###   ########.fr       */
+/*   Updated: 2024/04/25 12:37:22 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include <stdlib.h>
+#include <stdbool.h>
+#include "libft.h"
+#include "built_in.h"
 
 /*
  *	Indicates if the given command name corresponds to a built-in function

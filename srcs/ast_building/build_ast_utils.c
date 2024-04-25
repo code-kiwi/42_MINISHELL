@@ -6,11 +6,14 @@
 /*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/10 10:23:01 by brappo            #+#    #+#             */
-/*   Updated: 2024/04/11 10:58:43 by brappo           ###   ########.fr       */
+/*   Updated: 2024/04/25 11:18:08 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <stdlib.h>
+#include "libft.h"
 #include "minishell.h"
+#include "token.h"
 
 bool	set_operator_type(t_list *tokens)
 {

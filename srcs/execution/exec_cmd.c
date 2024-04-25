@@ -6,11 +6,18 @@
 /*   By: mhotting <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/12 15:40:35 by mhotting          #+#    #+#             */
-/*   Updated: 2024/04/24 13:25:15 by mhotting         ###   ########.fr       */
+/*   Updated: 2024/04/25 12:38:13 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <stdlib.h>
+#include <unistd.h>
+#include "libft.h"
 #include "minishell.h"
+#include "built_in.h"
+#include "execution.h"
+#include "node.h"
+#include "env.h"
 
 /*
  *	Closes process' stdin and stdout

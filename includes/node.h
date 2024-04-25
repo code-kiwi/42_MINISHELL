@@ -6,16 +6,18 @@
 /*   By: mhotting <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 17:53:48 by mhotting          #+#    #+#             */
-/*   Updated: 2024/04/12 13:49:25 by mhotting         ###   ########.fr       */
+/*   Updated: 2024/04/25 11:01:59 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef NODE_H
 # define NODE_H
 
-# include "redirections.h"
+# include <stdbool.h>
 
 # define NUM_NODE_TYPE 5
+
+typedef struct s_list	t_list;
 
 typedef enum e_node_type
 {

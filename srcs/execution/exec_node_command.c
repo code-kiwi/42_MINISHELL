@@ -6,11 +6,17 @@
 /*   By: mhotting <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/10 12:39:49 by mhotting          #+#    #+#             */
-/*   Updated: 2024/04/24 13:36:49 by mhotting         ###   ########.fr       */
+/*   Updated: 2024/04/25 12:39:08 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <stdlib.h>
+#include <unistd.h>
 #include "minishell.h"
+#include "built_in.h"
+#include "redirections.h"
+#include "execution.h"
+#include "node.h"
 
 /*
  *	Sets command file descriptors according to the given ones

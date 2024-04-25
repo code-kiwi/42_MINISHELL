@@ -6,11 +6,15 @@
 /*   By: mhotting <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 11:03:49 by mhotting          #+#    #+#             */
-/*   Updated: 2024/04/24 17:10:20 by mhotting         ###   ########.fr       */
+/*   Updated: 2024/04/25 12:43:54 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <stdlib.h>
+#include <stdbool.h>
+#include "libft.h"
 #include "minishell.h"
+#include "built_in.h"
 
 /*
  *	Exits the current shell process with the given status and prompting the

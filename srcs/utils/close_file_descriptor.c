@@ -6,10 +6,12 @@
 /*   By: mhotting <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/28 12:26:18 by mhotting          #+#    #+#             */
-/*   Updated: 2024/03/29 11:13:37 by mhotting         ###   ########.fr       */
+/*   Updated: 2024/04/25 11:55:48 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <stdlib.h>
+#include <unistd.h>
 #include "minishell.h"
 
 /*

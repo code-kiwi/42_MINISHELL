@@ -6,11 +6,15 @@
 /*   By: mhotting <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 15:11:52 by mhotting          #+#    #+#             */
-/*   Updated: 2024/04/24 16:41:59 by mhotting         ###   ########.fr       */
+/*   Updated: 2024/04/25 12:43:07 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <stdlib.h>
+#include <stdbool.h>
+#include "libft.h"
 #include "minishell.h"
+#include "built_in.h"
 
 /*
  *	Handles an error of the echo command

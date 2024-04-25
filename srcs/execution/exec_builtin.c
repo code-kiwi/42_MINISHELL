@@ -6,11 +6,13 @@
 /*   By: mhotting <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/12 15:39:46 by mhotting          #+#    #+#             */
-/*   Updated: 2024/04/24 15:30:49 by mhotting         ###   ########.fr       */
+/*   Updated: 2024/04/25 12:38:04 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <stdlib.h>
 #include "minishell.h"
+#include "node.h"
 
 /*
  *	Dummy function (temporary)

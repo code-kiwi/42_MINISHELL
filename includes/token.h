@@ -6,16 +6,18 @@
 /*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/31 19:28:12 by mhotting          #+#    #+#             */
-/*   Updated: 2024/04/19 15:34:13 by mhotting         ###   ########.fr       */
+/*   Updated: 2024/04/25 11:12:22 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef TOKEN_H
 # define TOKEN_H
 
-# include "minishell.h"
+# include <stdlib.h>
+# include <stdbool.h>
 
 typedef struct s_minishell	t_minishell;
+typedef struct s_list		t_list;
 
 typedef enum e_token_type
 {
