@@ -6,7 +6,7 @@
 /*   By: mhotting <mhotting@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 02:00:19 by mhotting          #+#    #+#             */
-/*   Updated: 2024/04/25 11:21:09 by mhotting         ###   ########.fr       */
+/*   Updated: 2024/04/26 13:16:49 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,4 +104,35 @@ int	env_element_cmp(void *env_elt_ptr, char *key)
 		return (-1);
 	env_elt = (t_env_element *) env_elt_ptr;
 	return (ft_strcmp(env_elt->key, key));
+}
+
+/*
+ *	Updates the given env_elt with the given value
+ *	Both value and key_value members of env_elt are updated
+ *	Returns true on SUCCESS, false on ERROR
+ *	NB: the old value are freed, the new values are freshly allocated strings
+ *	NB: if value is NULL, it is considered like an empty string
+ */
+bool	env_element_update(t_env_element *env_elt, char *key, char *value)
+{
+	char	*new_value;
+	char	*new_key_value;
+
+	if (env_elt == NULL || key == NULL || ft_strcmp(env_elt->key, key) != 0)
+		return (false);
+	if (value == NULL)
+		value = "";
+	new_value = ft_strdup(value);
+	new_key_value = bridge(key, value, ENV_KEY_VALUE_SEPERATOR_STR);
+	if (new_value == NULL || new_key_value == NULL)
+	{
+		free(new_value);
+		free(new_key_value);
+		return (false);
+	}
+	free(env_elt->value);
+	free(env_elt->key_value);
+	env_elt->value = new_value;
+	env_elt->key_value = new_key_value;
+	return (true);
 }

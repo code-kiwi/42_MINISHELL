@@ -6,7 +6,7 @@
 /*   By: mhotting <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 15:10:34 by mhotting          #+#    #+#             */
-/*   Updated: 2024/04/26 11:59:45 by mhotting         ###   ########.fr       */
+/*   Updated: 2024/04/26 13:22:17 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,13 +36,13 @@ static int	bi_cd_update_env(t_minishell *shell, char *cwd)
 	if (oldpwd == NULL && errno != 0)
 		return (EXIT_FAILURE);
 	if (oldpwd == NULL)
-		ret = env_add(&(shell->env), "OLDPWD", cwd);
+		ret = env_update(&(shell->env), "OLDPWD", cwd);
 	else
 	{
-		ret = env_add(&(shell->env), "OLDPWD", oldpwd);
+		ret = env_update(&(shell->env), "OLDPWD", oldpwd);
 		free(oldpwd);
 	}
-	ret = ret && env_add(&(shell->env), "PWD", cwd);
+	ret = ret && env_update(&(shell->env), "PWD", cwd);
 	if (!ret)
 		return (EXIT_FAILURE);
 	return (EXIT_SUCCESS);

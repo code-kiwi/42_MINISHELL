@@ -6,7 +6,7 @@
 /*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 00:17:49 by mhotting          #+#    #+#             */
-/*   Updated: 2024/04/26 12:40:49 by mhotting         ###   ########.fr       */
+/*   Updated: 2024/04/26 13:20:55 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -136,4 +136,30 @@ bool	env_add(t_list **env, char *key, char *value)
 	env_delete(env, key);
 	ft_lstadd_back(env, new);
 	return (true);
+}
+
+/*
+ *	Updates the given environment list at the given key position
+ *	If the key is not stored into the list, then a new element is created
+ *	Returns true on SUCCESS, false on ERROR
+ */
+bool	env_update(t_list **env, char *key, char *value)
+{
+	t_list			*link;
+	t_env_element	*env_elt;
+
+	if (env == NULL || key == NULL)
+	{
+		errno = ENODATA;
+		return (false);
+	}
+	if (!env_exists(*env, key))
+		return (env_add(env, key, value));
+	link = ft_lstfind(*env, key, env_element_cmp);
+	if (link == NULL)
+		return (false);
+	env_elt = (t_env_element *) link->content;
+	if (env_elt == NULL)
+		return (false);
+	return (env_element_update(env_elt, key, value));
 }
