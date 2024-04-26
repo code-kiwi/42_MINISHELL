@@ -6,11 +6,17 @@
 /*   By: mhotting <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 10:44:06 by mhotting          #+#    #+#             */
-/*   Updated: 2024/04/04 14:10:42 by mhotting         ###   ########.fr       */
+/*   Updated: 2024/04/26 16:16:37 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <stdlib.h>
+#include <stdio.h>
+#include <string.h>
+#include <errno.h>
+#include "libft.h"
 #include "minishell.h"
+#include "env.h"
 
 void	test_env_find(t_list *env, char *name)
 {

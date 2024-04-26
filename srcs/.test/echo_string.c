@@ -6,12 +6,17 @@
 /*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/18 17:11:36 by brappo            #+#    #+#             */
-/*   Updated: 2024/04/18 17:14:50 by brappo           ###   ########.fr       */
+/*   Updated: 2024/04/26 16:12:31 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include <stdlib.h>
+#include <stdio.h>
+#include <unistd.h>
 #include <sys/wait.h>
+#include "libft.h"
+#include "minishell.h"
+#include "prompt.h"
 
 void	echo_string(char *str, char **envp, char *result_perso)
 {

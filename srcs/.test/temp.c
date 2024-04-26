@@ -6,11 +6,13 @@
 /*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 12:20:04 by brappo            #+#    #+#             */
-/*   Updated: 2024/04/17 11:07:45 by brappo           ###   ########.fr       */
+/*   Updated: 2024/04/26 16:09:25 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include <stdlib.h>
+#include <stdio.h>
+#include "token.h"
 
 void	get_enum_str(char **array)
 {

@@ -6,11 +6,19 @@
 /*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/11 13:51:37 by brappo            #+#    #+#             */
-/*   Updated: 2024/04/11 16:38:49y brappo           ###   ########.fr       */
+/*   Updated: 2024/04/26 16:26:45 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <stdlib.h>
+#include <stdio.h>
+#include <stdbool.h>
 #include "minishell.h"
+#include "expansion.h"
+#include "libft.h"
+#include "token.h"
+#include "prompt.h"
+#include "env.h"
 
 static bool	remove_quote(char character, t_token_parser *parser)
 {

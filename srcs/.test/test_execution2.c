@@ -6,11 +6,15 @@
 /*   By: mhotting <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/05 09:51:24 by mhotting          #+#    #+#             */
-/*   Updated: 2024/04/23 21:01:40 by mhotting         ###   ########.fr       */
+/*   Updated: 2024/04/26 16:22:27 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+
+#include <stdlib.h>
 #include "minishell.h"
+#include "node.h"
+#include "redirections.h"
 
 void	test_print_redirection(void *red);
 void	test_print_redirection_list(t_redirection_list *red);
