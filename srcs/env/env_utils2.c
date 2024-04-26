@@ -6,7 +6,7 @@
 /*   By: mhotting <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/25 14:39:46 by mhotting          #+#    #+#             */
-/*   Updated: 2024/04/25 14:43:38 by mhotting         ###   ########.fr       */
+/*   Updated: 2024/04/26 12:00:31 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ char	*env_get(t_list *env, char *key)
 /*
  *	Returns true if the key exists in the given env list, else returns false
  */
-bool env_exists(t_list *env, char *key)
+bool	env_exists(t_list *env, char *key)
 {
 	if (env == NULL || key == NULL)
 		return (false);

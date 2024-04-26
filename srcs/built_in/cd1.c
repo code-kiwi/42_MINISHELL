@@ -6,7 +6,7 @@
 /*   By: mhotting <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 15:10:34 by mhotting          #+#    #+#             */
-/*   Updated: 2024/04/25 18:14:26 by mhotting         ###   ########.fr       */
+/*   Updated: 2024/04/26 11:53:13 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,10 @@
 #include "env.h"
 #include "built_in.h"
 
+/*
+ *	Handles cd built_in errors
+ *	Displays the appropriate error message and returns the given status
+ */
 int	bi_cd_handle_error(char *msg, int status, char *dir)
 {
 	if (dir == NULL)
@@ -26,6 +30,13 @@ int	bi_cd_handle_error(char *msg, int status, char *dir)
 	return (status);
 }
 
+/*
+ *	Returns the concatenation of the current working directory and the given
+ *	directory, seperated by a '/' char
+ *	The current working directory is retrieved into the PWD env. variable, but
+ *	if it does not exist, a call to getcwd() is performed
+ *	In case of ERROR, returns NULL
+ */
 static char	*bi_cd_resolve_path(t_minishell *shell, char *dir)
 {
 	char	*pwd;
@@ -42,26 +53,17 @@ static char	*bi_cd_resolve_path(t_minishell *shell, char *dir)
 		if (pwd == NULL)
 			return (NULL);
 	}
-	path = bridge(pwd, "/", dir);
+	path = bridge(pwd, dir, "/");
 	free(pwd);
 	return (path);
 }
 
-static char	*bi_cd_clean_path(char *path)
-{
-	char	*ptr;
-
-	if (path == NULL)
-		return (NULL);
-	ptr = path;
-	while (*ptr != '\0' && *(ptr + 1) != '\0')
-	{
-		if (*ptr == '.' && *(ptr + 1) == '/')
-			ft_memmove(ptr, ptr + 2, ft_strlen(ptr + 2));
-	}
-	return (path);
-}
-
+/*
+ *	Given a directory, returns a duplicate of itself if it corresponds to an
+ *	absolute path, else returns the concatenation of the current working
+ *	directory and the given directory (seperated by a '/' char)
+ *	In case of ERROR, returns NULL
+ */
 static char	*bi_cd_get_path(t_minishell *shell, char *dir)
 {
 	char	*path;
@@ -72,14 +74,27 @@ static char	*bi_cd_get_path(t_minishell *shell, char *dir)
 		path = ft_strdup(dir);
 	else
 		path = bi_cd_resolve_path(shell, dir);
-	bi_cd_clean_path(path);
 	return (path);
 }
 
+/*
+ *	Changes the working directory
+ *	Cases:
+ *		- if no argument is given, tries to reach the directory stored into the
+ *		HOME environment variable (if it does not exist, prompts an error)
+ *		- if multiple arguments are given, prompts an error
+ *		- if the first argument is empty, nothing happens
+ *		- else, if the argument starts with '/', it is considered as an
+ *		absolute path, if it starts with anything else, the path reached is
+ *		the concatenation of the current working directory and the argument
+ *	Updates the environment variables OLDPWD and PWD
+ *	Returns EXIT_SUCCESS on SUCCESS, EXIT_FAILURE on ERROR
+ */
 int	bi_cd(t_minishell *shell, char **argv)
 {
 	char	*dir;
 	char	*path;
+	int		status;
 
 	if (shell == NULL || argv == NULL || argv[0] == NULL)
 		handle_error(shell, ERROR_MSG_ARGS, EXIT_FAILURE);
@@ -90,14 +105,15 @@ int	bi_cd(t_minishell *shell, char **argv)
 		if (path == NULL)
 			return (bi_cd_handle_error(CD_MSG_ERR_HOME, EXIT_FAILURE, NULL));
 	}
-	if (argv[2] != NULL)
+	else if (argv[2] != NULL)
 		return (bi_cd_handle_error(CD_MSG_ERR_ARGS, EXIT_FAILURE, NULL));
-	if (dir[0] == '\0')
+	else if (dir[0] == '\0')
 		return (EXIT_SUCCESS);
-	path = bi_cd_get_path(shell, dir);
-	if (path == NULL && errno != 0)
+	else
+		path = bi_cd_get_path(shell, dir);
+	if (path == NULL)
 		return (bi_cd_handle_error(CD_MSG_ERR_INTERNAL, EXIT_FAILURE, NULL));
-	else if (path == NULL)
-		return (bi_cd_handle_error(CD_MSG_ERR_EXISTS, EXIT_FAILURE, dir));
-	return (bi_cd_execution(shell, path));
+	status = bi_cd_execution(shell, path);
+	free(path);
+	return (status);
 }
