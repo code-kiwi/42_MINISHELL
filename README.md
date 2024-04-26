@@ -11,6 +11,7 @@
 - add pwd to the env on shell start
 - **ALL** here_docs are performed before any command execution! (`echo "test" && << LIM cat`)
 - Check calls to `ft_printf()` and see if it is relevant to replace them by calls to `printf()`
+- There is a problem with the token type `ASSIGNEMENT WORD`, when typing the command `export TESTS=12` the token is not recognized as an argument for the command and `build_ast()` function fails
 
 We have to discuss the env implementation (do we rebuild the env string array every time we need or do we store it into shell main structure?)
 Idem for path: should we save the path into a variable of the shell and modify it only when the PATH has evolved?
