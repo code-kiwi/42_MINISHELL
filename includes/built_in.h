@@ -6,7 +6,7 @@
 /*   By: mhotting <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/12 15:44:49 by mhotting          #+#    #+#             */
-/*   Updated: 2024/04/26 12:53:09 by mhotting         ###   ########.fr       */
+/*   Updated: 2024/04/26 16:01:43 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 
 # include <stdbool.h>
 
-# define NB_BUILT_IN 8
+# define NB_BUILT_IN			7
 # define STATUS_EXIT_BAD_ARG	2
 # define MSG_LITERAL			"%s\n"
 
@@ -61,6 +61,5 @@ int			bi_export(t_minishell *shell, char **argv);
 int			bi_unset(t_minishell *shell, char **argv);
 int			bi_env(t_minishell *shell, char **argv);
 int			bi_exit(t_minishell *shell, char **argv);
-int			bi_which(t_minishell *shell, char **argv);
 
 #endif

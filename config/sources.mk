@@ -6,7 +6,7 @@
 #    By: brappo <brappo@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/03/31 20:47:09 by mhotting          #+#    #+#              #
-#    Updated: 2024/04/25 17:41:27 by mhotting         ###   ########.fr        #
+#    Updated: 2024/04/26 16:01:58 by mhotting         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -143,8 +143,7 @@ BUILT_IN_FILES			=	built_in_utils.c			\
 							export.c					\
 							unset.c						\
 							env.c						\
-							exit.c						\
-							which.c
+							exit.c
 BUILT_IN				=	$(addprefix $(BUILT_IN_DIR), $(BUILT_IN_FILES))
 
 #AST BUILDING

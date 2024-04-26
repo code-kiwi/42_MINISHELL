@@ -6,7 +6,7 @@
 /*   By: mhotting <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 15:11:12 by mhotting          #+#    #+#             */
-/*   Updated: 2024/04/26 14:41:40 by mhotting         ###   ########.fr       */
+/*   Updated: 2024/04/26 15:53:07 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,24 +17,35 @@
 #include "minishell.h"
 #include "env.h"
 
+/*
+ *	Given a key_val string, adds the key/value pair into the given shell's
+ *	environment
+ *	Returns true on SUCCESS, false on ERROR
+ */
 static bool	bi_export_var(t_minishell *shell, char *key_val)
 {
 	char	**split;
 	bool	returned;
 
 	split = ft_split_key_val(key_val, ENV_KEY_VALUE_SEPERATOR);
-	if (split == NULL && errno != 0)
+	if (split == NULL)
 		return (false);
 	if (split[0] == NULL || split[1] == NULL)
 	{
 		ft_free_str_array(&split);
 		return (true);
 	}
-	returned = env_add(&(shell->env), split[0], split[1]);
+	returned = env_update(&(shell->env), split[0], split[1]);
 	ft_free_str_array(&split);
 	return (returned);
 }
 
+/*
+ *	Sets variables into the given shell's environment
+ *	The expected strings into argv are: "KEY=VALUE"
+ *	Multiple keys can be assigned in one call
+ *	Returns EXIT_SUCCESS on SUCCESS, EXIT_FAILURE on ERROR
+ */
 int	bi_export(t_minishell *shell, char **argv)
 {
 	size_t	i;
@@ -45,7 +56,7 @@ int	bi_export(t_minishell *shell, char **argv)
 	i = 1;
 	while (argv[i] != NULL)
 	{
-		error_flag = error_flag || bi_export_var(shell, argv[i]);
+		error_flag = bi_export_var(shell, argv[i]) || error_flag;
 		i++;
 	}
 	if (error_flag)

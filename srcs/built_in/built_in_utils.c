@@ -6,7 +6,7 @@
 /*   By: mhotting <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/12 15:43:07 by mhotting          #+#    #+#             */
-/*   Updated: 2024/04/25 12:37:22 by mhotting         ###   ########.fr       */
+/*   Updated: 2024/04/26 16:01:23 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,4 @@ void	built_in_init_array(t_bi_component bi_funcs[NB_BUILT_IN])
 	bi_funcs[5].func = bi_env;
 	bi_funcs[6].name = "exit";
 	bi_funcs[6].func = bi_exit;
-	bi_funcs[7].name = "which";
-	bi_funcs[7].func = bi_which;
 }
