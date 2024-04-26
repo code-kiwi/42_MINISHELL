@@ -6,7 +6,7 @@
 /*   By: mhotting <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 15:11:52 by mhotting          #+#    #+#             */
-/*   Updated: 2024/04/25 12:43:07 by mhotting         ###   ########.fr       */
+/*   Updated: 2024/04/26 17:36:05 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,17 +68,17 @@ static bool	bi_echo_parse_flags(char *flags, bool *no_nl_mode)
  *	ERROR cases:
  *		- call to ft_printf() fails;
  */
-int	bi_echo(t_minishell *shell, char **argv)
+int	bi_echo(t_minishell *shell, char **argv, int fd_out)
 {
 	bool	no_nl_mode;
 	size_t	i;
 
-	if (shell == NULL || argv == NULL || argv[0] == NULL)
+	if (shell == NULL || argv == NULL || argv[0] == NULL || !is_fd_ok(fd_out))
 		handle_error(shell, ERROR_MSG_ARGS, EXIT_FAILURE);
 	i = 1;
 	if (argv[i] == NULL)
 	{
-		if (ft_dprintf(STDOUT_FILENO, "\n") == -1)
+		if (ft_dprintf(fd_out, "\n") == -1)
 			return (bi_echo_handle_error(ERROR_MSG_WRITE, EXIT_FAILURE));
 		return (EXIT_SUCCESS);
 	}
@@ -86,13 +86,13 @@ int	bi_echo(t_minishell *shell, char **argv)
 		i++;
 	while (argv[i] != NULL)
 	{
-		if (ft_dprintf(STDOUT_FILENO, "%s", argv[i]) == -1)
+		if (ft_dprintf(fd_out, "%s", argv[i]) == -1)
 			return (bi_echo_handle_error(ERROR_MSG_WRITE, EXIT_FAILURE));
 		i++;
-		if (argv[i] != NULL && ft_dprintf(STDOUT_FILENO, " ") == -1)
+		if (argv[i] != NULL && ft_dprintf(fd_out, " ") == -1)
 			return (bi_echo_handle_error(ERROR_MSG_WRITE, EXIT_FAILURE));
 	}
-	if (!no_nl_mode && ft_dprintf(STDOUT_FILENO, "\n") == -1)
+	if (!no_nl_mode && ft_dprintf(fd_out, "\n") == -1)
 		return (bi_echo_handle_error(ERROR_MSG_WRITE, EXIT_FAILURE));
 	return (EXIT_SUCCESS);
 }

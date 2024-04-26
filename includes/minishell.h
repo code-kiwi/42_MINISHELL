@@ -6,7 +6,7 @@
 /*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 10:17:54 by mhotting          #+#    #+#             */
-/*   Updated: 2024/04/25 12:35:16 by mhotting         ###   ########.fr       */
+/*   Updated: 2024/04/26 17:34:50 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,6 +85,7 @@ void	handle_error(t_minishell *shell, char *error_msg, int exit_status);
 void	handle_error_cmd(t_minishell *shell, char *err_msg, char *cmd);
 void	fd_close_and_reset(int *fd);
 void	fd_close(int fd);
+bool	is_fd_ok(int fd);
 char	**ft_split_key_val(char *str, char sep);
 char	*bridge(char *first, char *second, char *separator);
 char	*bridge_into_first(char **first, char *second, char *separator);

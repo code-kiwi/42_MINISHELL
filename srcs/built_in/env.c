@@ -6,7 +6,7 @@
 /*   By: mhotting <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 15:11:37 by mhotting          #+#    #+#             */
-/*   Updated: 2024/04/26 12:53:07 by mhotting         ###   ########.fr       */
+/*   Updated: 2024/04/26 17:39:21 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,12 +21,12 @@
  *	In case of ERROR, prints an appropriate error message
  *	Returns EXIT_SUCCESS on SUCCESS, EXIT_FAILURE on ERROR
  */
-int	bi_env(t_minishell *shell, char **argv)
+int	bi_env(t_minishell *shell, char **argv, int fd_out)
 {
 	char	**env;
 	size_t	i;
 
-	if (shell == NULL || argv == NULL || argv[0] == NULL)
+	if (shell == NULL || argv == NULL || argv[0] == NULL || !is_fd_ok(fd_out))
 		handle_error(shell, ERROR_MSG_ARGS, EXIT_FAILURE);
 	if (argv[1] != NULL)
 	{
@@ -42,7 +42,8 @@ int	bi_env(t_minishell *shell, char **argv)
 	i = 0;
 	while (env[i] != NULL)
 	{
-		ft_printf("%s\n", env[i]);
+		if (ft_dprintf(fd_out, "%s\n", env[i]) == -1)
+			return (ft_free_str_array(&env), EXIT_FAILURE);
 		i++;
 	}
 	ft_free_str_array(&env);

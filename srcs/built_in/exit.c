@@ -6,7 +6,7 @@
 /*   By: mhotting <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 11:03:49 by mhotting          #+#    #+#             */
-/*   Updated: 2024/04/25 12:43:54 by mhotting         ###   ########.fr       */
+/*   Updated: 2024/04/26 17:40:11 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,10 +78,11 @@ static bool	bi_exit_is_numeric(char *str)
  *		- if more args are given, does not exit, prompts an error message and
  *		does not stop the current shell process
  */
-int	bi_exit(t_minishell *shell, char **argv)
+int	bi_exit(t_minishell *shell, char **argv, int fd_out)
 {
 	if (shell == NULL || argv == NULL || argv[0] == NULL)
 		handle_error(shell, ERROR_MSG_ARGS, EXIT_FAILURE);
+	(void) fd_out;
 	if (argv[1] == NULL)
 		bi_exit_shell(shell, EXIT_SUCCESS, EXIT_MSG_BASIC);
 	if (!bi_exit_is_numeric(argv[1]))

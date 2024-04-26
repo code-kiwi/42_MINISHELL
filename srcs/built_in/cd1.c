@@ -6,7 +6,7 @@
 /*   By: mhotting <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 15:10:34 by mhotting          #+#    #+#             */
-/*   Updated: 2024/04/26 11:53:13 by mhotting         ###   ########.fr       */
+/*   Updated: 2024/04/26 17:31:21 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,7 @@ static char	*bi_cd_get_path(t_minishell *shell, char *dir)
  *	Updates the environment variables OLDPWD and PWD
  *	Returns EXIT_SUCCESS on SUCCESS, EXIT_FAILURE on ERROR
  */
-int	bi_cd(t_minishell *shell, char **argv)
+int	bi_cd(t_minishell *shell, char **argv, int fd_out)
 {
 	char	*dir;
 	char	*path;
@@ -98,6 +98,7 @@ int	bi_cd(t_minishell *shell, char **argv)
 
 	if (shell == NULL || argv == NULL || argv[0] == NULL)
 		handle_error(shell, ERROR_MSG_ARGS, EXIT_FAILURE);
+	(void) fd_out;
 	dir = argv[1];
 	if (dir == NULL)
 	{

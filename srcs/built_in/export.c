@@ -6,7 +6,7 @@
 /*   By: mhotting <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 15:11:12 by mhotting          #+#    #+#             */
-/*   Updated: 2024/04/26 15:53:07 by mhotting         ###   ########.fr       */
+/*   Updated: 2024/04/26 17:40:37 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,13 +46,14 @@ static bool	bi_export_var(t_minishell *shell, char *key_val)
  *	Multiple keys can be assigned in one call
  *	Returns EXIT_SUCCESS on SUCCESS, EXIT_FAILURE on ERROR
  */
-int	bi_export(t_minishell *shell, char **argv)
+int	bi_export(t_minishell *shell, char **argv, int fd_out)
 {
 	size_t	i;
 	bool	error_flag;
 
 	if (shell == NULL || argv == NULL || argv[0] == NULL)
 		handle_error(shell, ERROR_MSG_ARGS, EXIT_FAILURE);
+	(void) fd_out;
 	i = 1;
 	while (argv[i] != NULL)
 	{

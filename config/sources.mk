@@ -6,7 +6,7 @@
 #    By: brappo <brappo@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/03/31 20:47:09 by mhotting          #+#    #+#              #
-#    Updated: 2024/04/26 16:01:58 by mhotting         ###   ########.fr        #
+#    Updated: 2024/04/26 17:43:22 by mhotting         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -163,6 +163,7 @@ UTILS_FILES				=	list_utils.c				\
 							t_minishell_utils2.c		\
 							t_pid_list_utils.c			\
 							close_file_descriptor.c		\
+							is_fd_ok.c					\
 							string_utils.c				\
 							ft_split_key_val.c			\
 							ft_print_str_array.c		\

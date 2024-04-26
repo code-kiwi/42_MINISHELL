@@ -6,7 +6,7 @@
 /*   By: mhotting <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/12 15:44:49 by mhotting          #+#    #+#             */
-/*   Updated: 2024/04/26 16:01:43 by mhotting         ###   ########.fr       */
+/*   Updated: 2024/04/26 17:46:00 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@
 # define ENV_MSG_ERR_INTERNAL	"Error: env: Internal error occured\n"
 
 typedef struct s_minishell	t_minishell;
-typedef int					(*t_bi_func)(t_minishell *shell, char **argv);
+typedef int					(*t_bi_func)(t_minishell *sh, char **av, int fdout);
 
 typedef struct s_bi_component
 {
@@ -52,14 +52,14 @@ t_bi_func	built_in_get(t_bi_component bi_funcs[NB_BUILT_IN], char *cmd_name);
 void		built_in_init_array(t_bi_component bi_funcs[NB_BUILT_IN]);
 
 // Built-in functions
-int			bi_echo(t_minishell *shell, char **argv);
-int			bi_cd(t_minishell *shell, char **argv);
+int			bi_echo(t_minishell *shell, char **argv, int fd_out);
+int			bi_cd(t_minishell *shell, char **argv, int fd_out);
 int			bi_cd_handle_error(char *msg, int status, char *dir);
 int			bi_cd_execution(t_minishell *shell, char *path);
-int			bi_pwd(t_minishell *shell, char **argv);
-int			bi_export(t_minishell *shell, char **argv);
-int			bi_unset(t_minishell *shell, char **argv);
-int			bi_env(t_minishell *shell, char **argv);
-int			bi_exit(t_minishell *shell, char **argv);
+int			bi_pwd(t_minishell *shell, char **argv, int fd_out);
+int			bi_export(t_minishell *shell, char **argv, int fd_out);
+int			bi_unset(t_minishell *shell, char **argv, int fd_out);
+int			bi_env(t_minishell *shell, char **argv, int fd_out);
+int			bi_exit(t_minishell *shell, char **argv, int fd_out);
 
 #endif
