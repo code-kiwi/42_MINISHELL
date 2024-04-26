@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   env_utils.c                                        :+:      :+:    :+:   */
+/*   env_utils1.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 00:17:49 by mhotting          #+#    #+#             */
-/*   Updated: 2024/04/25 14:43:08 by mhotting         ###   ########.fr       */
+/*   Updated: 2024/04/26 12:40:49 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -134,6 +134,6 @@ bool	env_add(t_list **env, char *key, char *value)
 		return (false);
 	}
 	env_delete(env, key);
-	ft_lstadd_front(env, new);
+	ft_lstadd_back(env, new);
 	return (true);
 }
