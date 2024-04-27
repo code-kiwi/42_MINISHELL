@@ -13,6 +13,7 @@
 - Check calls to `ft_printf()` and see if it is relevant to replace them by calls to `printf()`
 - There is a problem with the token type `ASSIGNEMENT WORD`, when typing the command `export TESTS=12` the token is not recognized as an argument for the command and `build_ast()` function fails (I can comment lines into `srcs/tokenRecognition/tokenize_str.c` in order to disable the creation of token of this type)
 - We need to check every call to `handle_error()` function in order to avoid the shell to stop its execution when an error occurs (we should probably comme back to the prompt when an error occurs)
+- Control binary input (non printable chars)
 
 We have to discuss the env implementation (do we rebuild the env string array every time we need or do we store it into shell main structure?)
 Idem for path: should we save the path into a variable of the shell and modify it only when the PATH has evolved?
