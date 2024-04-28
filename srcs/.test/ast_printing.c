@@ -6,11 +6,16 @@
 /*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/11 08:39:38 by brappo            #+#    #+#             */
-/*   Updated: 2024/04/11 11:09:57 by brappo           ###   ########.fr       */
+/*   Updated: 2024/04/26 16:11:02 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include <stdlib.h>
+#include <stdio.h>
+#include "libft.h"
+#include "redirections.h"
+#include "node.h"
+#include "token.h"
 
 #define COUNT 10
 

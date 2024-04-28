@@ -6,7 +6,7 @@
 /*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 13:10:16 by mhotting          #+#    #+#             */
-/*   Updated: 2024/04/25 12:00:12 by mhotting         ###   ########.fr       */
+/*   Updated: 2024/04/25 12:41:12 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ void	t_minishell_init(t_minishell *shell, int argc, char **argv, char **envp)
 	shell->pid_list = NULL;
 	shell->is_child_process = false;
 	shell->status = 0;
+	built_in_init_array(shell->bi_funcs);
 }
 
 /*

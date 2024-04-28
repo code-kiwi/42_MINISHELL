@@ -6,7 +6,7 @@
 /*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 10:17:54 by mhotting          #+#    #+#             */
-/*   Updated: 2024/04/25 11:07:08 by mhotting         ###   ########.fr       */
+/*   Updated: 2024/04/26 17:34:50 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,10 +16,11 @@
 # include <stdbool.h>
 # include <stdlib.h>
 # include <sys/types.h>
+# include "built_in.h"
 
-typedef struct s_list		t_list;
-typedef struct s_node		t_node;
-typedef struct s_minishell	t_minishell;
+typedef struct s_list			t_list;
+typedef struct s_node			t_node;
+typedef struct s_minishell		t_minishell;
 
 # define STATUS_CMD_NOT_FOUND	127
 # define STATUS_CMD_NOT_EXEC	126
@@ -36,6 +37,8 @@ typedef struct s_minishell	t_minishell;
 # define ERROR_MSG_DUP			"Impossible to duplicate a file descriptor"
 # define ERROR_MSG_SHELL_CPY	"Impossible to create a subshell"
 # define ERROR_MSG_AST_CREATION	"AST creation failed"
+# define ERROR_MSG_WRONG_BI		"The built-in does not exist"
+# define ERROR_MSG_WRITE		"Call to write function failed"
 # define TOKENIZATION_ERROR 	"Tokenizing input"
 
 # define DGREAT 				">>"
@@ -67,6 +70,7 @@ struct s_minishell
 	t_node				*ast;
 	int					status;
 	t_minishell			*parent;
+	t_bi_component		bi_funcs[NB_BUILT_IN];
 };
 
 // t_minshell functions
@@ -81,10 +85,12 @@ void	handle_error(t_minishell *shell, char *error_msg, int exit_status);
 void	handle_error_cmd(t_minishell *shell, char *err_msg, char *cmd);
 void	fd_close_and_reset(int *fd);
 void	fd_close(int fd);
+bool	is_fd_ok(int fd);
 char	**ft_split_key_val(char *str, char sep);
 char	*bridge(char *first, char *second, char *separator);
 char	*bridge_into_first(char **first, char *second, char *separator);
 void	ft_print_str_array(char **array);
 bool	string_equals(void *a, void *b);
 void	**to_array(t_list *lst);
+
 #endif

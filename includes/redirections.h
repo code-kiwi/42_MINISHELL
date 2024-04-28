@@ -6,12 +6,14 @@
 /*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/28 11:06:44 by mhotting          #+#    #+#             */
-/*   Updated: 2024/04/25 10:55:34 by mhotting         ###   ########.fr       */
+/*   Updated: 2024/04/26 16:10:24 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef REDIRECTIONS_H
 # define REDIRECTIONS_H
+
+# include <stdbool.h>
 
 typedef struct s_list	t_list;
 

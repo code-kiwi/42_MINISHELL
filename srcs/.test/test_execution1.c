@@ -6,11 +6,21 @@
 /*   By: mhotting <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/05 09:51:24 by mhotting          #+#    #+#             */
-/*   Updated: 2024/04/17 12:15:39 by mhotting         ###   ########.fr       */
+/*   Updated: 2024/04/26 16:21:24 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <stdlib.h>
+#include <stdio.h>
+#include <errno.h>
+#include "libft.h"
 #include "minishell.h"
+#include "node.h"
+#include "execution.h"
+#include "env.h"
+#include "redirections.h"
+#include "token.h"
+#include "pid_list.h"
 
 t_node	*ast_create(int nb);
 
@@ -183,11 +193,9 @@ static t_list	*node_subshell_create_tokens(void)
 	t_token	*token;
 	
 	token_list = NULL;
-	token = t_token_init();
+	token = t_token_init(ft_strdup("test1"), WORD);
 	if (token == NULL)
 		return (NULL);
-	token->str = ft_strdup("test1");
-	token->type = WORD;
 	new = ft_lstnew((void *) token);
 	if (new == NULL)
 	{
@@ -195,11 +203,9 @@ static t_list	*node_subshell_create_tokens(void)
 		return (token_list);
 	}
 	ft_lstadd_back(&token_list, new);
-	token = t_token_init();
+	token = t_token_init(ft_strdup("test2"), WORD);
 	if (token == NULL)
 		return (token_list);
-	token->str = ft_strdup("test2");
-	token->type = WORD;
 	new = ft_lstnew((void *) token);
 	if (new == NULL)
 	{
@@ -207,11 +213,9 @@ static t_list	*node_subshell_create_tokens(void)
 		return (token_list);
 	}
 	ft_lstadd_back(&token_list, new);
-	token = t_token_init();
+	token = t_token_init(ft_strdup("test3"), WORD);
 	if (token == NULL)
 		return (token_list);
-	token->str = ft_strdup("test3");
-	token->type = WORD;
 	new = ft_lstnew((void *) token);
 	if (new == NULL)
 	{

@@ -6,7 +6,7 @@
 /*   By: mhotting <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/10 12:39:49 by mhotting          #+#    #+#             */
-/*   Updated: 2024/04/25 11:35:28 by mhotting         ###   ########.fr       */
+/*   Updated: 2024/04/25 12:39:08 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,10 @@ static void	exec_cmd_process(
 
 	if (shell == NULL || cmd == NULL || !cmd->argv)
 		handle_error(shell, ERROR_MSG_ARGS, EXIT_FAILURE);
-	if (cmd->argv[0] != NULL && is_built_in(cmd->argv[0]) && !in_pipe)
+	if (
+		cmd->argv[0] != NULL && is_built_in(shell->bi_funcs, cmd->argv[0])
+		&& !in_pipe
+	)
 		shell->status = exec_builtin(shell, cmd);
 	else if (cmd->argv[0] != NULL)
 	{

@@ -6,11 +6,17 @@
 /*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 10:23:58 by brappo            #+#    #+#             */
-/*   Updated: 2024/04/18 17:13:01 by brappo           ###   ########.fr       */
+/*   Updated: 2024/04/26 16:25:35 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <stdlib.h>
+#include <stdio.h>
+#include "libft.h"
 #include "minishell.h"
+#include "env.h"
+#include "prompt.h"
+#include "expansion.h"
 
 void	echo_string(char *str, char **envp, char *result_perso);
 
@@ -158,7 +164,7 @@ int	main(int argc, char **argv, char **envp)
 		printf("%sinput : %s%s%s\n", BLUE, final_tests[index], RESET, GREEN);
 		printf("%s", RESET);
 		str_copy = ft_strdup(final_tests[index]);
-		expand_string(final_tests + index, &shell);
+		expand_string(final_tests + index, &shell, O_PATH | O_VAR | O_QUOTE);
 		printf("result final : %s\n", final_tests[index]);
 		echo_string(str_copy, envp, final_tests[index]);
 		free(str_copy);

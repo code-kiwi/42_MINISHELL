@@ -6,11 +6,19 @@
 /*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/10 14:25:37 by brappo            #+#    #+#             */
-/*   Updated: 2024/04/11 12:13:19 by brappo           ###   ########.fr       */
+/*   Updated: 2024/04/26 16:14:24 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <stdlib.h>
+#include <stdio.h>
+#include <readline/history.h>
+#include "libft.h"
 #include "minishell.h"
+#include "build_ast.h"
+#include "node.h"
+#include "prompt.h"
+#include "token.h"
 
 void print_ast_tree(t_node *node, int space);
 
