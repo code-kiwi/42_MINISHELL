@@ -6,7 +6,7 @@
 /*   By: mhotting <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 15:11:12 by mhotting          #+#    #+#             */
-/*   Updated: 2024/04/26 17:40:37 by mhotting         ###   ########.fr       */
+/*   Updated: 2024/04/28 19:54:33 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,7 @@ int	bi_export(t_minishell *shell, char **argv, int fd_out)
 	if (shell == NULL || argv == NULL || argv[0] == NULL)
 		handle_error(shell, ERROR_MSG_ARGS, EXIT_FAILURE);
 	(void) fd_out;
+	error_flag = false;
 	i = 1;
 	while (argv[i] != NULL)
 	{
