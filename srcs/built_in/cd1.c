@@ -6,7 +6,7 @@
 /*   By: mhotting <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 15:10:34 by mhotting          #+#    #+#             */
-/*   Updated: 2024/04/28 19:55:26 by mhotting         ###   ########.fr       */
+/*   Updated: 2024/04/28 20:03:05 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,11 @@ static char	*bi_cd_resolve_path(t_minishell *shell, char *dir)
 		pwd = getcwd(NULL, 0);
 		if (pwd == NULL)
 			return (NULL);
+		if (!env_update(&(shell->env), "PWD", pwd))
+		{
+			free(pwd);
+			return (NULL);
+		}
 	}
 	path = bridge(pwd, dir, "/");
 	free(pwd);
