@@ -6,11 +6,12 @@
 /*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/28 10:22:22 by brappo            #+#    #+#             */
-/*   Updated: 2024/04/10 13:52:08 by brappo           ###   ########.fr       */
+/*   Updated: 2024/04/25 11:55:07 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include <stdlib.h>
+#include <stdbool.h>
 
 int	array_find(void **array, bool (equal)(void *a, void *b), void *value)
 {

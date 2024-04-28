@@ -6,11 +6,16 @@
 /*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/10 10:14:38 by brappo            #+#    #+#             */
-/*   Updated: 2024/04/11 12:15:41 by brappo           ###   ########.fr       */
+/*   Updated: 2024/04/25 11:17:12 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include <stdlib.h>
+#include <stdbool.h>
+#include "libft.h"
+#include "node.h"
+#include "build_ast.h"
+#include "token.h"
 
 t_node	*build_ast(t_list *tokens)
 {

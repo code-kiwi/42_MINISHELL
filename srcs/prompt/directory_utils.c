@@ -3,14 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   directory_utils.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
+/*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/28 12:54:36 by brappo            #+#    #+#             */
-/*   Updated: 2024/04/04 11:40:51 by brappo           ###   ########.fr       */
+/*   Updated: 2024/04/25 11:47:01 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <stdlib.h>
+#include <errno.h>
+#include "libft.h"
 #include "minishell.h"
+#include "prompt.h"
 
 void	set_color(char *start_color, size_t end_color,
 		char *color, size_t buffer_size)

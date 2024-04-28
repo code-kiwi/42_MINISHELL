@@ -6,11 +6,19 @@
 /*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 10:14:16 by mhotting          #+#    #+#             */
-/*   Updated: 2024/04/24 09:40:02 by brappo           ###   ########.fr       */
+/*   Updated: 2024/04/28 20:43:03 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <stdbool.h>
+#include <readline/history.h>
 #include "minishell.h"
+#include "prompt.h"
+#include "libft.h"
+#include "token.h"
+#include "node.h"
+#include "build_ast.h"
+#include "execution.h"
 
 int	main(int argc, char **argv, char **envp)
 {
@@ -20,11 +28,6 @@ int	main(int argc, char **argv, char **envp)
 	while (true)
 	{
 		shell.input = prompt(&shell);
-		if (ft_strcmp(shell.input, "exit") == 0)
-		{
-			t_minishell_free(&shell);
-			break ;
-		}
 		token_recognition(&shell);
 		shell.ast = build_ast(shell.tokens);
 		if (shell.ast == NULL)

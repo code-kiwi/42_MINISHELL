@@ -6,11 +6,14 @@
 /*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/29 09:54:42 by mhotting          #+#    #+#             */
-/*   Updated: 2024/04/17 14:49:35 by mhotting         ###   ########.fr       */
+/*   Updated: 2024/04/25 12:35:45 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <stdlib.h>
 #include "minishell.h"
+#include "node.h"
+#include "redirections.h"
 
 /*
  *	Allocates a t_node with an allocated t_node_command as content.
@@ -61,7 +64,8 @@ void	node_command_free(void **node_ptr)
 	if (node_ptr == NULL || *node_ptr == NULL)
 		return ;
 	node = (t_node_command *) *node_ptr;
-	free(node->argv);
+	if (node->argv != NULL)
+		free(node->argv);
 	redirection_list_free(&(node->redirection_list));
 	node_command_close_fds(*node_ptr);
 	free(node);

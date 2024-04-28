@@ -6,11 +6,15 @@
 /*   By: mhotting <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/05 09:51:24 by mhotting          #+#    #+#             */
-/*   Updated: 2024/04/17 12:52:56 by mhotting         ###   ########.fr       */
+/*   Updated: 2024/04/26 16:22:27 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+
+#include <stdlib.h>
 #include "minishell.h"
+#include "node.h"
+#include "redirections.h"
 
 void	test_print_redirection(void *red);
 void	test_print_redirection_list(t_redirection_list *red);
@@ -628,6 +632,34 @@ static t_node	*ast_create14(void)
 	return (node_pipe1);
 }
 
+/*
+ *	Returns an AST for the command: "cat /dev/urandom | head -1"
+ */
+static t_node	*ast_create15(void)
+{
+	t_node	*node_c1;
+	t_node	*node_c2;
+	t_node	*node_pipe;
+
+	// Creates node_c1
+	node_c1 = node_cmd_create("cat /dev/urandom");
+	if (node_c1 == NULL)
+		return (NULL);
+	
+	// Creates node_c2
+	node_c2 = node_cmd_create("head -1");
+	if (node_c2 == NULL)
+		return (NULL);
+
+	// Creates pipe node
+	node_pipe = node_pip_create(node_c1, node_c2);
+	if (node_pipe == NULL)
+		return (NULL);
+
+	return (node_pipe);
+}
+
+
 t_node	*ast_create(int nb)
 {
 	if (nb == 1)
@@ -658,5 +690,7 @@ t_node	*ast_create(int nb)
 		return (ast_create13());
 	else if (nb == 14)
 		return (ast_create14());
+	else if (nb == 15)
+		return (ast_create15());
 	return (NULL);
 }

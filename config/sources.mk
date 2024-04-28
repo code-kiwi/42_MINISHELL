@@ -6,7 +6,7 @@
 #    By: brappo <brappo@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/03/31 20:47:09 by mhotting          #+#    #+#              #
-#    Updated: 2024/04/19 12:29:40 by brappo           ###   ########.fr        #
+#    Updated: 2024/04/28 20:18:41 by mhotting         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -64,13 +64,16 @@ ifdef testChosen
 		MAIN_FILE		=	test_ast_creation.c
 	else ifeq ($(testChosen), expansion)
 		MAIN_DIR		=	.test/
-		MAIN_FILE		=	test_variable_expansion.c
+		MAIN_FILE		=	test_variable_expansion.c echo_string.c
 	else ifeq ($(testChosen), ast_building)
 		MAIN_DIR		=	.test/
 		MAIN_FILE		=	test_ast_building.c	ast_printing.c
 	else ifeq ($(testChosen), signals)
 		MAIN_DIR		=	.test/
 		MAIN_FILE		=	signals_tests.c
+	else ifeq ($(testChosen), wildcard)
+		MAIN_DIR		=	.test/
+		MAIN_FILE		=	wildcard_test.c echo_string.c
 	endif
 	MAIN_FILE			+=	temp.c
 endif
@@ -105,15 +108,17 @@ PROMPT_FILES			=	prompt_handler.c 			\
 PROMPT					=	$(addprefix $(PROMPT_DIR), $(PROMPT_FILES))
 
 # VARIABLE EXPANSION
-EXPANSION_DIR			=	wordExpansion/
+EXPANSION_DIR			=	expansion/
 EXPANSION_FILES			=	get_variable_key.c			\
 							word_expansion.c			\
-							expand_string.c
-
+							expand_string.c				\
+							expand_wildcard.c			\
+							string_equal_wildcard.c
 EXPANSION				=	$(addprefix $(EXPANSION_DIR), $(EXPANSION_FILES))
 # ENV
 ENV_DIR					=	env/
-ENV_FILES				=	env_utils.c					\
+ENV_FILES				=	env_utils1.c				\
+							env_utils2.c				\
 							t_env_element_utils.c
 ENV						=	$(addprefix $(ENV_DIR), $(ENV_FILES))
 
@@ -133,7 +138,15 @@ EXECUTION				=	$(addprefix $(EXECUTION_DIR), $(EXECUTION_FILES))
 
 # BUILT_IN
 BUILT_IN_DIR			=	built_in/
-BUILT_IN_FILES			=	built_in_utils.c
+BUILT_IN_FILES			=	built_in_utils.c			\
+							echo.c						\
+							cd1.c						\
+							cd2.c						\
+							pwd.c						\
+							export.c					\
+							unset.c						\
+							env.c						\
+							exit.c
 BUILT_IN				=	$(addprefix $(BUILT_IN_DIR), $(BUILT_IN_FILES))
 
 #AST BUILDING
@@ -153,6 +166,7 @@ UTILS_FILES				=	list_utils.c				\
 							t_minishell_utils2.c		\
 							t_pid_list_utils.c			\
 							close_file_descriptor.c		\
+							is_fd_ok.c					\
 							string_utils.c				\
 							ft_split_key_val.c			\
 							ft_print_str_array.c		\

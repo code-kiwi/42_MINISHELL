@@ -6,11 +6,12 @@
 /*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/28 09:56:51 by brappo            #+#    #+#             */
-/*   Updated: 2024/03/28 09:58:04 by brappo           ###   ########.fr       */
+/*   Updated: 2024/04/25 11:51:08 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include <stdbool.h>
+#include "token.h"
 
 bool	is_quoted(t_token_parser *token_parser)
 {

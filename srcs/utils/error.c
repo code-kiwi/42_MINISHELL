@@ -6,10 +6,14 @@
 /*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 13:24:53 by mhotting          #+#    #+#             */
-/*   Updated: 2024/04/15 15:45:47 by mhotting         ###   ########.fr       */
+/*   Updated: 2024/04/25 11:56:52 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <stdlib.h>
+#include <errno.h>
+#include <string.h>
+#include "libft.h"
 #include "minishell.h"
 
 /*

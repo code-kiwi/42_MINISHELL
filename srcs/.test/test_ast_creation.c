@@ -6,11 +6,16 @@
 /*   By: mhotting <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/29 10:46:10 by mhotting          #+#    #+#             */
-/*   Updated: 2024/04/10 11:14:21 by mhotting         ###   ########.fr       */
+/*   Updated: 2024/04/26 16:15:32 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <stdlib.h>
+#include <stdio.h>
+#include "libft.h"
 #include "minishell.h"
+#include "node.h"
+#include "token.h"
 
 /*
  *	Creates an AST tree with t_node tools

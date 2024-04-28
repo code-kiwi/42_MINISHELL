@@ -6,11 +6,12 @@
 /*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/28 10:40:53 by brappo            #+#    #+#             */
-/*   Updated: 2024/04/10 11:13:26 by brappo           ###   ########.fr       */
+/*   Updated: 2024/04/25 11:51:27 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+#include "token.h"
 
 void	get_operation(char **operations)
 {

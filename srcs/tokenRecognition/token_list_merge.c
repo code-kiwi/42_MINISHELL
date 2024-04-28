@@ -6,11 +6,14 @@
 /*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/02 20:42:20 by root              #+#    #+#             */
-/*   Updated: 2024/04/05 09:07:39 by mhotting         ###   ########.fr       */
+/*   Updated: 2024/04/25 11:52:06 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <stdlib.h>
+#include "libft.h"
 #include "minishell.h"
+#include "token.h"
 
 /*
 	When merging tokens, the "next" string is joined with the "first" string.
@@ -27,7 +30,7 @@
 							azex"
 	Working.
 */
-bool	merge_tokens_node(t_list *first, t_list *next)
+static bool	merge_tokens_node(t_list *first, t_list *next)
 {
 	t_token	*first_token;
 	t_token	*next_token;

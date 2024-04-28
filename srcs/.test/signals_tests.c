@@ -6,10 +6,14 @@
 /*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/19 12:17:08 by brappo            #+#    #+#             */
-/*   Updated: 2024/04/20 10:39:03 by brappo           ###   ########.fr       */
+/*   Updated: 2024/04/28 21:08:23 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <stdlib.h>
+#include <unistd.h>
+#include <stdio.h>
+#include <signal.h>
 #include "minishell.h"
 
 static void	handle_signals(int code)

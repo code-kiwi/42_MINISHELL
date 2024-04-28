@@ -6,11 +6,12 @@
 /*   By: mhotting <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/10 10:05:58 by mhotting          #+#    #+#             */
-/*   Updated: 2024/04/10 10:34:54 by mhotting         ###   ########.fr       */
+/*   Updated: 2024/04/25 11:07:34 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include <stdlib.h>
+#include "node.h"
 
 /*
  *	Allocates a t_node of NODE_OR type.

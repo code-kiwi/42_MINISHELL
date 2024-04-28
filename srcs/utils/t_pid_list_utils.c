@@ -6,11 +6,14 @@
 /*   By: mhotting <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/10 14:54:49 by mhotting          #+#    #+#             */
-/*   Updated: 2024/04/16 11:15:00 by mhotting         ###   ########.fr       */
+/*   Updated: 2024/04/25 12:02:16 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include <stdlib.h>
+#include <sys/types.h>
+#include "libft.h"
+#include "pid_list.h"
 
 /*
  *	Allocates a t_pid_list element and returns a pointer to it

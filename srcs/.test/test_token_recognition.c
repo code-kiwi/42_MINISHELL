@@ -6,11 +6,15 @@
 /*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/29 20:42:21 by brappo            #+#    #+#             */
-/*   Updated: 2024/04/03 11:45:18 by brappo           ###   ########.fr       */
+/*   Updated: 2024/04/26 16:23:39 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <stdlib.h>
+#include <stdio.h>
+#include "libft.h"
 #include "minishell.h"
+#include "token.h"
 
 void	set_tests(char **tests)
 {

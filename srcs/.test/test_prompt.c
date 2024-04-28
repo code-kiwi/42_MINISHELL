@@ -6,11 +6,14 @@
 /*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/29 15:34:15 by brappo            #+#    #+#             */
-/*   Updated: 2024/04/04 11:41:42 by brappo           ###   ########.fr       */
+/*   Updated: 2024/04/26 16:23:01 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include <stdlib.h>
+#include <stdio.h>
+#include "libft.h"
+#include "prompt.h"
 
 void	set_color(char *start_color, size_t end_color,
 		char *color, size_t buffer_size);

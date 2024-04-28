@@ -6,13 +6,19 @@
 /*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 14:03:37 by brappo            #+#    #+#             */
-/*   Updated: 2024/04/12 13:52:09 by mhotting         ###   ########.fr       */
+/*   Updated: 2024/04/25 11:45:55 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <stdlib.h>
+#include <stdbool.h>
+#include <errno.h>
+#include "libft.h"
 #include "minishell.h"
+#include "env.h"
+#include "expansion.h"
 
-bool	replace_key(char **input, ssize_t *key_coordinates, char *value,
+static bool	replace_key(char **input, ssize_t *key_coordinates, char *value,
 	size_t variable_start)
 {
 	char	*result;
@@ -34,7 +40,7 @@ bool	replace_key(char **input, ssize_t *key_coordinates, char *value,
 	return (true);
 }
 
-char	*get_value_by_key_coordinates(char *input,
+static char	*get_value_by_key_coordinates(char *input,
 	ssize_t *key_coordinates, t_minishell *shell)
 {
 	char	temp;
@@ -44,10 +50,16 @@ char	*get_value_by_key_coordinates(char *input,
 	input[key_coordinates[1]] = '\0';
 	value = env_get(shell->env, input + key_coordinates[0]);
 	input[key_coordinates[1]] = temp;
+	if (value == NULL)
+	{
+		if (errno == 0)
+			return (ft_strdup(""));
+		return (NULL);
+	}
 	return (value);
 }
 
-ssize_t	handle_invalid_variable(char *input, ssize_t *key_coordinates,
+static ssize_t	handle_invalid_variable(char *input, ssize_t *key_coordinates,
 	size_t variable_start, bool double_quoted)
 {
 	char	second_character;

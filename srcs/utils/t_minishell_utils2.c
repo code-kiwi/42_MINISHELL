@@ -6,11 +6,16 @@
 /*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 13:10:16 by mhotting          #+#    #+#             */
-/*   Updated: 2024/04/19 12:08:31 by brappo           ###   ########.fr       */
+/*   Updated: 2024/04/28 20:43:21 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <stdlib.h>
+#include <stdbool.h>
+#include <errno.h>
+#include <sys/wait.h>
 #include "minishell.h"
+#include "pid_list.h"
 
 /*
  *	Adds a pid to the given shell's pid list

@@ -6,11 +6,13 @@
 /*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/28 10:26:15 by brappo            #+#    #+#             */
-/*   Updated: 2024/04/10 14:09:17 by brappo           ###   ########.fr       */
+/*   Updated: 2024/04/25 11:58:12 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include <stdlib.h>
+#include <stdbool.h>
+#include "libft.h"
 
 bool	is_prefix(void	*word, void *prefix)
 {
@@ -67,22 +69,5 @@ char	*bridge_into_first(char **first, char *second, char *separator)
 
 bool	string_equals(void *a, void *b)
 {
-	size_t	length;
-	size_t	index;
-	char	*a_str;
-	char	*b_str;
-
-	if (a == NULL || b == NULL)
-		return (a == b);
-	a_str = (char *)a;
-	b_str = (char *)b;
-	length = ft_strlen(a_str);
-	index = 0;
-	while (index <= length)
-	{
-		if (a_str[index] != b_str[index])
-			return (false);
-		index++;
-	}
-	return (true);
+	return (ft_strcmp((char *)a, (char *)b) == 0);
 }

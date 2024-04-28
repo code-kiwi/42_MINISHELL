@@ -6,11 +6,16 @@
 /*   By: mhotting <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 09:41:09 by mhotting          #+#    #+#             */
-/*   Updated: 2024/04/16 12:44:27 by mhotting         ###   ########.fr       */
+/*   Updated: 2024/04/25 11:36:27 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <stdlib.h>
+#include <unistd.h>
+#include <stdbool.h>
 #include "minishell.h"
+#include "execution.h"
+#include "node.h"
 
 /*
  *	Clones the files descriptors stored into fds_src into fds_dest
