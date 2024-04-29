@@ -6,7 +6,7 @@
 /*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/29 09:54:42 by mhotting          #+#    #+#             */
-/*   Updated: 2024/04/29 16:39:52 by brappo           ###   ########.fr       */
+/*   Updated: 2024/04/29 16:43:15 by brappo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ t_node	*node_command_create(int argc, char **argv)
 	node = node_create_empty(NODE_COMMAND);
 	if (node == NULL)
 		return (NULL);
-	node_command = (t_node_command *) malloc(sizeof(t_node_command));
+	node_command = (t_node_command *)ft_calloc(1, sizeof(t_node_command));
 	if (node_command == NULL)
 		return (free(node), NULL);
 	node_command->argc = argc;
