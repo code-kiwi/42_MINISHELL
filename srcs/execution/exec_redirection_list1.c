@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_redirection_list1.c                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mhotting <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/11 12:37:09 by mhotting          #+#    #+#             */
-/*   Updated: 2024/04/25 11:38:59 by mhotting         ###   ########.fr       */
+/*   Updated: 2024/04/29 14:09:50 by brappo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,8 @@
 #include "libft.h"
 #include "execution.h"
 #include "redirections.h"
+#include "expansion.h"
+#include "minishell.h"
 
 /*
  *	Executes a redirection depending on its type
@@ -43,7 +45,8 @@ static void	redirection_exec_dispatch(
  *	Returns the position (into the list) of the last heredoc redirection
  *	Returns -1 if no heredoc redirection has been encountered
  */
-static ssize_t	exec_heredocs(t_list *redirections, t_redirections_info *info)
+static ssize_t	exec_heredocs(t_list *redirections,
+	t_redirections_info *info, t_minishell *shell)
 {
 	ssize_t			position;
 	ssize_t			last_hd_pos;
@@ -60,7 +63,9 @@ static ssize_t	exec_heredocs(t_list *redirections, t_redirections_info *info)
 		redirection = (t_redirection *) current_red->content;
 		if (redirection->type == REDIRECTION_TYPE_HEREDOC)
 		{
-			exec_redirection_heredoc(redirection, info);
+			if (!expand_redirection(&redirection->filename, O_QUOTE, shell))
+				handle_error(shell, NULL, EXIT_FAILURE);
+			exec_redirection_heredoc(redirection, info, shell);
 			last_hd_pos = position;
 		}
 		position++;
@@ -77,7 +82,7 @@ static ssize_t	exec_heredocs(t_list *redirections, t_redirections_info *info)
  *		- executes the other redirections (using last heredoc's index in order
  *		to make stdin redirections logical: from left to right)
  */
-void	exec_redirection_list(t_redirection_list *redirection_list)
+void	exec_redirection_list(t_redirection_list *redirection_list, t_minishell *shell)
 {
 	t_list			*current;
 	t_redirection	*redirection;
@@ -87,11 +92,14 @@ void	exec_redirection_list(t_redirection_list *redirection_list)
 	if (redirection_list == NULL)
 		return ;
 	current = redirection_list->redirections;
-	position_last_heredoc = exec_heredocs(current, &(redirection_list->info));
+	position_last_heredoc = exec_heredocs(current, &(redirection_list->info), shell);
 	position = 0;
 	while (current != NULL)
 	{
 		redirection = (t_redirection *) current->content;
+		if (redirection->type != REDIRECTION_TYPE_HEREDOC
+			&& !expand_redirection(&redirection->filename, O_QUOTE | O_PATH | O_VAR, shell))
+			handle_error(shell, NULL, EXIT_FAILURE);
 		redirection_exec_dispatch(redirection, &(redirection_list->info), \
 			(position_last_heredoc != -1 && position > position_last_heredoc));
 		position++;

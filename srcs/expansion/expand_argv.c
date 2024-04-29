@@ -6,7 +6,7 @@
 /*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/29 10:24:26 by brappo            #+#    #+#             */
-/*   Updated: 2024/04/29 12:32:52 by brappo           ###   ########.fr       */
+/*   Updated: 2024/04/29 12:38:33 by brappo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,9 +81,9 @@ bool	expand_redirection(char **redirection, char options,
 		return (false);
 	wildcards_candidate = expand_string(redirection, shell, options);
 	if (wildcards_candidate == NULL && errno != 0)
-		return (false);
+		return (free(save), false);
 	if (wildcards_candidate == NULL)
-		return (true);
+		return (free(save), true);
 	if (ft_lstsize(wildcards_candidate) > 1)
 	{
 		printf("%s %s\n", save, AMBIGUOUS_REDIRECTION);

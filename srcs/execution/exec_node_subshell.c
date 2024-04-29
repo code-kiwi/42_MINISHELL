@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_node_subshell.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mhotting <mhotting@student.42.fr>          +#+  +:+       +#+        */
+/*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 13:52:21 by mhotting          #+#    #+#             */
-/*   Updated: 2024/04/25 11:38:16 by mhotting         ###   ########.fr       */
+/*   Updated: 2024/04/29 14:01:35 by brappo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ static void	exec_subshell_set_fds_initial(int fds[2], int fds_subshell[2])
  *	NB: when overwriting, the previous fds are closed in order to avoid fd leaks
  */
 static void	exec_subshell_set_fds(
-	t_node_subshell *node_sub, int fds[2], int fds_subshell[2]
+	t_node_subshell *node_sub, int fds[2], int fds_subshell[2], t_minishell *shell
 )
 {
 	t_redirection_list	*red;
@@ -59,7 +59,7 @@ static void	exec_subshell_set_fds(
 	if (node_sub == NULL || node_sub->redirection_list == NULL)
 		return ;
 	red = node_sub->redirection_list;
-	exec_redirection_list(red);
+	exec_redirection_list(red, shell);
 	if (red->info.fd_stdin != FD_UNSET)
 	{
 		if (fds_subshell[0] != FD_UNSET)
@@ -103,7 +103,7 @@ static void	exec_subshell(t_minishell *mainshell, t_node *node, int fds[2])
 		exec_subshell_error(mainshell, fds);
 	node_sub = (t_node_subshell *) node->content;
 	t_minishell_init_subshell(&subshell, mainshell);
-	exec_subshell_set_fds(node_sub, fds, fds_subshell);
+	exec_subshell_set_fds(node_sub, fds, fds_subshell, mainshell);
 	if (fds_subshell[0] == FD_ERROR || fds_subshell[1] == FD_ERROR)
 		exec_subshell_error(&subshell, fds_subshell);
 	subshell.ast = build_ast(node_sub->token_list);

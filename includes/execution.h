@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mhotting <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/10 12:52:55 by mhotting          #+#    #+#             */
-/*   Updated: 2024/04/25 11:34:48 by mhotting         ###   ########.fr       */
+/*   Updated: 2024/04/29 14:09:41 by brappo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,8 +43,8 @@ void	exec_cmd(t_minishell *shell, t_node_command *cmd);
 int		exec_builtin(t_minishell *shell, t_node_command *cmd);
 
 // Redirection execution
-void	exec_redirection_list(t_redirection_list *redirection_list);
-void	exec_redirection_heredoc(t_redirection *r, t_redirections_info *info);
+void	exec_redirection_list(t_redirection_list *redirection_list, t_minishell *shell);
+void	exec_redirection_heredoc(t_redirection *r, t_redirections_info *info, t_minishell *shell);
 void	exec_redirection_infile(t_redirection *red, \
 			t_redirections_info *info, bool after_last_hd);
 void	exec_redirection_out(t_redirection *red, t_redirections_info *info);
