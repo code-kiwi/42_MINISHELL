@@ -6,7 +6,7 @@
 /*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/29 10:24:26 by brappo            #+#    #+#             */
-/*   Updated: 2024/04/29 11:38:36 by brappo           ###   ########.fr       */
+/*   Updated: 2024/04/29 12:12:20 by brappo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,30 +43,26 @@ static char	**insert_list_array_str(char **array, t_list *lst,
 		return (NULL);
 	array_copy((void ***)new_array, (void ***)*array, index);
 	cat_lst_in_array(new_array, lst, array_length, result_length);
-	array_copy((void ***)new_array + index + list_length, (void ***)*array, array_length);
+	array_copy((void ***)new_array + index + list_length,
+		(void ***)*array, array_length);
 	return (new_array);
 }
 
-static void	delete_elem(char **argv, size_t elem_index, size_t array_length)
-{
-	free(argv[elem_index]);
-	ft_memmove(argv + elem_index, argv + elem_index+ 1, array_length + 1);
-}
-
-static bool	replace_arguments(char ***argv, t_list *wildcards_candidates, size_t arg_index)
+static bool	replace_arguments(char ***argv,
+	t_list *wildcards_candidates, size_t arg_index)
 {
 	char	**new_argv;
 	size_t	array_length;
 
 	if (argv == NULL || wildcards_candidates == NULL)
 		return (false);
-	if (wildcards_candidates == NULL)
-		return (true);
 	array_length = array_size((void **)*argv);
 	if (arg_index > array_length)
 		return (false);
-	delete_elem(*argv, arg_index, array_length);
-	new_argv = insert_list_array_str(*argv, wildcards_candidates, arg_index, array_length - 1);
+	free((*argv)[arg_index]);
+	ft_memmove(*argv + arg_index, *argv + arg_index + 1, array_length + 1);
+	new_argv = insert_list_array_str(*argv, wildcards_candidates,
+			arg_index, array_length - 1);
 	if (new_argv == NULL)
 		return (false);
 	free(*argv);
@@ -74,30 +70,41 @@ static bool	replace_arguments(char ***argv, t_list *wildcards_candidates, size_t
 	return (true);
 }
 
-bool	expand_argv(char ***argv, char options, t_minishell *shell, bool is_redirection)
+static bool	handle_redirection_error(t_list *wildcards_candidate,
+	bool is_redirection, char *save)
+{
+	if (is_redirection && ft_lstsize(wildcards_candidate) > 1)
+	{
+		printf("Ambiguous redirection : %s\n", save);
+		free(save);
+		ft_lstclear(&wildcards_candidate, free);
+		return (false);
+	}
+	return (true);
+}
+
+bool	expand_argv(char ***argv, char options,
+		t_minishell *shell, bool is_redirection)
 {
 	size_t	index;
 	t_list	*wildcards_candidate;
+	char	*save;
 
 	if (argv == NULL || *argv == NULL)
 		return (false);
 	index = 0;
 	while ((*argv)[index])
 	{
+		save = ft_strdup((*argv)[index]);
+		if (save == NULL)
+			return (false);
 		wildcards_candidate = expand_string(*argv + index, shell, options);
-		if (wildcards_candidate == NULL && errno != 0)
+		if (!handle_redirection_error(wildcards_candidate,
+				is_redirection, save))
 			return (false);
-		if (is_redirection == false && ft_lstsize(wildcards_candidate) > 1)
-		{
-			ft_lstclear(&wildcards_candidate, free);
-			return (false);
-		}
-		if (!replace_arguments(argv, wildcards_candidate, index))
-		{
-			ft_lstclear(&wildcards_candidate, free);
-			return (false);
-		}
-
+		free(save);
+		if (!replace_arguments(argv, wildcards_candidate, index) && errno != 0)
+			return (ft_lstclear(&wildcards_candidate, free), false);
 		ft_lstclear(&wildcards_candidate, NULL);
 		index++;
 	}

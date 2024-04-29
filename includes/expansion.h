@@ -6,7 +6,7 @@
 /*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/17 12:31:28 by brappo            #+#    #+#             */
-/*   Updated: 2024/04/29 10:39:07 by brappo           ###   ########.fr       */
+/*   Updated: 2024/04/29 11:51:18 by brappo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,8 @@ bool	string_equal_wildcard(char *str_wildcard,
 t_list	*expand_string(char **str, t_minishell *shell, char options);
 bool	search_wildcards(char *input, t_list **wildcards_pos);
 t_list	*lst_sort(t_list **to_sort, int (*cmp)(void *, void *));
-bool	expand_argv(char ***argv, char options, t_minishell *shell, bool is_redirection);
+bool	expand_argv(char ***argv, char options,
+			t_minishell *shell, bool is_redirection);
 bool	array_copy(void ***dest, void ***src, size_t dest_length);
 size_t	array_size(void **array);
 
