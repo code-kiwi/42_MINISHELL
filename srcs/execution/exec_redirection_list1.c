@@ -6,7 +6,7 @@
 /*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/11 12:37:09 by mhotting          #+#    #+#             */
-/*   Updated: 2024/04/29 14:09:50 by brappo           ###   ########.fr       */
+/*   Updated: 2024/04/29 14:17:06 by brappo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,8 @@ static ssize_t	exec_heredocs(t_list *redirections,
  *		- executes the other redirections (using last heredoc's index in order
  *		to make stdin redirections logical: from left to right)
  */
-void	exec_redirection_list(t_redirection_list *redirection_list, t_minishell *shell)
+void	exec_redirection_list(t_redirection_list *redirection_list,
+	t_minishell *shell)
 {
 	t_list			*current;
 	t_redirection	*redirection;
@@ -92,13 +93,15 @@ void	exec_redirection_list(t_redirection_list *redirection_list, t_minishell *sh
 	if (redirection_list == NULL)
 		return ;
 	current = redirection_list->redirections;
-	position_last_heredoc = exec_heredocs(current, &(redirection_list->info), shell);
+	position_last_heredoc = exec_heredocs(current,
+			&(redirection_list->info), shell);
 	position = 0;
 	while (current != NULL)
 	{
 		redirection = (t_redirection *) current->content;
 		if (redirection->type != REDIRECTION_TYPE_HEREDOC
-			&& !expand_redirection(&redirection->filename, O_QUOTE | O_PATH | O_VAR, shell))
+			&& !expand_redirection(&redirection->filename, \
+			O_QUOTE | O_PATH | O_VAR, shell))
 			handle_error(shell, NULL, EXIT_FAILURE);
 		redirection_exec_dispatch(redirection, &(redirection_list->info), \
 			(position_last_heredoc != -1 && position > position_last_heredoc));

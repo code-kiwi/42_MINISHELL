@@ -6,7 +6,7 @@
 /*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/11 12:37:09 by mhotting          #+#    #+#             */
-/*   Updated: 2024/04/29 14:12:11 by brappo           ###   ########.fr       */
+/*   Updated: 2024/04/29 14:15:56 by brappo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ static bool	read_here_doc(char *limiter, int fd_to_write, t_minishell *shell)
 		if (ft_printf(MULTIPLE_LINE_PROMPT) == -1)
 			return (false);
 		cur_line = get_next_line(STDIN_FILENO);
-		if (cur_line && ft_strncmp(cur_line, limiter, ft_strlen(cur_line) - 1) == 0)
+		if (cur_line && !ft_strncmp(cur_line, limiter, ft_strlen(cur_line) - 1))
 			break ;
 		if (!cur_line || !expand_string(&cur_line, shell, O_VAR | O_IGN_QUOTE)
 			|| ft_dprintf(fd_to_write, "%s", cur_line) == -1)

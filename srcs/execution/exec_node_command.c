@@ -6,7 +6,7 @@
 /*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/10 12:39:49 by mhotting          #+#    #+#             */
-/*   Updated: 2024/04/29 14:01:14 by brappo           ###   ########.fr       */
+/*   Updated: 2024/04/29 14:15:07 by brappo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,8 @@ static void	exec_cmd_set_pipe_fds(t_node_command *cmd, int fd_in, int fd_out)
  *	overwritten by the new ones (after having been closed)
  *	If there is no redirection to operate, the command's fds remain unchanged
  */
-static void	exec_cmd_set_redirections_fds(t_node_command *cmd, t_minishell *shell)
+static void	exec_cmd_set_redirections_fds(t_node_command *cmd,
+	t_minishell *shell)
 {
 	t_redirection_list	*red;
 

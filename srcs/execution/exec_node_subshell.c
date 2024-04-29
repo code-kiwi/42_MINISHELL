@@ -6,7 +6,7 @@
 /*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 13:52:21 by mhotting          #+#    #+#             */
-/*   Updated: 2024/04/29 14:01:35 by brappo           ###   ########.fr       */
+/*   Updated: 2024/04/29 14:15:34 by brappo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,8 +49,8 @@ static void	exec_subshell_set_fds_initial(int fds[2], int fds_subshell[2])
  *	files descriptors, they will overwrite the previous ones
  *	NB: when overwriting, the previous fds are closed in order to avoid fd leaks
  */
-static void	exec_subshell_set_fds(
-	t_node_subshell *node_sub, int fds[2], int fds_subshell[2], t_minishell *shell
+static void	exec_subshell_set_fds(t_node_subshell *node_sub,
+	int fds[2], int fds_subshell[2], t_minishell *shell
 )
 {
 	t_redirection_list	*red;

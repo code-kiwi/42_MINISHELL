@@ -6,7 +6,7 @@
 /*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/17 12:31:28 by brappo            #+#    #+#             */
-/*   Updated: 2024/04/29 14:03:48 by brappo           ###   ########.fr       */
+/*   Updated: 2024/04/29 14:14:15 by brappo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ typedef struct s_minishell	t_minishell;
 # define O_QUOTE 1
 # define O_VAR 2
 # define O_PATH 4
-#define O_IGN_QUOTE 8
+# define O_IGN_QUOTE 8
 
 void	get_variable_key_coordinates(char *input, ssize_t *coordinates,
 			size_t variable_start);
