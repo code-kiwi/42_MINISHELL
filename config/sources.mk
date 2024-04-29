@@ -6,7 +6,7 @@
 #    By: brappo <brappo@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/03/31 20:47:09 by mhotting          #+#    #+#              #
-#    Updated: 2024/04/26 17:43:22 by mhotting         ###   ########.fr        #
+#    Updated: 2024/04/29 14:41:05 by mhotting         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -80,6 +80,7 @@ MAIN					=	$(addprefix $(MAIN_DIR), $(MAIN_FILE))
 AST_DIR					=	ast/
 AST_FILES				=	t_node_command_utils.c		\
 							t_node_pipe_utils.c			\
+							t_node_logical_utils.c		\
 							t_node_and_utils.c			\
 							t_node_or_utils.c			\
 							t_node_subshell_utils.c		\

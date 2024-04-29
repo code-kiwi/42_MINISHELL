@@ -6,7 +6,7 @@
 /*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 10:17:54 by mhotting          #+#    #+#             */
-/*   Updated: 2024/04/26 17:34:50 by mhotting         ###   ########.fr       */
+/*   Updated: 2024/04/29 10:50:50 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,7 @@ struct s_minishell
 	struct s_pid_list	*pid_list;
 	bool				is_child_process;
 	t_node				*ast;
+	int					fds_ast[2];
 	int					status;
 	t_minishell			*parent;
 	t_bi_component		bi_funcs[NB_BUILT_IN];

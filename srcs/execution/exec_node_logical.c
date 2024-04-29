@@ -6,7 +6,7 @@
 /*   By: mhotting <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 09:41:09 by mhotting          #+#    #+#             */
-/*   Updated: 2024/04/25 11:36:27 by mhotting         ###   ########.fr       */
+/*   Updated: 2024/04/29 16:49:06 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,12 +53,14 @@ static bool	exec_node_logical_clone_fds(int fds_src[2], int fds_dest[2])
  */
 void	exec_node_logical(t_minishell *shell, t_node *node, int fds[2])
 {
-	int	child_right_fds[2];
-	int	status;
+	int				status;
+	t_node_logical	*node_logic;
+	int				fds_to_pass[2];
 
 	if (node == NULL || (node->type != NODE_AND && node->type != NODE_OR))
 		handle_error(shell, ERROR_MSG_ARGS, EXIT_FAILURE);
-	if (!exec_node_logical_clone_fds(fds, child_right_fds))
+	node_logic = (t_node_logical *) node->content;
+	if (!exec_node_logical_clone_fds(fds, node_logic->child_right_fds))
 		handle_error(shell, ERROR_MSG_DUP, EXIT_FAILURE);
 	exec_node(shell, node->child_left, fds, false);
 	status = t_minishell_get_exec_status(shell);
@@ -66,9 +68,10 @@ void	exec_node_logical(t_minishell *shell, t_node *node, int fds[2])
 		(node->type == NODE_AND && status != EXIT_SUCCESS)
 		|| (node->type == NODE_OR && status == EXIT_SUCCESS)
 	)
-	{
-		exec_node_close_fds(child_right_fds);
-		return ;
-	}
-	exec_node(shell, node->child_right, child_right_fds, false);
+		return (exec_node_close_fds(node_logic->child_right_fds));
+	fds_to_pass[0] = node_logic->child_right_fds[0];
+	node_logic->child_right_fds[0] = FD_UNSET;
+	fds_to_pass[1] = node_logic->child_right_fds[1];
+	node_logic->child_right_fds[1] = FD_UNSET;
+	exec_node(shell, node->child_right, fds_to_pass, false);
 }
