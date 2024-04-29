@@ -6,7 +6,7 @@
 /*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/29 10:24:26 by brappo            #+#    #+#             */
-/*   Updated: 2024/04/29 12:38:33 by brappo           ###   ########.fr       */
+/*   Updated: 2024/04/29 16:29:04 by brappo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ static char	**insert_list_in_array(char **array, t_list *lst,
 	new_array = (char **)ft_calloc(result_length + 1, sizeof(char *));
 	if (new_array == NULL)
 		return (NULL);
-	array_copy((void ***)new_array, (void ***)*array, index);
+	array_copy((void ***)new_array, (void ***)array, index + 1);
 	cat_lst_in_array(new_array, lst, array_length, result_length);
 	array_copy((void ***)new_array + index + list_length,
 		(void ***)*array, array_length);
@@ -60,7 +60,9 @@ static bool	replace_arguments(char ***argv,
 	if (arg_index > array_length)
 		return (false);
 	free((*argv)[arg_index]);
-	ft_memmove(*argv + arg_index, *argv + arg_index + 1, array_length + 1);
+	ft_memmove(*argv + arg_index, *argv + arg_index + 1,
+		array_length - arg_index);
+	(*argv)[array_length - 1] = NULL;
 	new_argv = insert_list_in_array(*argv, wildcards_candidates,
 			arg_index, array_length - 1);
 	if (new_argv == NULL)
@@ -106,7 +108,7 @@ bool	expand_argv(char ***argv, char options,
 
 	if (argv == NULL || *argv == NULL)
 		return (false);
-	index = 0;
+	index = 1;
 	while ((*argv)[index])
 	{
 		wildcards_candidate = expand_string(*argv + index, shell, options);

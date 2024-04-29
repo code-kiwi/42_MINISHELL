@@ -6,7 +6,7 @@
 /*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/29 09:54:42 by mhotting          #+#    #+#             */
-/*   Updated: 2024/04/25 12:35:45 by mhotting         ###   ########.fr       */
+/*   Updated: 2024/04/29 16:39:52 by brappo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 #include "minishell.h"
 #include "node.h"
 #include "redirections.h"
+#include "libft.h"
 
 /*
  *	Allocates a t_node with an allocated t_node_command as content.
@@ -36,16 +37,16 @@ t_node	*node_command_create(int argc, char **argv)
 	if (node_command == NULL)
 		return (free(node), NULL);
 	node_command->argc = argc;
-	node_command->argv = argv;
+	node_command->argv = dup_str_array(argv);
 	node_command->redirection_list = redirection_list_create();
+	node_command->fd_in = FD_UNSET;
+	node_command->fd_out = FD_UNSET;
 	if (node_command->redirection_list == NULL)
 	{
-		free(node_command);
+		node_command_free((void **)&node_command);
 		free(node);
 		return (NULL);
 	}
-	node_command->fd_in = FD_UNSET;
-	node_command->fd_out = FD_UNSET;
 	node->content = (void *) node_command;
 	return (node);
 }
@@ -65,7 +66,7 @@ void	node_command_free(void **node_ptr)
 		return ;
 	node = (t_node_command *) *node_ptr;
 	if (node->argv != NULL)
-		free(node->argv);
+		ft_free_str_array(&node->argv);
 	redirection_list_free(&(node->redirection_list));
 	node_command_close_fds(*node_ptr);
 	free(node);

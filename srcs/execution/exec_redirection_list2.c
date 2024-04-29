@@ -6,7 +6,7 @@
 /*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/11 12:37:09 by mhotting          #+#    #+#             */
-/*   Updated: 2024/04/29 14:15:56 by brappo           ###   ########.fr       */
+/*   Updated: 2024/04/29 16:28:46 by brappo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 #include "minishell.h"
 #include "redirections.h"
 #include "expansion.h"
+#include <errno.h>
 
 /*
  *	Reads lines from STDIN_FILENO and writes them into the given fd_to_write
@@ -36,7 +37,8 @@ static bool	read_here_doc(char *limiter, int fd_to_write, t_minishell *shell)
 		cur_line = get_next_line(STDIN_FILENO);
 		if (cur_line && !ft_strncmp(cur_line, limiter, ft_strlen(cur_line) - 1))
 			break ;
-		if (!cur_line || !expand_string(&cur_line, shell, O_VAR | O_IGN_QUOTE)
+		expand_string(&cur_line, shell, O_VAR | O_IGN_QUOTE);
+		if (cur_line == NULL || errno != 0
 			|| ft_dprintf(fd_to_write, "%s", cur_line) == -1)
 		{
 			free(cur_line);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   node.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mhotting <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 17:53:48 by mhotting          #+#    #+#             */
-/*   Updated: 2024/04/25 11:01:59 by mhotting         ###   ########.fr       */
+/*   Updated: 2024/04/29 15:58:49 by brappo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,7 @@ t_node	*node_command_create(int argc, char **argv);
 void	node_command_free(void **node_ptr);
 bool	node_command_add_redirection(t_node *node, char *op, char *filename);
 void	node_command_close_fds(t_node_command *cmd);
+char	**dup_str_array(char **array);
 
 // t_node_pipe functions
 t_node	*node_pipe_create(void);
