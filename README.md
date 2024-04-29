@@ -16,6 +16,7 @@
 - Control binary input (non printable chars)
 - We could optimize the environment by "caching" the env string. When the env. would be changed, we would generate a new string array or set a flag to indicate that the environment has evolved (this avoids the fact to create an array string each time we call `env` while also avoiding us to access directly the env. strings)
 - Variable "_" in the env
+- On shell start: create basic ENV with: PATH, HOME, SHLLVL, PWD, OLDPWD
 
 We have to discuss the env implementation (do we rebuild the env string array every time we need or do we store it into shell main structure?)
 Idem for path: should we save the path into a variable of the shell and modify it only when the PATH has evolved?
