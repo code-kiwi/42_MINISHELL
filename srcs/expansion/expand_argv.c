@@ -6,7 +6,7 @@
 /*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/29 10:24:26 by brappo            #+#    #+#             */
-/*   Updated: 2024/04/29 16:29:04 by brappo           ###   ########.fr       */
+/*   Updated: 2024/04/29 16:50:04 by brappo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,6 +105,7 @@ bool	expand_argv(char ***argv, char options,
 {
 	size_t	index;
 	t_list	*wildcards_candidate;
+	size_t	candidates_count;
 
 	if (argv == NULL || *argv == NULL)
 		return (false);
@@ -117,6 +118,9 @@ bool	expand_argv(char ***argv, char options,
 			ft_lstclear(&wildcards_candidate, free);
 			return (false);
 		}
+		candidates_count = ft_lstsize(wildcards_candidate);
+		if (candidates_count != 0)
+			index += candidates_count - 1;
 		ft_lstclear(&wildcards_candidate, NULL);
 		index++;
 	}
