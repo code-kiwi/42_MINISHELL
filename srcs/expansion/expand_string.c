@@ -6,7 +6,7 @@
 /*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/05 15:12:32 by brappo            #+#    #+#             */
-/*   Updated: 2024/04/25 11:41:49 by mhotting         ###   ########.fr       */
+/*   Updated: 2024/04/29 11:18:18 by brappo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,19 +69,10 @@ static bool	handle_wildcards(t_list **wildcards_pos, t_token_parser *parser, \
 
 static t_list	*get_arguments(char *str, t_list *wildcards)
 {
-	char	*str_dup;
 	t_list	*arguments;
 
 	if (wildcards == NULL)
-	{
-		str_dup = ft_strdup(str);
-		if (str_dup == NULL)
-			return (NULL);
-		arguments = ft_lstnew(str_dup);
-		if (arguments == NULL)
-			free(str_dup);
-		return (arguments);
-	}
+		return (NULL);
 	else
 	{
 		ft_lstreverse(&wildcards);

@@ -6,7 +6,7 @@
 /*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/28 10:22:22 by brappo            #+#    #+#             */
-/*   Updated: 2024/04/29 10:33:45 by brappo           ###   ########.fr       */
+/*   Updated: 2024/04/29 10:37:03 by brappo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,4 +39,20 @@ size_t	array_size(void **array)
 	while (array[length] != NULL)
 		length++;
 	return (length);
+}
+
+bool	array_copy(void ***dest, void ***src, size_t dest_length)
+{
+	size_t	index;
+
+	if (dest == NULL || src == NULL || dest_length == 0)
+		return (false);
+	index = 0;
+	dest[dest_length - 1] = NULL;
+	while (index < dest_length - 1 && src[index])
+	{
+		dest[index] = src[index];
+		index++;
+	}
+	return (index == dest_length - 1);
 }

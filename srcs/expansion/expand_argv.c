@@ -6,7 +6,7 @@
 /*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/29 10:24:26 by brappo            #+#    #+#             */
-/*   Updated: 2024/04/29 10:32:46 by brappo           ###   ########.fr       */
+/*   Updated: 2024/04/29 11:38:36 by brappo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 #include "expansion.h"
 #include "errno.h"
 #include "libft.h"
+#include <stdio.h>
 
 static void	cat_lst_in_array(char **array_dest, t_list *lst_src,
 	size_t start, size_t length)
@@ -35,8 +36,6 @@ static char	**insert_list_array_str(char **array, t_list *lst,
 	size_t	list_length;
 	char	**new_array;
 
-	if (index > array_length)
-		return (NULL);
 	list_length = ft_lstsize(lst);
 	result_length = array_length + list_length;
 	new_array = (char **)ft_calloc(result_length + 1, sizeof(char *));
@@ -50,9 +49,8 @@ static char	**insert_list_array_str(char **array, t_list *lst,
 
 static void	delete_elem(char **argv, size_t elem_index, size_t array_length)
 {
-	free(*argv + elem_index);
-	(*argv)[elem_index] == NULL;
-	ft_memmove(*argv + elem_index, *argv + elem_index+ 1, array_length + 1);
+	free(argv[elem_index]);
+	ft_memmove(argv + elem_index, argv + elem_index+ 1, array_length + 1);
 }
 
 static bool	replace_arguments(char ***argv, t_list *wildcards_candidates, size_t arg_index)
@@ -64,9 +62,11 @@ static bool	replace_arguments(char ***argv, t_list *wildcards_candidates, size_t
 		return (false);
 	if (wildcards_candidates == NULL)
 		return (true);
-	array_length = array_size(*argv);
+	array_length = array_size((void **)*argv);
+	if (arg_index > array_length)
+		return (false);
 	delete_elem(*argv, arg_index, array_length);
-	new_argv = insert_list_array_str(*argv, wildcards_candidates, arg_index, array_length);
+	new_argv = insert_list_array_str(*argv, wildcards_candidates, arg_index, array_length - 1);
 	if (new_argv == NULL)
 		return (false);
 	free(*argv);
@@ -84,15 +84,20 @@ bool	expand_argv(char ***argv, char options, t_minishell *shell, bool is_redirec
 	index = 0;
 	while ((*argv)[index])
 	{
-		wildcards_candidate = expand_string((*argv)[index], shell, options);
+		wildcards_candidate = expand_string(*argv + index, shell, options);
 		if (wildcards_candidate == NULL && errno != 0)
 			return (false);
-		if ((is_redirection && ft_lstsize(wildcards_candidate) > 1)
-			|| !replace_arguments(argv, wildcards_candidate, index))
+		if (is_redirection == false && ft_lstsize(wildcards_candidate) > 1)
 		{
 			ft_lstclear(&wildcards_candidate, free);
 			return (false);
 		}
+		if (!replace_arguments(argv, wildcards_candidate, index))
+		{
+			ft_lstclear(&wildcards_candidate, free);
+			return (false);
+		}
+
 		ft_lstclear(&wildcards_candidate, NULL);
 		index++;
 	}
