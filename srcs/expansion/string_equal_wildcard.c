@@ -3,38 +3,30 @@
 /*                                                        :::      ::::::::   */
 /*   string_equal_wildcard.c                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/11 12:39:55 by brappo            #+#    #+#             */
-/*   Updated: 2024/04/25 11:44:32 by mhotting         ###   ########.fr       */
+/*   Updated: 2024/04/29 10:27:14 by brappo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdlib.h>
-#include <stdbool.h>
+#include "minishell.h"
 #include "libft.h"
 
 bool	is_wildcard(char *characters, t_list *wildcards)
 {
 	if (wildcards == NULL)
 		return (false);
-	if (characters == wildcards->content)
-		return (true);
-	if (wildcards->next == NULL)
-		return (false);
-	return (characters == wildcards->next->content);
+	return (characters == wildcards->content);
 }
 
-static size_t	get_next_wildcard(char *str_wildcard, t_list *wildcards)
+static size_t	get_next_wildcard(char *str_wildcard)
 {
 	size_t	length;
 
 	length = 1;
-	while (str_wildcard[length]
-		&& !is_wildcard(str_wildcard + length, wildcards))
-	{
+	while (str_wildcard[length] && str_wildcard[length] != '*')
 		length++;
-	}
 	return (length);
 }
 
@@ -79,7 +71,7 @@ bool	string_equal_wildcard(char *str_wildcard,
 	{
 		if (is_wildcard(str_wildcard, wildcards) && !str_wildcard[1])
 			return (true);
-		next_wildcard = get_next_wildcard(str_wildcard, wildcards);
+		next_wildcard = get_next_wildcard(str_wildcard);
 		char_pos = search_characters(str_wildcard, \
 				next_wildcard, str_b, &wildcards);
 		if (char_pos == -1)
