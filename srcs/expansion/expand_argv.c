@@ -6,7 +6,7 @@
 /*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/29 10:24:26 by brappo            #+#    #+#             */
-/*   Updated: 2024/04/29 12:12:20 by brappo           ###   ########.fr       */
+/*   Updated: 2024/04/29 12:32:52 by brappo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ static void	cat_lst_in_array(char **array_dest, t_list *lst_src,
 	}
 }
 
-static char	**insert_list_array_str(char **array, t_list *lst,
+static char	**insert_list_in_array(char **array, t_list *lst,
 	size_t index, size_t array_length)
 {
 	size_t	result_length;
@@ -61,7 +61,7 @@ static bool	replace_arguments(char ***argv,
 		return (false);
 	free((*argv)[arg_index]);
 	ft_memmove(*argv + arg_index, *argv + arg_index + 1, array_length + 1);
-	new_argv = insert_list_array_str(*argv, wildcards_candidates,
+	new_argv = insert_list_in_array(*argv, wildcards_candidates,
 			arg_index, array_length - 1);
 	if (new_argv == NULL)
 		return (false);
@@ -70,41 +70,51 @@ static bool	replace_arguments(char ***argv,
 	return (true);
 }
 
-static bool	handle_redirection_error(t_list *wildcards_candidate,
-	bool is_redirection, char *save)
+bool	expand_redirection(char **redirection, char options,
+	t_minishell *shell)
 {
-	if (is_redirection && ft_lstsize(wildcards_candidate) > 1)
+	t_list	*wildcards_candidate;
+	char	*save;
+
+	save = ft_strdup(*redirection);
+	if (save == NULL)
+		return (false);
+	wildcards_candidate = expand_string(redirection, shell, options);
+	if (wildcards_candidate == NULL && errno != 0)
+		return (false);
+	if (wildcards_candidate == NULL)
+		return (true);
+	if (ft_lstsize(wildcards_candidate) > 1)
 	{
-		printf("Ambiguous redirection : %s\n", save);
+		printf("%s %s\n", save, AMBIGUOUS_REDIRECTION);
 		free(save);
 		ft_lstclear(&wildcards_candidate, free);
 		return (false);
 	}
+	free(save);
+	free(*redirection);
+	*redirection = wildcards_candidate->content;
+	free(wildcards_candidate);
 	return (true);
 }
 
 bool	expand_argv(char ***argv, char options,
-		t_minishell *shell, bool is_redirection)
+		t_minishell *shell)
 {
 	size_t	index;
 	t_list	*wildcards_candidate;
-	char	*save;
 
 	if (argv == NULL || *argv == NULL)
 		return (false);
 	index = 0;
 	while ((*argv)[index])
 	{
-		save = ft_strdup((*argv)[index]);
-		if (save == NULL)
-			return (false);
 		wildcards_candidate = expand_string(*argv + index, shell, options);
-		if (!handle_redirection_error(wildcards_candidate,
-				is_redirection, save))
-			return (false);
-		free(save);
 		if (!replace_arguments(argv, wildcards_candidate, index) && errno != 0)
-			return (ft_lstclear(&wildcards_candidate, free), false);
+		{
+			ft_lstclear(&wildcards_candidate, free);
+			return (false);
+		}
 		ft_lstclear(&wildcards_candidate, NULL);
 		index++;
 	}

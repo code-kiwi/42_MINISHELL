@@ -33,22 +33,18 @@ int	main(int argc, char **argv, char **envp)
 	char		**new_argv;
 	t_minishell	shell;
 	bool		result;
-	bool		is_redirection;
 
-	if (argc < 3)
+	if (argc < 2)
 		return (0);
-	is_redirection = string_equals("true", argv[argc - 1]);
-	argv[argc - 1] = NULL;
 	t_minishell_init(&shell, argc, argv, envp);
 	new_argv = dup_args(argv + 1);
 	if (new_argv == NULL)
 		return (1);
-	result = expand_argv(&new_argv, O_VAR | O_PATH | O_QUOTE, &shell, is_redirection);
+	result = expand_argv(&new_argv, O_VAR | O_PATH | O_QUOTE, &shell);
 	if (result == false && errno != 0)
 	{
 		printf("error");
 		return (1);
-
 	}
 	ft_print_str_array(new_argv);
 	ft_free_str_array(&new_argv);
