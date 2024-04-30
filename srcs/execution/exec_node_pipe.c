@@ -6,7 +6,7 @@
 /*   By: mhotting <mhotting@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/14 19:49:27 by mhotting          #+#    #+#             */
-/*   Updated: 2024/04/25 12:39:17 by mhotting         ###   ########.fr       */
+/*   Updated: 2024/04/30 18:51:39 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,10 +42,12 @@ void	exec_node_pipe(t_minishell *shell, t_node *node, int fds[2])
 	}
 	child_fds[0] = fds[0];
 	child_fds[1] = node_pipe->fds[1];
+	node_pipe->fd_saved = fds[1];
 	node_pipe->fds[1] = FD_UNSET;
 	exec_node(shell, node->child_left, child_fds, true);
 	child_fds[0] = node_pipe->fds[0];
 	child_fds[1] = fds[1];
+	node_pipe->fd_saved = FD_UNSET;
 	node_pipe->fds[0] = FD_UNSET;
 	exec_node(shell, node->child_right, child_fds, true);
 }

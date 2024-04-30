@@ -6,7 +6,7 @@
 /*   By: mhotting <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 17:53:48 by mhotting          #+#    #+#             */
-/*   Updated: 2024/04/29 14:40:23 by mhotting         ###   ########.fr       */
+/*   Updated: 2024/04/30 18:49:46 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@ typedef struct s_node
 typedef struct s_node_pipe
 {
 	int	fds[2];
+	int	fd_saved;
 }	t_node_pipe;
 
 typedef struct s_node_command

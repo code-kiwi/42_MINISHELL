@@ -6,7 +6,7 @@
 /*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 13:10:16 by mhotting          #+#    #+#             */
-/*   Updated: 2024/04/30 14:30:58 by mhotting         ###   ########.fr       */
+/*   Updated: 2024/04/30 18:48:50 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,6 @@ void	t_minishell_init(t_minishell *shell, int argc, char **argv, char **envp)
 	(void)argc;
 	(void)argv;
 	fds_init(shell->fds_ast);
-	fds_init(shell->fds_saved);
 	built_in_init_array(shell->bi_funcs);
 }
 
