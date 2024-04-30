@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
+/*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 10:14:16 by mhotting          #+#    #+#             */
-/*   Updated: 2024/04/28 20:43:03 by mhotting         ###   ########.fr       */
+/*   Updated: 2024/04/30 12:02:01 by root             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,12 +19,14 @@
 #include "node.h"
 #include "build_ast.h"
 #include "execution.h"
+#include "signals.h"
 
 int	main(int argc, char **argv, char **envp)
 {
 	t_minishell	shell;
 
 	t_minishell_init(&shell, argc, argv, envp);
+	init_signals();
 	while (true)
 	{
 		shell.input = prompt(&shell);

@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    sources.mk                                         :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: brappo <brappo@student.42.fr>              +#+  +:+       +#+         #
+#    By: root <root@student.42.fr>                  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/03/31 20:47:09 by mhotting          #+#    #+#              #
-#    Updated: 2024/04/28 20:18:41 by mhotting         ###   ########.fr        #
+#    Updated: 2024/04/30 10:15:17 by root             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -159,6 +159,10 @@ AST_BUILDING_FILES		=	add_command.c				\
 							get_argv.c
 AST_BUILDING			=	$(addprefix $(AST_BUILDING_DIR), $(AST_BUILDING_FILES))
 
+SIGNALS_DIR				=	signals/
+SIGNALS_FILES			=	signals.c
+SIGNALS					=	$(addprefix $(SIGNALS_DIR), $(SIGNALS_FILES))
+
 # UTILS
 UTILS_DIR				=	utils/
 UTILS_FILES				=	list_utils.c				\
@@ -178,7 +182,7 @@ UTILS					=	$(addprefix $(UTILS_DIR), $(UTILS_FILES))
 SRCS_MAIN_DIR			=	srcs/
 SRCS_FILES				=	$(MAIN)	$(AST) $(TOKENR) $(PROMPT) $(ENV)			\
 							$(EXPANSION) $(EXECUTION) $(BUILT_IN)				\
-							$(AST_BUILDING) $(UTILS)
+							$(AST_BUILDING) $(UTILS) $(SIGNALS)
 SRCS					=	$(addprefix $(SRCS_MAIN_DIR), $(SRCS_FILES))
 
 # OBJECTS GENERAL

@@ -17,3 +17,6 @@
 
 We have to discuss the env implementation (do we rebuild the env string array every time we need or do we store it into shell main structure?)
 Idem for path: should we save the path into a variable of the shell and modify it only when the PATH has evolved?
+
+Pour les signaux : 	ctrl + \ : ne fait rien
+				 	ctrl + c : envoie SIGINT au processur en cours d'éxecution : cela veut dire aussi ces enfants. 

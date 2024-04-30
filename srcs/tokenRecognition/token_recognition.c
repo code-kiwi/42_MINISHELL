@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   token_recognition.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
+/*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/02 13:01:05 by brappo            #+#    #+#             */
-/*   Updated: 2024/04/25 11:52:55 by mhotting         ###   ########.fr       */
+/*   Updated: 2024/04/30 14:16:01 by root             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,13 +15,21 @@
 #include "minishell.h"
 #include "token.h"
 #include <readline/readline.h>
+#include "signals.h"
 
 static bool	add_end_token(t_list **tokens)
 {
 	t_list	*last_element;
+	t_list	**head;
 
+	if (tokens == NULL)
+		return (false);
 	last_element = ft_lstlast(*tokens);
-	if (lst_push_front_content(&last_element->next,
+	if (last_element == NULL)
+		head = tokens;
+	else
+		head = &last_element->next;
+	if (lst_push_front_content(head,
 			t_token_init(NULL, END), t_token_free))
 	{
 		return (true);
@@ -69,8 +77,14 @@ static t_list	*tokenize_input(t_minishell *shell, char *prompt,
 {
 	char	*input;
 	t_list	*tokens;
+	size_t	length;
 
-	input = readline(prompt);
+	if (ft_printf("%s", prompt) == -1)
+		handle_error(shell, ERROR_MSG_WRITE, EXIT_FAILURE);
+	input = get_next_line(STDIN_FILENO);
+	length = ft_strlen(input);
+	if (length != 0)
+		input[length - 1] = '\0';
 	merge_inputs(shell, input, is_end_quoted);
 	tokens = tokenize_str(input, token_parser);
 	if (tokens == NULL && *input)
@@ -97,7 +111,9 @@ void	token_recognition(t_minishell *shell)
 		is_end_quoted = is_quoted(&token_parser);
 		second_tokens = tokenize_input(shell, MULTIPLE_LINE_PROMPT,
 				&token_parser, is_end_quoted);
-		if (!append_token_list(is_end_quoted, shell->tokens, second_tokens))
+		if (catch_sigint())
+			ft_lstclear(&shell->tokens, t_token_free);
+		if (!append_token_list(is_end_quoted, &shell->tokens, second_tokens))
 		{
 			ft_lstclear(&second_tokens, t_token_free);
 			handle_error(shell, TOKENIZATION_ERROR, EXIT_FAILURE);
