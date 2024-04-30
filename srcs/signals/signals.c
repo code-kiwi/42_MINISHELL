@@ -6,7 +6,7 @@
 /*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/30 10:06:42 by root              #+#    #+#             */
-/*   Updated: 2024/04/30 14:22:49 by root             ###   ########.fr       */
+/*   Updated: 2024/04/30 17:47:40 by root             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,24 +16,29 @@
 #include <unistd.h>
 #include <readline/readline.h>
 
-int	g_code_received;
+static int	g_code_received;
 
 static void	signal_handler(int code)
 {
-	if (code == SIGINT)
+	if (code != SIGINT)
+		return ;
+	write(STDOUT_FILENO, "\n", 1);
+	if (g_code_received == INTERACTIVE)
 	{
-		write(STDOUT_FILENO, "\n", 1);
-		rl_on_new_line();
-		rl_replace_line("", 1);
-		rl_redisplay();
+		if (code == SIGINT)
+		{
+			rl_on_new_line();
+			rl_replace_line("", 1);
+			rl_redisplay();
+		}
 	}
-	if (g_code_received == -1)
+	else if (g_code_received == NON_INTERACTIVE)
 		g_code_received = code;
 }
 
 void	init_signals(void)
 {
-	g_code_received = -1;
+	set_interactive_mode(true);
 	signal(SIGINT, &signal_handler);
 }
 
@@ -50,8 +55,16 @@ bool	catch_sigint(void)
 {
 	if (g_code_received == SIGINT)
 	{
-		g_code_received = -1;
+		g_code_received = INTERACTIVE;
 		return (true);
 	}
 	return (false);
+}
+
+void	set_interactive_mode(bool interactive)
+{
+	if (interactive)
+		g_code_received = INTERACTIVE;
+	else
+		g_code_received = NON_INTERACTIVE;
 }

@@ -6,7 +6,7 @@
 /*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 13:02:08 by mhotting          #+#    #+#             */
-/*   Updated: 2024/04/30 13:22:45 by root             ###   ########.fr       */
+/*   Updated: 2024/04/30 17:41:40 by root             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ char	*prompt(t_minishell *shell)
 	char	cwd[CWD_BUFFER_SIZE];
 
 	get_directory_path(cwd, shell, CWD_BUFFER_SIZE);
+	set_interactive_mode(true);
 	input = readline(cwd);
 	if (input == NULL)
 	{

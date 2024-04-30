@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   t_minishell_utils2.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
+/*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 13:10:16 by mhotting          #+#    #+#             */
-/*   Updated: 2024/04/28 20:43:21 by mhotting         ###   ########.fr       */
+/*   Updated: 2024/04/30 17:41:12 by root             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,18 @@
 #include <sys/wait.h>
 #include "minishell.h"
 #include "pid_list.h"
+#include <signal.h>
+#include "signals.h"
+
+void	kill_all_childs(t_pid_list *childs)
+{
+	while (childs != NULL)
+	{
+		if (childs->pid != PID_ERROR)
+			kill(childs->pid, SIGINT);
+		childs = childs->next;
+	}
+}
 
 /*
  *	Adds a pid to the given shell's pid list
@@ -61,6 +73,11 @@ static int	t_minishell_wait_pids(t_minishell *shell)
 		{
 			if (waitpid(current->pid, &status, 0) == -1)
 				ret = EXIT_FAILURE;
+			if (catch_sigint())
+			{
+				kill_all_childs(shell->pid_list);
+				break ;
+			}
 			if (ret == 0 && current->next == NULL && !WIFEXITED(status))
 				ret = WEXITSTATUS(status);
 			else if (ret == 0 && current->next == NULL && WEXITSTATUS(status))
@@ -87,6 +104,7 @@ int	t_minishell_get_exec_status(t_minishell *shell)
 	nb_pids = pid_list_size(shell->pid_list);
 	if (nb_pids == 0)
 		return (shell->status);
+	set_interactive_mode(false);
 	status = t_minishell_wait_pids(shell);
 	shell->status = status;
 	return (status);
