@@ -6,7 +6,7 @@
 /*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 13:10:16 by mhotting          #+#    #+#             */
-/*   Updated: 2024/04/30 18:32:35 by root             ###   ########.fr       */
+/*   Updated: 2024/04/30 19:31:31 by root             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ void	t_minishell_free(t_minishell *shell)
 		if (shell->is_child_process)
 			pid_list_clear(&(shell->pid_list));
 		else
-			t_minishell_get_exec_status(shell);
+			t_minishell_set_exec_status(shell);
 	}
 	if (shell->ast != NULL)
 		ast_free(&(shell->ast));

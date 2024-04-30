@@ -6,7 +6,7 @@
 /*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 10:14:16 by mhotting          #+#    #+#             */
-/*   Updated: 2024/04/30 18:31:27 by root             ###   ########.fr       */
+/*   Updated: 2024/04/30 18:55:47 by root             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ int	main(int argc, char **argv, char **envp)
 		if (shell.ast == NULL)
 			handle_error(&shell, ERROR_MSG_AST_CREATION, EXIT_FAILURE);
 		exec_ast(&shell, NULL);
+		ft_printf("status : %d\n", shell.status);
 		ft_lstclear(&shell.tokens, t_token_free);
 		ast_free(&(shell.ast));
 		add_history(shell.input);

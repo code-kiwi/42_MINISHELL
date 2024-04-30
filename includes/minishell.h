@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
+/*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 10:17:54 by mhotting          #+#    #+#             */
-/*   Updated: 2024/04/28 20:19:08 by mhotting         ###   ########.fr       */
+/*   Updated: 2024/04/30 19:31:23 by root             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,7 @@ struct s_minishell
 void	t_minishell_init(t_minishell *shell, int ac, char **av, char **envp);
 void	t_minishell_free(t_minishell *shell);
 bool	t_minishell_add_pid(t_minishell *shell, pid_t pid);
-int		t_minishell_get_exec_status(t_minishell *shell);
+bool	t_minishell_set_exec_status(t_minishell *shell);
 void	t_minishell_init_subshell(t_minishell *sub, t_minishell *parent);
 
 // General functions

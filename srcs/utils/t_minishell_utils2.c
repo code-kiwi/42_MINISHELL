@@ -6,7 +6,7 @@
 /*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 13:10:16 by mhotting          #+#    #+#             */
-/*   Updated: 2024/04/30 18:48:01 by root             ###   ########.fr       */
+/*   Updated: 2024/04/30 19:31:13 by root             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,32 +68,33 @@ int	get_return_value(t_pid_list *current)
  *	Clears the shell's pid_list member
  *	If the list is empty, returns EXIT_SUCCESS as a default value
  */
-static int	t_minishell_wait_pids(t_minishell *shell)
+static bool	t_minishell_wait_pids(t_minishell *shell)
 {
 	t_pid_list	*current;
-	int			ret;
+	bool		not_interrupted;
 
 	if (shell == NULL)
 		return (EXIT_FAILURE);
 	current = shell->pid_list;
-	ret = EXIT_SUCCESS;
+	not_interrupted = true;
 	while (current != NULL)
 	{
 		if (current->pid == PID_ERROR && current->next == NULL)
-			ret = EXIT_FAILURE;
+			shell->status = EXIT_FAILURE;
 		else if (current->pid != PID_ERROR)
 		{
-			ret = get_return_value(current);
-			if (get_sigint())
+			shell->status = get_return_value(current);
+			if (catch_sigint())
 			{
+				not_interrupted = false;
 				kill_all_childs(shell->pid_list);
-				break ;
+				shell->status = 130;
 			}
 		}
 		current = current->next;
 	}
 	pid_list_clear(&(shell->pid_list));
-	return (ret);
+	return (not_interrupted);
 }
 
 /*
@@ -101,9 +102,9 @@ static int	t_minishell_wait_pids(t_minishell *shell)
  *	execution status)
  *	If the shell's pid list is empty, the current shell's status is returned
  */
-int	t_minishell_get_exec_status(t_minishell *shell)
+bool	t_minishell_set_exec_status(t_minishell *shell)
 {
-	int		status;
+	int		not_interrupted;
 	size_t	nb_pids;
 
 	if (shell == NULL)
@@ -112,7 +113,6 @@ int	t_minishell_get_exec_status(t_minishell *shell)
 	if (nb_pids == 0)
 		return (shell->status);
 	set_interactive_mode(false);
-	status = t_minishell_wait_pids(shell);
-	shell->status = status;
-	return (status);
+	not_interrupted = t_minishell_wait_pids(shell);
+	return (not_interrupted);
 }
