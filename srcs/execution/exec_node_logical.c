@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_node_logical.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mhotting <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 09:41:09 by mhotting          #+#    #+#             */
-/*   Updated: 2024/04/25 11:36:27 by mhotting         ###   ########.fr       */
+/*   Updated: 2024/04/30 18:24:52 by root             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 #include "minishell.h"
 #include "execution.h"
 #include "node.h"
+#include "signals.h"
 
 /*
  *	Clones the files descriptors stored into fds_src into fds_dest
@@ -62,8 +63,8 @@ void	exec_node_logical(t_minishell *shell, t_node *node, int fds[2])
 		handle_error(shell, ERROR_MSG_DUP, EXIT_FAILURE);
 	exec_node(shell, node->child_left, fds, false);
 	status = t_minishell_get_exec_status(shell);
-	if (
-		(node->type == NODE_AND && status != EXIT_SUCCESS)
+	if (get_sigint()
+		|| (node->type == NODE_AND && status != EXIT_SUCCESS)
 		|| (node->type == NODE_OR && status == EXIT_SUCCESS)
 	)
 	{

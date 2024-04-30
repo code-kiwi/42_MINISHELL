@@ -6,7 +6,7 @@
 /*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 13:10:16 by mhotting          #+#    #+#             */
-/*   Updated: 2024/04/30 17:41:12 by root             ###   ########.fr       */
+/*   Updated: 2024/04/30 18:22:44 by root             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ static int	t_minishell_wait_pids(t_minishell *shell)
 		{
 			if (waitpid(current->pid, &status, 0) == -1)
 				ret = EXIT_FAILURE;
-			if (catch_sigint())
+			if (get_sigint())
 			{
 				kill_all_childs(shell->pid_list);
 				break ;

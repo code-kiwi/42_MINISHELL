@@ -6,7 +6,7 @@
 /*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/30 10:06:42 by root              #+#    #+#             */
-/*   Updated: 2024/04/30 17:47:40 by root             ###   ########.fr       */
+/*   Updated: 2024/04/30 18:22:30 by root             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,4 +67,9 @@ void	set_interactive_mode(bool interactive)
 		g_code_received = INTERACTIVE;
 	else
 		g_code_received = NON_INTERACTIVE;
+}
+
+bool	get_sigint(void)
+{
+	return (g_code_received == SIGINT);
 }
