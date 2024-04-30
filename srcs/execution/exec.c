@@ -17,18 +17,6 @@
 #include "node.h"
 
 /*
- *	Closes the file descriptors stored into the given fds array
- *	The values are reset to FD_UNSET
- */
-void	exec_node_close_fds(int fds[2])
-{
-	if (fds[0] != -1 && fds[0] != FD_UNSET)
-		fd_close_and_reset(&(fds[0]));
-	if (fds[1] != -1 && fds[1] != FD_UNSET)
-		fd_close_and_reset(&(fds[1]));
-}
-
-/*
  *	Executes the given node into the given shell
  *	This functions acts like a dispatcher which will call the right node
  *	execution function depending on the node type
@@ -70,7 +58,7 @@ void	exec_ast(t_minishell *shell)
 		fds[1] = FD_UNSET;
 	if (fds[0] == -1 || fds[1] == -1)
 	{
-		exec_node_close_fds(fds);
+		fds_close_and_reset(fds);
 		handle_error(shell, ERROR_MSG_DUP, EXIT_FAILURE);
 	}
 	exec_node(shell, shell->ast, fds, false);

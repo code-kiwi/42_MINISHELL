@@ -25,7 +25,7 @@
  */
 static void	exec_subshell_error(t_minishell *shell, int fds[2])
 {
-	exec_node_close_fds(fds);
+	fds_close_and_reset(fds);
 	t_minishell_free(shell);
 	exit(EXIT_FAILURE);
 }
@@ -38,8 +38,7 @@ static void	exec_subshell_set_fds_initial(int fds[2], int fds_subshell[2])
 {
 	fds_subshell[0] = fds[0];
 	fds_subshell[1] = fds[1];
-	fds[0] = FD_UNSET;
-	fds[1] = FD_UNSET;
+	fds_init(fds);
 }
 
 /*
@@ -143,5 +142,5 @@ void	exec_node_subshell(t_minishell *shell, t_node *node, int fds[2])
 	}
 	if (!t_minishell_add_pid(shell, pid))
 		handle_error(shell, ERROR_MSG_MEM, EXIT_FAILURE);
-	exec_node_close_fds(fds);
+	fds_close_and_reset(fds);
 }

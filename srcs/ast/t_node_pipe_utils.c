@@ -35,8 +35,7 @@ t_node	*node_pipe_create(void)
 		free(node);
 		return (NULL);
 	}
-	(node_pipe->fd)[0] = FD_UNSET;
-	(node_pipe->fd)[1] = FD_UNSET;
+	fds_init(node_pipe->fds);
 	node->content = (void *) node_pipe;
 	return (node);
 }
@@ -54,10 +53,7 @@ void	node_pipe_free(void **node_ptr)
 	if (node_ptr == NULL || *node_ptr == NULL)
 		return ;
 	node = (t_node_pipe *) *node_ptr;
-	if ((node->fd)[0] != FD_UNSET)
-		fd_close_and_reset(&((node->fd)[0]));
-	if ((node->fd)[1] != FD_UNSET)
-		fd_close_and_reset(&((node->fd)[1]));
+	fds_close_and_reset(node->fds);
 	free(node);
 	*node_ptr = NULL;
 }

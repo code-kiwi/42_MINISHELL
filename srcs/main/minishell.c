@@ -35,10 +35,7 @@ int	main(int argc, char **argv, char **envp)
 		exec_ast(&shell);
 		ft_lstclear(&shell.tokens, t_token_free);
 		ast_free(&(shell.ast));
-		if (shell.fds_ast[0] != FD_ERROR && shell.fds_ast[0] != FD_UNSET)
-			fd_close_and_reset(&(shell.fds_ast[0]));
-		if (shell.fds_ast[1] != FD_ERROR && shell.fds_ast[1] != FD_UNSET)
-			fd_close_and_reset(&(shell.fds_ast[1]));
+		fds_close_and_reset(shell.fds_ast);
 		add_history(shell.input);
 		free(shell.input);
 		shell.input = NULL;

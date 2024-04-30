@@ -38,7 +38,7 @@ typedef struct s_node
 
 typedef struct s_node_pipe
 {
-	int	fd[2];
+	int	fds[2];
 }	t_node_pipe;
 
 typedef struct s_node_command

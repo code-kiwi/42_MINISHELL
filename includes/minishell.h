@@ -6,7 +6,7 @@
 /*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 10:17:54 by mhotting          #+#    #+#             */
-/*   Updated: 2024/04/29 10:50:50 by mhotting         ###   ########.fr       */
+/*   Updated: 2024/04/30 14:32:55 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,9 +68,10 @@ struct s_minishell
 	struct s_pid_list	*pid_list;
 	bool				is_child_process;
 	t_node				*ast;
-	int					fds_ast[2];
 	int					status;
 	t_minishell			*parent;
+	int					fds_ast[2];
+	int					fds_saved[2];
 	t_bi_component		bi_funcs[NB_BUILT_IN];
 };
 
@@ -87,6 +88,8 @@ void	handle_error_cmd(t_minishell *shell, char *err_msg, char *cmd);
 void	fd_close_and_reset(int *fd);
 void	fd_close(int fd);
 bool	is_fd_ok(int fd);
+void	fds_init(int fds[2]);
+void	fds_close_and_reset(int fds[2]);
 char	**ft_split_key_val(char *str, char sep);
 char	*bridge(char *first, char *second, char *separator);
 char	*bridge_into_first(char **first, char *second, char *separator);

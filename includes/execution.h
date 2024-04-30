@@ -23,7 +23,6 @@ typedef struct s_redirections_info	t_redirections_info;
 // General execution
 void	exec_ast(t_minishell *shell);
 void	exec_node(t_minishell *shell, t_node *node, int fd[2], bool in_pipe);
-void	exec_node_close_fds(int fds[2]);
 
 // Pipe execution
 void	exec_node_pipe(t_minishell *shell, t_node *node, int fd[2]);

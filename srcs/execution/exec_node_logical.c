@@ -26,16 +26,15 @@
  */
 static bool	exec_node_logical_clone_fds(int fds_src[2], int fds_dest[2])
 {
-	fds_dest[0] = FD_UNSET;
-	fds_dest[1] = FD_UNSET;
+	fds_init(fds_dest);
 	if (fds_src[0] != FD_UNSET)
 		fds_dest[0] = dup(fds_src[0]);
 	if (fds_src[1] != FD_UNSET)
 		fds_dest[1] = dup(fds_src[1]);
 	if (fds_dest[0] == -1 || fds_dest[1] == -1)
 	{
-		exec_node_close_fds(fds_src);
-		exec_node_close_fds(fds_dest);
+		fds_close_and_reset(fds_src);
+		fds_close_and_reset(fds_dest);
 		return (false);
 	}
 	return (true);
@@ -68,7 +67,7 @@ void	exec_node_logical(t_minishell *shell, t_node *node, int fds[2])
 		(node->type == NODE_AND && status != EXIT_SUCCESS)
 		|| (node->type == NODE_OR && status == EXIT_SUCCESS)
 	)
-		return (exec_node_close_fds(node_logic->child_right_fds));
+		return (fds_close_and_reset(node_logic->child_right_fds));
 	fds_to_pass[0] = node_logic->child_right_fds[0];
 	node_logic->child_right_fds[0] = FD_UNSET;
 	fds_to_pass[1] = node_logic->child_right_fds[1];

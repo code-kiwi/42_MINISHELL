@@ -35,17 +35,17 @@ void	exec_node_pipe(t_minishell *shell, t_node *node, int fds[2])
 	if (node == NULL || node->type != NODE_PIPE || node->content == NULL)
 		handle_error(shell, ERROR_MSG_ARGS, EXIT_FAILURE);
 	node_pipe = (t_node_pipe *) node->content;
-	if (pipe(node_pipe->fd) == -1)
+	if (pipe(node_pipe->fds) == -1)
 	{
-		exec_node_close_fds(fds);
+		fds_close_and_reset(fds);
 		handle_error(shell, ERROR_MSG_PIPE, EXIT_FAILURE);
 	}
 	child_fds[0] = fds[0];
-	child_fds[1] = node_pipe->fd[1];
-	node_pipe->fd[1] = FD_UNSET;
+	child_fds[1] = node_pipe->fds[1];
+	node_pipe->fds[1] = FD_UNSET;
 	exec_node(shell, node->child_left, child_fds, true);
-	child_fds[0] = node_pipe->fd[0];
+	child_fds[0] = node_pipe->fds[0];
 	child_fds[1] = fds[1];
-	node_pipe->fd[0] = FD_UNSET;
+	node_pipe->fds[0] = FD_UNSET;
 	exec_node(shell, node->child_right, child_fds, true);
 }
