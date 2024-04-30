@@ -6,7 +6,7 @@
 /*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 10:17:54 by mhotting          #+#    #+#             */
-/*   Updated: 2024/04/30 18:49:11 by mhotting         ###   ########.fr       */
+/*   Updated: 2024/04/30 23:07:18 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,6 @@ struct s_minishell
 	t_node				*ast;
 	int					status;
 	t_minishell			*parent;
-	int					fds_ast[2];
 	t_bi_component		bi_funcs[NB_BUILT_IN];
 };
 

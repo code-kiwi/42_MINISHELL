@@ -6,7 +6,7 @@
 /*   By: mhotting <mhotting@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 13:52:21 by mhotting          #+#    #+#             */
-/*   Updated: 2024/04/29 16:47:13 by mhotting         ###   ########.fr       */
+/*   Updated: 2024/04/30 23:10:53 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,12 +105,10 @@ static void	exec_subshell(t_minishell *mainshell, t_node *node, int fds[2])
 	exec_subshell_set_fds(node_sub, fds, fds_subshell);
 	if (fds_subshell[0] == FD_ERROR || fds_subshell[1] == FD_ERROR)
 		exec_subshell_error(&subshell, fds_subshell);
-	subshell.fds_ast[0] = fds_subshell[0];
-	subshell.fds_ast[1] = fds_subshell[1];
 	subshell.ast = build_ast(node_sub->token_list);
 	if (subshell.ast == NULL)
 		exec_subshell_error(&subshell, fds_subshell);
-	exec_ast(&subshell);
+	exec_ast(&subshell, fds_subshell);
 	status = subshell.status;
 	t_minishell_free(&subshell);
 	exit(status);

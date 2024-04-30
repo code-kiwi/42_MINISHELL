@@ -6,7 +6,7 @@
 /*   By: mhotting <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/10 12:52:55 by mhotting          #+#    #+#             */
-/*   Updated: 2024/04/29 10:57:30 by mhotting         ###   ########.fr       */
+/*   Updated: 2024/04/30 23:09:57 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ typedef struct s_redirection_list	t_redirection_list;
 typedef struct s_redirections_info	t_redirections_info;
 
 // General execution
-void	exec_ast(t_minishell *shell);
+void	exec_ast(t_minishell *shell, int fds[2]);
 void	exec_node(t_minishell *shell, t_node *node, int fd[2], bool in_pipe);
 
 // Pipe execution

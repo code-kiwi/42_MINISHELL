@@ -6,7 +6,7 @@
 /*   By: mhotting <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/10 12:39:49 by mhotting          #+#    #+#             */
-/*   Updated: 2024/04/29 11:29:25 by mhotting         ###   ########.fr       */
+/*   Updated: 2024/04/30 23:12:04 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,18 +21,12 @@
 /*
  *	Sets command file descriptors according to the given ones
  */
-static void	exec_cmd_set_fds(
-	t_minishell *shell, t_node_command *cmd, int fd_in, int fd_out
-)
+static void	exec_cmd_set_fds(t_node_command *cmd, int fd_in, int fd_out)
 {
 	if (cmd == NULL)
 		return ;
 	cmd->fd_in = fd_in;
-	if (fd_in != FD_UNSET && fd_in == shell->fds_ast[0])
-		shell->fds_ast[0] = FD_UNSET;
 	cmd->fd_out = fd_out;
-	if (fd_out != FD_UNSET && fd_out == shell->fds_ast[1])
-		shell->fds_ast[1] = FD_UNSET;
 }
 
 /*
@@ -131,7 +125,7 @@ void	exec_node_command(
 	if (node == NULL || node->type != NODE_COMMAND || node->content == NULL)
 		handle_error(shell, ERROR_MSG_ARGS, EXIT_FAILURE);
 	cmd = (t_node_command *) node->content;
-	exec_cmd_set_fds(shell, cmd, fd[0], fd[1]);
+	exec_cmd_set_fds(cmd, fd[0], fd[1]);
 	exec_cmd_set_redirections_fds(cmd);
 	if (cmd->fd_in == FD_ERROR || cmd->fd_out == FD_ERROR)
 	{

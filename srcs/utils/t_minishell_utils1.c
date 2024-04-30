@@ -6,7 +6,7 @@
 /*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 13:10:16 by mhotting          #+#    #+#             */
-/*   Updated: 2024/04/30 18:48:50 by mhotting         ###   ########.fr       */
+/*   Updated: 2024/04/30 23:07:32 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,6 @@ void	t_minishell_init(t_minishell *shell, int argc, char **argv, char **envp)
 	shell->env = env_extract(envp);
 	(void)argc;
 	(void)argv;
-	fds_init(shell->fds_ast);
 	built_in_init_array(shell->bi_funcs);
 }
 
@@ -67,7 +66,6 @@ void	t_minishell_free(t_minishell *shell)
 	}
 	if (shell->ast != NULL)
 		ast_free(&(shell->ast));
-	fds_close_and_reset(shell->fds_ast);
 }
 
 /*

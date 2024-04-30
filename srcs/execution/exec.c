@@ -6,7 +6,7 @@
 /*   By: mhotting <mhotting@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/14 20:15:29 by mhotting          #+#    #+#             */
-/*   Updated: 2024/04/29 16:58:38 by mhotting         ###   ########.fr       */
+/*   Updated: 2024/04/30 23:15:20 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,26 +42,23 @@ void	exec_node(t_minishell *shell, t_node *node, int fds[2], bool in_pipe)
  *	Frees the memory used for this AST
  *	Waits for all the commands to be executed to update shell's execution status
  */
-void	exec_ast(t_minishell *shell)
+void	exec_ast(t_minishell *shell, int fds[2])
 {
-	int	fds[2];
+	int	fds_to_pass[2];
 
 	if (shell == NULL)
 		handle_error(shell, ERROR_MSG_ARGS, EXIT_FAILURE);
-	if (shell->fds_ast[0] != FD_UNSET)
-		fds[0] = dup(shell->fds_ast[0]);
-	else
-		fds[0] = FD_UNSET;
-	if (shell->fds_ast[1] != FD_UNSET)
-		fds[1] = dup(shell->fds_ast[1]);
-	else
-		fds[1] = FD_UNSET;
-	if (fds[0] == -1 || fds[1] == -1)
+	if (fds != NULL)
 	{
-		fds_close_and_reset(fds);
-		handle_error(shell, ERROR_MSG_DUP, EXIT_FAILURE);
+		fds_to_pass[0] = fds[0];
+		fds_to_pass[1] = fds[1];
 	}
-	exec_node(shell, shell->ast, fds, false);
+	else
+	{
+		fds_to_pass[0] = FD_UNSET;
+		fds_to_pass[1] = FD_UNSET;
+	}
+	exec_node(shell, shell->ast, fds_to_pass, false);
 	ast_free(&(shell->ast));
 	t_minishell_get_exec_status(shell);
 }
