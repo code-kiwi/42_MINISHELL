@@ -19,6 +19,3 @@
 - On shell start: create basic ENV with: PATH, HOME, SHLLVL, PWD, OLDPWD
 - Segfault when pressing enter with nothing to parse
 - Tokenization error when giving a command composed of spaces
-
-We have to discuss the env implementation (do we rebuild the env string array every time we need or do we store it into shell main structure?)
-Idem for path: should we save the path into a variable of the shell and modify it only when the PATH has evolved?
