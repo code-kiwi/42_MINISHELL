@@ -6,7 +6,7 @@
 /*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/30 10:06:42 by root              #+#    #+#             */
-/*   Updated: 2024/04/30 18:22:30 by root             ###   ########.fr       */
+/*   Updated: 2024/04/30 18:30:02 by root             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 
 static int	g_code_received;
 
-static void	signal_handler(int code)
+void	signal_handler(int code)
 {
 	if (code != SIGINT)
 		return ;
@@ -34,12 +34,6 @@ static void	signal_handler(int code)
 	}
 	else if (g_code_received == NON_INTERACTIVE)
 		g_code_received = code;
-}
-
-void	init_signals(void)
-{
-	set_interactive_mode(true);
-	signal(SIGINT, &signal_handler);
 }
 
 void	handle_interactive_signals(t_minishell *shell)

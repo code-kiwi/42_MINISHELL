@@ -6,7 +6,7 @@
 /*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 13:10:16 by mhotting          #+#    #+#             */
-/*   Updated: 2024/04/30 18:22:44 by root             ###   ########.fr       */
+/*   Updated: 2024/04/30 18:48:01 by root             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,19 @@ bool	t_minishell_add_pid(t_minishell *shell, pid_t pid)
 	return (true);
 }
 
+int	get_return_value(t_pid_list *current)
+{
+	int	status;
+	int	ret;
+
+	ret = (waitpid(current->pid, &status, 0) == -1);
+	if (ret == 0 && current->next == NULL && !WIFEXITED(status))
+		ret = WEXITSTATUS(status);
+	else if (ret == 0 && current->next == NULL && WEXITSTATUS(status))
+		ret = WEXITSTATUS(status);
+	return (ret);
+}
+
 /*
  *	Returns the status from the execution of the process whose pid was saved
  *	into the shell's pid_list member
@@ -59,7 +72,6 @@ static int	t_minishell_wait_pids(t_minishell *shell)
 {
 	t_pid_list	*current;
 	int			ret;
-	int			status;
 
 	if (shell == NULL)
 		return (EXIT_FAILURE);
@@ -71,17 +83,12 @@ static int	t_minishell_wait_pids(t_minishell *shell)
 			ret = EXIT_FAILURE;
 		else if (current->pid != PID_ERROR)
 		{
-			if (waitpid(current->pid, &status, 0) == -1)
-				ret = EXIT_FAILURE;
+			ret = get_return_value(current);
 			if (get_sigint())
 			{
 				kill_all_childs(shell->pid_list);
 				break ;
 			}
-			if (ret == 0 && current->next == NULL && !WIFEXITED(status))
-				ret = WEXITSTATUS(status);
-			else if (ret == 0 && current->next == NULL && WEXITSTATUS(status))
-				ret = WEXITSTATUS(status);
 		}
 		current = current->next;
 	}
