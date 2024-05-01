@@ -6,7 +6,7 @@
 /*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/30 10:06:42 by root              #+#    #+#             */
-/*   Updated: 2024/05/01 10:01:59 by root             ###   ########.fr       */
+/*   Updated: 2024/05/01 10:27:08 by root             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,28 +18,31 @@
 
 static volatile sig_atomic_t	g_code_received;
 
+void	set_interactive_mode(bool interactive)
+{
+	if (interactive)
+		g_code_received = INTERACTIVE;
+	else
+		g_code_received = NON_INTERACTIVE;
+}
+
 void	signal_handler(int code)
 {
+	bool	error;
+
 	if (code != SIGINT)
 		return ;
-	write(STDOUT_FILENO, "\n", 1);
+	error = (write(STDOUT_FILENO, "\n", 1) == -1);
 	if (g_code_received == INTERACTIVE
 		|| g_code_received == SIGINT)
 	{
-		rl_on_new_line();
+		error = (rl_on_new_line() == -1) || error;
 		rl_replace_line("", 1);
 		rl_redisplay();
 	}
 	g_code_received = SIGINT;
-}
-
-void	handle_interactive_signals(t_minishell *shell)
-{
-	if (g_code_received != SIGINT)
-		return ;
-	t_minishell_free(shell);
-	exit(EXIT_SUCCESS);
-	g_code_received = INTERACTIVE;
+	if (error)
+		g_code_received = ERROR_SIGNAL;
 }
 
 bool	catch_sigint(void)
@@ -52,15 +55,12 @@ bool	catch_sigint(void)
 	return (false);
 }
 
-void	set_interactive_mode(bool interactive)
-{
-	if (interactive)
-		g_code_received = INTERACTIVE;
-	else
-		g_code_received = NON_INTERACTIVE;
-}
-
 bool	get_sigint(void)
 {
 	return (g_code_received == SIGINT);
+}
+
+bool	get_signal_error(void)
+{
+	return (g_code_received == ERROR_SIGNAL);
 }

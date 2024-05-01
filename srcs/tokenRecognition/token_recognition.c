@@ -6,7 +6,7 @@
 /*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/02 13:01:05 by brappo            #+#    #+#             */
-/*   Updated: 2024/04/30 14:16:01 by root             ###   ########.fr       */
+/*   Updated: 2024/05/01 10:32:10 by root             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,6 +82,11 @@ static t_list	*tokenize_input(t_minishell *shell, char *prompt,
 	if (ft_printf("%s", prompt) == -1)
 		handle_error(shell, ERROR_MSG_WRITE, EXIT_FAILURE);
 	input = get_next_line(STDIN_FILENO);
+	if (get_signal_error())
+	{
+		free(input);
+		handle_error(shell, SIGNAL_ERROR, EXIT_FAILURE);
+	}
 	length = ft_strlen(input);
 	if (length != 0)
 		input[length - 1] = '\0';

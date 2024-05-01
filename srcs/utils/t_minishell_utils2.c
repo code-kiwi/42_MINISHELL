@@ -6,7 +6,7 @@
 /*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 13:10:16 by mhotting          #+#    #+#             */
-/*   Updated: 2024/04/30 19:48:28 by root             ###   ########.fr       */
+/*   Updated: 2024/05/01 10:44:33 by root             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,14 +19,20 @@
 #include <signal.h>
 #include "signals.h"
 
-void	kill_all_childs(t_pid_list *childs)
+#include <stdio.h>
+void	kill_all_childs(t_pid_list *childs, t_minishell *shell)
 {
+	bool	error;
+
+	error = false;
 	while (childs != NULL)
 	{
 		if (childs->pid != PID_ERROR)
-			kill(childs->pid, SIGINT);
+			error = ((kill(childs->pid, SIGINT) == -1) && errno != 3) || error;
 		childs = childs->next;
 	}
+	if (error)
+		handle_error(shell, KILL_ERROR, EXIT_FAILURE);
 }
 
 /*
@@ -89,7 +95,7 @@ static bool	t_minishell_wait_pids(t_minishell *shell)
 			if (catch_sigint())
 			{
 				not_interrupted = false;
-				kill_all_childs(shell->pid_list);
+				kill_all_childs(shell->pid_list, shell);
 				shell->status = 130;
 			}
 		}
@@ -116,5 +122,7 @@ bool	t_minishell_set_exec_status(t_minishell *shell)
 		return (shell->status);
 	set_interactive_mode(false);
 	not_interrupted = t_minishell_wait_pids(shell);
+	if (get_signal_error())
+		handle_error(shell, SIGNAL_ERROR, EXIT_FAILURE);
 	return (not_interrupted);
 }
