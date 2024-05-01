@@ -6,7 +6,7 @@
 /*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/30 10:06:42 by root              #+#    #+#             */
-/*   Updated: 2024/04/30 18:30:02 by root             ###   ########.fr       */
+/*   Updated: 2024/05/01 10:01:59 by root             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,24 +16,21 @@
 #include <unistd.h>
 #include <readline/readline.h>
 
-static int	g_code_received;
+static volatile sig_atomic_t	g_code_received;
 
 void	signal_handler(int code)
 {
 	if (code != SIGINT)
 		return ;
 	write(STDOUT_FILENO, "\n", 1);
-	if (g_code_received == INTERACTIVE)
+	if (g_code_received == INTERACTIVE
+		|| g_code_received == SIGINT)
 	{
-		if (code == SIGINT)
-		{
-			rl_on_new_line();
-			rl_replace_line("", 1);
-			rl_redisplay();
-		}
+		rl_on_new_line();
+		rl_replace_line("", 1);
+		rl_redisplay();
 	}
-	else if (g_code_received == NON_INTERACTIVE)
-		g_code_received = code;
+	g_code_received = SIGINT;
 }
 
 void	handle_interactive_signals(t_minishell *shell)
@@ -42,7 +39,7 @@ void	handle_interactive_signals(t_minishell *shell)
 		return ;
 	t_minishell_free(shell);
 	exit(EXIT_SUCCESS);
-	g_code_received = -1;
+	g_code_received = INTERACTIVE;
 }
 
 bool	catch_sigint(void)

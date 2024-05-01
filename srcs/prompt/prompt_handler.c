@@ -6,7 +6,7 @@
 /*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 13:02:08 by mhotting          #+#    #+#             */
-/*   Updated: 2024/04/30 17:41:40 by root             ###   ########.fr       */
+/*   Updated: 2024/05/01 10:07:01 by root             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,5 +35,7 @@ char	*prompt(t_minishell *shell)
 		}
 		handle_error(shell, ERROR_MSG_PROMPT, EXIT_FAILURE);
 	}
+	if (catch_sigint())
+		shell->status = 130;
 	return (input);
 }

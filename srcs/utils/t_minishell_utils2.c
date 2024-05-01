@@ -6,7 +6,7 @@
 /*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 13:10:16 by mhotting          #+#    #+#             */
-/*   Updated: 2024/04/30 19:31:13 by root             ###   ########.fr       */
+/*   Updated: 2024/04/30 19:48:28 by root             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,9 @@ int	get_return_value(t_pid_list *current)
 	int	ret;
 
 	ret = (waitpid(current->pid, &status, 0) == -1);
-	if (ret == 0 && current->next == NULL && !WIFEXITED(status))
+	if (ret == 0 && current->next == NULL && WIFSIGNALED(status))
+		ret = 130;
+	else if (ret == 0 && current->next == NULL && !WIFEXITED(status))
 		ret = WEXITSTATUS(status);
 	else if (ret == 0 && current->next == NULL && WEXITSTATUS(status))
 		ret = WEXITSTATUS(status);
