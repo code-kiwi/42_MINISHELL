@@ -18,3 +18,4 @@
 - On shell start: create basic ENV with: PATH, HOME, SHLLVL, PWD, OLDPWD
 - ✔️ ~~Segfault when pressing enter with nothing to parse~~
 - ✔️ ~~Tokenization error when giving a command composed of spaces~~
+- `echo -n -n -n ...` does not work as expected
