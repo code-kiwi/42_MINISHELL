@@ -6,7 +6,7 @@
 /*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/30 10:06:42 by root              #+#    #+#             */
-/*   Updated: 2024/05/01 13:41:16 by root             ###   ########.fr       */
+/*   Updated: 2024/05/01 14:50:35 by root             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,8 @@
 #include <signal.h>
 #include <unistd.h>
 #include <readline/readline.h>
+#include "prompt.h"
+#include "libft.h"
 
 static volatile sig_atomic_t	g_code_received;
 
@@ -42,6 +44,7 @@ void	set_interactive_mode(bool interactive)
 void	signal_handler(int code)
 {
 	bool	error;
+	char	cwd[CWD_BUFFER_SIZE];
 
 	if (code != SIGINT)
 		return ;
@@ -49,8 +52,12 @@ void	signal_handler(int code)
 	if (g_code_received == INTERACTIVE
 		|| g_code_received == SIGINT)
 	{
-		error = (rl_on_new_line() == -1) || error;
+		cwd[0] = '\r';
+		if (get_directory_path(cwd + 1, 2047) == false)
+			ft_memcpy(cwd + 1, "Minishell$ ", 12);
 		rl_replace_line("", 1);
+		rl_redisplay();
+		error = (write(STDOUT_FILENO, cwd, ft_strlen(cwd) + 1) == -1) || error;
 		rl_redisplay();
 	}
 	g_code_received = SIGINT;

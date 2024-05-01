@@ -6,7 +6,7 @@
 /*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 13:02:08 by mhotting          #+#    #+#             */
-/*   Updated: 2024/05/01 10:32:23 by root             ###   ########.fr       */
+/*   Updated: 2024/05/01 13:56:22 by root             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,13 +17,15 @@
 #include "signals.h"
 #include <signal.h>
 #include <errno.h>
+#include "libft.h"
 
 char	*prompt(t_minishell *shell)
 {
 	char	*input;
 	char	cwd[CWD_BUFFER_SIZE];
 
-	get_directory_path(cwd, shell, CWD_BUFFER_SIZE);
+	if (get_directory_path(cwd, CWD_BUFFER_SIZE) == false)
+		ft_memcpy(cwd, "Minishell", 10);
 	set_interactive_mode(true);
 	input = readline(cwd);
 	if (input == NULL)
