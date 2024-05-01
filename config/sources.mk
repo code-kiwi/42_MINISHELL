@@ -6,7 +6,7 @@
 #    By: brappo <brappo@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/03/31 20:47:09 by mhotting          #+#    #+#              #
-#    Updated: 2024/05/01 02:31:18 by mhotting         ###   ########.fr        #
+#    Updated: 2024/05/01 18:58:05 by mhotting         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -166,6 +166,7 @@ UTILS_FILES				=	list_utils.c				\
 							file_descriptors_utils.c	\
 							string_utils1.c				\
 							string_utils2.c				\
+							is_empty_cmd.c				\
 							ft_split_key_val.c			\
 							ft_print_str_array.c		\
 							array_utils.c				\

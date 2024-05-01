@@ -6,7 +6,7 @@
 /*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 10:17:54 by mhotting          #+#    #+#             */
-/*   Updated: 2024/05/01 02:31:00 by mhotting         ###   ########.fr       */
+/*   Updated: 2024/05/01 18:52:48 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,10 @@ typedef struct s_minishell		t_minishell;
 # define ERROR_MSG_AST_CREATION	"AST creation failed"
 # define ERROR_MSG_WRONG_BI		"The built-in does not exist"
 # define ERROR_MSG_WRITE		"Call to write function failed"
-# define TOKENIZATION_ERROR 	"Tokenizing input"
+# define ERROR_MSG_TOKENIZATION	"Tokenizing input"
+# define ERROR_MSG_CWD			"Cannot get current working directory path"
+# define ERROR_MSG_PROMPT		"Prompt function error"
+# define ERROR_MSG_BUFFER		"Buffer size too small"
 
 # define DGREAT 				">>"
 # define DLESS					"<<"
@@ -79,6 +82,8 @@ void	t_minishell_free(t_minishell *shell);
 bool	t_minishell_add_pid(t_minishell *shell, pid_t pid);
 int		t_minishell_get_exec_status(t_minishell *shell);
 void	t_minishell_init_subshell(t_minishell *sub, t_minishell *parent);
+void	utils_reset_shell(t_minishell *shell);
+void	utils_handle_empty_cmd(t_minishell *shell);
 
 // General functions
 void	handle_error(t_minishell *shell, char *error_msg, int exit_status);
@@ -95,5 +100,6 @@ void	ft_print_str_array(char **array);
 bool	string_equals(void *a, void *b);
 bool	string_contains_only_spaces(char *str);
 void	**to_array(t_list *lst);
+bool	utils_is_empty_cmd(char *cmd);
 
 #endif

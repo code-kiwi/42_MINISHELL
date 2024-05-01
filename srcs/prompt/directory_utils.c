@@ -6,7 +6,7 @@
 /*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/28 12:54:36 by brappo            #+#    #+#             */
-/*   Updated: 2024/04/25 11:47:01 by mhotting         ###   ########.fr       */
+/*   Updated: 2024/05/01 18:47:35 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,9 +91,9 @@ void	get_directory_path(char *buffer, t_minishell *shell, size_t buffer_size)
 
 	if (getcwd(buffer, buffer_size - 2) == NULL)
 	{
-		handle_error(shell, ERROR_CWD, EXIT_FAILURE);
+		handle_error(shell, ERROR_MSG_CWD, EXIT_FAILURE);
 		if (errno == ERANGE)
-			handle_error(shell, ERROR_BUFFER, EXIT_FAILURE);
+			handle_error(shell, ERROR_MSG_BUFFER, EXIT_FAILURE);
 	}
 	cwd_length = ft_strlen(buffer);
 	buffer[cwd_length] = '$';

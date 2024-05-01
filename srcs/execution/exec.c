@@ -6,7 +6,7 @@
 /*   By: mhotting <mhotting@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/14 20:15:29 by mhotting          #+#    #+#             */
-/*   Updated: 2024/05/01 00:07:46 by mhotting         ###   ########.fr       */
+/*   Updated: 2024/05/01 18:14:05 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,5 @@ void	exec_ast(t_minishell *shell, int fds_given[2])
 		fds_to_pass[1] = FD_UNSET;
 	}
 	exec_node(shell, shell->ast, fds_to_pass, false);
-	ast_free(&(shell->ast));
 	t_minishell_get_exec_status(shell);
 }

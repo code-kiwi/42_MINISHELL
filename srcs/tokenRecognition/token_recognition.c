@@ -6,7 +6,7 @@
 /*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/02 13:01:05 by brappo            #+#    #+#             */
-/*   Updated: 2024/05/01 01:47:05 by mhotting         ###   ########.fr       */
+/*   Updated: 2024/05/01 18:47:03 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ static void	merge_inputs(t_minishell *shell, char *input, bool is_end_quoted)
 	char	*separator;
 
 	if (input == NULL)
-		handle_error(shell, TOKENIZATION_ERROR, EXIT_FAILURE);
+		handle_error(shell, ERROR_MSG_TOKENIZATION, EXIT_FAILURE);
 	if (is_end_quoted)
 		separator = "\n";
 	else
@@ -60,7 +60,7 @@ static void	merge_inputs(t_minishell *shell, char *input, bool is_end_quoted)
 	if (bridge_into_first(&shell->input, input, separator) == false)
 	{
 		free(input);
-		handle_error(shell, TOKENIZATION_ERROR, EXIT_FAILURE);
+		handle_error(shell, ERROR_MSG_TOKENIZATION, EXIT_FAILURE);
 	}
 }
 
@@ -76,7 +76,7 @@ static t_list	*tokenize_input(t_minishell *shell, char *prompt,
 	if (tokens == NULL && *input)
 	{
 		free(input);
-		handle_error(shell, TOKENIZATION_ERROR, EXIT_FAILURE);
+		handle_error(shell, ERROR_MSG_TOKENIZATION, EXIT_FAILURE);
 	}
 	free(input);
 	return (tokens);
@@ -91,7 +91,7 @@ void	token_recognition(t_minishell *shell)
 	t_token_parser_init(&token_parser);
 	shell->tokens = tokenize_str(shell->input, &token_parser);
 	if (shell->tokens == NULL && (shell->input == NULL || *(shell->input)))
-		handle_error(shell, TOKENIZATION_ERROR, EXIT_FAILURE);
+		handle_error(shell, ERROR_MSG_TOKENIZATION, EXIT_FAILURE);
 	while (is_command_end(&token_parser, shell->tokens) == false)
 	{
 		is_end_quoted = is_quoted(&token_parser);
@@ -100,9 +100,9 @@ void	token_recognition(t_minishell *shell)
 		if (!append_token_list(is_end_quoted, shell->tokens, second_tokens))
 		{
 			ft_lstclear(&second_tokens, t_token_free);
-			handle_error(shell, TOKENIZATION_ERROR, EXIT_FAILURE);
+			handle_error(shell, ERROR_MSG_TOKENIZATION, EXIT_FAILURE);
 		}
 	}
 	if (add_end_token(&shell->tokens) == false)
-		handle_error(shell, TOKENIZATION_ERROR, EXIT_FAILURE);
+		handle_error(shell, ERROR_MSG_TOKENIZATION, EXIT_FAILURE);
 }
