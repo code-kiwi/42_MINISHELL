@@ -6,7 +6,7 @@
 /*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/11 12:37:09 by mhotting          #+#    #+#             */
-/*   Updated: 2024/05/01 14:56:42 by root             ###   ########.fr       */
+/*   Updated: 2024/05/01 14:58:34 by root             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,6 @@ static bool	read_here_doc(char *limiter, int fd_to_write)
 
 	if (limiter == NULL || fd_to_write < 0)
 		return (false);
-	cur_line = NULL;
 	while (true)
 	{
 		cur_line = readline(MULTIPLE_LINE_PROMPT);
@@ -44,14 +43,9 @@ static bool	read_here_doc(char *limiter, int fd_to_write)
 		if (ft_strncmp(cur_line, limiter, ft_strlen(cur_line) - 1) == 0)
 			break ;
 		if (ft_dprintf(fd_to_write, "%s\n", cur_line) == -1)
-		{
-			free(cur_line);
-			get_next_line(-1);
-			return (false);
-		}
+			return (free(cur_line), false);
 		free(cur_line);
 	}
-	get_next_line(-1);
 	free(cur_line);
 	return (true);
 }
