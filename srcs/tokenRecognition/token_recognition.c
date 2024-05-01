@@ -6,7 +6,7 @@
 /*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/02 13:01:05 by brappo            #+#    #+#             */
-/*   Updated: 2024/04/25 11:52:55 by mhotting         ###   ########.fr       */
+/*   Updated: 2024/05/01 01:47:05 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,7 @@ void	token_recognition(t_minishell *shell)
 
 	t_token_parser_init(&token_parser);
 	shell->tokens = tokenize_str(shell->input, &token_parser);
-	if (shell->tokens == NULL && (shell->input == NULL || *shell->input))
+	if (shell->tokens == NULL && (shell->input == NULL || *(shell->input)))
 		handle_error(shell, TOKENIZATION_ERROR, EXIT_FAILURE);
 	while (is_command_end(&token_parser, shell->tokens) == false)
 	{

@@ -6,7 +6,7 @@
 /*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 10:17:54 by mhotting          #+#    #+#             */
-/*   Updated: 2024/04/30 23:07:18 by mhotting         ###   ########.fr       */
+/*   Updated: 2024/05/01 02:31:00 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,6 +93,7 @@ char	*bridge(char *first, char *second, char *separator);
 char	*bridge_into_first(char **first, char *second, char *separator);
 void	ft_print_str_array(char **array);
 bool	string_equals(void *a, void *b);
+bool	string_contains_only_spaces(char *str);
 void	**to_array(t_list *lst);
 
 #endif

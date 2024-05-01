@@ -6,7 +6,7 @@
 /*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/10 12:00:49 by brappo            #+#    #+#             */
-/*   Updated: 2024/04/29 10:48:14 by mhotting         ###   ########.fr       */
+/*   Updated: 2024/05/01 00:35:32 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,20 +65,13 @@ static t_list	*extract_subshell_tokens(t_list *tokens)
 	t_list	*shell_end;
 	t_list	*sub_tokens;
 	t_list	*end_token_link;
-	t_token	*end_token;
 
 	shell_end = get_shell_end(tokens);
 	if (shell_end == NULL || tokens == shell_end)
 		return (NULL);
-	end_token = t_token_init(NULL, END);
-	if (end_token == NULL)
-		return (NULL);
-	end_token_link = ft_lstnew((void *) end_token);
+	end_token_link = get_end_token_list();
 	if (end_token_link == NULL)
-	{
-		t_token_free(end_token);
 		return (NULL);
-	}
 	sub_tokens = tokens->next;
 	tokens->next = shell_end->next;
 	shell_end->next = end_token_link;
