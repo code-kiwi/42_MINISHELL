@@ -6,7 +6,7 @@
 /*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/30 10:06:42 by root              #+#    #+#             */
-/*   Updated: 2024/05/01 10:27:08 by root             ###   ########.fr       */
+/*   Updated: 2024/05/01 11:13:46 by root             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,12 @@
 
 static volatile sig_atomic_t	g_code_received;
 
+/**
+ * There's 2 mode for signals : interactive and non-interactive
+ * 	interactive mode is when user type input
+ *  non-interactive is during the program execution
+ * 
+*/
 void	set_interactive_mode(bool interactive)
 {
 	if (interactive)
@@ -25,6 +31,11 @@ void	set_interactive_mode(bool interactive)
 	else
 		g_code_received = NON_INTERACTIVE;
 }
+
+/**
+ * if ctrl + c is received during the interactive mode, we just display a new prompt
+ * otherwise, we set the value of code_received and the code will test if code_received corresponds to SIGINT.
+*/
 
 void	signal_handler(int code)
 {
