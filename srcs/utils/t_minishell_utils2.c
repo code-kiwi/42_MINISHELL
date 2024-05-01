@@ -6,7 +6,7 @@
 /*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 13:10:16 by mhotting          #+#    #+#             */
-/*   Updated: 2024/05/01 11:04:59 by root             ###   ########.fr       */
+/*   Updated: 2024/05/01 11:29:29 by root             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,13 +66,13 @@ int	get_return_value(t_pid_list *current)
 	if (WIFSIGNALED(status))
 		return (WTERMSIG(status) + 128);
 	if (WIFEXITED(status))
-		return (WEXITSTATUS(status));
+		return (WEXITSTATUS(status) + 128);
 	return (0);
 }
 
 /*
- *	Returns the status from the execution of the process whose pid was saved
- *	into the shell's pid_list member
+ *	Returns if the child have been interrupted
+ *	Set the shell->status
  *	Clears the shell's pid_list member
  *	If the list is empty, returns EXIT_SUCCESS as a default value
  */
@@ -105,8 +105,7 @@ static bool	t_minishell_wait_pids(t_minishell *shell)
 }
 
 /*
- *	Returns the shell's current status (by checking all the subprocess'
- *	execution status)
+ *	Returns if the childs haven been interrupted
  *	If the shell's pid list is empty, the current shell's status is returned
  */
 bool	t_minishell_set_exec_status(t_minishell *shell)
