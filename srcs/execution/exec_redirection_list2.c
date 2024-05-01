@@ -6,7 +6,7 @@
 /*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/11 12:37:09 by mhotting          #+#    #+#             */
-/*   Updated: 2024/05/01 13:41:31 by root             ###   ########.fr       */
+/*   Updated: 2024/05/01 14:56:42 by root             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 #include <stdbool.h>
 #include <fcntl.h>
 #include <errno.h>
+#include <readline/readline.h>
 #include "libft.h"
 #include "minishell.h"
 #include "redirections.h"
@@ -32,10 +33,7 @@ static bool	read_here_doc(char *limiter, int fd_to_write)
 	cur_line = NULL;
 	while (true)
 	{
-		if (ft_printf(MULTIPLE_LINE_PROMPT) == -1)
-			return (false);
-		free(cur_line);
-		cur_line = get_next_line(STDIN_FILENO);
+		cur_line = readline(MULTIPLE_LINE_PROMPT);
 		if (cur_line == NULL)
 		{
 			if (errno != 0)
@@ -45,12 +43,13 @@ static bool	read_here_doc(char *limiter, int fd_to_write)
 		}
 		if (ft_strncmp(cur_line, limiter, ft_strlen(cur_line) - 1) == 0)
 			break ;
-		if (ft_dprintf(fd_to_write, "%s", cur_line) == -1)
+		if (ft_dprintf(fd_to_write, "%s\n", cur_line) == -1)
 		{
 			free(cur_line);
 			get_next_line(-1);
 			return (false);
 		}
+		free(cur_line);
 	}
 	get_next_line(-1);
 	free(cur_line);
