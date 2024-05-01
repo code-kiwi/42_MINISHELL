@@ -6,7 +6,7 @@
 /*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 13:10:16 by mhotting          #+#    #+#             */
-/*   Updated: 2024/05/01 10:44:33 by root             ###   ########.fr       */
+/*   Updated: 2024/05/01 11:04:59 by root             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,6 @@
 #include <signal.h>
 #include "signals.h"
 
-#include <stdio.h>
 void	kill_all_childs(t_pid_list *childs, t_minishell *shell)
 {
 	bool	error;
@@ -28,11 +27,14 @@ void	kill_all_childs(t_pid_list *childs, t_minishell *shell)
 	while (childs != NULL)
 	{
 		if (childs->pid != PID_ERROR)
-			error = ((kill(childs->pid, SIGINT) == -1) && errno != 3) || error;
+			error = ((kill(childs->pid, SIGINT) == -1) && errno != ESRCH)
+				|| error;
 		childs = childs->next;
 	}
 	if (error)
 		handle_error(shell, KILL_ERROR, EXIT_FAILURE);
+	if (errno == ESRCH)
+		errno = 0;
 }
 
 /*
@@ -58,16 +60,14 @@ bool	t_minishell_add_pid(t_minishell *shell, pid_t pid)
 int	get_return_value(t_pid_list *current)
 {
 	int	status;
-	int	ret;
 
-	ret = (waitpid(current->pid, &status, 0) == -1);
-	if (ret == 0 && current->next == NULL && WIFSIGNALED(status))
-		ret = 130;
-	else if (ret == 0 && current->next == NULL && !WIFEXITED(status))
-		ret = WEXITSTATUS(status);
-	else if (ret == 0 && current->next == NULL && WEXITSTATUS(status))
-		ret = WEXITSTATUS(status);
-	return (ret);
+	if (waitpid(current->pid, &status, 0) == -1)
+		return (-1);
+	if (WIFSIGNALED(status))
+		return (WTERMSIG(status) + 128);
+	if (WIFEXITED(status))
+		return (WEXITSTATUS(status));
+	return (0);
 }
 
 /*
@@ -96,7 +96,6 @@ static bool	t_minishell_wait_pids(t_minishell *shell)
 			{
 				not_interrupted = false;
 				kill_all_childs(shell->pid_list, shell);
-				shell->status = 130;
 			}
 		}
 		current = current->next;
