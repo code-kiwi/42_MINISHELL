@@ -6,7 +6,7 @@
 /*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 13:10:16 by mhotting          #+#    #+#             */
-/*   Updated: 2024/05/01 11:31:00 by root             ###   ########.fr       */
+/*   Updated: 2024/05/01 15:25:10 by root             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ int	get_return_value(t_pid_list *current)
 		return (-1);
 	if (WIFSIGNALED(status))
 		return (WTERMSIG(status) + 128);
-	if (WIFEXITED(status))
+	if (WIFEXITED(status) && WEXITSTATUS(status))
 		return (WEXITSTATUS(status) + 128);
 	return (0);
 }
