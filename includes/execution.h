@@ -6,7 +6,7 @@
 /*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/10 12:52:55 by mhotting          #+#    #+#             */
-/*   Updated: 2024/05/01 12:18:47 by root             ###   ########.fr       */
+/*   Updated: 2024/05/02 16:39:02 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,6 @@ typedef struct s_redirections_info	t_redirections_info;
 // General execution
 void	exec_ast(t_minishell *shell, int fds_given[2]);
 void	exec_node(t_minishell *shell, t_node *node, int fd[2], bool in_pipe);
-void	exec_node_close_fds(int fds[2]);
 
 // Pipe execution
 void	exec_node_pipe(t_minishell *shell, t_node *node, int fd[2]);

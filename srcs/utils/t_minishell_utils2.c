@@ -6,7 +6,7 @@
 /*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 13:10:16 by mhotting          #+#    #+#             */
-/*   Updated: 2024/05/02 16:16:40 by mhotting         ###   ########.fr       */
+/*   Updated: 2024/05/02 16:58:44 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,13 @@
 #include <stdbool.h>
 #include <errno.h>
 #include <sys/wait.h>
-#include <signal.h>
 #include <unistd.h>
+#include "libft.h"
 #include "minishell.h"
-#include "pid_list.h"
+#include "token.h"
+#include "node.h"
 #include "signals.h"
+#include "pid_list.h"
 
 /*
  *	Adds a pid to the given shell's pid list

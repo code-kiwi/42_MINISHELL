@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   token_recognition_utils.c                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
+/*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 15:09:19 by brappo            #+#    #+#             */
-/*   Updated: 2024/04/25 11:53:49 by mhotting         ###   ########.fr       */
+/*   Updated: 2024/05/02 17:38:50 by root             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,4 +55,25 @@ bool	is_blank(char character)
 	if (character == ' ')
 		return (true);
 	return (false);
+}
+
+/*
+ *	Generates a list containing only one token with type END
+ *	In case of ERROR, returns NULL
+ */
+t_list	*get_end_token_list(void)
+{
+	t_list	*end_token_link;
+	t_token	*end_token;
+
+	end_token = t_token_init(NULL, END);
+	if (end_token == NULL)
+		return (NULL);
+	end_token_link = ft_lstnew((void *) end_token);
+	if (end_token_link == NULL)
+	{
+		t_token_free(end_token);
+		return (NULL);
+	}
+	return (end_token_link);
 }

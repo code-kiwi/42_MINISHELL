@@ -6,7 +6,7 @@
 /*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 13:10:16 by mhotting          #+#    #+#             */
-/*   Updated: 2024/05/02 09:44:00 by root             ###   ########.fr       */
+/*   Updated: 2024/05/02 16:58:49 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,11 +32,6 @@ void	t_minishell_init(t_minishell *shell, int argc, char **argv, char **envp)
 	shell->env = env_extract(envp);
 	(void)argc;
 	(void)argv;
-	shell->input = NULL;
-	shell->tokens = NULL;
-	shell->pid_list = NULL;
-	shell->is_child_process = false;
-	shell->status = 0;
 	built_in_init_array(shell->bi_funcs);
 }
 
@@ -86,4 +81,41 @@ void	t_minishell_init_subshell(t_minishell *sub, t_minishell *parent)
 	sub->env = parent->env;
 	parent->env = NULL;
 	sub->parent = parent;
+}
+
+/*
+ *	Resets the given shell
+ *	Steps:
+ *		- checks the given shell arg
+ *		- clears the shell's token list
+ *		- clears the shell's AST
+ *		- clears the shell's input
+ *	In case of ERROR (wrong arg), closes the current shell displaying an error
+ *	message.
+ */
+void	utils_reset_shell(t_minishell *shell)
+{
+	if (shell == NULL)
+		handle_error(shell, ERROR_MSG_ARGS, EXIT_FAILURE);
+	ft_lstclear(&shell->tokens, t_token_free);
+	ast_free(&(shell->ast));
+	free(shell->input);
+	shell->input = NULL;
+}
+
+/*
+ *	Handles an empty command for the given shell
+ *	Steps:
+ *		- checks the given shell arg
+ *		- resets the shell
+ *		- sets the shell status to zero
+ *	In case of ERROR (wrong arg), closes the current shell displaying an error
+ *	message.
+ */
+void	utils_handle_empty_cmd(t_minishell *shell)
+{
+	if (shell == NULL)
+		handle_error(shell, ERROR_MSG_ARGS, EXIT_FAILURE);
+	utils_reset_shell(shell);
+	shell->status = 0;
 }
