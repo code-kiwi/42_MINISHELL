@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   add_operator_node.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
+/*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/10 12:01:32 by brappo            #+#    #+#             */
-/*   Updated: 2024/04/25 11:15:41 by mhotting         ###   ########.fr       */
+/*   Updated: 2024/05/02 12:29:51 by root             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,9 +20,13 @@ bool	add_pipe(t_node **current_node, t_node **head, t_list *tokens)
 {
 	t_node	*new_node;
 
-	if (*head == NULL || current_node == NULL
-		|| *current_node == NULL)
+	if (current_node == NULL || head == NULL || tokens == NULL)
 		return (false);
+	if (*head == NULL ||*current_node == NULL)
+	{
+		ast_syntax_error(tokens->content);
+		return (false);
+	}
 	new_node = node_pipe_create();
 	if (new_node == NULL)
 		return (false);
@@ -38,9 +42,13 @@ bool	add_connector(t_node **current_node, t_node **head,
 {
 	t_node	*new_node;
 
-	if (*head == NULL || current_node == NULL
-		|| *current_node == NULL)
+	if (current_node == NULL || head == NULL)
 		return (false);
+	if (*head == NULL || *current_node == NULL)
+	{
+		ast_syntax_error(tokens->content);
+		return (false);
+	}
 	if (connector == OPERATOR_AND_IF)
 		new_node = node_and_create();
 	else if (connector == OPERATOR_OR_IF)

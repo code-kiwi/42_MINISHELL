@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   add_command.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
+/*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/10 12:00:04 by brappo            #+#    #+#             */
-/*   Updated: 2024/04/25 11:14:18 by mhotting         ###   ########.fr       */
+/*   Updated: 2024/05/02 12:32:23 by root             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,11 @@ static bool	add_redirections_command(t_list **tokens, t_node *cmd)
 			if ((*tokens)->next == NULL)
 				return (false);
 			next_token = (*tokens)->next->content;
+			if (next_token->type != WORD)
+			{
+				ast_syntax_error(next_token);
+				return (false);
+			}
 			if (node_command_add_redirection(cmd, token->str,
 					next_token->str) == false)
 				return (false);
@@ -45,9 +50,13 @@ bool	add_command(t_node **current_node, t_node **head, t_list *tokens)
 	t_node	*new_node;
 	char	**argv;
 
-	if (current_node == NULL || head == NULL
-		|| *current_node != NULL)
+	if (current_node == NULL || head == NULL)
 		return (false);
+	if (*current_node != NULL)
+	{
+		ast_syntax_error(tokens->content);
+		return (false);
+	}
 	argv = get_argv(tokens);
 	if (argv == NULL)
 		return (false);

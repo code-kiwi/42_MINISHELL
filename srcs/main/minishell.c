@@ -6,7 +6,7 @@
 /*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 10:14:16 by mhotting          #+#    #+#             */
-/*   Updated: 2024/05/02 16:44:13 by mhotting         ###   ########.fr       */
+/*   Updated: 2024/05/03 09:06:27 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 #include <readline/history.h>
 #include <readline/readline.h>
 #include <signal.h>
+#include <errno.h>
 #include "minishell.h"
 #include "prompt.h"
 #include "libft.h"
@@ -44,7 +45,11 @@ int	main(int argc, char **argv, char **envp)
 		token_recognition(&shell);
 		shell.ast = build_ast(shell.tokens);
 		if (shell.ast == NULL)
+		{
+			if (errno == 0)
+				continue ;
 			handle_error(&shell, ERROR_MSG_AST_CREATION, EXIT_FAILURE);
+		}
 		exec_ast(&shell, NULL);
 		add_history(shell.input);
 		utils_reset_shell(&shell);

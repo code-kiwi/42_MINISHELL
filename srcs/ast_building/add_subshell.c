@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   add_subshell.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
+/*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/10 12:00:49 by brappo            #+#    #+#             */
-/*   Updated: 2024/05/01 00:35:32 by mhotting         ###   ########.fr       */
+/*   Updated: 2024/05/03 09:09:03 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,10 @@ static t_list	*extract_subshell_tokens(t_list *tokens)
 
 	shell_end = get_shell_end(tokens);
 	if (shell_end == NULL || tokens == shell_end)
+	{
+		ast_syntax_error(tokens->content);
 		return (NULL);
+	}
 	end_token_link = get_end_token_list();
 	if (end_token_link == NULL)
 		return (NULL);
@@ -84,8 +87,13 @@ bool	add_subshell(t_node **current_node, t_node **head, t_list *tokens)
 	t_node	*new_node;
 
 	if (((t_token *)tokens->content)->type != OPERATOR_SHELL_OPEN
-		|| current_node == NULL || *current_node != NULL || head == NULL)
+		|| current_node == NULL || head == NULL)
 		return (false);
+	if (*current_node != NULL)
+	{
+		ast_syntax_error(tokens->content);
+		return (false);
+	}
 	sub_tokens = extract_subshell_tokens(tokens);
 	if (sub_tokens == NULL)
 		return (false);

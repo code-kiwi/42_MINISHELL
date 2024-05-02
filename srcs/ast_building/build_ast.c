@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   build_ast.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
+/*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/10 10:14:38 by brappo            #+#    #+#             */
-/*   Updated: 2024/04/25 11:17:12 by mhotting         ###   ########.fr       */
+/*   Updated: 2024/05/02 12:38:17 by root             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,14 @@
 #include "node.h"
 #include "build_ast.h"
 #include "token.h"
+
+void	ast_syntax_error(t_token *token)
+{
+	if (token->type == END)
+		ft_printf("%s 'new_line'\n", ERROR_BUILD_AST);
+	else
+		ft_printf("%s '%s'\n", ERROR_BUILD_AST, token->str);
+}
 
 t_node	*build_ast(t_list *tokens)
 {
