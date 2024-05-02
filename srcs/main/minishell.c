@@ -3,17 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 10:14:16 by mhotting          #+#    #+#             */
-/*   Updated: 2024/05/02 09:38:06 by root             ###   ########.fr       */
+/*   Updated: 2024/04/25 12:39:35 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdbool.h>
 #include <readline/history.h>
-#include <readline/readline.h>
-#include <signal.h>
 #include "minishell.h"
 #include "prompt.h"
 #include "libft.h"
@@ -21,16 +19,12 @@
 #include "node.h"
 #include "build_ast.h"
 #include "execution.h"
-#include "signals.h"
 
 int	main(int argc, char **argv, char **envp)
 {
 	t_minishell	shell;
 
-	if (signal(SIGINT, &signal_handler) == SIG_ERR)
-		exit(EXIT_FAILURE);
 	t_minishell_init(&shell, argc, argv, envp);
-	rl_getc_function = ft_getc;
 	while (true)
 	{
 		shell.input = prompt(&shell);
