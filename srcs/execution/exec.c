@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mhotting <mhotting@student.42.fr>          +#+  +:+       +#+        */
+/*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/14 20:15:29 by mhotting          #+#    #+#             */
-/*   Updated: 2024/04/25 12:37:55 by mhotting         ###   ########.fr       */
+/*   Updated: 2024/04/30 19:31:59 by root             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,5 +71,5 @@ void	exec_ast(t_minishell *shell, int fds_given[2])
 	}
 	exec_node(shell, shell->ast, fds, false);
 	ast_free(&(shell->ast));
-	t_minishell_get_exec_status(shell);
+	t_minishell_set_exec_status(shell);
 }

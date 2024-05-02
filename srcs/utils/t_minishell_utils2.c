@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   t_minishell_utils2.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
+/*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 13:10:16 by mhotting          #+#    #+#             */
-/*   Updated: 2024/04/25 12:41:22 by mhotting         ###   ########.fr       */
+/*   Updated: 2024/05/02 16:16:40 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,11 @@
 #include <stdbool.h>
 #include <errno.h>
 #include <sys/wait.h>
+#include <signal.h>
+#include <unistd.h>
 #include "minishell.h"
 #include "pid_list.h"
+#include "signals.h"
 
 /*
  *	Adds a pid to the given shell's pid list
@@ -38,48 +41,61 @@ bool	t_minishell_add_pid(t_minishell *shell, pid_t pid)
 }
 
 /*
- *	Returns the status from the execution of the process whose pid was saved
- *	into the shell's pid_list member
- *	Clears the shell's pid_list member
- *	If the list is empty, returns EXIT_SUCCESS as a default value
+ *	Given a pid, returns its exit status
+ *	If the pid was exited by a signal, sets signal_handler to true
+ *	If the pid is not valid, returns EXIT_FAILURE
  */
-static int	t_minishell_wait_pids(t_minishell *shell)
+static int	get_return_value(pid_t pid, bool *signal_interruption)
+{
+	int	status;
+
+	*signal_interruption = false;
+	if (pid == PID_ERROR || waitpid(pid, &status, 0) == -1)
+		return (EXIT_FAILURE);
+	if (WIFEXITED(status))
+		return (WEXITSTATUS(status));
+	if (WIFSIGNALED(status))
+	{
+		*signal_interruption = true;
+		return (WTERMSIG(status) + 128);
+	}
+	return (EXIT_SUCCESS);
+}
+
+/*
+ *	Returns true if one of the child process have been interrupted by a signal
+ *	Sets the shell->status
+ *	Clears the shell's pid_list member
+ */
+static bool	t_minishell_wait_pids(t_minishell *shell)
 {
 	t_pid_list	*current;
-	int			ret;
-	int			status;
+	bool		not_interrupted;
+	bool		signal_interruption;
 
 	if (shell == NULL)
 		return (EXIT_FAILURE);
 	current = shell->pid_list;
-	ret = EXIT_SUCCESS;
+	not_interrupted = true;
+	signal_interruption = false;
 	while (current != NULL)
 	{
-		if (current->pid == PID_ERROR && current->next == NULL)
-			ret = EXIT_FAILURE;
-		else if (current->pid != PID_ERROR)
-		{
-			if (waitpid(current->pid, &status, 0) == -1)
-				ret = EXIT_FAILURE;
-			if (ret == 0 && current->next == NULL && !WIFEXITED(status))
-				ret = WEXITSTATUS(status);
-			else if (ret == 0 && current->next == NULL && WEXITSTATUS(status))
-				ret = WEXITSTATUS(status);
-		}
+		shell->status = get_return_value(current->pid, &signal_interruption);
+		if (not_interrupted && signal_interruption)
+			not_interrupted = false;
 		current = current->next;
 	}
 	pid_list_clear(&(shell->pid_list));
-	return (ret);
+	return (not_interrupted);
 }
 
 /*
- *	Returns the shell's current status (by checking all the subprocess'
- *	execution status)
+ *	Returns if the childs haven been interrupted
  *	If the shell's pid list is empty, the current shell's status is returned
  */
-int	t_minishell_get_exec_status(t_minishell *shell)
+bool	t_minishell_set_exec_status(t_minishell *shell)
 {
-	int		status;
+	int		not_interrupted;
 	size_t	nb_pids;
 
 	if (shell == NULL)
@@ -87,7 +103,12 @@ int	t_minishell_get_exec_status(t_minishell *shell)
 	nb_pids = pid_list_size(shell->pid_list);
 	if (nb_pids == 0)
 		return (shell->status);
-	status = t_minishell_wait_pids(shell);
-	shell->status = status;
-	return (status);
+	set_interactive_mode(false);
+	not_interrupted = t_minishell_wait_pids(shell);
+	if (not_interrupted == false)
+	{
+		if (write(STDOUT_FILENO, "\n", 1) == -1)
+			handle_error(shell, ERROR_MSG_WRITE, EXIT_FAILURE);
+	}
+	return (!not_interrupted);
 }

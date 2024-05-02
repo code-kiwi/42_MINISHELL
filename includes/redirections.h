@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirections.h                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
+/*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/28 11:06:44 by mhotting          #+#    #+#             */
-/*   Updated: 2024/04/26 16:10:24 by mhotting         ###   ########.fr       */
+/*   Updated: 2024/05/01 11:56:00 by root             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 # define REDIRECTIONS_H
 
 # include <stdbool.h>
+
+# define ERROR_HERE_DOC_EOF "Here document delimited by end of file"
 
 typedef struct s_list	t_list;
 
