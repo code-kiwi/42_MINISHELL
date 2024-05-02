@@ -6,7 +6,7 @@
 /*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 13:02:08 by mhotting          #+#    #+#             */
-/*   Updated: 2024/05/02 09:19:18 by root             ###   ########.fr       */
+/*   Updated: 2024/05/02 09:22:17 by root             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,11 +24,6 @@ static bool	interrupted(char *input)
 	return (input == NULL && errno == 0);
 }
 
-static bool	interrupted_by_sigint(char *input)
-{
-	return (interrupted(input) && catch_sigint());
-}
-
 static char	*read_input(char *prompt)
 {
 	char	*input;
@@ -36,7 +31,7 @@ static char	*read_input(char *prompt)
 
 	first_sigint = true;
 	input = readline(prompt);
-	while (interrupted_by_sigint(input))
+	while (interrupted(input) && catch_sigint())
 	{
 		if (!first_sigint)
 			printf("\033[1A");
@@ -62,7 +57,5 @@ char	*prompt(t_minishell *shell)
 	}
 	if (input == NULL)
 		handle_error(shell, ERROR_MSG_PROMPT, EXIT_FAILURE);
-	if (catch_sigint())
-		shell->status = 130;
 	return (input);
 }
