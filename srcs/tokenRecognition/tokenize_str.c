@@ -6,7 +6,7 @@
 /*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 14:59:56 by brappo            #+#    #+#             */
-/*   Updated: 2024/05/01 14:44:14 by root             ###   ########.fr       */
+/*   Updated: 2024/05/02 17:36:22 by root             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,10 @@ static bool	is_token_end(t_token *token, char character, \
 	if (token->type == OPERATOR)
 		return (is_operator(token_parser) == -1);
 	if (handle_quote(token_parser, character))
+	{
+		token->type = WORD;
 		return (false);
+	}
 	if (!is_quoted(token_parser))
 	{
 		if (ft_strchr(OPERATOR_CHARACTER, character) != NULL)
