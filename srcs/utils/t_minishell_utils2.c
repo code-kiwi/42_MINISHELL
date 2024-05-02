@@ -6,7 +6,7 @@
 /*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 13:10:16 by mhotting          #+#    #+#             */
-/*   Updated: 2024/05/02 10:03:31 by root             ###   ########.fr       */
+/*   Updated: 2024/05/02 16:16:40 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,29 +14,11 @@
 #include <stdbool.h>
 #include <errno.h>
 #include <sys/wait.h>
+#include <signal.h>
+#include <unistd.h>
 #include "minishell.h"
 #include "pid_list.h"
-#include <signal.h>
 #include "signals.h"
-#include <unistd.h>
-
-void	kill_all_childs(t_pid_list *childs, t_minishell *shell)
-{
-	bool	error;
-
-	error = false;
-	while (childs != NULL)
-	{
-		if (childs->pid != PID_ERROR)
-			error = ((kill(childs->pid, SIGINT) == -1) && errno != ESRCH)
-				|| error;
-		childs = childs->next;
-	}
-	if (error)
-		handle_error(shell, KILL_ERROR, EXIT_FAILURE);
-	if (errno == ESRCH)
-		errno = 0;
-}
 
 /*
  *	Adds a pid to the given shell's pid list
@@ -58,47 +40,49 @@ bool	t_minishell_add_pid(t_minishell *shell, pid_t pid)
 	return (true);
 }
 
-int	get_return_value(t_pid_list *current)
+/*
+ *	Given a pid, returns its exit status
+ *	If the pid was exited by a signal, sets signal_handler to true
+ *	If the pid is not valid, returns EXIT_FAILURE
+ */
+static int	get_return_value(pid_t pid, bool *signal_interruption)
 {
 	int	status;
 
-	if (waitpid(current->pid, &status, 0) == -1)
-		return (-1);
+	*signal_interruption = false;
+	if (pid == PID_ERROR || waitpid(pid, &status, 0) == -1)
+		return (EXIT_FAILURE);
+	if (WIFEXITED(status))
+		return (WEXITSTATUS(status));
 	if (WIFSIGNALED(status))
+	{
+		*signal_interruption = true;
 		return (WTERMSIG(status) + 128);
-	if (WIFEXITED(status) && WEXITSTATUS(status))
-		return (WEXITSTATUS(status) + 128);
-	return (0);
+	}
+	return (EXIT_SUCCESS);
 }
 
 /*
- *	Returns if the child have been interrupted
- *	Set the shell->status
+ *	Returns true if one of the child process have been interrupted by a signal
+ *	Sets the shell->status
  *	Clears the shell's pid_list member
- *	If the list is empty, returns EXIT_SUCCESS as a default value
  */
 static bool	t_minishell_wait_pids(t_minishell *shell)
 {
 	t_pid_list	*current;
 	bool		not_interrupted;
+	bool		signal_interruption;
 
 	if (shell == NULL)
 		return (EXIT_FAILURE);
 	current = shell->pid_list;
 	not_interrupted = true;
+	signal_interruption = false;
 	while (current != NULL)
 	{
-		if (current->pid == PID_ERROR && current->next == NULL)
-			shell->status = EXIT_FAILURE;
-		else if (current->pid != PID_ERROR)
-		{
-			shell->status = get_return_value(current);
-			if (catch_sigint())
-			{
-				not_interrupted = false;
-				kill_all_childs(shell->pid_list, shell);
-			}
-		}
+		shell->status = get_return_value(current->pid, &signal_interruption);
+		if (not_interrupted && signal_interruption)
+			not_interrupted = false;
 		current = current->next;
 	}
 	pid_list_clear(&(shell->pid_list));

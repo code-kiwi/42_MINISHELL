@@ -6,17 +6,17 @@
 /*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/30 10:06:42 by root              #+#    #+#             */
-/*   Updated: 2024/05/02 09:09:28 by root             ###   ########.fr       */
+/*   Updated: 2024/05/02 15:27:33 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
-#include "signals.h"
 #include <signal.h>
 #include <unistd.h>
 #include <readline/readline.h>
-#include "prompt.h"
 #include "libft.h"
+#include "minishell.h"
+#include "prompt.h"
+#include "signals.h"
 
 static volatile sig_atomic_t	g_code_received;
 
