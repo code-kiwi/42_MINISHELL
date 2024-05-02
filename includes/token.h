@@ -6,7 +6,7 @@
 /*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/31 19:28:12 by mhotting          #+#    #+#             */
-/*   Updated: 2024/04/30 13:56:55 by root             ###   ########.fr       */
+/*   Updated: 2024/05/02 09:54:35 by root             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,8 @@
 
 # include <stdlib.h>
 # include <stdbool.h>
+
+# define SHELL_EOF "Unexpected end of file"
 
 typedef struct s_minishell	t_minishell;
 typedef struct s_list		t_list;

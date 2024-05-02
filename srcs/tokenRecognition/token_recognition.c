@@ -6,7 +6,7 @@
 /*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/02 13:01:05 by brappo            #+#    #+#             */
-/*   Updated: 2024/05/02 09:43:35 by root             ###   ########.fr       */
+/*   Updated: 2024/05/02 09:54:05 by root             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,11 @@ static t_list	*tokenize_input(t_minishell *shell,
 
 	input = readline(MULTIPLE_LINE_PROMPT);
 	if (input == NULL && errno == 0)
-		return (NULL);
+	{
+		if (get_sigint())
+			return (NULL);
+		handle_error(shell, SHELL_EOF, EXIT_FAILURE);
+	}
 	merge_inputs(shell, input, is_end_quoted);
 	tokens = tokenize_str(input, token_parser);
 	if (tokens == NULL && *input)
