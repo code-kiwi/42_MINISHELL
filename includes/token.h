@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   token.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/31 19:28:12 by mhotting          #+#    #+#             */
-/*   Updated: 2024/05/02 09:54:35 by root             ###   ########.fr       */
+/*   Updated: 2024/04/25 11:12:22 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,6 @@
 
 # include <stdlib.h>
 # include <stdbool.h>
-
-# define SHELL_EOF "Unexpected end of file"
 
 typedef struct s_minishell	t_minishell;
 typedef struct s_list		t_list;
@@ -73,7 +71,7 @@ void	get_operation(char **operations);
 bool	add_token(t_list **head, char *str, t_token_type type);
 
 //multi line input
-bool	append_token_list(bool is_first_quoted, t_list **first, t_list *second);
+bool	append_token_list(bool is_first_quoted, t_list *first, t_list *second);
 void	print_token(void *token_void);
 void	token_recognition(t_minishell *shell);
 
