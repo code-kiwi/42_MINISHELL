@@ -6,7 +6,7 @@
 /*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 13:10:16 by mhotting          #+#    #+#             */
-/*   Updated: 2024/05/01 18:56:01 by mhotting         ###   ########.fr       */
+/*   Updated: 2024/05/02 02:35:02 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,7 +123,6 @@ void	utils_reset_shell(t_minishell *shell)
  *		- sets the shell status to zero
  *	In case of ERROR (wrong arg), closes the current shell displaying an error
  *	message.
-
  */
 void	utils_handle_empty_cmd(t_minishell *shell)
 {
