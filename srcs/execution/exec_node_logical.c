@@ -6,7 +6,7 @@
 /*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 09:41:09 by mhotting          #+#    #+#             */
-/*   Updated: 2024/04/30 19:31:35 by root             ###   ########.fr       */
+/*   Updated: 2024/05/02 09:04:45 by root             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ void	exec_node_logical(t_minishell *shell, t_node *node, int fds[2])
 	if (!exec_node_logical_clone_fds(fds, child_right_fds))
 		handle_error(shell, ERROR_MSG_DUP, EXIT_FAILURE);
 	exec_node(shell, node->child_left, fds, false);
-	interrupted = !t_minishell_set_exec_status(shell);
+	interrupted = t_minishell_set_exec_status(shell);
 	if (interrupted
 		|| (node->type == NODE_AND && shell->status != EXIT_SUCCESS)
 		|| (node->type == NODE_OR && shell->status == EXIT_SUCCESS)
