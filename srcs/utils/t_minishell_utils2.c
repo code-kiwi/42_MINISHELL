@@ -6,7 +6,7 @@
 /*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 13:10:16 by mhotting          #+#    #+#             */
-/*   Updated: 2024/05/02 16:42:50 by mhotting         ###   ########.fr       */
+/*   Updated: 2024/05/02 16:58:44 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,41 +113,4 @@ bool	t_minishell_set_exec_status(t_minishell *shell)
 			handle_error(shell, ERROR_MSG_WRITE, EXIT_FAILURE);
 	}
 	return (!not_interrupted);
-}
-
-/*
- *	Resets the given shell
- *	Steps:
- *		- checks the given shell arg
- *		- clears the shell's token list
- *		- clears the shell's AST
- *		- clears the shell's input
- *	In case of ERROR (wrong arg), closes the current shell displaying an error
- *	message.
- */
-void	utils_reset_shell(t_minishell *shell)
-{
-	if (shell == NULL)
-		handle_error(shell, ERROR_MSG_ARGS, EXIT_FAILURE);
-	ft_lstclear(&shell->tokens, t_token_free);
-	ast_free(&(shell->ast));
-	free(shell->input);
-	shell->input = NULL;
-}
-
-/*
- *	Handles an empty command for the given shell
- *	Steps:
- *		- checks the given shell arg
- *		- resets the shell
- *		- sets the shell status to zero
- *	In case of ERROR (wrong arg), closes the current shell displaying an error
- *	message.
- */
-void	utils_handle_empty_cmd(t_minishell *shell)
-{
-	if (shell == NULL)
-		handle_error(shell, ERROR_MSG_ARGS, EXIT_FAILURE);
-	utils_reset_shell(shell);
-	shell->status = 0;
 }
