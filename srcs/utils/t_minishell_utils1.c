@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   t_minishell_utils1.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
+/*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 13:10:16 by mhotting          #+#    #+#             */
-/*   Updated: 2024/04/25 12:41:12 by mhotting         ###   ########.fr       */
+/*   Updated: 2024/05/02 09:44:00 by root             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,6 @@ void	t_minishell_free(t_minishell *shell)
 		t_minishell_free(shell->parent);
 	if (shell->input)
 		free(shell->input);
-	rl_clear_history();
 	if (shell->env != NULL)
 		ft_lstclear(&(shell->env), env_element_free);
 	if (shell->tokens)
@@ -67,7 +66,7 @@ void	t_minishell_free(t_minishell *shell)
 		if (shell->is_child_process)
 			pid_list_clear(&(shell->pid_list));
 		else
-			t_minishell_get_exec_status(shell);
+			t_minishell_set_exec_status(shell);
 	}
 	if (shell->ast != NULL)
 		ast_free(&(shell->ast));
