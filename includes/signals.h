@@ -6,7 +6,7 @@
 /*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/30 10:11:55 by root              #+#    #+#             */
-/*   Updated: 2024/05/02 07:24:23 by root             ###   ########.fr       */
+/*   Updated: 2024/05/02 09:06:31 by root             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,10 +18,8 @@
 
 # define RL_ERROR "readline error"
 # define KILL_ERROR "kill error"
-# define SIGNAL_ERROR "Error in signals"
 # define INTERACTIVE -1
 # define NON_INTERACTIVE -2
-# define ERROR_SIGNAL -3
 
 bool	catch_sigint(void);
 void	set_interactive_mode(bool interactive);
