@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   t_minishell_utils2.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 13:10:16 by mhotting          #+#    #+#             */
-/*   Updated: 2024/05/02 10:03:31 by root             ###   ########.fr       */
+/*   Updated: 2024/04/25 12:41:22 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,27 +16,6 @@
 #include <sys/wait.h>
 #include "minishell.h"
 #include "pid_list.h"
-#include <signal.h>
-#include "signals.h"
-#include <unistd.h>
-
-void	kill_all_childs(t_pid_list *childs, t_minishell *shell)
-{
-	bool	error;
-
-	error = false;
-	while (childs != NULL)
-	{
-		if (childs->pid != PID_ERROR)
-			error = ((kill(childs->pid, SIGINT) == -1) && errno != ESRCH)
-				|| error;
-		childs = childs->next;
-	}
-	if (error)
-		handle_error(shell, KILL_ERROR, EXIT_FAILURE);
-	if (errno == ESRCH)
-		errno = 0;
-}
 
 /*
  *	Adds a pid to the given shell's pid list
@@ -58,60 +37,49 @@ bool	t_minishell_add_pid(t_minishell *shell, pid_t pid)
 	return (true);
 }
 
-int	get_return_value(t_pid_list *current)
-{
-	int	status;
-
-	if (waitpid(current->pid, &status, 0) == -1)
-		return (-1);
-	if (WIFSIGNALED(status))
-		return (WTERMSIG(status) + 128);
-	if (WIFEXITED(status) && WEXITSTATUS(status))
-		return (WEXITSTATUS(status) + 128);
-	return (0);
-}
-
 /*
- *	Returns if the child have been interrupted
- *	Set the shell->status
+ *	Returns the status from the execution of the process whose pid was saved
+ *	into the shell's pid_list member
  *	Clears the shell's pid_list member
  *	If the list is empty, returns EXIT_SUCCESS as a default value
  */
-static bool	t_minishell_wait_pids(t_minishell *shell)
+static int	t_minishell_wait_pids(t_minishell *shell)
 {
 	t_pid_list	*current;
-	bool		not_interrupted;
+	int			ret;
+	int			status;
 
 	if (shell == NULL)
 		return (EXIT_FAILURE);
 	current = shell->pid_list;
-	not_interrupted = true;
+	ret = EXIT_SUCCESS;
 	while (current != NULL)
 	{
 		if (current->pid == PID_ERROR && current->next == NULL)
-			shell->status = EXIT_FAILURE;
+			ret = EXIT_FAILURE;
 		else if (current->pid != PID_ERROR)
 		{
-			shell->status = get_return_value(current);
-			if (catch_sigint())
-			{
-				not_interrupted = false;
-				kill_all_childs(shell->pid_list, shell);
-			}
+			if (waitpid(current->pid, &status, 0) == -1)
+				ret = EXIT_FAILURE;
+			if (ret == 0 && current->next == NULL && !WIFEXITED(status))
+				ret = WEXITSTATUS(status);
+			else if (ret == 0 && current->next == NULL && WEXITSTATUS(status))
+				ret = WEXITSTATUS(status);
 		}
 		current = current->next;
 	}
 	pid_list_clear(&(shell->pid_list));
-	return (not_interrupted);
+	return (ret);
 }
 
 /*
- *	Returns if the childs haven been interrupted
+ *	Returns the shell's current status (by checking all the subprocess'
+ *	execution status)
  *	If the shell's pid list is empty, the current shell's status is returned
  */
-bool	t_minishell_set_exec_status(t_minishell *shell)
+int	t_minishell_get_exec_status(t_minishell *shell)
 {
-	int		not_interrupted;
+	int		status;
 	size_t	nb_pids;
 
 	if (shell == NULL)
@@ -119,12 +87,7 @@ bool	t_minishell_set_exec_status(t_minishell *shell)
 	nb_pids = pid_list_size(shell->pid_list);
 	if (nb_pids == 0)
 		return (shell->status);
-	set_interactive_mode(false);
-	not_interrupted = t_minishell_wait_pids(shell);
-	if (not_interrupted == false)
-	{
-		if (write(STDOUT_FILENO, "\n", 1) == -1)
-			handle_error(shell, ERROR_MSG_WRITE, EXIT_FAILURE);
-	}
-	return (!not_interrupted);
+	status = t_minishell_wait_pids(shell);
+	shell->status = status;
+	return (status);
 }

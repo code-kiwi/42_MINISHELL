@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   token_list_merge.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/02 20:42:20 by root              #+#    #+#             */
-/*   Updated: 2024/04/30 14:10:08 by root             ###   ########.fr       */
+/*   Updated: 2024/04/25 11:52:06 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,18 +54,13 @@ static bool	merge_tokens_node(t_list *first, t_list *next)
 	return (true);
 }
 
-bool	append_token_list(bool is_first_quoted, t_list **first, t_list *second)
+bool	append_token_list(bool is_first_quoted, t_list *first, t_list *second)
 {
 	t_list	*last_node;
 
 	if (first == NULL)
 		return (false);
-	if (*first == NULL)
-	{
-		*first = second;
-		return (true);
-	}
-	last_node = ft_lstlast(*first);
+	last_node = ft_lstlast(first);
 	if (is_first_quoted == true)
 	{
 		if (merge_tokens_node(last_node, second) == false)
