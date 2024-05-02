@@ -6,7 +6,7 @@
 /*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 13:10:16 by mhotting          #+#    #+#             */
-/*   Updated: 2024/05/01 15:25:10 by root             ###   ########.fr       */
+/*   Updated: 2024/05/01 18:35:06 by root             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,7 +120,5 @@ bool	t_minishell_set_exec_status(t_minishell *shell)
 		return (shell->status);
 	set_interactive_mode(false);
 	not_interrupted = t_minishell_wait_pids(shell);
-	if (get_signal_error())
-		handle_error(shell, SIGNAL_ERROR, EXIT_FAILURE);
 	return (not_interrupted);
 }

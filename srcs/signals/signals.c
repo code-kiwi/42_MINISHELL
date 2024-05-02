@@ -6,7 +6,7 @@
 /*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/30 10:06:42 by root              #+#    #+#             */
-/*   Updated: 2024/05/01 14:50:35 by root             ###   ########.fr       */
+/*   Updated: 2024/05/02 08:59:06 by root             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,26 +43,9 @@ void	set_interactive_mode(bool interactive)
 
 void	signal_handler(int code)
 {
-	bool	error;
-	char	cwd[CWD_BUFFER_SIZE];
-
 	if (code != SIGINT)
 		return ;
-	error = (write(STDOUT_FILENO, "\n", 1) == -1);
-	if (g_code_received == INTERACTIVE
-		|| g_code_received == SIGINT)
-	{
-		cwd[0] = '\r';
-		if (get_directory_path(cwd + 1, 2047) == false)
-			ft_memcpy(cwd + 1, "Minishell$ ", 12);
-		rl_replace_line("", 1);
-		rl_redisplay();
-		error = (write(STDOUT_FILENO, cwd, ft_strlen(cwd) + 1) == -1) || error;
-		rl_redisplay();
-	}
 	g_code_received = SIGINT;
-	if (error)
-		g_code_received = ERROR_SIGNAL;
 }
 
 bool	catch_sigint(void)
@@ -78,9 +61,4 @@ bool	catch_sigint(void)
 bool	get_sigint(void)
 {
 	return (g_code_received == SIGINT);
-}
-
-bool	get_signal_error(void)
-{
-	return (g_code_received == ERROR_SIGNAL);
 }

@@ -6,7 +6,7 @@
 /*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/02 13:01:05 by brappo            #+#    #+#             */
-/*   Updated: 2024/05/01 14:44:18 by root             ###   ########.fr       */
+/*   Updated: 2024/05/02 08:40:04 by root             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 #include "token.h"
 #include <readline/readline.h>
 #include "signals.h"
+#include <errno.h>
 
 static bool	add_end_token(t_list **tokens)
 {
@@ -72,18 +73,15 @@ static void	merge_inputs(t_minishell *shell, char *input, bool is_end_quoted)
 	}
 }
 
-static t_list	*tokenize_input(t_minishell *shell, char *prompt,
+static t_list	*tokenize_input(t_minishell *shell,
 	t_token_parser *token_parser, bool is_end_quoted)
 {
 	char	*input;
 	t_list	*tokens;
 
-	input = readline(prompt);
-	if (get_signal_error())
-	{
-		free(input);
-		handle_error(shell, SIGNAL_ERROR, EXIT_FAILURE);
-	}
+	input = readline(MULTIPLE_LINE_PROMPT);
+	if (input == NULL && errno == 0)
+		return (NULL);
 	merge_inputs(shell, input, is_end_quoted);
 	tokens = tokenize_str(input, token_parser);
 	if (tokens == NULL && *input)
@@ -103,13 +101,14 @@ void	token_recognition(t_minishell *shell)
 
 	t_token_parser_init(&token_parser);
 	shell->tokens = tokenize_str(shell->input, &token_parser);
+	if (shell->tokens == NULL && errno == 0)
+		return ;
 	if (shell->tokens == NULL && (shell->input == NULL || *shell->input))
 		handle_error(shell, TOKENIZATION_ERROR, EXIT_FAILURE);
 	while (is_command_end(&token_parser, shell->tokens) == false)
 	{
 		is_end_quoted = is_quoted(&token_parser);
-		second_tokens = tokenize_input(shell, MULTIPLE_LINE_PROMPT,
-				&token_parser, is_end_quoted);
+		second_tokens = tokenize_input(shell, &token_parser, is_end_quoted);
 		if (catch_sigint())
 			ft_lstclear(&shell->tokens, t_token_free);
 		if (!append_token_list(is_end_quoted, &shell->tokens, second_tokens))

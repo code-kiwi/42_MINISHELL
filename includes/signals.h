@@ -6,7 +6,7 @@
 /*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/30 10:11:55 by root              #+#    #+#             */
-/*   Updated: 2024/05/01 10:32:02 by root             ###   ########.fr       */
+/*   Updated: 2024/05/02 07:24:23 by root             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define SIGNALS_H
 
 # include "minishell.h"
+# include "stdio.h"
 
 # define RL_ERROR "readline error"
 # define KILL_ERROR "kill error"
@@ -26,6 +27,6 @@ bool	catch_sigint(void);
 void	set_interactive_mode(bool interactive);
 bool	get_sigint(void);
 void	signal_handler(int code);
-bool	get_signal_error(void);
+int		ft_getc(FILE *stream);
 
 #endif // !SIGNALS_H
