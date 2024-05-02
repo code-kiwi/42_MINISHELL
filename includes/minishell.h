@@ -40,9 +40,7 @@ typedef struct s_minishell		t_minishell;
 # define ERROR_MSG_WRONG_BI		"The built-in does not exist"
 # define ERROR_MSG_WRITE		"Call to write function failed"
 # define ERROR_MSG_TOKENIZATION	"Tokenizing input"
-# define ERROR_MSG_CWD			"Cannot get current working directory path"
 # define ERROR_MSG_PROMPT		"Prompt function error"
-# define ERROR_MSG_BUFFER		"Buffer size too small"
 
 # define DGREAT 				">>"
 # define DLESS					"<<"
