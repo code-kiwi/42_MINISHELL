@@ -1,53 +1,61 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.c                                        :+:      :+:    :+:   */
+/*   signals_tests.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/03/27 10:14:16 by mhotting          #+#    #+#             */
-/*   Updated: 2024/05/02 16:44:13 by mhotting         ###   ########.fr       */
+/*   Created: 2024/04/19 12:17:08 by brappo            #+#    #+#             */
+/*   Updated: 2024/04/30 10:06:01 by root             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdbool.h>
-#include <readline/history.h>
-#include <readline/readline.h>
+#include <stdlib.h>
+#include <unistd.h>
+#include <stdio.h>
 #include <signal.h>
 #include "minishell.h"
-#include "prompt.h"
 #include "libft.h"
-#include "token.h"
-#include "node.h"
-#include "build_ast.h"
-#include "execution.h"
-#include "signals.h"
+
+#define SIGNAL_HANDLER_ERROR "signal_handler is called uninitialized"
+#define SIGACTION_ERROR "sigaction failed"
+
+static void	signal_handler(int signal_code, siginfo_t *siginfo, void *context)
+{
+	static t_minishell	*shell = NULL;
+	
+	if (shell == NULL && siginfo == NULL && signal_code == -1)
+	{
+		shell = context;
+		return ;
+	}
+	if (shell == NULL)
+	{
+		ft_printf("%s\n", SIGNAL_HANDLER_ERROR);
+		exit(EXIT_FAILURE);
+	}
+	t_minishell_free(shell);
+	exit(signal_code);
+}
 
 int	main(int argc, char **argv, char **envp)
 {
 	t_minishell	shell;
 
-	if (signal(SIGINT, &signal_handler) == SIG_ERR)
-		exit(EXIT_FAILURE);
 	t_minishell_init(&shell, argc, argv, envp);
-	rl_getc_function = ft_getc;
 	while (true)
 	{
 		shell.input = prompt(&shell);
-		if (shell.input == NULL)
-			handle_error(&shell, ERROR_MSG_PROMPT, EXIT_FAILURE);
-		if (utils_is_empty_cmd(shell.input))
-		{
-			utils_handle_empty_cmd(&shell);
-			continue ;
-		}
 		token_recognition(&shell);
 		shell.ast = build_ast(shell.tokens);
 		if (shell.ast == NULL)
 			handle_error(&shell, ERROR_MSG_AST_CREATION, EXIT_FAILURE);
 		exec_ast(&shell, NULL);
+		ft_lstclear(&shell.tokens, t_token_free);
+		ast_free(&(shell.ast));
 		add_history(shell.input);
-		utils_reset_shell(&shell);
+		free(shell.input);
+		shell.input = NULL;
 	}
 	exit(EXIT_SUCCESS);
 }

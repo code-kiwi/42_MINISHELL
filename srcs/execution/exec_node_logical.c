@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_node_logical.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mhotting <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 09:41:09 by mhotting          #+#    #+#             */
-/*   Updated: 2024/04/29 16:49:06 by mhotting         ###   ########.fr       */
+/*   Updated: 2024/05/02 16:43:28 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,9 +52,9 @@ static bool	exec_node_logical_clone_fds(int fds_src[2], int fds_dest[2])
  */
 void	exec_node_logical(t_minishell *shell, t_node *node, int fds[2])
 {
-	int				status;
 	t_node_logical	*node_logic;
 	int				fds_to_pass[2];
+	bool			interrupted;
 
 	if (node == NULL || (node->type != NODE_AND && node->type != NODE_OR))
 		handle_error(shell, ERROR_MSG_ARGS, EXIT_FAILURE);
@@ -62,10 +62,10 @@ void	exec_node_logical(t_minishell *shell, t_node *node, int fds[2])
 	if (!exec_node_logical_clone_fds(fds, node_logic->child_right_fds))
 		handle_error(shell, ERROR_MSG_DUP, EXIT_FAILURE);
 	exec_node(shell, node->child_left, fds, false);
-	status = t_minishell_get_exec_status(shell);
-	if (
-		(node->type == NODE_AND && status != EXIT_SUCCESS)
-		|| (node->type == NODE_OR && status == EXIT_SUCCESS)
+	interrupted = t_minishell_set_exec_status(shell);
+	if (interrupted
+		|| (node->type == NODE_AND && shell->status != EXIT_SUCCESS)
+		|| (node->type == NODE_OR && shell->status == EXIT_SUCCESS)
 	)
 		return (fds_close_and_reset(node_logic->child_right_fds));
 	fds_to_pass[0] = node_logic->child_right_fds[0];

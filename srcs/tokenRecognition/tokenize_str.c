@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenize_str.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
+/*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 14:59:56 by brappo            #+#    #+#             */
-/*   Updated: 2024/05/01 02:32:49 by mhotting         ###   ########.fr       */
+/*   Updated: 2024/05/02 16:46:02 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,6 @@ static bool	is_token_end(t_token *token, char character, \
 		return (false);
 	if (!is_quoted(token_parser))
 	{
-//		if (token->type == WORD && character == '=')
-//			token->type = ASSIGNEMENT_WORD;
 		if (ft_strchr(OPERATOR_CHARACTER, character) != NULL)
 		{
 			if (token->type == WORD)

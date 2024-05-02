@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    sources.mk                                         :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: brappo <brappo@student.42.fr>              +#+  +:+       +#+         #
+#    By: root <root@student.42.fr>                  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/03/31 20:47:09 by mhotting          #+#    #+#              #
-#    Updated: 2024/05/01 18:58:05 by mhotting         ###   ########.fr        #
+#    Updated: 2024/05/02 16:38:48 by mhotting         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -68,6 +68,9 @@ ifdef testChosen
 	else ifeq ($(testChosen), ast_building)
 		MAIN_DIR		=	.test/
 		MAIN_FILE		=	test_ast_building.c	ast_printing.c
+	else ifeq ($(testChosen), signals)
+		MAIN_DIR		=	.test/
+		MAIN_FILE		=	signals_tests.c
 	else ifeq ($(testChosen), wildcard)
 		MAIN_DIR		=	.test/
 		MAIN_FILE		=	wildcard_test.c echo_string.c
@@ -157,6 +160,10 @@ AST_BUILDING_FILES		=	add_command.c				\
 							get_argv.c
 AST_BUILDING			=	$(addprefix $(AST_BUILDING_DIR), $(AST_BUILDING_FILES))
 
+SIGNALS_DIR				=	signals/
+SIGNALS_FILES			=	signals.c
+SIGNALS					=	$(addprefix $(SIGNALS_DIR), $(SIGNALS_FILES))
+
 # UTILS
 UTILS_DIR				=	utils/
 UTILS_FILES				=	list_utils.c				\
@@ -170,14 +177,15 @@ UTILS_FILES				=	list_utils.c				\
 							ft_split_key_val.c			\
 							ft_print_str_array.c		\
 							array_utils.c				\
-							error.c
+							error.c						\
+							ft_getc.c
 UTILS					=	$(addprefix $(UTILS_DIR), $(UTILS_FILES))
 
 # SOURCES GENERAL
 SRCS_MAIN_DIR			=	srcs/
 SRCS_FILES				=	$(MAIN)	$(AST) $(TOKENR) $(PROMPT) $(ENV)			\
 							$(EXPANSION) $(EXECUTION) $(BUILT_IN)				\
-							$(AST_BUILDING) $(UTILS)
+							$(AST_BUILDING) $(UTILS) $(SIGNALS)
 SRCS					=	$(addprefix $(SRCS_MAIN_DIR), $(SRCS_FILES))
 
 # OBJECTS GENERAL

@@ -3,16 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   exec_redirection_list2.c                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mhotting <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/11 12:37:09 by mhotting          #+#    #+#             */
-/*   Updated: 2024/04/25 11:40:23 by mhotting         ###   ########.fr       */
+/*   Updated: 2024/05/02 09:36:06 by root             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdlib.h>
 #include <stdbool.h>
 #include <fcntl.h>
+#include <errno.h>
+#include <readline/readline.h>
 #include "libft.h"
 #include "minishell.h"
 #include "redirections.h"
@@ -30,22 +32,20 @@ static bool	read_here_doc(char *limiter, int fd_to_write)
 		return (false);
 	while (true)
 	{
-		if (ft_printf(MULTIPLE_LINE_PROMPT) == -1)
-			return (false);
-		cur_line = get_next_line(STDIN_FILENO);
+		cur_line = readline(MULTIPLE_LINE_PROMPT);
 		if (cur_line == NULL)
-			continue ;
+		{
+			if (errno != 0)
+				return (false);
+			handle_error(NULL, ERROR_HERE_DOC_EOF, 0);
+			break ;
+		}
 		if (ft_strncmp(cur_line, limiter, ft_strlen(cur_line) - 1) == 0)
 			break ;
-		if (ft_dprintf(fd_to_write, "%s", cur_line) == -1)
-		{
-			free(cur_line);
-			get_next_line(-1);
-			return (false);
-		}
+		if (ft_dprintf(fd_to_write, "%s\n", cur_line) == -1)
+			return (free(cur_line), false);
 		free(cur_line);
 	}
-	get_next_line(-1);
 	free(cur_line);
 	return (true);
 }
