@@ -6,7 +6,7 @@
 /*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 13:02:08 by mhotting          #+#    #+#             */
-/*   Updated: 2024/05/02 09:22:17 by root             ###   ########.fr       */
+/*   Updated: 2024/05/02 09:46:29 by root             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 #include "minishell.h"
 #include "prompt.h"
 #include "signals.h"
-#include <signal.h>
 #include <errno.h>
 #include "libft.h"
 
@@ -24,6 +23,12 @@ static bool	interrupted(char *input)
 	return (input == NULL && errno == 0);
 }
 
+/**
+ * we read the input while it's being interrupted,
+ * printf("\033[1A") allows us to go one line up in
+ * 	the terminal because for some reason, when readline
+ * is called 3 times and more, he adds a linebreak.
+*/
 static char	*read_input(char *prompt)
 {
 	char	*input;

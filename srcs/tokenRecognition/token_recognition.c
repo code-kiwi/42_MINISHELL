@@ -6,7 +6,7 @@
 /*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/02 13:01:05 by brappo            #+#    #+#             */
-/*   Updated: 2024/05/02 08:40:04 by root             ###   ########.fr       */
+/*   Updated: 2024/05/02 09:43:35 by root             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,8 +101,6 @@ void	token_recognition(t_minishell *shell)
 
 	t_token_parser_init(&token_parser);
 	shell->tokens = tokenize_str(shell->input, &token_parser);
-	if (shell->tokens == NULL && errno == 0)
-		return ;
 	if (shell->tokens == NULL && (shell->input == NULL || *shell->input))
 		handle_error(shell, TOKENIZATION_ERROR, EXIT_FAILURE);
 	while (is_command_end(&token_parser, shell->tokens) == false)

@@ -6,7 +6,7 @@
 /*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 09:41:09 by mhotting          #+#    #+#             */
-/*   Updated: 2024/05/02 09:04:45 by root             ###   ########.fr       */
+/*   Updated: 2024/05/02 09:35:32 by root             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@
 #include "minishell.h"
 #include "execution.h"
 #include "node.h"
-#include "signals.h"
 
 /*
  *	Clones the files descriptors stored into fds_src into fds_dest

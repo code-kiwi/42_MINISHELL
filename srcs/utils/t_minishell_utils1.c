@@ -6,7 +6,7 @@
 /*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 13:10:16 by mhotting          #+#    #+#             */
-/*   Updated: 2024/04/30 19:31:31 by root             ###   ########.fr       */
+/*   Updated: 2024/05/02 09:44:00 by root             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,6 @@ void	t_minishell_init(t_minishell *shell, int argc, char **argv, char **envp)
  */
 void	t_minishell_free(t_minishell *shell)
 {
-	get_next_line(-1);
 	rl_clear_history();
 	if (shell == NULL)
 		return ;
