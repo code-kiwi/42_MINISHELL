@@ -6,7 +6,7 @@
 /*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 13:02:08 by mhotting          #+#    #+#             */
-/*   Updated: 2024/05/02 08:37:15 by root             ###   ########.fr       */
+/*   Updated: 2024/05/02 09:19:18 by root             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,17 +19,29 @@
 #include <errno.h>
 #include "libft.h"
 
+static bool	interrupted(char *input)
+{
+	return (input == NULL && errno == 0);
+}
+
+static bool	interrupted_by_sigint(char *input)
+{
+	return (interrupted(input) && catch_sigint());
+}
+
 static char	*read_input(char *prompt)
 {
 	char	*input;
+	bool	first_sigint;
 
+	first_sigint = true;
 	input = readline(prompt);
-	if (input == NULL && errno == 0)
-		input = readline(prompt);
-	while (input == NULL && errno == 0)
+	while (interrupted_by_sigint(input))
 	{
-		printf("\033[1A");
+		if (!first_sigint)
+			printf("\033[1A");
 		input = readline(prompt);
+		first_sigint = false;
 	}
 	return (input);
 }
@@ -43,6 +55,11 @@ char	*prompt(t_minishell *shell)
 		ft_memcpy(cwd, "Minishell", 10);
 	set_interactive_mode(true);
 	input = read_input(cwd);
+	if (interrupted(input))
+	{
+		t_minishell_free(shell);
+		exit(EXIT_SUCCESS);
+	}
 	if (input == NULL)
 		handle_error(shell, ERROR_MSG_PROMPT, EXIT_FAILURE);
 	if (catch_sigint())
