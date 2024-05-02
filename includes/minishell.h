@@ -6,7 +6,7 @@
 /*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 10:17:54 by mhotting          #+#    #+#             */
-/*   Updated: 2024/04/30 19:31:23 by root             ###   ########.fr       */
+/*   Updated: 2024/05/02 16:39:17 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,8 @@ typedef struct s_minishell		t_minishell;
 # define ERROR_MSG_AST_CREATION	"AST creation failed"
 # define ERROR_MSG_WRONG_BI		"The built-in does not exist"
 # define ERROR_MSG_WRITE		"Call to write function failed"
-# define TOKENIZATION_ERROR 	"Tokenizing input"
+# define ERROR_MSG_TOKENIZATION	"Tokenizing input"
+# define ERROR_MSG_PROMPT		"Prompt function error"
 
 # define DGREAT 				">>"
 # define DLESS					"<<"
@@ -79,6 +80,8 @@ void	t_minishell_free(t_minishell *shell);
 bool	t_minishell_add_pid(t_minishell *shell, pid_t pid);
 bool	t_minishell_set_exec_status(t_minishell *shell);
 void	t_minishell_init_subshell(t_minishell *sub, t_minishell *parent);
+void	utils_reset_shell(t_minishell *shell);
+void	utils_handle_empty_cmd(t_minishell *shell);
 
 // General functions
 void	handle_error(t_minishell *shell, char *error_msg, int exit_status);
@@ -86,11 +89,15 @@ void	handle_error_cmd(t_minishell *shell, char *err_msg, char *cmd);
 void	fd_close_and_reset(int *fd);
 void	fd_close(int fd);
 bool	is_fd_ok(int fd);
+void	fds_init(int fds[2]);
+void	fds_close_and_reset(int fds[2]);
 char	**ft_split_key_val(char *str, char sep);
 char	*bridge(char *first, char *second, char *separator);
 char	*bridge_into_first(char **first, char *second, char *separator);
 void	ft_print_str_array(char **array);
 bool	string_equals(void *a, void *b);
+bool	string_contains_only_spaces(char *str);
 void	**to_array(t_list *lst);
+bool	utils_is_empty_cmd(char *cmd);
 
 #endif

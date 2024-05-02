@@ -62,30 +62,29 @@ void	exec_redirection_heredoc(
 	t_redirection *redirection, t_redirections_info *info
 )
 {
-	int	fd[2];
+	int	fds[2];
 
 	if (
 		redirection == NULL || info == NULL
 		|| redirection->type != REDIRECTION_TYPE_HEREDOC
 	)
 		return ;
-	if (pipe(fd) == -1)
+	if (pipe(fds) == -1)
 		return (handle_error(NULL, ERROR_MSG_PIPE, 0));
-	if (!read_here_doc(redirection->filename, fd[1]))
+	if (!read_here_doc(redirection->filename, fds[1]))
 	{
-		fd_close(fd[0]);
-		fd_close(fd[1]);
+		fds_close_and_reset(fds);
 		return (handle_error(NULL, ERROR_MSG_HEREDOC, 0));
 	}
-	fd_close(fd[1]);
+	fd_close(fds[1]);
 	if (info->error_infile)
 	{
-		fd_close(fd[0]);
+		fd_close(fds[0]);
 		return ;
 	}
 	if (info->fd_stdin != FD_UNSET)
 		fd_close_and_reset(&(info->fd_stdin));
-	info->fd_stdin = fd[0];
+	info->fd_stdin = fds[0];
 }
 
 /*

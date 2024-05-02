@@ -6,7 +6,7 @@
 #    By: root <root@student.42.fr>                  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/03/31 20:47:09 by mhotting          #+#    #+#              #
-#    Updated: 2024/05/02 09:01:05 by root             ###   ########.fr        #
+#    Updated: 2024/05/02 16:38:48 by mhotting         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -83,6 +83,7 @@ MAIN					=	$(addprefix $(MAIN_DIR), $(MAIN_FILE))
 AST_DIR					=	ast/
 AST_FILES				=	t_node_command_utils.c		\
 							t_node_pipe_utils.c			\
+							t_node_logical_utils.c		\
 							t_node_and_utils.c			\
 							t_node_or_utils.c			\
 							t_node_subshell_utils.c		\
@@ -169,9 +170,10 @@ UTILS_FILES				=	list_utils.c				\
 							t_minishell_utils1.c		\
 							t_minishell_utils2.c		\
 							t_pid_list_utils.c			\
-							close_file_descriptor.c		\
-							is_fd_ok.c					\
-							string_utils.c				\
+							file_descriptors_utils.c	\
+							string_utils1.c				\
+							string_utils2.c				\
+							is_empty_cmd.c				\
 							ft_split_key_val.c			\
 							ft_print_str_array.c		\
 							array_utils.c				\

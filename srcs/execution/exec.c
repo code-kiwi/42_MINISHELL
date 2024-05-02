@@ -6,26 +6,15 @@
 /*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/14 20:15:29 by mhotting          #+#    #+#             */
-/*   Updated: 2024/04/30 19:31:59 by root             ###   ########.fr       */
+/*   Updated: 2024/05/02 16:41:00 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdlib.h>
+#include <unistd.h>
 #include "minishell.h"
 #include "execution.h"
 #include "node.h"
-
-/*
- *	Closes the file descriptors stored into the given fds array
- *	The values are reset to FD_UNSET
- */
-void	exec_node_close_fds(int fds[2])
-{
-	if (fds[0] != -1 && fds[0] != FD_UNSET)
-		fd_close_and_reset(&(fds[0]));
-	if (fds[1] != -1 && fds[1] != FD_UNSET)
-		fd_close_and_reset(&(fds[1]));
-}
 
 /*
  *	Executes the given node into the given shell
@@ -55,21 +44,20 @@ void	exec_node(t_minishell *shell, t_node *node, int fds[2], bool in_pipe)
  */
 void	exec_ast(t_minishell *shell, int fds_given[2])
 {
-	int	fds[2];
+	int	fds_to_pass[2];
 
 	if (shell == NULL)
 		handle_error(shell, ERROR_MSG_ARGS, EXIT_FAILURE);
 	if (fds_given != NULL)
 	{
-		fds[0] = fds_given[0];
-		fds[1] = fds_given[1];
+		fds_to_pass[0] = fds_given[0];
+		fds_to_pass[1] = fds_given[1];
 	}
 	else
 	{
-		fds[0] = FD_UNSET;
-		fds[1] = FD_UNSET;
+		fds_to_pass[0] = FD_UNSET;
+		fds_to_pass[1] = FD_UNSET;
 	}
-	exec_node(shell, shell->ast, fds, false);
-	ast_free(&(shell->ast));
+	exec_node(shell, shell->ast, fds_to_pass, false);
 	t_minishell_set_exec_status(shell);
 }

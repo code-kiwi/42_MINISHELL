@@ -6,7 +6,7 @@
 /*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/31 19:28:12 by mhotting          #+#    #+#             */
-/*   Updated: 2024/05/02 09:54:35 by root             ###   ########.fr       */
+/*   Updated: 2024/05/02 16:39:50 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 # include <stdlib.h>
 # include <stdbool.h>
 
-# define SHELL_EOF "Unexpected end of file"
+# define SHELL_EOF	"Unexpected end of file"
 
 typedef struct s_minishell	t_minishell;
 typedef struct s_list		t_list;
@@ -71,6 +71,7 @@ t_list	*lst_push_front_content(t_list **head,
 char	*join_into_dest(char **dest, char *str);
 void	get_operation(char **operations);
 bool	add_token(t_list **head, char *str, t_token_type type);
+t_list	*get_end_token_list(void);
 
 //multi line input
 bool	append_token_list(bool is_first_quoted, t_list **first, t_list *second);
