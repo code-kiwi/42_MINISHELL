@@ -6,7 +6,7 @@
 /*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 13:10:16 by mhotting          #+#    #+#             */
-/*   Updated: 2024/05/02 09:45:29 by root             ###   ########.fr       */
+/*   Updated: 2024/05/02 10:03:31 by root             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 #include "pid_list.h"
 #include <signal.h>
 #include "signals.h"
+#include <unistd.h>
 
 void	kill_all_childs(t_pid_list *childs, t_minishell *shell)
 {
@@ -120,5 +121,10 @@ bool	t_minishell_set_exec_status(t_minishell *shell)
 		return (shell->status);
 	set_interactive_mode(false);
 	not_interrupted = t_minishell_wait_pids(shell);
+	if (not_interrupted == false)
+	{
+		if (write(STDOUT_FILENO, "\n", 1) == -1)
+			handle_error(shell, ERROR_MSG_WRITE, EXIT_FAILURE);
+	}
 	return (!not_interrupted);
 }
