@@ -6,7 +6,7 @@
 /*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/29 10:24:26 by brappo            #+#    #+#             */
-/*   Updated: 2024/04/29 16:53:30 by brappo           ###   ########.fr       */
+/*   Updated: 2024/05/03 15:29:15 by brappo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,11 @@
 #include "errno.h"
 #include "libft.h"
 #include <stdio.h>
+
+void	print_string(void *content)
+{
+	printf("%s\n", (char *)content);
+}
 
 static void	cat_lst_in_array(char **array_dest, t_list *lst_src,
 	size_t start, size_t length)
@@ -41,10 +46,10 @@ static char	**insert_list_in_array(char **array, t_list *lst,
 	new_array = (char **)ft_calloc(result_length + 1, sizeof(char *));
 	if (new_array == NULL)
 		return (NULL);
-	array_copy((void ***)new_array, (void ***)array, index + 1);
-	cat_lst_in_array(new_array, lst, array_length, result_length);
-	array_copy((void ***)new_array + index + list_length,
-		(void ***)*array, array_length);
+	ft_lstprint(lst, print_string);
+	array_cat((void **)new_array, (void **)array, result_length + 1);
+	cat_lst_in_array(new_array, lst, index, result_length);
+	array_cat((void **)new_array, (void **)array + index, result_length + 1);
 	return (new_array);
 }
 
@@ -107,7 +112,7 @@ bool	expand_argv(char ***argv, char options,
 	t_list	*wildcards_candidate;
 	size_t	candidates_count;
 
-	if (argv == NULL || *argv == NULL)
+	if (argv == NULL || *argv == NULL || **argv == NULL)
 		return (false);
 	index = 1;
 	while ((*argv)[index])
