@@ -6,7 +6,7 @@
 /*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 10:17:54 by mhotting          #+#    #+#             */
-/*   Updated: 2024/05/02 16:39:17 by mhotting         ###   ########.fr       */
+/*   Updated: 2024/05/03 11:24:26 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ typedef struct s_minishell		t_minishell;
 # define ERROR_MSG_DUP			"Impossible to duplicate a file descriptor"
 # define ERROR_MSG_SHELL_CPY	"Impossible to create a subshell"
 # define ERROR_MSG_AST_CREATION	"AST creation failed"
+# define ERROR_MSG_SUBAST		"Subshell AST creation failed"
 # define ERROR_MSG_WRONG_BI		"The built-in does not exist"
 # define ERROR_MSG_WRITE		"Call to write function failed"
 # define ERROR_MSG_TOKENIZATION	"Tokenizing input"

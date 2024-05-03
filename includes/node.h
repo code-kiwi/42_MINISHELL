@@ -6,7 +6,7 @@
 /*   By: mhotting <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 17:53:48 by mhotting          #+#    #+#             */
-/*   Updated: 2024/04/30 18:49:46 by mhotting         ###   ########.fr       */
+/*   Updated: 2024/05/03 11:28:26 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,7 @@ typedef struct s_node_subshell
 {
 	t_list						*token_list;
 	struct s_redirection_list	*redirection_list;
+	t_node						*ast;
 }	t_node_subshell;
 
 // t_node functions
@@ -93,5 +94,6 @@ void			node_or_free(void **node_ptr);
 t_node			*node_subshell_create(t_list *token_list);
 void			node_subshell_free(void **node_ptr);
 bool			node_subshell_add_redirection(t_node *n, char *op, char *file);
+bool			node_subshell_build_ast(t_node *node);
 
 #endif

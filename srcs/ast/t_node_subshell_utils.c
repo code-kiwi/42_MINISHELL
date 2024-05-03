@@ -6,12 +6,14 @@
 /*   By: mhotting <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/10 10:07:01 by mhotting          #+#    #+#             */
-/*   Updated: 2024/04/25 11:16:34 by mhotting         ###   ########.fr       */
+/*   Updated: 2024/05/03 12:50:05 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdlib.h>
 #include "libft.h"
+#include "minishell.h"
+#include "build_ast.h"
 #include "node.h"
 #include "redirections.h"
 #include "token.h"
@@ -33,13 +35,14 @@ t_node	*node_subshell_create(t_list *token_list)
 	node = node_create_empty(NODE_SUBSHELL);
 	if (node == NULL)
 		return (NULL);
-	node_subshell = (t_node_subshell *) malloc(sizeof(t_node_subshell));
+	node_subshell = (t_node_subshell *) ft_calloc(1, sizeof(t_node_subshell));
 	if (node_subshell == NULL)
 	{
 		free(node);
 		return (NULL);
 	}
 	node_subshell->token_list = token_list;
+	node_subshell->ast = NULL;
 	node_subshell->redirection_list = redirection_list_create();
 	if (node_subshell->redirection_list == NULL)
 	{
@@ -65,6 +68,8 @@ void	node_subshell_free(void **node_ptr)
 		return ;
 	node = (t_node_subshell *) *node_ptr;
 	ft_lstclear(&(node->token_list), t_token_free);
+	if (node->ast != NULL)
+		ast_free(&(node->ast));
 	redirection_list_free(&(node->redirection_list));
 	free(node);
 	*node_ptr = NULL;
@@ -91,3 +96,25 @@ bool	node_subshell_add_redirection(t_node *node, char *op, char *filename)
 	subshell = (t_node_subshell *) node->content;
 	return (redirection_list_add(subshell->redirection_list, op, filename));
 }
+
+/*
+ *	Builds the subshell node's AST based on its tokens field
+ *	In case of ERROR, returns false, else returns true
+ *	If the AST has not been built, an error message is displayed
+ */
+bool	node_subshell_build_ast(t_node *node)
+{
+	t_node_subshell	*node_sub;
+
+	if (node == NULL || node->content == NULL || node->type != NODE_SUBSHELL)
+		return (false);
+	node_sub = (t_node_subshell *) node->content;
+	node_sub->ast = build_ast(node_sub->token_list);
+	if (node_sub->ast == NULL)
+	{
+		handle_error(NULL, ERROR_MSG_SUBAST, 0);
+		return (false);
+	}
+	return (true);
+}
+
