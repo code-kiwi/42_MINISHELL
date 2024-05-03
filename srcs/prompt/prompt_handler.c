@@ -6,7 +6,7 @@
 /*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 13:02:08 by mhotting          #+#    #+#             */
-/*   Updated: 2024/05/03 12:45:59 by brappo           ###   ########.fr       */
+/*   Updated: 2024/05/03 13:05:35 by brappo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ static char	*read_input(char *prompt)
 	input = readline(prompt);
 	while ((errno == EINTR || errno == 0) && catch_sigint())
 	{
+		errno = 0;
 		free(input);
 		input = readline(prompt);
 	}
@@ -48,9 +49,14 @@ char	*prompt(t_minishell *shell)
 	char	cwd[CWD_BUFFER_SIZE];
 
 	set_interactive_mode(true);
-	if (get_directory_path(cwd, CWD_BUFFER_SIZE) == false)
-		ft_memcpy(cwd, "Minishell", 10);
-	input = read_input(cwd);
+	if (isatty(STDIN_FILENO))
+	{
+		if (get_directory_path(cwd, CWD_BUFFER_SIZE) == false)
+			ft_memcpy(cwd, "Minishell", 10);
+		input = read_input(cwd);
+	}
+	else
+		input = read_input(NULL);
 	if (interrupted(input))
 	{
 		t_minishell_free(shell);
