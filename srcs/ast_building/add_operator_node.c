@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   add_operator_node.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/10 12:01:32 by brappo            #+#    #+#             */
-/*   Updated: 2024/05/02 12:29:51 by root             ###   ########.fr       */
+/*   Updated: 2024/05/03 09:18:25 by brappo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ bool	add_pipe(t_node **current_node, t_node **head, t_list *tokens)
 
 	if (current_node == NULL || head == NULL || tokens == NULL)
 		return (false);
-	if (*head == NULL ||*current_node == NULL)
+	if (*head == NULL || *current_node == NULL)
 	{
 		ast_syntax_error(tokens->content);
 		return (false);

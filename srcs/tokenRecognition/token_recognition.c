@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   token_recognition.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/02 13:01:05 by brappo            #+#    #+#             */
-/*   Updated: 2024/05/02 20:31:58 by root             ###   ########.fr       */
+/*   Updated: 2024/05/03 10:36:32 by brappo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,12 +80,13 @@ static t_list	*tokenize_input(t_minishell *shell,
 	t_list	*tokens;
 
 	input = readline(MULTIPLE_LINE_PROMPT);
-	if (input == NULL && errno == 0)
+	if (get_sigint())
 	{
-		if (get_sigint())
-			return (NULL);
-		handle_error(shell, SHELL_EOF, EXIT_FAILURE);
+		free(input);
+		return (NULL);
 	}
+	if (input == NULL && errno == 0)
+		handle_error(shell, SHELL_EOF, EXIT_FAILURE);
 	merge_inputs(shell, input, is_end_quoted);
 	tokens = tokenize_str(input, token_parser);
 	if (tokens == NULL && *input)
@@ -112,7 +113,7 @@ void	token_recognition(t_minishell *shell)
 		is_end_quoted = is_quoted(&token_parser);
 		second_tokens = tokenize_input(shell, &token_parser, is_end_quoted);
 		if (catch_sigint())
-			ft_lstclear(&shell->tokens, t_token_free);
+			return (ft_lstclear(&shell->tokens, t_token_free));
 		if (!append_token_list(is_end_quoted, &shell->tokens, second_tokens))
 		{
 			ft_lstclear(&second_tokens, t_token_free);

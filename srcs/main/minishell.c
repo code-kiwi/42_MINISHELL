@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 10:14:16 by mhotting          #+#    #+#             */
-/*   Updated: 2024/05/03 09:06:27 by mhotting         ###   ########.fr       */
+/*   Updated: 2024/05/03 10:41:13 by brappo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,16 @@
 #include "build_ast.h"
 #include "execution.h"
 #include "signals.h"
+#include <termios.h>
+
+void	stop_tty_echo(void)
+{
+	struct termios	terminal;
+
+	tcgetattr(STDIN_FILENO, &terminal);
+	terminal.c_lflag &= ~ECHO;
+	tcsetattr(STDIN_FILENO, 0, &terminal);
+}
 
 int	main(int argc, char **argv, char **envp)
 {
@@ -31,23 +41,27 @@ int	main(int argc, char **argv, char **envp)
 	if (signal(SIGINT, &signal_handler) == SIG_ERR)
 		exit(EXIT_FAILURE);
 	t_minishell_init(&shell, argc, argv, envp);
-	rl_getc_function = ft_getc;
+	rl_event_hook = stop_readline;
 	while (true)
 	{
 		shell.input = prompt(&shell);
 		if (shell.input == NULL)
 			handle_error(&shell, ERROR_MSG_PROMPT, EXIT_FAILURE);
-		if (utils_is_empty_cmd(shell.input))
-		{
-			utils_handle_empty_cmd(&shell);
-			continue ;
-		}
+		// if (utils_is_empty_cmd(shell.input))
+		// {
+		// 	utils_handle_empty_cmd(&shell);
+		// 	continue ;
+		// }
 		token_recognition(&shell);
 		shell.ast = build_ast(shell.tokens);
 		if (shell.ast == NULL)
 		{
 			if (errno == 0)
+			{
+				free(shell.input);
+				ft_lstclear(&shell.tokens, t_token_free);
 				continue ;
+			}
 			handle_error(&shell, ERROR_MSG_AST_CREATION, EXIT_FAILURE);
 		}
 		exec_ast(&shell, NULL);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   token_list_merge.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/02 20:42:20 by root              #+#    #+#             */
-/*   Updated: 2024/04/30 14:10:08 by root             ###   ########.fr       */
+/*   Updated: 2024/05/03 10:14:10 by brappo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ static bool	merge_tokens_node(t_list *first, t_list *next)
 	t_token	*next_token;
 
 	first_token = (t_token *)(first->content);
-	if (first->next != NULL || first == NULL)
+	if (first == NULL || first->next != NULL)
 		return (false);
 	if (next == NULL)
 	{

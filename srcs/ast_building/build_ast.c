@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   build_ast.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/10 10:14:38 by brappo            #+#    #+#             */
-/*   Updated: 2024/05/02 12:38:17 by root             ###   ########.fr       */
+/*   Updated: 2024/05/03 10:24:36 by brappo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,8 @@ t_node	*build_ast(t_list *tokens)
 	t_node	*current_node;
 	t_node	*head;
 
+	if (tokens == NULL)
+		return (NULL);
 	current_node = NULL;
 	head = NULL;
 	if (set_operator_type(tokens) == false)
