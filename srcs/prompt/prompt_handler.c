@@ -6,7 +6,7 @@
 /*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 13:02:08 by mhotting          #+#    #+#             */
-/*   Updated: 2024/05/03 10:46:01 by brappo           ###   ########.fr       */
+/*   Updated: 2024/05/03 11:20:46 by brappo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 #include "prompt.h"
 #include "signals.h"
 
-static bool	interrupted(char *input)
+bool	interrupted(char *input)
 {
 	return (input == NULL && errno == 0);
 }

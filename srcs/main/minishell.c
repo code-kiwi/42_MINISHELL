@@ -6,7 +6,7 @@
 /*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 10:14:16 by mhotting          #+#    #+#             */
-/*   Updated: 2024/05/03 10:41:13 by brappo           ###   ########.fr       */
+/*   Updated: 2024/05/03 11:15:31 by brappo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,22 +23,13 @@
 #include "build_ast.h"
 #include "execution.h"
 #include "signals.h"
-#include <termios.h>
-
-void	stop_tty_echo(void)
-{
-	struct termios	terminal;
-
-	tcgetattr(STDIN_FILENO, &terminal);
-	terminal.c_lflag &= ~ECHO;
-	tcsetattr(STDIN_FILENO, 0, &terminal);
-}
 
 int	main(int argc, char **argv, char **envp)
 {
 	t_minishell	shell;
 
-	if (signal(SIGINT, &signal_handler) == SIG_ERR)
+	if (signal(SIGINT, &signal_handler) == SIG_ERR
+		|| signal(SIGQUIT, &signal_handler) == SIG_ERR)
 		exit(EXIT_FAILURE);
 	t_minishell_init(&shell, argc, argv, envp);
 	rl_event_hook = stop_readline;
