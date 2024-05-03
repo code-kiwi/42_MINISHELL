@@ -6,7 +6,7 @@
 /*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/02 13:01:05 by brappo            #+#    #+#             */
-/*   Updated: 2024/05/03 10:44:06 by brappo           ###   ########.fr       */
+/*   Updated: 2024/05/03 12:18:05 by brappo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,6 +82,8 @@ static t_list	*tokenize_input(t_minishell *shell,
 	input = readline(MULTIPLE_LINE_PROMPT);
 	if (get_sigint())
 	{
+		if (errno == EINTR)
+			errno = 0;
 		free(input);
 		return (NULL);
 	}

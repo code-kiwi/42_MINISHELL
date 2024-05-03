@@ -6,7 +6,7 @@
 /*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/30 10:11:55 by root              #+#    #+#             */
-/*   Updated: 2024/05/03 10:43:51 by brappo           ###   ########.fr       */
+/*   Updated: 2024/05/03 12:16:10 by brappo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,6 @@ bool	catch_sigint(void);
 void	set_interactive_mode(bool interactive);
 bool	get_sigint(void);
 void	signal_handler(int code);
-int		ft_getc(FILE *stream);
 int		stop_readline(void);
 bool	interrupted(char *input);
 
