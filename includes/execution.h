@@ -6,12 +6,14 @@
 /*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/10 12:52:55 by mhotting          #+#    #+#             */
-/*   Updated: 2024/05/02 16:39:02 by mhotting         ###   ########.fr       */
+/*   Updated: 2024/05/03 16:11:29 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef EXECUTION_H
 # define EXECUTION_H
+
+#include <stdbool.h>
 
 typedef struct s_minishell			t_minishell;
 typedef struct s_node				t_node;
@@ -19,6 +21,12 @@ typedef struct s_node_command		t_node_command;
 typedef struct s_redirection		t_redirection;
 typedef struct s_redirection_list	t_redirection_list;
 typedef struct s_redirections_info	t_redirections_info;
+
+typedef struct s_heredoc_exec_info
+{
+	bool	interruption;
+	bool	error_flag;
+}	t_heredoc_exec_info;
 
 // General execution
 void	exec_ast(t_minishell *shell, int fds_given[2]);
@@ -47,5 +55,13 @@ void	exec_redirection_heredoc(t_redirection *r, t_redirections_info *info);
 void	exec_redirection_infile(t_redirection *red, \
 			t_redirections_info *info, bool after_last_hd);
 void	exec_redirection_out(t_redirection *red, t_redirections_info *info);
+
+// Heredoc execution
+bool	exec_ast_heredocs(t_minishell *shell);
+void	exec_node_hdcs(t_node *node, t_heredoc_exec_info *hdc_info);
+void	exec_redirection_list_heredocs(t_redirection_list *redirection_list, \
+									t_heredoc_exec_info *hdc_info);
+void	hdc_info_set_error(t_heredoc_exec_info *hdc_info);
+void	hdc_info_set_interruption(t_heredoc_exec_info *hdc_info);
 
 #endif

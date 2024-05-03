@@ -6,14 +6,16 @@
 /*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/28 11:06:44 by mhotting          #+#    #+#             */
-/*   Updated: 2024/05/01 11:56:00 by root             ###   ########.fr       */
+/*   Updated: 2024/05/03 15:50:19 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef REDIRECTIONS_H
 # define REDIRECTIONS_H
 
+# include <stdlib.h>
 # include <stdbool.h>
+# include <sys/types.h>
 
 # define ERROR_HERE_DOC_EOF "Here document delimited by end of file"
 
@@ -34,6 +36,7 @@ typedef struct s_redirections_info
 	int		fd_stdout;
 	bool	error_infile;
 	bool	error_outfile;
+	ssize_t	hdc_last_pos;
 }	t_redirections_info;
 
 typedef struct s_redirection_list

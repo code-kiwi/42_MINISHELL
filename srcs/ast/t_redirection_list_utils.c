@@ -6,7 +6,7 @@
 /*   By: mhotting <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/28 08:50:23 by mhotting          #+#    #+#             */
-/*   Updated: 2024/04/25 11:10:18 by mhotting         ###   ########.fr       */
+/*   Updated: 2024/05/03 15:56:49 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ t_redirection_list	*redirection_list_create(void)
 	redirs->info.fd_stdout = FD_UNSET;
 	redirs->info.error_infile = false;
 	redirs->info.error_outfile = false;
+	redirs->info.hdc_last_pos = -1;
 	return (redirs);
 }
 
