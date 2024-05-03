@@ -6,7 +6,7 @@
 /*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 13:02:08 by mhotting          #+#    #+#             */
-/*   Updated: 2024/05/03 13:05:35 by brappo           ###   ########.fr       */
+/*   Updated: 2024/05/03 13:56:41 by brappo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,12 +23,6 @@ bool	interrupted(char *input)
 	return (input == NULL && errno == 0);
 }
 
-/**
- * we read the input while it's being interrupted,
- * printf("\033[1A") allows us to go one line up in
- * 	the terminal because for some reason, when readline
- * is called 3 times and more, he adds a linebreak.
-*/
 static char	*read_input(char *prompt)
 {
 	char	*input;
@@ -49,14 +43,9 @@ char	*prompt(t_minishell *shell)
 	char	cwd[CWD_BUFFER_SIZE];
 
 	set_interactive_mode(true);
-	if (isatty(STDIN_FILENO))
-	{
-		if (get_directory_path(cwd, CWD_BUFFER_SIZE) == false)
-			ft_memcpy(cwd, "Minishell", 10);
-		input = read_input(cwd);
-	}
-	else
-		input = read_input(NULL);
+	if (get_directory_path(cwd, CWD_BUFFER_SIZE) == false)
+		ft_memcpy(cwd, "Minishell", 10);
+	input = read_input(cwd);
 	if (interrupted(input))
 	{
 		t_minishell_free(shell);

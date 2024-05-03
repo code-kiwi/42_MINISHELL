@@ -6,7 +6,7 @@
 /*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 10:14:16 by mhotting          #+#    #+#             */
-/*   Updated: 2024/05/03 12:48:34 by brappo           ###   ########.fr       */
+/*   Updated: 2024/05/03 13:57:32 by brappo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,8 @@ int	main(int argc, char **argv, char **envp)
 {
 	t_minishell	shell;
 
+	if (isatty(STDIN_FILENO))
+		exit(EXIT_FAILURE);
 	if (signal(SIGINT, &signal_handler) == SIG_ERR
 		|| signal(SIGQUIT, &signal_handler) == SIG_ERR)
 		exit(EXIT_FAILURE);
@@ -42,16 +44,11 @@ int	main(int argc, char **argv, char **envp)
 			handle_error(&shell, ERROR_MSG_PROMPT, EXIT_FAILURE);
 		token_recognition(&shell);
 		shell.ast = build_ast(shell.tokens);
-		if (shell.ast == NULL)
-		{
-			if (errno == 0)
-			{
-				utils_reset_shell(&shell);
-				continue ;
-			}
+		if (shell.ast == NULL
+			&& errno != 0)
 			handle_error(&shell, ERROR_MSG_AST_CREATION, EXIT_FAILURE);
-		}
-		exec_ast(&shell, NULL);
+		else
+			exec_ast(&shell, NULL);
 		printf("status : %d\n", shell.status);
 		add_history(shell.input);
 		utils_reset_shell(&shell);
