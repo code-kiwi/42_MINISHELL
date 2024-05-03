@@ -6,7 +6,7 @@
 /*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/29 10:24:26 by brappo            #+#    #+#             */
-/*   Updated: 2024/05/03 15:29:15 by brappo           ###   ########.fr       */
+/*   Updated: 2024/05/03 16:12:47 by brappo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,13 +43,12 @@ static char	**insert_list_in_array(char **array, t_list *lst,
 
 	list_length = ft_lstsize(lst);
 	result_length = array_length + list_length;
-	new_array = (char **)ft_calloc(result_length + 1, sizeof(char *));
+	new_array = (char **)ft_calloc(result_length + 2, sizeof(char *));
 	if (new_array == NULL)
 		return (NULL);
-	ft_lstprint(lst, print_string);
-	array_cat((void **)new_array, (void **)array, result_length + 1);
-	cat_lst_in_array(new_array, lst, index, result_length);
-	array_cat((void **)new_array, (void **)array + index, result_length + 1);
+	array_cat((void **)new_array, (void **)array, result_length + 2);
+	cat_lst_in_array(new_array, lst, index, result_length + 1);
+	array_cat((void **)new_array, (void **)array + index, result_length + 2);
 	return (new_array);
 }
 
@@ -65,11 +64,11 @@ static bool	replace_arguments(char ***argv,
 	if (arg_index > array_length)
 		return (false);
 	free((*argv)[arg_index]);
-	ft_memmove(*argv + arg_index, *argv + arg_index + 1,
-		array_length - arg_index);
+	ft_memcpy(*argv + arg_index, *argv + arg_index + 1,
+		(array_length - arg_index) * sizeof(char *));
 	(*argv)[array_length - 1] = NULL;
 	new_argv = insert_list_in_array(*argv, wildcards_candidates,
-			arg_index, array_length - 1);
+			arg_index, array_length - 2);
 	if (new_argv == NULL)
 		return (false);
 	free(*argv);

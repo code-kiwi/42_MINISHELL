@@ -6,7 +6,7 @@
 /*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/28 10:22:22 by brappo            #+#    #+#             */
-/*   Updated: 2024/05/03 15:21:08 by brappo           ###   ########.fr       */
+/*   Updated: 2024/05/03 16:08:11 by brappo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ bool	array_cat(void **dest, void **src, size_t dest_size)
 	if (dest_size < dest_length)
 		return (false);
 	index = 0;
-	while (dest_length < dest_size - 1 && src[index])
+	while (dest_length + index < dest_size - 1 && src[index])
 	{
 		dest[dest_length + index] = src[index];
 		index++;
