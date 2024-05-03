@@ -6,7 +6,7 @@
 /*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 13:02:08 by mhotting          #+#    #+#             */
-/*   Updated: 2024/05/03 10:41:25 by brappo           ###   ########.fr       */
+/*   Updated: 2024/05/03 10:46:01 by brappo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ static char	*read_input(char *prompt)
 	char	*input;
 
 	input = readline(prompt);
-	while (errno == 0 && catch_sigint())
+	while ((errno == 0 || errno == ENOTTY) && catch_sigint())
 	{
 		free(input);
 		input = readline(prompt);
