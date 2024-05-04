@@ -6,7 +6,7 @@
 #    By: root <root@student.42.fr>                  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/03/31 20:47:09 by mhotting          #+#    #+#              #
-#    Updated: 2024/05/03 16:10:30 by mhotting         ###   ########.fr        #
+#    Updated: 2024/05/04 21:04:57 by mhotting         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -136,7 +136,6 @@ EXECUTION_FILES			=	exec.c						\
 							exec_redirection_list1.c	\
 							exec_redirection_list2.c	\
 							exec_ast_heredocs.c			\
-							exec_node_heredocs.c		\
 							t_heredoc_exec_info_utils.c	\
 							exec_redirection_list_hdcs.c
 EXECUTION				=	$(addprefix $(EXECUTION_DIR), $(EXECUTION_FILES))
