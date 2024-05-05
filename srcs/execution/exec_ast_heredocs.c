@@ -6,7 +6,7 @@
 /*   By: mhotting <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/03 09:54:05 by mhotting          #+#    #+#             */
-/*   Updated: 2024/05/05 19:34:01 by mhotting         ###   ########.fr       */
+/*   Updated: 2024/05/05 21:56:52 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,10 +55,12 @@ static void	exec_node_hdcs(t_node *node, t_heredoc_exec_info *hdc_info)
 	t_redirection_list	*redirs;
 
 	if (
-		hdc_info == NULL || hdc_info->error_flag || hdc_info->interruption
-		|| node == NULL || node->content == NULL
+		hdc_info == NULL || hdc_info->error_flag || node == NULL
+		|| node->content == NULL
 	)
 		return (hdc_info_set_error(hdc_info));
+	if (hdc_info->interruption)
+		return ;
 	redirs = get_node_redirs(node);
 	if (redirs == NULL)
 		return (hdc_info_set_error(hdc_info));

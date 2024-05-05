@@ -6,7 +6,7 @@
 /*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 10:14:16 by mhotting          #+#    #+#             */
-/*   Updated: 2024/05/05 21:27:54 by mhotting         ###   ########.fr       */
+/*   Updated: 2024/05/05 21:50:18 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,7 @@ int	main(int argc, char **argv, char **envp)
 			handle_error(&shell, ERROR_MSG_HEREDOC_EXEC, EXIT_FAILURE);
 		if (shell.heredoc_interruption)
 		{
+			add_history(shell.input);
 			utils_reset_shell(&shell);
 			shell.status = STATUS_SIGINT_STOP;
 			continue ;

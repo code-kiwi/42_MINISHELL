@@ -6,7 +6,7 @@
 /*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/28 11:06:44 by mhotting          #+#    #+#             */
-/*   Updated: 2024/05/03 15:50:19 by mhotting         ###   ########.fr       */
+/*   Updated: 2024/05/05 21:48:48 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,8 @@
 # include <stdbool.h>
 # include <sys/types.h>
 
-# define ERROR_HERE_DOC_EOF "Here document delimited by end of file"
+# define ERROR_HERE_DOC_EOF \
+	"Warning: Here-document delimited by end of file (wanted \"%s\")\n"
 
 typedef struct s_list	t_list;
 

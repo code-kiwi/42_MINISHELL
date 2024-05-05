@@ -6,7 +6,7 @@
 /*   By: mhotting <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/03 15:35:13 by mhotting          #+#    #+#             */
-/*   Updated: 2024/05/05 21:22:10 by mhotting         ###   ########.fr       */
+/*   Updated: 2024/05/05 21:47:50 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ static int	read_here_doc(char *limiter, int fd_to_write)
 				return (EXIT_FAILURE);
 			else if (get_sigint())
 				return (STATUS_SIGINT_STOP);
-			ft_dprintf(STDERR_FILENO, "%s\n", ERROR_HERE_DOC_EOF);
+			ft_dprintf(STDERR_FILENO, ERROR_HERE_DOC_EOF, limiter);
 			break ;
 		}
 		if (ft_strncmp(cur_line, limiter, ft_strlen(cur_line)) == 0)
