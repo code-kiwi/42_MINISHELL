@@ -6,7 +6,7 @@
 /*   By: mhotting <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/10 10:07:01 by mhotting          #+#    #+#             */
-/*   Updated: 2024/05/03 12:50:05 by mhotting         ###   ########.fr       */
+/*   Updated: 2024/05/05 21:06:04 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,4 +117,3 @@ bool	node_subshell_build_ast(t_node *node)
 	}
 	return (true);
 }
-

@@ -6,69 +6,55 @@
 /*   By: mhotting <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/03 15:35:13 by mhotting          #+#    #+#             */
-/*   Updated: 2024/05/04 21:18:03 by mhotting         ###   ########.fr       */
+/*   Updated: 2024/05/05 21:22:10 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdlib.h>
 #include <stdbool.h>
+#include <readline/readline.h>
+#include <errno.h>
 #include "libft.h"
-#include "minishell.h"
 #include "redirections.h"
 #include "execution.h"
+#include "signals.h"
 
 /*
- *	Executes the heredoc routine
- *	Calls the function that reads the user input
- *	Clears all the process resources
- *	Returns a status according to heredoc routine status of execution
- *	NB: this function is supposed to be called from a child process
+ *	Reads the user input and writes it (adding a new line) into the given fd
+ *	When the limiter is encountered, the reading process stops
+ *	When the user adds EOF, the reading process stops (displaying a message)
+ *	When the user sends SIGINT signal, the reading process stops
+ *	Returns:
+ *		- EXIT_SUCCESS on SUCCESS (reading process stopped by limiter or EOF)
+ *		- EXIT_FAILURE on ERROR
+ *		- STATUS_SIGINT_STOP on SIGINT user stop
  */
-static void	exec_hdcs_handle_subprocess(
-	t_minishell *shell, char *lim, int pipe_fds[2]
-)
+static int	read_here_doc(char *limiter, int fd_to_write)
 {
-	int	status;
+	char	*cur_line;
 
-	if (shell == NULL || lim == NULL)
-		handle_error(shell, ERROR_MSG_ARGS, EXIT_FAILURE);
-	//status = read_here_doc_NEW(lim, fds[1]);
-	status = EXIT_FAILURE;
-	fds_close_and_reset(pipe_fds);
-	t_minishell_free(shell);
-	exit(status);
-}
-
-/*
- *	Handles the main process routine after a heredoc subprocess execution
- *	Retrives the sub_process (pointed by pid) exit status:
- *		- If this one is valid, saves the pipe read fd into redirection info
- *		- If the exit status is not EXIT_SUCCESS:
- *			-> closes de pipe read end
- *			-> according to the type of exit status (interruption or not), sets
- *			the hdc_info flags
- */
-static void	exec_hds_handle_mainprocess(
-	pid_t pid, int pipe_fd_read, t_redirections_info *info,
-	t_heredoc_exec_info *hdc_info
-)
-{
-	int		status;
-	bool	sig_interruption;
-
-	if (info == NULL || hdc_info == NULL)
-		return (hdc_info_set_error(hdc_info));
-	status = get_return_value(pid, &sig_interruption);
-	if (status == EXIT_SUCCESS)
-		info->fd_stdin = pipe_fd_read;
-	else
+	if (limiter == NULL || fd_to_write < 0)
+		return (EXIT_FAILURE);
+	while (true)
 	{
-		fd_close_and_reset(&pipe_fd_read);
-		if (sig_interruption)
-			hdc_info->interruption = true;
-		else
-			hdc_info->error_flag = true;
+		cur_line = readline(HEREDOC_PROMPT);
+		if (cur_line == NULL)
+		{
+			if (errno != 0)
+				return (EXIT_FAILURE);
+			else if (get_sigint())
+				return (STATUS_SIGINT_STOP);
+			ft_dprintf(STDERR_FILENO, "%s\n", ERROR_HERE_DOC_EOF);
+			break ;
+		}
+		if (ft_strncmp(cur_line, limiter, ft_strlen(cur_line)) == 0)
+			break ;
+		if (ft_dprintf(fd_to_write, "%s\n", cur_line) == -1)
+			return (free(cur_line), EXIT_FAILURE);
+		free(cur_line);
 	}
+	free(cur_line);
+	return (EXIT_SUCCESS);
 }
 
 /*
@@ -76,41 +62,50 @@ static void	exec_hds_handle_mainprocess(
  *	Steps:
  *		- arg check
  *		- pipe opening (the heredoc input will be written into a pipe and the
- *		read end of the pipe will be used later to read the input)
- *		- forks in order to execute the heredoc routine into a subprocess
- *		- the main process retrives the child process' exit status in order to
- *		have information about the heredoc and save them into redirection info
- *		and hdc_info
+ *		read end of the pipe will be stored into redirection info in order to
+ *		be used later to read the input)
+ *		- Calls function that reads the user input for heredoc
+ *		- According to the heredoc reading function returned status:
+ *			-> EXIT_FAILURE: hdc_info error_flag is set to true
+ *			-> STATUS_SIGINT_STOP: hdc_info interruption flag is set to true
+ *			-> EXIT_SUCCESS: saves the pipe reading end into info->fd_stdin
+ *	NB: Interactive mode is enabled before user input typing and disbaled right
+ *	after in order to handle SIGINT
  *	NB: redirection info will be used to store the reading end of the pipe
  *	NB: hdc_info will be used to store info about the heredoc execution (used to
  *	see if the heredoc process was interrupted by a signal or encountered an
  *	error)
  */
-static void	exec_redirection_heredoc_NEW(
-	t_minishell *shell, t_redirection *redir, t_redirections_info *info,
+static void	exec_redirection_heredoc(
+	t_redirection *redir, t_redirections_info *info,
 	t_heredoc_exec_info *hdc_info
 )
 {
-	int		fds[2];
-	pid_t	pid;
+	int	pipe_fds[2];
+	int	status;
 
 	if (
 		redir == NULL || redir->type != REDIRECTION_TYPE_HEREDOC
-		|| info == NULL || hdc_info == NULL
+		|| info == NULL || hdc_info == NULL || pipe(pipe_fds) == -1
 	)
 		return (hdc_info_set_error(hdc_info));
-	if (pipe(fds) == -1)
-		return (hdc_info_set_error(hdc_info));
-	pid = fork();
-	if (pid == -1)
+	set_interactive_mode(true);
+	status = read_here_doc(redir->filename, pipe_fds[1]);
+	set_interactive_mode(false);
+	fd_close_and_reset(&pipe_fds[1]);
+	if (status == EXIT_SUCCESS)
 	{
-		fds_close_and_reset(fds);
-		return (hdc_info_set_error(hdc_info));
+		fd_close_and_reset(&(info->fd_stdin));
+		info->fd_stdin = pipe_fds[0];
 	}
-	else if (pid == 0)
-		exec_hdcs_handle_subprocess(shell, redir->filename, fds);
-	fd_close(fds[1]);
-	exec_hds_handle_mainprocess(pid, fds[0], info, hdc_info);
+	else
+	{
+		fd_close_and_reset(&pipe_fds[0]);
+		if (status == STATUS_SIGINT_STOP)
+			hdc_info->interruption = true;
+		else
+			hdc_info->error_flag = true;
+	}
 }
 
 /*
@@ -121,8 +116,7 @@ static void	exec_redirection_heredoc_NEW(
  *	In case of ERROR, sets hdc_info's error member to true and returns
  */
 void	exec_redirection_list_heredocs(
-	t_minishell *shell, t_redirection_list *redirection_list,
-	t_heredoc_exec_info *hdc_info
+	t_redirection_list *redirection_list, t_heredoc_exec_info *hdc_info
 )
 {
 	t_list			*redir_link;
@@ -133,12 +127,14 @@ void	exec_redirection_list_heredocs(
 		return (hdc_info_set_error(hdc_info));
 	redir_link = redirection_list->redirections;
 	pos = 0;
-	while (redir_link != NULL && !hdc_info->error_flag && !hdc_info->interruption)
+	while (
+		redir_link != NULL && !hdc_info->error_flag && !hdc_info->interruption
+	)
 	{
 		redir = (t_redirection *) redir_link->content;
 		if (redir != NULL && redir->type == REDIRECTION_TYPE_HEREDOC)
 		{
-			exec_redirection_heredoc_NEW(shell, redir, &(redirection_list->info), hdc_info);
+			exec_redirection_heredoc(redir, &redirection_list->info, hdc_info);
 			redirection_list->info.hdc_last_pos = pos;
 		}
 		redir_link = redir_link->next;

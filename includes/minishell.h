@@ -6,7 +6,7 @@
 /*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 10:17:54 by mhotting          #+#    #+#             */
-/*   Updated: 2024/05/04 14:13:16 by mhotting         ###   ########.fr       */
+/*   Updated: 2024/05/05 21:05:21 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ typedef struct s_minishell		t_minishell;
 
 # define STATUS_CMD_NOT_FOUND	127
 # define STATUS_CMD_NOT_EXEC	126
+# define STATUS_SIGINT_STOP		130
 # define ERROR_MSG_ARGS			"Wrong arguments given to the function"
 # define ERROR_MSG_CLOSE		"Closing fd error"
 # define ERROR_MSG_FORK			"Impossible to fork"
@@ -62,6 +63,7 @@ typedef struct s_minishell		t_minishell;
 # define PID_ERROR				0
 
 # define MULTIPLE_LINE_PROMPT	"> "
+# define HEREDOC_PROMPT			"heredoc > "
 
 struct s_minishell
 {
@@ -85,11 +87,6 @@ bool	t_minishell_set_exec_status(t_minishell *shell);
 void	t_minishell_init_subshell(t_minishell *sub, t_minishell *parent);
 void	utils_reset_shell(t_minishell *shell);
 void	utils_handle_empty_cmd(t_minishell *shell);
-
-
-// MOVE IT TO OTHER FILE
-int		get_return_value(pid_t pid, bool *signal_interruption);
-
 
 // General functions
 void	handle_error(t_minishell *shell, char *error_msg, int exit_status);

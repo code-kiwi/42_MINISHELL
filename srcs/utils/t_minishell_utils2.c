@@ -6,7 +6,7 @@
 /*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 13:10:16 by mhotting          #+#    #+#             */
-/*   Updated: 2024/05/04 14:12:34 by mhotting         ###   ########.fr       */
+/*   Updated: 2024/05/05 21:05:01 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ bool	t_minishell_add_pid(t_minishell *shell, pid_t pid)
  *	If the pid was exited by a signal, sets signal_handler to true
  *	If the pid is not valid, returns EXIT_FAILURE
  */
-int	get_return_value(pid_t pid, bool *signal_interruption)
+static int	get_return_value(pid_t pid, bool *signal_interruption)
 {
 	int	status;
 

@@ -1,91 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   exec_redirection_list2.c                           :+:      :+:    :+:   */
+/*   exec_redirection_list.c                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: mhotting <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/11 12:37:09 by mhotting          #+#    #+#             */
-/*   Updated: 2024/05/02 09:36:06 by root             ###   ########.fr       */
+/*   Updated: 2024/05/05 20:15:59 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdlib.h>
 #include <stdbool.h>
 #include <fcntl.h>
-#include <errno.h>
-#include <readline/readline.h>
 #include "libft.h"
 #include "minishell.h"
+#include "execution.h"
 #include "redirections.h"
-
-/*
- *	Reads lines from STDIN_FILENO and writes them into the given fd_to_write
- *	When limiter is encountered, the reading process stops
- *	Returns true on success, false on error
- */
-static bool	read_here_doc(char *limiter, int fd_to_write)
-{
-	char	*cur_line;
-
-	if (limiter == NULL || fd_to_write < 0)
-		return (false);
-	while (true)
-	{
-		cur_line = readline(MULTIPLE_LINE_PROMPT);
-		if (cur_line == NULL)
-		{
-			if (errno != 0)
-				return (false);
-			handle_error(NULL, ERROR_HERE_DOC_EOF, 0);
-			break ;
-		}
-		if (ft_strncmp(cur_line, limiter, ft_strlen(cur_line) - 1) == 0)
-			break ;
-		if (ft_dprintf(fd_to_write, "%s\n", cur_line) == -1)
-			return (free(cur_line), false);
-		free(cur_line);
-	}
-	free(cur_line);
-	return (true);
-}
-
-/*
- *	Executes a redirection of type REDIRECTION_TYPE_HEREDOC
- *	Opens a pipe and enables the user to write content into it, then closes
- *	the writing end of the pipe
- *	Assigns the info fd_stdin member the reading end of the pipe
- *	If a previous fd was assigned to info fd_stdin member, it is closed
- *	On error, nothing happens, all fds opened are closed
- */
-void	exec_redirection_heredoc(
-	t_redirection *redirection, t_redirections_info *info
-)
-{
-	int	fds[2];
-
-	if (
-		redirection == NULL || info == NULL
-		|| redirection->type != REDIRECTION_TYPE_HEREDOC
-	)
-		return ;
-	if (pipe(fds) == -1)
-		return (handle_error(NULL, ERROR_MSG_PIPE, 0));
-	if (!read_here_doc(redirection->filename, fds[1]))
-	{
-		fds_close_and_reset(fds);
-		return (handle_error(NULL, ERROR_MSG_HEREDOC, 0));
-	}
-	fd_close(fds[1]);
-	if (info->error_infile)
-	{
-		fd_close(fds[0]);
-		return ;
-	}
-	if (info->fd_stdin != FD_UNSET)
-		fd_close_and_reset(&(info->fd_stdin));
-	info->fd_stdin = fds[0];
-}
 
 /*
  *	Executes a redirection of type REDIRECTION_TYPE_INFILE
@@ -96,7 +27,7 @@ void	exec_redirection_heredoc(
  *	If the open() call succeeded, the info fd_stdin member is updated (old one
  *	is closed if it was set)
  */
-void	exec_redirection_infile(
+static void	exec_redirection_infile(
 	t_redirection *redirection, t_redirections_info *info, bool after_last_hd
 )
 {
@@ -117,7 +48,7 @@ void	exec_redirection_infile(
 		info->fd_stdin = FD_ERROR;
 		return ;
 	}
-	if (after_last_hd)
+	if (!after_last_hd)
 	{
 		fd_close(fd);
 		return ;
@@ -136,7 +67,7 @@ void	exec_redirection_infile(
  *	If the open() call succeeded, the info fd_stdout member is updated (old one
  *	is closed if it was set)
  */
-void	exec_redirection_out(
+static void	exec_redirection_out(
 	t_redirection *redirection, t_redirections_info *info
 )
 {
@@ -165,4 +96,56 @@ void	exec_redirection_out(
 	if (info->fd_stdout != FD_UNSET)
 		fd_close_and_reset(&(info->fd_stdout));
 	info->fd_stdout = fd;
+}
+
+/*
+ *	Executes a redirection depending on its type
+ *	Calls the right executor, providing it the redirection information
+ *	The after_last_hd flag is used to know if we are making redirections after
+ *	the last here_doc redirection or not in order to avoid infile redirections
+ *	to overwrite a here_doc redirection
+ */
+static void	redirection_exec_dispatch(
+	t_redirection *redirection, t_redirections_info *info, bool after_last_hd
+)
+{
+	if (redirection == NULL)
+		return ;
+	if (redirection->type == REDIRECTION_TYPE_INFILE)
+		exec_redirection_infile(redirection, info, after_last_hd);
+	else if (
+		redirection->type == REDIRECTION_TYPE_OUTFILE_TRUNC
+		|| redirection->type == REDIRECTION_TYPE_OUTFILE_APPEND
+	)
+		exec_redirection_out(redirection, info);
+}
+
+/*
+ *	Executes all the redirections stored into the given redirection list
+ *	Stores the redirection information into info member of redirection_list
+ *	Steps:
+ *		- retrieves the last heredoc's position into the redirection list
+ *		- executes the other redirections (using last heredoc's index in order
+ *		to make stdin redirections logical: from left to right)
+ */
+void	exec_redirection_list(t_redirection_list *redirection_list)
+{
+	t_list			*current;
+	t_redirection	*redirection;
+	ssize_t			position_last_heredoc;
+	ssize_t			position;
+
+	if (redirection_list == NULL)
+		return ;
+	current = redirection_list->redirections;
+	position_last_heredoc = redirection_list->info.hdc_last_pos;
+	position = 0;
+	while (current != NULL)
+	{
+		redirection = (t_redirection *) current->content;
+		redirection_exec_dispatch(redirection, &(redirection_list->info), \
+			(position > position_last_heredoc));
+		position++;
+		current = current->next;
+	}
 }
