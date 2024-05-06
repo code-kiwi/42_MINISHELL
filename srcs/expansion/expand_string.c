@@ -6,7 +6,7 @@
 /*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/05 15:12:32 by brappo            #+#    #+#             */
-/*   Updated: 2024/05/06 12:14:41 by brappo           ###   ########.fr       */
+/*   Updated: 2024/05/06 12:16:39 by brappo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,6 +85,7 @@ static t_list	*get_arguments(char *str, t_list *wildcards)
 		return (NULL);
 	else
 	{
+		ft_printf("test");
 		ft_lstreverse(&wildcards);
 		arguments = expand_wildcard(str, wildcards);
 		ft_lstclear(&wildcards, NULL);
