@@ -6,7 +6,7 @@
 /*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/30 10:11:55 by root              #+#    #+#             */
-/*   Updated: 2024/05/03 12:16:10 by brappo           ###   ########.fr       */
+/*   Updated: 2024/05/06 14:28:42 by brappo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 
 # define RL_ERROR "readline error"
 # define KILL_ERROR "kill error"
+# define NOTATTY "Error : not a tty"
 # define INTERACTIVE -1
 # define NON_INTERACTIVE -2
 
