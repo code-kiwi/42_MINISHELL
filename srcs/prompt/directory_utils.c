@@ -6,7 +6,7 @@
 /*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/28 12:54:36 by brappo            #+#    #+#             */
-/*   Updated: 2024/05/02 16:44:54 by mhotting         ###   ########.fr       */
+/*   Updated: 2024/05/06 12:49:44 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,9 @@
 #include "libft.h"
 #include "minishell.h"
 #include "prompt.h"
+#include "env.h"
 
-void	set_color(char *start_color, size_t end_color,
+static void	set_color(char *start_color, size_t end_color,
 		char *color, size_t buffer_size)
 {
 	size_t	color_len;
@@ -41,12 +42,14 @@ void	set_color(char *start_color, size_t end_color,
 	ft_memcpy(start_color, color, color_len);
 }
 
-void	add_current_user(char *cwd, size_t buffer_size, bool add_color)
+static void	add_current_user(
+	t_list *env, char *cwd, size_t buffer_size, bool add_color
+)
 {
 	char	*username;
 	size_t	username_length;
 
-	username = getenv("USER");
+	username = env_get(env, ENV_USER);
 	if (username == NULL)
 		return ;
 	username_length = ft_strlen(username);
@@ -54,23 +57,27 @@ void	add_current_user(char *cwd, size_t buffer_size, bool add_color)
 		return ;
 	ft_memmove(cwd + username_length, cwd, ft_strlen(cwd) + 1);
 	ft_memcpy(cwd, username, username_length);
+	free(username);
 	if (add_color)
 		set_color(cwd, username_length, GREEN, buffer_size);
 }
 
-void	replace_home_by_tilde(char *cwd, size_t buffer_size, bool add_color)
+static void	replace_home_by_tilde(
+	t_list *env, char *cwd, size_t buffer_size, bool add_color
+)
 {
 	char	*home_directory;
 	size_t	home_directory_length;
 	char	*home_directory_in_cwd;
 	size_t	cwd_length;
 
-	home_directory = getenv("HOME");
+	home_directory = env_get(env, ENV_HOME);
 	if (home_directory == NULL)
 		return ;
 	home_directory_in_cwd = ft_strstr(cwd, home_directory);
 	cwd_length = ft_strlen(cwd);
 	home_directory_length = ft_strlen(home_directory);
+	free(home_directory);
 	if (home_directory_in_cwd != cwd
 		|| (cwd[home_directory_length] != '/' && cwd[home_directory_length]))
 		return ;
@@ -84,7 +91,7 @@ void	replace_home_by_tilde(char *cwd, size_t buffer_size, bool add_color)
 			BLUE, buffer_size);
 }
 
-bool	get_directory_path(char *buffer, size_t buffer_size)
+bool	get_directory_path(t_list *env, char *buffer, size_t buffer_size)
 {
 	size_t	cwd_length;
 	bool	add_color;
@@ -95,8 +102,8 @@ bool	get_directory_path(char *buffer, size_t buffer_size)
 	buffer[cwd_length] = '$';
 	buffer[cwd_length + 1] = ' ';
 	buffer[cwd_length + 2] = '\0';
-	add_color = getenv("TERM") != NULL && isatty(1);
-	replace_home_by_tilde(buffer, buffer_size, add_color);
-	add_current_user(buffer, buffer_size, add_color);
+	add_color = env_exists(env, ENV_TERM) && isatty(STDOUT_FILENO);
+	replace_home_by_tilde(env, buffer, buffer_size, add_color);
+	add_current_user(env, buffer, buffer_size, add_color);
 	return (true);
 }

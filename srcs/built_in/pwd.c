@@ -31,7 +31,7 @@ int	bi_pwd(t_minishell *shell, char **argv, int fd_out)
 
 	if (shell == NULL || argv == NULL || argv[0] == NULL || !is_fd_ok(fd_out))
 		handle_error(shell, ERROR_MSG_ARGS, EXIT_FAILURE);
-	curr_dir = env_get(shell->env, "PWD");
+	curr_dir = env_get(shell->env, ENV_PWD);
 	if (curr_dir == NULL && errno != 0)
 	{
 		ft_dprintf(STDERR_FILENO, MSG_LITERAL, PWD_MSG_ERROR);

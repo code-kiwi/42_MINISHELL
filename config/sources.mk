@@ -6,7 +6,7 @@
 #    By: root <root@student.42.fr>                  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/03/31 20:47:09 by mhotting          #+#    #+#              #
-#    Updated: 2024/05/05 19:40:48 by mhotting         ###   ########.fr        #
+#    Updated: 2024/05/06 12:02:20 by mhotting         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -171,6 +171,7 @@ UTILS_DIR				=	utils/
 UTILS_FILES				=	list_utils.c				\
 							t_minishell_utils1.c		\
 							t_minishell_utils2.c		\
+							t_minishell_env_init.c		\
 							t_pid_list_utils.c			\
 							file_descriptors_utils.c	\
 							string_utils1.c				\

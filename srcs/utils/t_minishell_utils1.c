@@ -6,7 +6,7 @@
 /*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 13:10:16 by mhotting          #+#    #+#             */
-/*   Updated: 2024/05/03 14:58:37 by mhotting         ###   ########.fr       */
+/*   Updated: 2024/05/06 11:47:12 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,9 @@ void	t_minishell_init(t_minishell *shell, int argc, char **argv, char **envp)
 	if (shell == NULL)
 		return ;
 	ft_memset(shell, 0, sizeof(t_minishell));
-	shell->env = env_extract(envp);
+	shell->env = t_minishell_env_init(envp);
+	if (shell->env == NULL)
+		handle_error(shell, ERROR_MSG_ENV_CREATION, EXIT_FAILURE);
 	(void)argc;
 	(void)argv;
 	built_in_init_array(shell->bi_funcs);

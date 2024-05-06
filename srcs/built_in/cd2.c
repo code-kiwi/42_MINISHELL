@@ -32,17 +32,17 @@ static int	bi_cd_update_env(t_minishell *shell, char *cwd)
 
 	if (shell == NULL || cwd == NULL)
 		return (EXIT_FAILURE);
-	oldpwd = env_get(shell->env, "PWD");
+	oldpwd = env_get(shell->env, ENV_PWD);
 	if (oldpwd == NULL && errno != 0)
 		return (EXIT_FAILURE);
 	if (oldpwd == NULL)
-		ret = env_update(&(shell->env), "OLDPWD", cwd);
+		ret = env_update(&(shell->env), ENV_OLDPWD, cwd);
 	else
 	{
-		ret = env_update(&(shell->env), "OLDPWD", oldpwd);
+		ret = env_update(&(shell->env), ENV_OLDPWD, oldpwd);
 		free(oldpwd);
 	}
-	ret = ret && env_update(&(shell->env), "PWD", cwd);
+	ret = ret && env_update(&(shell->env), ENV_PWD, cwd);
 	if (!ret)
 		return (EXIT_FAILURE);
 	return (EXIT_SUCCESS);

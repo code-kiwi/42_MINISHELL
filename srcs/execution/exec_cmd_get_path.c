@@ -94,7 +94,7 @@ char	**get_all_paths(t_minishell *shell)
 
 	if (shell == NULL)
 		return (NULL);
-	raw_path = env_get(shell->env, "PATH");
+	raw_path = env_get(shell->env, ENV_PATH);
 	if (raw_path == NULL && errno == 0)
 		return (ft_split("", ""));
 	else if (raw_path == NULL)

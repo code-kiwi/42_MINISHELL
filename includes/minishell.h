@@ -6,7 +6,7 @@
 /*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 10:17:54 by mhotting          #+#    #+#             */
-/*   Updated: 2024/05/05 21:05:21 by mhotting         ###   ########.fr       */
+/*   Updated: 2024/05/06 12:46:54 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,7 @@ typedef struct s_minishell		t_minishell;
 # define ERROR_MSG_WRITE		"Call to write function failed"
 # define ERROR_MSG_TOKENIZATION	"Tokenizing input"
 # define ERROR_MSG_PROMPT		"Prompt function error"
+# define ERROR_MSG_ENV_CREATION	"Impossible to initialize the environment"
 
 # define DGREAT 				">>"
 # define DLESS					"<<"
@@ -63,7 +64,15 @@ typedef struct s_minishell		t_minishell;
 # define PID_ERROR				0
 
 # define MULTIPLE_LINE_PROMPT	"> "
-# define HEREDOC_PROMPT			"heredoc > "
+# define HEREDOC_PROMPT			"heredoc> "
+
+# define ENV_PWD				"PWD"
+# define ENV_OLDPWD				"OLDPWD"
+# define ENV_PATH				"PATH"
+# define ENV_SHLVL				"SHLVL"
+# define ENV_TERM				"TERM"
+# define ENV_HOME				"HOME"
+# define ENV_USER				"USER"
 
 struct s_minishell
 {
@@ -87,6 +96,7 @@ bool	t_minishell_set_exec_status(t_minishell *shell);
 void	t_minishell_init_subshell(t_minishell *sub, t_minishell *parent);
 void	utils_reset_shell(t_minishell *shell);
 void	utils_handle_empty_cmd(t_minishell *shell);
+t_list	*t_minishell_env_init(char **envp);
 
 // General functions
 void	handle_error(t_minishell *shell, char *error_msg, int exit_status);
