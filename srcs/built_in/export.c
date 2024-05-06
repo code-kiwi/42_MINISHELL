@@ -6,7 +6,7 @@
 /*   By: mhotting <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 15:11:12 by mhotting          #+#    #+#             */
-/*   Updated: 2024/04/28 19:54:33 by mhotting         ###   ########.fr       */
+/*   Updated: 2024/05/06 15:06:56 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,27 @@
 #include "libft.h"
 #include "minishell.h"
 #include "env.h"
+
+/*
+ *	Returns true if the given key is valid, otherwise returns false
+ */
+static bool	bi_export_is_valid_key(char *key)
+{
+	size_t	i;
+
+	if (key == NULL)
+		return (false);
+	i = 0;
+	if (!ft_isalpha(key[i]) && key[i] != '_')
+		return (false);
+	while (key[i])
+	{
+		if (!ft_isalnum(key[i]) && key[i] != '_')
+			return (false);
+		i++;
+	}
+	return (true);
+}
 
 /*
  *	Given a key_val string, adds the key/value pair into the given shell's
@@ -34,6 +55,12 @@ static bool	bi_export_var(t_minishell *shell, char *key_val)
 	{
 		ft_free_str_array(&split);
 		return (true);
+	}
+	if (!bi_export_is_valid_key(split[0]))
+	{
+		ft_dprintf(STDERR_FILENO, EXPORT_MSG_ERR_KEY, split[1]);
+		ft_free_str_array(&split);
+		return (false);
 	}
 	returned = env_update(&(shell->env), split[0], split[1]);
 	ft_free_str_array(&split);
