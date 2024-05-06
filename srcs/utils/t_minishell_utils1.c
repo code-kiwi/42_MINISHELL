@@ -6,7 +6,7 @@
 /*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 13:10:16 by mhotting          #+#    #+#             */
-/*   Updated: 2024/05/02 16:58:49 by mhotting         ###   ########.fr       */
+/*   Updated: 2024/05/03 14:58:37 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,6 +101,7 @@ void	utils_reset_shell(t_minishell *shell)
 	ast_free(&(shell->ast));
 	free(shell->input);
 	shell->input = NULL;
+	shell->heredoc_interruption = false;
 }
 
 /*

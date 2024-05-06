@@ -6,7 +6,7 @@
 /*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/10 12:00:49 by brappo            #+#    #+#             */
-/*   Updated: 2024/05/01 00:35:32 by mhotting         ###   ########.fr       */
+/*   Updated: 2024/05/03 11:21:45 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,10 +91,9 @@ bool	add_subshell(t_node **current_node, t_node **head, t_list *tokens)
 		return (false);
 	new_node = node_subshell_create(sub_tokens);
 	if (new_node == NULL)
-	{
-		ft_lstclear(&sub_tokens, t_token_free);
-		return (false);
-	}
+		return (ft_lstclear(&sub_tokens, t_token_free), false);
+	if (!node_subshell_build_ast(new_node))
+		return (node_free_single(&new_node), false);
 	*current_node = new_node;
 	if (*head == NULL)
 		*head = new_node;

@@ -6,7 +6,7 @@
 #    By: root <root@student.42.fr>                  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/03/31 20:47:09 by mhotting          #+#    #+#              #
-#    Updated: 2024/05/02 20:32:17 by root             ###   ########.fr        #
+#    Updated: 2024/05/05 19:40:48 by mhotting         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -133,8 +133,10 @@ EXECUTION_FILES			=	exec.c						\
 							exec_cmd.c					\
 							exec_cmd_get_path.c			\
 							exec_builtin.c				\
-							exec_redirection_list1.c	\
-							exec_redirection_list2.c
+							exec_redirection_list.c		\
+							exec_ast_heredocs.c			\
+							t_heredoc_exec_info_utils.c	\
+							exec_redirection_list_hdcs.c
 EXECUTION				=	$(addprefix $(EXECUTION_DIR), $(EXECUTION_FILES))
 
 # BUILT_IN

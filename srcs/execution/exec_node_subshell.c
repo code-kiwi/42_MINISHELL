@@ -6,7 +6,7 @@
 /*   By: mhotting <mhotting@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 13:52:21 by mhotting          #+#    #+#             */
-/*   Updated: 2024/04/30 23:10:53 by mhotting         ###   ########.fr       */
+/*   Updated: 2024/05/03 12:51:25 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,8 @@ static void	exec_subshell_set_fds(
  *		- a new instance of t_minishell is created in order to have a fresh
  *		list of pids, corresponding to the subshell ones
  *		- the redirections are performed
- *		- the AST is evaluated according to the node's token_list
+ *		- the subshell's AST is taken from node_subshell (the node_subshell ast
+ *		member is then set to NULL
  *		- the AST is executed
  *		- resources are freed and the process exits with the subshell status
  *	NB: we do not need to free the given node because it is a part of the AST
@@ -105,9 +106,10 @@ static void	exec_subshell(t_minishell *mainshell, t_node *node, int fds[2])
 	exec_subshell_set_fds(node_sub, fds, fds_subshell);
 	if (fds_subshell[0] == FD_ERROR || fds_subshell[1] == FD_ERROR)
 		exec_subshell_error(&subshell, fds_subshell);
-	subshell.ast = build_ast(node_sub->token_list);
-	if (subshell.ast == NULL)
+	if (node_sub->ast == NULL)
 		exec_subshell_error(&subshell, fds_subshell);
+	subshell.ast = node_sub->ast;
+	node_sub->ast = NULL;
 	exec_ast(&subshell, fds_subshell);
 	status = subshell.status;
 	t_minishell_free(&subshell);
