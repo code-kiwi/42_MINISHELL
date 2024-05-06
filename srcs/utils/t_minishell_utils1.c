@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   t_minishell_utils1.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
+/*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 13:10:16 by mhotting          #+#    #+#             */
-/*   Updated: 2024/04/25 12:41:12 by mhotting         ###   ########.fr       */
+/*   Updated: 2024/05/03 14:58:37 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,11 +32,6 @@ void	t_minishell_init(t_minishell *shell, int argc, char **argv, char **envp)
 	shell->env = env_extract(envp);
 	(void)argc;
 	(void)argv;
-	shell->input = NULL;
-	shell->tokens = NULL;
-	shell->pid_list = NULL;
-	shell->is_child_process = false;
-	shell->status = 0;
 	built_in_init_array(shell->bi_funcs);
 }
 
@@ -57,7 +52,6 @@ void	t_minishell_free(t_minishell *shell)
 		t_minishell_free(shell->parent);
 	if (shell->input)
 		free(shell->input);
-	rl_clear_history();
 	if (shell->env != NULL)
 		ft_lstclear(&(shell->env), env_element_free);
 	if (shell->tokens)
@@ -67,7 +61,7 @@ void	t_minishell_free(t_minishell *shell)
 		if (shell->is_child_process)
 			pid_list_clear(&(shell->pid_list));
 		else
-			t_minishell_get_exec_status(shell);
+			t_minishell_set_exec_status(shell);
 	}
 	if (shell->ast != NULL)
 		ast_free(&(shell->ast));
@@ -87,4 +81,42 @@ void	t_minishell_init_subshell(t_minishell *sub, t_minishell *parent)
 	sub->env = parent->env;
 	parent->env = NULL;
 	sub->parent = parent;
+}
+
+/*
+ *	Resets the given shell
+ *	Steps:
+ *		- checks the given shell arg
+ *		- clears the shell's token list
+ *		- clears the shell's AST
+ *		- clears the shell's input
+ *	In case of ERROR (wrong arg), closes the current shell displaying an error
+ *	message.
+ */
+void	utils_reset_shell(t_minishell *shell)
+{
+	if (shell == NULL)
+		handle_error(shell, ERROR_MSG_ARGS, EXIT_FAILURE);
+	ft_lstclear(&shell->tokens, t_token_free);
+	ast_free(&(shell->ast));
+	free(shell->input);
+	shell->input = NULL;
+	shell->heredoc_interruption = false;
+}
+
+/*
+ *	Handles an empty command for the given shell
+ *	Steps:
+ *		- checks the given shell arg
+ *		- resets the shell
+ *		- sets the shell status to zero
+ *	In case of ERROR (wrong arg), closes the current shell displaying an error
+ *	message.
+ */
+void	utils_handle_empty_cmd(t_minishell *shell)
+{
+	if (shell == NULL)
+		handle_error(shell, ERROR_MSG_ARGS, EXIT_FAILURE);
+	utils_reset_shell(shell);
+	shell->status = 0;
 }

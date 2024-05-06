@@ -6,7 +6,7 @@
 /*   By: mhotting <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 15:11:52 by mhotting          #+#    #+#             */
-/*   Updated: 2024/04/26 17:36:05 by mhotting         ###   ########.fr       */
+/*   Updated: 2024/05/02 01:57:18 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,6 @@ static bool	bi_echo_parse_flags(char *flags, bool *no_nl_mode)
 
 	if (flags == NULL || no_nl_mode == NULL)
 		return (false);
-	*no_nl_mode = false;
 	i = 0;
 	if (flags[i] == '-')
 	{
@@ -82,13 +81,13 @@ int	bi_echo(t_minishell *shell, char **argv, int fd_out)
 			return (bi_echo_handle_error(ERROR_MSG_WRITE, EXIT_FAILURE));
 		return (EXIT_SUCCESS);
 	}
-	if (bi_echo_parse_flags(argv[1], &no_nl_mode))
+	no_nl_mode = false;
+	while (bi_echo_parse_flags(argv[i], &no_nl_mode))
 		i++;
 	while (argv[i] != NULL)
 	{
-		if (ft_dprintf(fd_out, "%s", argv[i]) == -1)
+		if (ft_dprintf(fd_out, "%s", argv[i++]) == -1)
 			return (bi_echo_handle_error(ERROR_MSG_WRITE, EXIT_FAILURE));
-		i++;
 		if (argv[i] != NULL && ft_dprintf(fd_out, " ") == -1)
 			return (bi_echo_handle_error(ERROR_MSG_WRITE, EXIT_FAILURE));
 	}

@@ -6,7 +6,7 @@
 /*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/10 12:00:49 by brappo            #+#    #+#             */
-/*   Updated: 2024/04/25 11:16:25 by mhotting         ###   ########.fr       */
+/*   Updated: 2024/05/03 11:21:45 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,13 +64,17 @@ static t_list	*extract_subshell_tokens(t_list *tokens)
 {
 	t_list	*shell_end;
 	t_list	*sub_tokens;
+	t_list	*end_token_link;
 
 	shell_end = get_shell_end(tokens);
 	if (shell_end == NULL || tokens == shell_end)
 		return (NULL);
+	end_token_link = get_end_token_list();
+	if (end_token_link == NULL)
+		return (NULL);
 	sub_tokens = tokens->next;
 	tokens->next = shell_end->next;
-	shell_end->next = NULL;
+	shell_end->next = end_token_link;
 	return (sub_tokens);
 }
 
@@ -87,10 +91,9 @@ bool	add_subshell(t_node **current_node, t_node **head, t_list *tokens)
 		return (false);
 	new_node = node_subshell_create(sub_tokens);
 	if (new_node == NULL)
-	{
-		ft_lstclear(&sub_tokens, t_token_free);
-		return (false);
-	}
+		return (ft_lstclear(&sub_tokens, t_token_free), false);
+	if (!node_subshell_build_ast(new_node))
+		return (node_free_single(&new_node), false);
 	*current_node = new_node;
 	if (*head == NULL)
 		*head = new_node;

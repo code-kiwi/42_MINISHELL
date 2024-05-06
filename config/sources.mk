@@ -6,7 +6,7 @@
 #    By: brappo <brappo@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/03/31 20:47:09 by mhotting          #+#    #+#              #
-#    Updated: 2024/04/29 10:35:30 by brappo           ###   ########.fr        #
+#    Updated: 2024/05/06 13:07:49 by brappo           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -68,6 +68,9 @@ ifdef testChosen
 	else ifeq ($(testChosen), ast_building)
 		MAIN_DIR		=	.test/
 		MAIN_FILE		=	test_ast_building.c	ast_printing.c
+	else ifeq ($(testChosen), signals)
+		MAIN_DIR		=	.test/
+		MAIN_FILE		=	signals_tests.c
 	else ifeq ($(testChosen), wildcard)
 		MAIN_DIR		=	.test/
 		MAIN_FILE		=	wildcard_test.c echo_string.c
@@ -80,6 +83,7 @@ MAIN					=	$(addprefix $(MAIN_DIR), $(MAIN_FILE))
 AST_DIR					=	ast/
 AST_FILES				=	t_node_command_utils.c		\
 							t_node_pipe_utils.c			\
+							t_node_logical_utils.c		\
 							t_node_and_utils.c			\
 							t_node_or_utils.c			\
 							t_node_subshell_utils.c		\
@@ -130,8 +134,10 @@ EXECUTION_FILES			=	exec.c						\
 							exec_cmd.c					\
 							exec_cmd_get_path.c			\
 							exec_builtin.c				\
-							exec_redirection_list1.c	\
-							exec_redirection_list2.c
+							exec_redirection_list.c		\
+							exec_ast_heredocs.c			\
+							t_heredoc_exec_info_utils.c	\
+							exec_redirection_list_hdcs.c
 EXECUTION				=	$(addprefix $(EXECUTION_DIR), $(EXECUTION_FILES))
 
 # BUILT_IN
@@ -157,26 +163,32 @@ AST_BUILDING_FILES		=	add_command.c				\
 							get_argv.c
 AST_BUILDING			=	$(addprefix $(AST_BUILDING_DIR), $(AST_BUILDING_FILES))
 
+SIGNALS_DIR				=	signals/
+SIGNALS_FILES			=	signals.c
+SIGNALS					=	$(addprefix $(SIGNALS_DIR), $(SIGNALS_FILES))
+
 # UTILS
 UTILS_DIR				=	utils/
 UTILS_FILES				=	list_utils.c				\
 							t_minishell_utils1.c		\
 							t_minishell_utils2.c		\
 							t_pid_list_utils.c			\
-							close_file_descriptor.c		\
-							is_fd_ok.c					\
-							string_utils.c				\
+							file_descriptors_utils.c	\
+							string_utils1.c				\
+							string_utils2.c				\
+							is_empty_cmd.c				\
 							ft_split_key_val.c			\
 							ft_print_str_array.c		\
 							array_utils.c				\
-							error.c
+							error.c						\
+							ft_getc.c
 UTILS					=	$(addprefix $(UTILS_DIR), $(UTILS_FILES))
 
 # SOURCES GENERAL
 SRCS_MAIN_DIR			=	srcs/
 SRCS_FILES				=	$(MAIN)	$(AST) $(TOKENR) $(PROMPT) $(ENV)			\
 							$(EXPANSION) $(EXECUTION) $(BUILT_IN)				\
-							$(AST_BUILDING) $(UTILS)
+							$(AST_BUILDING) $(UTILS) $(SIGNALS)
 SRCS					=	$(addprefix $(SRCS_MAIN_DIR), $(SRCS_FILES))
 
 # OBJECTS GENERAL

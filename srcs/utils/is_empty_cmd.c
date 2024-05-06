@@ -1,19 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   is_fd_ok.c                                         :+:      :+:    :+:   */
+/*   is_empty_cmd.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mhotting <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: mhotting <mhotting@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/04/26 17:32:38 by mhotting          #+#    #+#             */
-/*   Updated: 2024/04/26 17:35:03 by mhotting         ###   ########.fr       */
+/*   Created: 2024/05/01 18:49:47 by mhotting          #+#    #+#             */
+/*   Updated: 2024/05/01 18:58:53 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <stdlib.h>
 #include <stdbool.h>
 #include "minishell.h"
 
-bool	is_fd_ok(int fd)
+/*
+ *	Given a command, says if it is empty
+ *	An empty command can be:
+ *		- a NULL string
+ *		- an empty string
+ *		- a string composed entirely of spaces
+ */
+bool	utils_is_empty_cmd(char *cmd)
 {
-	return (fd != FD_ERROR && fd != FD_UNSET);
+	return (cmd == NULL || *cmd == '\0' || string_contains_only_spaces(cmd));
 }

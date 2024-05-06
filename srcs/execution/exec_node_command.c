@@ -6,7 +6,7 @@
 /*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/10 12:39:49 by mhotting          #+#    #+#             */
-/*   Updated: 2024/04/29 14:15:07 by brappo           ###   ########.fr       */
+/*   Updated: 2024/05/06 13:09:37 by brappo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@
 /*
  *	Sets command file descriptors according to the given ones
  */
-static void	exec_cmd_set_pipe_fds(t_node_command *cmd, int fd_in, int fd_out)
+static void	exec_cmd_set_fds(t_node_command *cmd, int fd_in, int fd_out)
 {
 	if (cmd == NULL)
 		return ;
@@ -143,7 +143,7 @@ void	exec_node_command(
 	if (node == NULL || node->type != NODE_COMMAND || node->content == NULL)
 		handle_error(shell, ERROR_MSG_ARGS, EXIT_FAILURE);
 	cmd = (t_node_command *) node->content;
-	exec_cmd_set_pipe_fds(cmd, fd[0], fd[1]);
+	exec_cmd_set_fds(cmd, fd[0], fd[1]);
 	exec_cmd_set_redirections_fds(cmd, shell);
 	if (cmd->fd_in == FD_ERROR || cmd->fd_out == FD_ERROR)
 	{

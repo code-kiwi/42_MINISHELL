@@ -3,17 +3,22 @@
 /*                                                        :::      ::::::::   */
 /*   redirections.h                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
+/*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/28 11:06:44 by mhotting          #+#    #+#             */
-/*   Updated: 2024/04/26 16:10:24 by mhotting         ###   ########.fr       */
+/*   Updated: 2024/05/05 21:48:48 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef REDIRECTIONS_H
 # define REDIRECTIONS_H
 
+# include <stdlib.h>
 # include <stdbool.h>
+# include <sys/types.h>
+
+# define ERROR_HERE_DOC_EOF \
+	"Warning: Here-document delimited by end of file (wanted \"%s\")\n"
 
 typedef struct s_list	t_list;
 
@@ -32,6 +37,7 @@ typedef struct s_redirections_info
 	int		fd_stdout;
 	bool	error_infile;
 	bool	error_outfile;
+	ssize_t	hdc_last_pos;
 }	t_redirections_info;
 
 typedef struct s_redirection_list

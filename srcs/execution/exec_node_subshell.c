@@ -6,7 +6,7 @@
 /*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 13:52:21 by mhotting          #+#    #+#             */
-/*   Updated: 2024/04/29 14:15:34 by brappo           ###   ########.fr       */
+/*   Updated: 2024/05/06 13:03:25 by brappo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@
  */
 static void	exec_subshell_error(t_minishell *shell, int fds[2])
 {
-	exec_node_close_fds(fds);
+	fds_close_and_reset(fds);
 	t_minishell_free(shell);
 	exit(EXIT_FAILURE);
 }
@@ -38,8 +38,7 @@ static void	exec_subshell_set_fds_initial(int fds[2], int fds_subshell[2])
 {
 	fds_subshell[0] = fds[0];
 	fds_subshell[1] = fds[1];
-	fds[0] = FD_UNSET;
-	fds[1] = FD_UNSET;
+	fds_init(fds);
 }
 
 /*
@@ -83,7 +82,8 @@ static void	exec_subshell_set_fds(t_node_subshell *node_sub,
  *		- a new instance of t_minishell is created in order to have a fresh
  *		list of pids, corresponding to the subshell ones
  *		- the redirections are performed
- *		- the AST is evaluated according to the node's token_list
+ *		- the subshell's AST is taken from node_subshell (the node_subshell ast
+ *		member is then set to NULL
  *		- the AST is executed
  *		- resources are freed and the process exits with the subshell status
  *	NB: we do not need to free the given node because it is a part of the AST
@@ -106,9 +106,10 @@ static void	exec_subshell(t_minishell *mainshell, t_node *node, int fds[2])
 	exec_subshell_set_fds(node_sub, fds, fds_subshell, mainshell);
 	if (fds_subshell[0] == FD_ERROR || fds_subshell[1] == FD_ERROR)
 		exec_subshell_error(&subshell, fds_subshell);
-	subshell.ast = build_ast(node_sub->token_list);
-	if (subshell.ast == NULL)
+	if (node_sub->ast == NULL)
 		exec_subshell_error(&subshell, fds_subshell);
+	subshell.ast = node_sub->ast;
+	node_sub->ast = NULL;
 	exec_ast(&subshell, fds_subshell);
 	status = subshell.status;
 	t_minishell_free(&subshell);
@@ -141,5 +142,5 @@ void	exec_node_subshell(t_minishell *shell, t_node *node, int fds[2])
 	}
 	if (!t_minishell_add_pid(shell, pid))
 		handle_error(shell, ERROR_MSG_MEM, EXIT_FAILURE);
-	exec_node_close_fds(fds);
+	fds_close_and_reset(fds);
 }

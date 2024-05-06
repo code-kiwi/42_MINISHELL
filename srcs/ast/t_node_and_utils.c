@@ -6,7 +6,7 @@
 /*   By: mhotting <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/10 10:05:19 by mhotting          #+#    #+#             */
-/*   Updated: 2024/04/25 11:02:02 by mhotting         ###   ########.fr       */
+/*   Updated: 2024/04/29 14:38:40 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,12 +23,16 @@
  */
 t_node	*node_and_create(void)
 {
-	t_node		*node;
+	t_node			*node;
+	t_node_logical	*node_logic;
 
 	node = node_create_empty(NODE_AND);
 	if (node == NULL)
 		return (NULL);
-	node->content = NULL;
+	node_logic = node_logical_create();
+	if (node_logic == NULL)
+		return (free(node), NULL);
+	node->content = (void *) node_logic;
 	return (node);
 }
 
@@ -39,6 +43,5 @@ void	node_and_free(void **node_ptr)
 {
 	if (node_ptr == NULL || *node_ptr == NULL)
 		return ;
-	free(*node_ptr);
-	*node_ptr = NULL;
+	return (node_logical_free(node_ptr));
 }

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   exec_redirection_list2.c                           :+:      :+:    :+:   */
+/*   exec_redirection_list.c                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/11 12:37:09 by mhotting          #+#    #+#             */
-/*   Updated: 2024/04/29 16:28:46 by brappo           ###   ########.fr       */
+/*   Updated: 2024/05/06 13:25:50 by brappo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,80 +15,10 @@
 #include <fcntl.h>
 #include "libft.h"
 #include "minishell.h"
+#include "execution.h"
 #include "redirections.h"
 #include "expansion.h"
 #include <errno.h>
-
-/*
- *	Reads lines from STDIN_FILENO and writes them into the given fd_to_write
- *	When limiter is encountered, the reading process stops
- *	Returns true on success, false on error
- */
-static bool	read_here_doc(char *limiter, int fd_to_write, t_minishell *shell)
-{
-	char	*cur_line;
-
-	if (limiter == NULL || fd_to_write < 0)
-		return (false);
-	while (true)
-	{
-		if (ft_printf(MULTIPLE_LINE_PROMPT) == -1)
-			return (false);
-		cur_line = get_next_line(STDIN_FILENO);
-		if (cur_line && !ft_strncmp(cur_line, limiter, ft_strlen(cur_line) - 1))
-			break ;
-		expand_string(&cur_line, shell, O_VAR | O_IGN_QUOTE);
-		if (cur_line == NULL || errno != 0
-			|| ft_dprintf(fd_to_write, "%s", cur_line) == -1)
-		{
-			free(cur_line);
-			get_next_line(-1);
-			return (false);
-		}
-		free(cur_line);
-	}
-	get_next_line(-1);
-	free(cur_line);
-	return (true);
-}
-
-/*
- *	Executes a redirection of type REDIRECTION_TYPE_HEREDOC
- *	Opens a pipe and enables the user to write content into it, then closes
- *	the writing end of the pipe
- *	Assigns the info fd_stdin member the reading end of the pipe
- *	If a previous fd was assigned to info fd_stdin member, it is closed
- *	On error, nothing happens, all fds opened are closed
- */
-void	exec_redirection_heredoc(
-	t_redirection *redirection, t_redirections_info *info, t_minishell *shell
-)
-{
-	int	fd[2];
-
-	if (
-		redirection == NULL || info == NULL
-		|| redirection->type != REDIRECTION_TYPE_HEREDOC
-	)
-		return ;
-	if (pipe(fd) == -1)
-		return (handle_error(NULL, ERROR_MSG_PIPE, 0));
-	if (!read_here_doc(redirection->filename, fd[1], shell))
-	{
-		fd_close(fd[0]);
-		fd_close(fd[1]);
-		return (handle_error(NULL, ERROR_MSG_HEREDOC, 0));
-	}
-	fd_close(fd[1]);
-	if (info->error_infile)
-	{
-		fd_close(fd[0]);
-		return ;
-	}
-	if (info->fd_stdin != FD_UNSET)
-		fd_close_and_reset(&(info->fd_stdin));
-	info->fd_stdin = fd[0];
-}
 
 /*
  *	Executes a redirection of type REDIRECTION_TYPE_INFILE
@@ -99,7 +29,7 @@ void	exec_redirection_heredoc(
  *	If the open() call succeeded, the info fd_stdin member is updated (old one
  *	is closed if it was set)
  */
-void	exec_redirection_infile(
+static void	exec_redirection_infile(
 	t_redirection *redirection, t_redirections_info *info, bool after_last_hd
 )
 {
@@ -120,7 +50,7 @@ void	exec_redirection_infile(
 		info->fd_stdin = FD_ERROR;
 		return ;
 	}
-	if (after_last_hd)
+	if (!after_last_hd)
 	{
 		fd_close(fd);
 		return ;
@@ -139,7 +69,7 @@ void	exec_redirection_infile(
  *	If the open() call succeeded, the info fd_stdout member is updated (old one
  *	is closed if it was set)
  */
-void	exec_redirection_out(
+static void	exec_redirection_out(
 	t_redirection *redirection, t_redirections_info *info
 )
 {
@@ -168,4 +98,82 @@ void	exec_redirection_out(
 	if (info->fd_stdout != FD_UNSET)
 		fd_close_and_reset(&(info->fd_stdout));
 	info->fd_stdout = fd;
+}
+
+/*
+ *	Executes a redirection depending on its type
+ *	Calls the right executor, providing it the redirection information
+ *	The after_last_hd flag is used to know if we are making redirections after
+ *	the last here_doc redirection or not in order to avoid infile redirections
+ *	to overwrite a here_doc redirection
+ */
+static void	redirection_exec_dispatch(
+	t_redirection *redirection, t_redirections_info *info, bool after_last_hd
+)
+{
+	if (redirection == NULL)
+		return ;
+	if (redirection->type == REDIRECTION_TYPE_INFILE)
+		exec_redirection_infile(redirection, info, after_last_hd);
+	else if (
+		redirection->type == REDIRECTION_TYPE_OUTFILE_TRUNC
+		|| redirection->type == REDIRECTION_TYPE_OUTFILE_APPEND
+	)
+		exec_redirection_out(redirection, info);
+}
+
+static void	exec_redir_set_error(
+	enum e_redirection_type type, t_redirections_info *info
+)
+{
+	if (info == NULL)
+		return ;
+	if (type == REDIRECTION_TYPE_INFILE)
+	{
+		info->error_infile = true;
+		info->fd_stdin = FD_ERROR;
+	}
+	else
+	{
+		info->error_outfile = true;
+		info->fd_stdin = FD_ERROR;
+	}
+}
+
+/*
+ *	Executes all the redirections stored into the given redirection list
+ *	Stores the redirection information into info member of redirection_list
+ *	Steps:
+ *		- executes all the heredoc redirections first
+ *		- executes the other redirections (using last heredoc's index in order
+ *		to make stdin redirections logical: from left to right)
+ */
+void	exec_redirection_list(t_redirection_list *redirection_list,
+	t_minishell *shell)
+{
+	t_list			*current;
+	t_redirection	*redirection;
+	ssize_t			position_last_heredoc;
+	ssize_t			position;
+
+	if (redirection_list == NULL)
+		return ;
+	current = redirection_list->redirections;
+	position_last_heredoc = redirection_list->info.hdc_last_pos;
+	position = 0;
+	while (current != NULL)
+	{
+		redirection = (t_redirection *) current->content;
+		if (redirection->type != REDIRECTION_TYPE_HEREDOC
+			&& !expand_redirection(&redirection->filename, \
+			O_QUOTE | O_PATH | O_VAR, shell))
+		{
+			exec_redir_set_error(redirection->type, &redirection_list->info);
+			break ;
+		}
+		redirection_exec_dispatch(redirection, &(redirection_list->info), \
+			(position > position_last_heredoc));
+		position++;
+		current = current->next;
+	}
 }

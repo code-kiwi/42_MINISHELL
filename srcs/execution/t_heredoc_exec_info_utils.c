@@ -1,36 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   close_file_descriptor.c                            :+:      :+:    :+:   */
+/*   t_heredoc_exec_info_utils.c                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mhotting <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/03/28 12:26:18 by mhotting          #+#    #+#             */
-/*   Updated: 2024/04/25 11:55:48 by mhotting         ###   ########.fr       */
+/*   Created: 2024/05/03 16:06:23 by mhotting          #+#    #+#             */
+/*   Updated: 2024/05/03 16:11:11 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdlib.h>
-#include <unistd.h>
-#include "minishell.h"
+#include <stdbool.h>
+#include "execution.h"
 
 /*
- *	Closes the given file descriptor, prompting an error if close fails
- *	Sets the given pointer to FD_UNSET
+ *	Sets the given hdc_info's error flag to true
  */
-void	fd_close_and_reset(int *fd)
+void	hdc_info_set_error(t_heredoc_exec_info *hdc_info)
 {
-	if (fd == NULL || *fd < 0)
+	if (hdc_info == NULL)
 		return ;
-	fd_close(*fd);
-	*fd = FD_UNSET;
+	hdc_info->error_flag = true;
 }
 
 /*
- *	Closes the given file descriptor, prompting an error if close fails
+ *	Sets the given hdc_info's interruption flag to true
  */
-void	fd_close(int fd)
+void	hdc_info_set_interruption(t_heredoc_exec_info *hdc_info)
 {
-	if (fd >= 0 && close(fd) == -1)
-		handle_error(NULL, ERROR_MSG_CLOSE, 0);
+	if (hdc_info == NULL)
+		return ;
+	hdc_info->interruption = true;
 }

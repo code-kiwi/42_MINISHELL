@@ -6,7 +6,7 @@
 /*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 14:59:56 by brappo            #+#    #+#             */
-/*   Updated: 2024/04/29 11:51:48 by brappo           ###   ########.fr       */
+/*   Updated: 2024/05/06 13:07:25 by brappo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,10 @@ static bool	is_token_end(t_token *token, char character, \
 	if (token->type == OPERATOR)
 		return (is_operator(token_parser) == -1);
 	if (handle_quote(token_parser, character))
+	{
+		token->type = WORD;
 		return (false);
+	}
 	if (!is_quoted(token_parser))
 	{
 		if (ft_strchr(OPERATOR_CHARACTER, character) != NULL)
@@ -84,6 +87,8 @@ t_list	*tokenize_str(char *str, t_token_parser *token_parser)
 	token_parser->input = str;
 	if (str == NULL)
 		return (NULL);
+	else if (*str == '\0' || string_contains_only_spaces(str))
+		return (get_end_token_list());
 	skip_blank(str, &index);
 	while (str[index] != '\0')
 	{

@@ -6,7 +6,7 @@
 /*   By: mhotting <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/29 09:58:05 by mhotting          #+#    #+#             */
-/*   Updated: 2024/04/25 11:08:03 by mhotting         ###   ########.fr       */
+/*   Updated: 2024/04/30 18:50:29 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,8 +35,8 @@ t_node	*node_pipe_create(void)
 		free(node);
 		return (NULL);
 	}
-	(node_pipe->fd)[0] = FD_UNSET;
-	(node_pipe->fd)[1] = FD_UNSET;
+	fds_init(node_pipe->fds);
+	node_pipe->fd_saved = FD_UNSET;
 	node->content = (void *) node_pipe;
 	return (node);
 }
@@ -54,10 +54,8 @@ void	node_pipe_free(void **node_ptr)
 	if (node_ptr == NULL || *node_ptr == NULL)
 		return ;
 	node = (t_node_pipe *) *node_ptr;
-	if ((node->fd)[0] != FD_UNSET)
-		fd_close_and_reset(&((node->fd)[0]));
-	if ((node->fd)[1] != FD_UNSET)
-		fd_close_and_reset(&((node->fd)[1]));
+	fds_close_and_reset(node->fds);
+	fd_close_and_reset(&node->fd_saved);
 	free(node);
 	*node_ptr = NULL;
 }

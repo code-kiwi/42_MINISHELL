@@ -1,30 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   prompt.h                                           :+:      :+:    :+:   */
+/*   signals.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/04/03 13:09:18 by brappo            #+#    #+#             */
-/*   Updated: 2024/05/02 16:39:32 by mhotting         ###   ########.fr       */
+/*   Created: 2024/04/30 10:11:55 by root              #+#    #+#             */
+/*   Updated: 2024/05/02 09:06:31 by root             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PROMPT_H
-# define PROMPT_H
+#ifndef SIGNALS_H
+# define SIGNALS_H
 
-# include <stdlib.h>
+# include "minishell.h"
+# include "stdio.h"
 
-# define CWD_BUFFER_SIZE	2048
-# define RESET				"\001\033[0m\002"
-# define GREEN				"\001\033[32m\002"
-# define BLUE				"\001\033[34m\002"
-# define RED				"\001\033[31m\002"
+# define RL_ERROR "readline error"
+# define KILL_ERROR "kill error"
+# define INTERACTIVE -1
+# define NON_INTERACTIVE -2
 
-typedef struct s_minishell	t_minishell;
+bool	catch_sigint(void);
+void	set_interactive_mode(bool interactive);
+bool	get_sigint(void);
+void	signal_handler(int code);
+int		ft_getc(FILE *stream);
 
-// Prompt functions
-bool	get_directory_path(char *buffer, size_t buffer_size);
-char	*prompt(t_minishell *shell);
-
-#endif
+#endif // !SIGNALS_H
