@@ -6,7 +6,7 @@
 /*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/03 15:35:13 by mhotting          #+#    #+#             */
-/*   Updated: 2024/05/06 13:00:40 by brappo           ###   ########.fr       */
+/*   Updated: 2024/05/06 13:55:53 by brappo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,17 @@
 #include "redirections.h"
 #include "execution.h"
 #include "signals.h"
+#include "expansion.h"
+
+static int	read_here_doc_error(char *limiter)
+{
+	if (errno != 0)
+		return (EXIT_FAILURE);
+	else if (get_sigint())
+		return (STATUS_SIGINT_STOP);
+	ft_dprintf(STDERR_FILENO, ERROR_HERE_DOC_EOF, limiter);
+	return (EXIT_SUCCESS);
+}
 
 /*
  *	Reads the user input and writes it (adding a new line) into the given fd
@@ -29,27 +40,24 @@
  *		- EXIT_FAILURE on ERROR
  *		- STATUS_SIGINT_STOP on SIGINT user stop
  */
-static int	read_here_doc(char *limiter, int fd_to_write)
+static int	read_here_doc(t_minishell *shell, char *limiter, int fd_to_write)
 {
 	char	*cur_line;
 
 	if (limiter == NULL || fd_to_write < 0)
 		return (EXIT_FAILURE);
+	expand_string(&limiter, shell, O_QUOTE);
+	if (errno != 0)
+		return (EXIT_FAILURE);
 	while (true)
 	{
 		cur_line = readline(HEREDOC_PROMPT);
 		if (cur_line == NULL)
-		{
-			if (errno != 0)
-				return (EXIT_FAILURE);
-			else if (get_sigint())
-				return (STATUS_SIGINT_STOP);
-			ft_dprintf(STDERR_FILENO, ERROR_HERE_DOC_EOF, limiter);
-			break ;
-		}
+			return (read_here_doc_error(limiter));
 		if (ft_strncmp(cur_line, limiter, ft_strlen(cur_line)) == 0)
 			break ;
-		if (ft_dprintf(fd_to_write, "%s\n", cur_line) == -1)
+		expand_string(&cur_line, shell, O_VAR | O_IGN_QUOTE);
+		if (errno != 0 || ft_dprintf(fd_to_write, "%s\n", cur_line) == -1)
 			return (free(cur_line), EXIT_FAILURE);
 		free(cur_line);
 	}
@@ -77,7 +85,7 @@ static int	read_here_doc(char *limiter, int fd_to_write)
  *	error)
  */
 static void	exec_redirection_heredoc(
-	t_redirection *redir, t_redirections_info *info,
+	t_minishell *shell, t_redirection *redir, t_redirections_info *info,
 	t_heredoc_exec_info *hdc_info
 )
 {
@@ -90,7 +98,7 @@ static void	exec_redirection_heredoc(
 	)
 		return (hdc_info_set_error(hdc_info));
 	set_interactive_mode(true);
-	status = read_here_doc(redir->filename, pipe_fds[1]);
+	status = read_here_doc(shell, redir->filename, pipe_fds[1]);
 	set_interactive_mode(false);
 	fd_close_and_reset(&pipe_fds[1]);
 	if (status == EXIT_SUCCESS)
@@ -116,7 +124,8 @@ static void	exec_redirection_heredoc(
  *	In case of ERROR, sets hdc_info's error member to true and returns
  */
 void	exec_redirection_list_heredocs(
-	t_redirection_list *redirection_list, t_heredoc_exec_info *hdc_info
+	t_minishell *shell, t_redirection_list *redirection_list,
+	t_heredoc_exec_info *hdc_info
 )
 {
 	t_list			*redir_link;
@@ -134,7 +143,8 @@ void	exec_redirection_list_heredocs(
 		redir = (t_redirection *) redir_link->content;
 		if (redir != NULL && redir->type == REDIRECTION_TYPE_HEREDOC)
 		{
-			exec_redirection_heredoc(redir, &redirection_list->info, hdc_info);
+			exec_redirection_heredoc(shell, redir, \
+				&redirection_list->info, hdc_info);
 			redirection_list->info.hdc_last_pos = pos;
 		}
 		redir_link = redir_link->next;

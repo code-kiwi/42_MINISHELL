@@ -6,7 +6,7 @@
 /*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/29 10:24:26 by brappo            #+#    #+#             */
-/*   Updated: 2024/05/06 13:10:55 by brappo           ###   ########.fr       */
+/*   Updated: 2024/05/06 13:52:27 by brappo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,8 +106,10 @@ bool	expand_argv(char ***argv, char options,
 	t_list	*wildcards_candidate;
 	size_t	candidates_count;
 
-	if (argv == NULL || *argv == NULL || **argv == NULL)
+	if (argv == NULL || *argv == NULL)
 		return (false);
+	if (**argv == NULL)
+		return (true);
 	index = 1;
 	while ((*argv)[index])
 	{
