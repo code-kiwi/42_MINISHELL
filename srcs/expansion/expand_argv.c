@@ -6,7 +6,7 @@
 /*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/29 10:24:26 by brappo            #+#    #+#             */
-/*   Updated: 2024/05/03 16:12:47 by brappo           ###   ########.fr       */
+/*   Updated: 2024/05/06 09:56:04 by brappo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,11 +15,6 @@
 #include "errno.h"
 #include "libft.h"
 #include <stdio.h>
-
-void	print_string(void *content)
-{
-	printf("%s\n", (char *)content);
-}
 
 static void	cat_lst_in_array(char **array_dest, t_list *lst_src,
 	size_t start, size_t length)
