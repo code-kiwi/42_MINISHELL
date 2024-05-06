@@ -5,7 +5,7 @@
 - Check all `getenv()` calls in order to retrieve elements from our own env (**WARNING**: our `env_get()` function returns an allocated string);
 - ✔️ ~~Check error messages;~~
 - Remove debug and print functions (or put them into seperate files, then add a rule to the Makefile for debugging);
-- We need to expand the content of the heredoc
+- ✔️ ~~We need to expand the content of the heredoc~~
 - ✔️ ~~lorsque l'on fait `$test` alors que test n'est pas une variable définie, il affiche juste une string vide, tu préfères que je teste si le résultat est null pour le remplacer par une string vide dans mon code ou alors dans `env_get` `env-get()` retournera NULL avec errno à 0 lorsque la variable n'existe pas et c'est l'expansion qui gèrera le fait de mettre un chaîne vide;~~
 - ✔️ ~~**ALL** here_docs are performed before any command execution! (`echo "test" && << LIM cat`)~~
 - Check calls to `ft_printf()` and see if it is relevant to replace them by calls to `printf()`
