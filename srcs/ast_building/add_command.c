@@ -6,7 +6,7 @@
 /*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/10 12:00:04 by brappo            #+#    #+#             */
-/*   Updated: 2024/05/02 12:32:23 by root             ###   ########.fr       */
+/*   Updated: 2024/05/07 16:33:56 by root             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,11 +61,9 @@ bool	add_command(t_node **current_node, t_node **head, t_list *tokens)
 	if (argv == NULL)
 		return (false);
 	new_node = node_command_create(array_size((void **)argv), argv);
+	free(argv);
 	if (new_node == NULL)
-	{
-		ft_free_str_array(&argv);
 		return (false);
-	}
 	if (*head == NULL)
 		*head = new_node;
 	*current_node = new_node;

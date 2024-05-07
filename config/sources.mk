@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    sources.mk                                         :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: brappo <brappo@student.42.fr>              +#+  +:+       +#+         #
+#    By: root <root@student.42.fr>                  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/03/31 20:47:09 by mhotting          #+#    #+#              #
-#    Updated: 2024/05/03 10:43:01 by brappo           ###   ########.fr        #
+#    Updated: 2024/05/07 16:31:38 by root             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -64,7 +64,7 @@ ifdef testChosen
 		MAIN_FILE		=	test_ast_creation.c
 	else ifeq ($(testChosen), expansion)
 		MAIN_DIR		=	.test/
-		MAIN_FILE		=	test_variable_expansion.c echo_string.c
+		MAIN_FILE		=	test_expansion.c echo_string.c
 	else ifeq ($(testChosen), ast_building)
 		MAIN_DIR		=	.test/
 		MAIN_FILE		=	test_ast_building.c	ast_printing.c
@@ -114,7 +114,8 @@ EXPANSION_FILES			=	get_variable_key.c			\
 							word_expansion.c			\
 							expand_string.c				\
 							expand_wildcard.c			\
-							string_equal_wildcard.c
+							string_equal_wildcard.c		\
+							expand_argv.c
 EXPANSION				=	$(addprefix $(EXPANSION_DIR), $(EXPANSION_FILES))
 # ENV
 ENV_DIR					=	env/
@@ -133,8 +134,10 @@ EXECUTION_FILES			=	exec.c						\
 							exec_cmd.c					\
 							exec_cmd_get_path.c			\
 							exec_builtin.c				\
-							exec_redirection_list1.c	\
-							exec_redirection_list2.c
+							exec_redirection_list.c		\
+							exec_ast_heredocs.c			\
+							t_heredoc_exec_info_utils.c	\
+							exec_redirection_list_hdcs.c
 EXECUTION				=	$(addprefix $(EXECUTION_DIR), $(EXECUTION_FILES))
 
 # BUILT_IN

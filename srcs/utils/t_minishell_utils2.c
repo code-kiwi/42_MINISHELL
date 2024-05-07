@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   t_minishell_utils2.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
+/*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 13:10:16 by mhotting          #+#    #+#             */
-/*   Updated: 2024/05/03 12:31:51 by brappo           ###   ########.fr       */
+/*   Updated: 2024/05/07 16:34:15 by root             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,9 +110,6 @@ bool	t_minishell_set_exec_status(t_minishell *shell)
 	if (not_interrupted == false)
 	{
 		if (write(STDOUT_FILENO, "\n", 1) == -1)
-			handle_error(shell, ERROR_MSG_WRITE, EXIT_FAILURE);
-		if (shell->status == 131
-			&& write(STDERR_FILENO, "Quit (core dumped)", 19) == -1)
 			handle_error(shell, ERROR_MSG_WRITE, EXIT_FAILURE);
 	}
 	return (!not_interrupted);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   add_subshell.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
+/*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/10 12:00:49 by brappo            #+#    #+#             */
-/*   Updated: 2024/05/03 09:17:57 by brappo           ###   ########.fr       */
+/*   Updated: 2024/05/07 16:31:59 by root             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,10 +96,9 @@ bool	add_subshell(t_node **current_node, t_node **head, t_list *tokens)
 		return (false);
 	new_node = node_subshell_create(sub_tokens);
 	if (new_node == NULL)
-	{
-		ft_lstclear(&sub_tokens, t_token_free);
-		return (false);
-	}
+		return (ft_lstclear(&sub_tokens, t_token_free), false);
+	if (!node_subshell_build_ast(new_node))
+		return (node_free_single(&new_node), false);
 	*current_node = new_node;
 	if (*head == NULL)
 		*head = new_node;

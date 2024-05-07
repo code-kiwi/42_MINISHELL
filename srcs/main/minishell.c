@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
+/*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 10:14:16 by mhotting          #+#    #+#             */
-/*   Updated: 2024/05/06 14:29:19 by brappo           ###   ########.fr       */
+/*   Updated: 2024/05/07 16:34:20 by root             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,8 +50,16 @@ int	main(int argc, char **argv, char **envp)
 		if (shell.ast == NULL
 			&& errno != 0)
 			handle_error(&shell, ERROR_MSG_AST_CREATION, EXIT_FAILURE);
-		else
-			exec_ast(&shell, NULL);
+		if (!exec_ast_heredocs(&shell))
+			handle_error(&shell, ERROR_MSG_HEREDOC_EXEC, EXIT_FAILURE);
+		if (shell.heredoc_interruption)
+		{
+			add_history(shell.input);
+			utils_reset_shell(&shell);
+			shell.status = STATUS_SIGINT_STOP;
+			continue ;
+		}
+		exec_ast(&shell, NULL);
 		add_history(shell.input);
 		utils_reset_shell(&shell);
 	}
