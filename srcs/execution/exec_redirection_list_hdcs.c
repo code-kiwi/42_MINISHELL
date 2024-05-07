@@ -6,7 +6,7 @@
 /*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/03 15:35:13 by mhotting          #+#    #+#             */
-/*   Updated: 2024/05/08 01:51:58 by mhotting         ###   ########.fr       */
+/*   Updated: 2024/05/08 01:54:59 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ static int	read_here_doc(t_minishell *shell, char *limiter, int fd_to_write)
 	while (true)
 	{
 		cur_line = readline(HEREDOC_PROMPT);
-		if (cur_line == NULL || (errno == EINTR && get_sigint()))
+		if (cur_line == NULL || get_sigint())
 		{
 			if (cur_line != NULL)
 				free(cur_line);
