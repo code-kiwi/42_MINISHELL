@@ -6,7 +6,7 @@
 /*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 10:14:16 by mhotting          #+#    #+#             */
-/*   Updated: 2024/05/07 16:34:20 by root             ###   ########.fr       */
+/*   Updated: 2024/05/07 16:40:11 by root             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,12 +47,14 @@ int	main(int argc, char **argv, char **envp)
 			handle_error(&shell, ERROR_MSG_PROMPT, EXIT_FAILURE);
 		token_recognition(&shell);
 		shell.ast = build_ast(shell.tokens);
-		if (shell.ast == NULL
-			&& errno != 0)
-			handle_error(&shell, ERROR_MSG_AST_CREATION, EXIT_FAILURE);
-		if (!exec_ast_heredocs(&shell))
+		if (shell.ast == NULL)
+		{
+			if (errno != 0)
+				handle_error(&shell, ERROR_MSG_AST_CREATION, EXIT_FAILURE);
+		}
+		else if (!exec_ast_heredocs(&shell))
 			handle_error(&shell, ERROR_MSG_HEREDOC_EXEC, EXIT_FAILURE);
-		if (shell.heredoc_interruption)
+		if (shell.ast == NULL || shell.heredoc_interruption)
 		{
 			add_history(shell.input);
 			utils_reset_shell(&shell);
