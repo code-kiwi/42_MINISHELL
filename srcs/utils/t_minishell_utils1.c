@@ -6,13 +6,14 @@
 /*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 13:10:16 by mhotting          #+#    #+#             */
-/*   Updated: 2024/05/06 11:47:12 by mhotting         ###   ########.fr       */
+/*   Updated: 2024/05/07 20:29:35 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdlib.h>
 #include <stdbool.h>
 #include <readline/readline.h>
+#include <readline/history.h>
 #include "libft.h"
 #include "minishell.h"
 #include "env.h"
@@ -95,30 +96,19 @@ void	t_minishell_init_subshell(t_minishell *sub, t_minishell *parent)
  *	In case of ERROR (wrong arg), closes the current shell displaying an error
  *	message.
  */
-void	utils_reset_shell(t_minishell *shell)
+void	utils_reset_shell(t_minishell *shell, int status)
 {
 	if (shell == NULL)
 		handle_error(shell, ERROR_MSG_ARGS, EXIT_FAILURE);
 	ft_lstclear(&shell->tokens, t_token_free);
 	ast_free(&(shell->ast));
-	free(shell->input);
-	shell->input = NULL;
+	if (shell->input != NULL)
+	{
+		if (!string_contains_only_spaces(shell->input))
+			add_history(shell->input);
+		free(shell->input);
+		shell->input = NULL;
+	}
 	shell->heredoc_interruption = false;
-}
-
-/*
- *	Handles an empty command for the given shell
- *	Steps:
- *		- checks the given shell arg
- *		- resets the shell
- *		- sets the shell status to zero
- *	In case of ERROR (wrong arg), closes the current shell displaying an error
- *	message.
- */
-void	utils_handle_empty_cmd(t_minishell *shell)
-{
-	if (shell == NULL)
-		handle_error(shell, ERROR_MSG_ARGS, EXIT_FAILURE);
-	utils_reset_shell(shell);
-	shell->status = 0;
+	shell->status = status;
 }

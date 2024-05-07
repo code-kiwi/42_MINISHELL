@@ -6,7 +6,7 @@
 /*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 10:17:54 by mhotting          #+#    #+#             */
-/*   Updated: 2024/05/07 17:50:58 by mhotting         ###   ########.fr       */
+/*   Updated: 2024/05/07 19:47:28 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ typedef struct s_list			t_list;
 typedef struct s_node			t_node;
 typedef struct s_minishell		t_minishell;
 
+# define STATUS_INVALID_USE		2
 # define STATUS_CMD_NOT_FOUND	127
 # define STATUS_CMD_NOT_EXEC	126
 # define STATUS_SIGINT_STOP		130
@@ -101,8 +102,7 @@ void	t_minishell_free(t_minishell *shell);
 bool	t_minishell_add_pid(t_minishell *shell, pid_t pid);
 bool	t_minishell_set_exec_status(t_minishell *shell);
 void	t_minishell_init_subshell(t_minishell *sub, t_minishell *parent);
-void	utils_reset_shell(t_minishell *shell);
-void	utils_handle_empty_cmd(t_minishell *shell);
+void	utils_reset_shell(t_minishell *shell, int status);
 t_list	*t_minishell_env_init(char **envp);
 
 // General functions

@@ -6,7 +6,7 @@
 /*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/03 15:35:13 by mhotting          #+#    #+#             */
-/*   Updated: 2024/05/07 13:53:28 by mhotting         ###   ########.fr       */
+/*   Updated: 2024/05/07 20:24:37 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,10 +31,13 @@
  */
 static int	read_here_doc_error(char *limiter)
 {
-	if (errno != 0)
+	if (errno != 0 && errno != EINTR)
 		return (EXIT_FAILURE);
 	else if (get_sigint())
+	{
+		errno = 0;
 		return (STATUS_SIGINT_STOP);
+	}
 	ft_dprintf(STDERR_FILENO, ERROR_HERE_DOC_EOF, limiter);
 	return (EXIT_SUCCESS);
 }
@@ -61,7 +64,10 @@ static int	read_here_doc(t_minishell *shell, char *limiter, int fd_to_write)
 	while (true)
 	{
 		cur_line = readline(HEREDOC_PROMPT);
-		if (cur_line == NULL)
+		if (
+			cur_line == NULL
+			|| (*cur_line == '\0' && errno == EINTR && get_sigint())
+		)
 			return (read_here_doc_error(limiter));
 		if (ft_strncmp(cur_line, limiter, ft_strlen(cur_line)) == 0)
 			break ;
