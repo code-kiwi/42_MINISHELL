@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_argv.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
+/*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/29 10:24:26 by brappo            #+#    #+#             */
-/*   Updated: 2024/05/07 14:12:55 by mhotting         ###   ########.fr       */
+/*   Updated: 2024/05/07 16:22:24 by root             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,17 +80,17 @@ bool	expand_redirection(char **redirection, char options, t_minishell *shell)
 	if (save == NULL)
 		return (false);
 	wildcards_candidate = expand_string(redirection, shell, options);
-	free(save);
-	if (wildcards_candidate == NULL && errno != 0)
-		return (false);
-	if (wildcards_candidate == NULL)
-		return (true);
 	if (ft_lstsize(wildcards_candidate) > 1)
 	{
 		ft_dprintf(STDERR_FILENO, "%s: %s\n", save, ERROR_MSG_AMBIG_REDIR);
 		ft_lstclear(&wildcards_candidate, free);
 		return (false);
 	}
+	free(save);
+	if (wildcards_candidate == NULL && errno != 0)
+		return (false);
+	if (wildcards_candidate == NULL)
+		return (true);
 	free(*redirection);
 	*redirection = wildcards_candidate->content;
 	free(wildcards_candidate);
@@ -105,9 +105,7 @@ bool	expand_argv(char ***argv, char options, t_minishell *shell)
 
 	if (argv == NULL || *argv == NULL)
 		return (false);
-	if (**argv == NULL)
-		return (true);
-	index = 1;
+	index = 0;
 	while ((*argv)[index])
 	{
 		wildcards_candidate = expand_string(*argv + index, shell, options);
