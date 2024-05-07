@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signals.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/30 10:06:42 by root              #+#    #+#             */
-/*   Updated: 2024/05/02 15:27:33 by mhotting         ###   ########.fr       */
+/*   Updated: 2024/05/03 11:44:00 by brappo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,13 @@ void	signal_handler(int code)
 	if (code != SIGINT)
 		return ;
 	g_code_received = SIGINT;
+}
+
+int	stop_readline(void)
+{
+	if (g_code_received == SIGINT)
+		rl_done = 1;
+	return (0);
 }
 
 bool	catch_sigint(void)
