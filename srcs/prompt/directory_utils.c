@@ -6,7 +6,7 @@
 /*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/28 12:54:36 by brappo            #+#    #+#             */
-/*   Updated: 2024/05/06 12:49:44 by mhotting         ###   ########.fr       */
+/*   Updated: 2024/05/07 18:03:42 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,10 @@ static void	add_current_user(
 		return ;
 	username_length = ft_strlen(username);
 	if (ft_strlen(cwd) + username_length + 1 >= buffer_size)
+	{
+		free(username);
 		return ;
+	}
 	ft_memmove(cwd + username_length, cwd, ft_strlen(cwd) + 1);
 	ft_memcpy(cwd, username, username_length);
 	free(username);

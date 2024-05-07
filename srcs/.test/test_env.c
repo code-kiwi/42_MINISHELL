@@ -51,10 +51,10 @@ int	main(int argc, char **argv, char **envp)
 	env_delete(&(shell.env), ENV_PATH);
 	test_env_find(shell.env, ENV_PATH);
 	env_add(&(shell.env), ENV_PATH, "/usr/bin");
-	env_add(&(shell.env), "USER", "brappo");
+	env_add(&(shell.env), ENV_USER, "brappo");
 	ft_lstprint(shell.env, env_element_print);
 	test_env_find(shell.env, ENV_PATH);
-	env_delete(&(shell.env), "USER");
+	env_delete(&(shell.env), ENV_USER);
 	env_delete(&(shell.env), ENV_PATH);
 	env_delete(&(shell.env), ENV_PATH);
 	ft_lstprint(shell.env, env_element_print);
