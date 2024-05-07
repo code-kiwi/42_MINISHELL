@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_node_command.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mhotting <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/10 12:39:49 by mhotting          #+#    #+#             */
-/*   Updated: 2024/04/30 23:12:04 by mhotting         ###   ########.fr       */
+/*   Updated: 2024/05/07 14:00:38 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 #include "redirections.h"
 #include "execution.h"
 #include "node.h"
+#include "expansion.h"
 
 /*
  *	Sets command file descriptors according to the given ones
@@ -40,14 +41,15 @@ static void	exec_cmd_set_fds(t_node_command *cmd, int fd_in, int fd_out)
  *	overwritten by the new ones (after having been closed)
  *	If there is no redirection to operate, the command's fds remain unchanged
  */
-static void	exec_cmd_set_redirections_fds(t_node_command *cmd)
+static void	exec_cmd_set_redirections_fds(t_node_command *cmd,
+	t_minishell *shell)
 {
 	t_redirection_list	*red;
 
 	if (cmd == NULL || cmd->redirection_list == NULL)
 		return ;
 	red = cmd->redirection_list;
-	exec_redirection_list(red);
+	exec_redirection_list(shell, red);
 	if (red->info.fd_stdin != FD_UNSET)
 	{
 		if (cmd->fd_in != FD_UNSET)
@@ -105,6 +107,22 @@ static void	exec_cmd_process(
 	node_command_close_fds(cmd);
 }
 
+static void	expand_cmd_arguments(t_minishell *shell, t_node_command *cmd)
+{
+	char	*cmd_name;
+
+	if (shell == NULL || cmd == NULL || cmd->argv == NULL)
+		handle_error(shell, ERROR_MSG_ARGS, EXIT_FAILURE);
+	cmd_name = cmd->argv[0];
+	if (string_equals(CMD_EXPORT, cmd_name))
+	{
+		if (!expand_argv(&cmd->argv, O_QUOTE | O_VAR, shell))
+			handle_error(shell, ERROR_MSG_EXPANSION, EXIT_FAILURE);
+	}
+	else if (!expand_argv(&cmd->argv, O_QUOTE | O_VAR | O_PATH, shell))
+		handle_error(shell, ERROR_MSG_EXPANSION, EXIT_FAILURE);
+}
+
 /*
  *	Executes the given node of type command
  *	Steps:
@@ -126,7 +144,7 @@ void	exec_node_command(
 		handle_error(shell, ERROR_MSG_ARGS, EXIT_FAILURE);
 	cmd = (t_node_command *) node->content;
 	exec_cmd_set_fds(cmd, fd[0], fd[1]);
-	exec_cmd_set_redirections_fds(cmd);
+	exec_cmd_set_redirections_fds(cmd, shell);
 	if (cmd->fd_in == FD_ERROR || cmd->fd_out == FD_ERROR)
 	{
 		node_command_close_fds(cmd);
@@ -134,5 +152,6 @@ void	exec_node_command(
 			handle_error(shell, ERROR_MSG_MEM, EXIT_FAILURE);
 		return ;
 	}
+	expand_cmd_arguments(shell, node->content);
 	exec_cmd_process(shell, cmd, in_pipe);
 }

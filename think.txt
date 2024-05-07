@@ -1,0 +1,32 @@
+ARGUMENT simple : 	export	:	quote_removal, variable_expansion
+					reste	:	quote removal, variable expansion, pathname_expansion
+
+redirection :
+					here_doc :	LIMITER : quote removal
+								INPUT : variable expansion, après avoir testé si l'input == LIMITER
+
+					reste : 	quote removal, pathanme expansion and test if length == 1, variable expansion
+								Si le pathanme expansion en trouve pas de candidats, il garde la string 
+								modifiée par le pathname expansion et la variable expansion
+
+Pour les redirections, on ne garde qu'une string donc on pourrais juste remplacer la string actuelle qui stock
+la redirection.
+
+Pour les arguments on peut rajouter es arguments donc il faudrait une fonction qui rajoute une liste dans un
+tableau de string.
+
+Argument simple : 
+	le premier argument est export :
+		list = expand_string(..., O_QUOTE | O_VAR);
+		si list == NULL :
+			si errno != 0:
+				libérer les ressources
+				renvoie erreur
+		sinon :
+			si insert_list_dans_char**(char ***, t_list *) ne marche pas :
+				libérer les ressources
+				renvoie erreur
+	sinon:
+		
+
+	sinon :

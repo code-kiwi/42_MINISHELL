@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    sources.mk                                         :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: root <root@student.42.fr>                  +#+  +:+       +#+         #
+#    By: brappo <brappo@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/03/31 20:47:09 by mhotting          #+#    #+#              #
-#    Updated: 2024/05/05 19:40:48 by mhotting         ###   ########.fr        #
+#    Updated: 2024/05/06 13:07:49 by brappo           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -64,7 +64,7 @@ ifdef testChosen
 		MAIN_FILE		=	test_ast_creation.c
 	else ifeq ($(testChosen), expansion)
 		MAIN_DIR		=	.test/
-		MAIN_FILE		=	test_variable_expansion.c echo_string.c
+		MAIN_FILE		=	test_expansion.c echo_string.c
 	else ifeq ($(testChosen), ast_building)
 		MAIN_DIR		=	.test/
 		MAIN_FILE		=	test_ast_building.c	ast_printing.c
@@ -114,7 +114,8 @@ EXPANSION_FILES			=	get_variable_key.c			\
 							word_expansion.c			\
 							expand_string.c				\
 							expand_wildcard.c			\
-							string_equal_wildcard.c
+							string_equal_wildcard.c		\
+							expand_argv.c
 EXPANSION				=	$(addprefix $(EXPANSION_DIR), $(EXPANSION_FILES))
 # ENV
 ENV_DIR					=	env/

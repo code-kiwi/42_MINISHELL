@@ -3,20 +3,22 @@
 /*                                                        :::      ::::::::   */
 /*   exec_redirection_list.c                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mhotting <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/11 12:37:09 by mhotting          #+#    #+#             */
-/*   Updated: 2024/05/05 20:15:59 by mhotting         ###   ########.fr       */
+/*   Updated: 2024/05/07 14:15:49 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdlib.h>
 #include <stdbool.h>
 #include <fcntl.h>
+#include <errno.h>
 #include "libft.h"
 #include "minishell.h"
 #include "execution.h"
 #include "redirections.h"
+#include "expansion.h"
 
 /*
  *	Executes a redirection of type REDIRECTION_TYPE_INFILE
@@ -120,6 +122,24 @@ static void	redirection_exec_dispatch(
 		exec_redirection_out(redirection, info);
 }
 
+static void	exec_redir_set_error(
+	enum e_redirection_type type, t_redirections_info *info
+)
+{
+	if (info == NULL)
+		return ;
+	if (type == REDIRECTION_TYPE_INFILE)
+	{
+		info->error_infile = true;
+		info->fd_stdin = FD_ERROR;
+	}
+	else
+	{
+		info->error_outfile = true;
+		info->fd_stdin = FD_ERROR;
+	}
+}
+
 /*
  *	Executes all the redirections stored into the given redirection list
  *	Stores the redirection information into info member of redirection_list
@@ -128,7 +148,9 @@ static void	redirection_exec_dispatch(
  *		- executes the other redirections (using last heredoc's index in order
  *		to make stdin redirections logical: from left to right)
  */
-void	exec_redirection_list(t_redirection_list *redirection_list)
+void	exec_redirection_list(
+	t_minishell *shell, t_redirection_list *redirection_list
+)
 {
 	t_list			*current;
 	t_redirection	*redirection;
@@ -143,6 +165,13 @@ void	exec_redirection_list(t_redirection_list *redirection_list)
 	while (current != NULL)
 	{
 		redirection = (t_redirection *) current->content;
+		if (redirection->type != REDIRECTION_TYPE_HEREDOC
+			&& !expand_redirection(&redirection->filename, \
+			O_QUOTE | O_PATH | O_VAR, shell))
+		{
+			exec_redir_set_error(redirection->type, &redirection_list->info);
+			break ;
+		}
 		redirection_exec_dispatch(redirection, &(redirection_list->info), \
 			(position > position_last_heredoc));
 		position++;
