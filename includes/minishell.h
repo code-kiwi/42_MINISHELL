@@ -6,7 +6,7 @@
 /*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 10:17:54 by mhotting          #+#    #+#             */
-/*   Updated: 2024/05/06 12:46:54 by mhotting         ###   ########.fr       */
+/*   Updated: 2024/05/07 16:55:35 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,8 @@ typedef struct s_minishell		t_minishell;
 # define ERROR_MSG_TOKENIZATION	"Tokenizing input"
 # define ERROR_MSG_PROMPT		"Prompt function error"
 # define ERROR_MSG_ENV_CREATION	"Impossible to initialize the environment"
+# define ERROR_MSG_EXPANSION	"Expansion failed"
+# define ERROR_MSG_AMBIG_REDIR	"Ambiguous redirection"
 
 # define DGREAT 				">>"
 # define DLESS					"<<"
@@ -73,6 +75,8 @@ typedef struct s_minishell		t_minishell;
 # define ENV_TERM				"TERM"
 # define ENV_HOME				"HOME"
 # define ENV_USER				"USER"
+
+# define CMD_EXPORT				"export"
 
 struct s_minishell
 {

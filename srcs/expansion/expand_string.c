@@ -6,7 +6,7 @@
 /*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/05 15:12:32 by brappo            #+#    #+#             */
-/*   Updated: 2024/04/25 11:41:49 by mhotting         ###   ########.fr       */
+/*   Updated: 2024/05/06 12:39:50 by brappo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@
 
 static void	remove_quote(t_token_parser *parser, char *input, char options)
 {
+	if ((options >> 3) & 1)
+		return ;
 	if (*input == '\'')
 		parser->single_quoted = !parser->single_quoted;
 	else if (*input == '"')
@@ -29,13 +31,11 @@ static void	remove_quote(t_token_parser *parser, char *input, char options)
 }
 
 static bool	handle_variable(t_token_parser *parser, \
-	char **input, t_minishell *shell, char options)
+	char **input, t_minishell *shell, t_list **wildcards)
 {
 	size_t	*index;
 	ssize_t	var_length;
 
-	if (!((options >> 1) & 1))
-		return (true);
 	index = parser->end;
 	if ((*input)[*index] != '$' || parser->single_quoted)
 		return (true);
@@ -43,7 +43,17 @@ static bool	handle_variable(t_token_parser *parser, \
 		parser->double_quoted, shell);
 	if (var_length < 0)
 		return (false);
-	*index += var_length - 1;
+	while (var_length >= 1)
+	{
+		var_length--;
+		if (!parser->double_quoted && (*input)[*index] == '*')
+		{
+			if (!lst_push_front_content(wildcards, *input + *index, NULL))
+				return (false);
+		}
+		*index += 1;
+	}
+	*index -= 1;
 	return (true);
 }
 
@@ -69,19 +79,10 @@ static bool	handle_wildcards(t_list **wildcards_pos, t_token_parser *parser, \
 
 static t_list	*get_arguments(char *str, t_list *wildcards)
 {
-	char	*str_dup;
 	t_list	*arguments;
 
 	if (wildcards == NULL)
-	{
-		str_dup = ft_strdup(str);
-		if (str_dup == NULL)
-			return (NULL);
-		arguments = ft_lstnew(str_dup);
-		if (arguments == NULL)
-			free(str_dup);
-		return (arguments);
-	}
+		return (NULL);
 	else
 	{
 		ft_lstreverse(&wildcards);
@@ -111,7 +112,8 @@ t_list	*expand_string(char **str, t_minishell *shell, char options)
 		else if (!handle_wildcards(&wildcard_pos, &parser, *str, options))
 			return (NULL);
 		else if ((*str)[index] == '$' \
-			&& !handle_variable(&parser, str, shell, options))
+			&& ((options >> 1) & 1)
+			&& !handle_variable(&parser, str, shell, &wildcard_pos))
 			return (NULL);
 		index++;
 	}

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_ast_heredocs.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mhotting <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/03 09:54:05 by mhotting          #+#    #+#             */
-/*   Updated: 2024/05/05 21:56:52 by mhotting         ###   ########.fr       */
+/*   Updated: 2024/05/06 13:32:37 by brappo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,9 @@ static t_redirection_list	*get_node_redirs(t_node *node)
  *	the givenhdc_info
  *	In case of ERROR, sets hdc_info's error member to true and returns
  */
-static void	exec_node_hdcs(t_node *node, t_heredoc_exec_info *hdc_info)
+static void	exec_node_hdcs(
+	t_minishell *shell, t_node *node, t_heredoc_exec_info *hdc_info
+)
 {
 	t_redirection_list	*redirs;
 
@@ -64,7 +66,7 @@ static void	exec_node_hdcs(t_node *node, t_heredoc_exec_info *hdc_info)
 	redirs = get_node_redirs(node);
 	if (redirs == NULL)
 		return (hdc_info_set_error(hdc_info));
-	exec_redirection_list_heredocs(redirs, hdc_info);
+	exec_redirection_list_heredocs(shell, redirs, hdc_info);
 }
 
 /*
@@ -76,7 +78,9 @@ static void	exec_node_hdcs(t_node *node, t_heredoc_exec_info *hdc_info)
  *	NB: This function is recursive, it stops if hdc_info requires it, if the
  *	given node is NULL or if hdc_info is invalid
  */
-static void	exec_ast_hdcs_process(t_node *node, t_heredoc_exec_info *hdc_info)
+static void	exec_ast_hdcs_process(
+	t_minishell *shell, t_node *node, t_heredoc_exec_info *hdc_info
+)
 {
 	t_node_subshell	*node_sub;
 
@@ -90,16 +94,16 @@ static void	exec_ast_hdcs_process(t_node *node, t_heredoc_exec_info *hdc_info)
 		|| node->type == NODE_OR
 	)
 	{
-		exec_ast_hdcs_process(node->child_left, hdc_info);
-		exec_ast_hdcs_process(node->child_right, hdc_info);
+		exec_ast_hdcs_process(shell, node->child_left, hdc_info);
+		exec_ast_hdcs_process(shell, node->child_right, hdc_info);
 	}
 	else if (node->type == NODE_COMMAND)
-		exec_node_hdcs(node, hdc_info);
+		exec_node_hdcs(shell, node, hdc_info);
 	else if (node->type == NODE_SUBSHELL)
 	{
 		node_sub = (t_node_subshell *) node->content;
-		exec_ast_hdcs_process(node_sub->ast, hdc_info);
-		exec_node_hdcs(node, hdc_info);
+		exec_ast_hdcs_process(shell, node_sub->ast, hdc_info);
+		exec_node_hdcs(shell, node, hdc_info);
 	}
 }
 
@@ -118,7 +122,7 @@ bool	exec_ast_heredocs(t_minishell *shell)
 		handle_error(shell, ERROR_MSG_ARGS, EXIT_FAILURE);
 	hdc_info.interruption = false;
 	hdc_info.error_flag = false;
-	exec_ast_hdcs_process(shell->ast, &hdc_info);
+	exec_ast_hdcs_process(shell, shell->ast, &hdc_info);
 	if (hdc_info.error_flag)
 		return (false);
 	if (hdc_info.interruption)
