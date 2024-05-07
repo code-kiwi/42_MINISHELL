@@ -6,7 +6,7 @@
 /*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/29 10:24:26 by brappo            #+#    #+#             */
-/*   Updated: 2024/05/07 16:22:24 by root             ###   ########.fr       */
+/*   Updated: 2024/05/07 16:56:13 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,6 +83,7 @@ bool	expand_redirection(char **redirection, char options, t_minishell *shell)
 	if (ft_lstsize(wildcards_candidate) > 1)
 	{
 		ft_dprintf(STDERR_FILENO, "%s: %s\n", save, ERROR_MSG_AMBIG_REDIR);
+		free(save);
 		ft_lstclear(&wildcards_candidate, free);
 		return (false);
 	}
