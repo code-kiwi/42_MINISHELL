@@ -6,7 +6,7 @@
 /*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/03 15:35:13 by mhotting          #+#    #+#             */
-/*   Updated: 2024/05/06 13:55:53 by brappo           ###   ########.fr       */
+/*   Updated: 2024/05/07 13:53:28 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,15 @@
 #include "signals.h"
 #include "expansion.h"
 
+/*
+ *	Handles NULL input when reading here_doc
+ *	Cases:
+ *		- errno != 0 means that something wrong happened
+ *		- get_sigint() returns true when SIGINT has been catched, which means
+ *		that the heredoc process has been stopped by the user
+ *		- else the heredoc process has been stopped without the limiter
+ *	Returns an integer according to the previous mentionned cases
+ */
 static int	read_here_doc_error(char *limiter)
 {
 	if (errno != 0)

@@ -6,7 +6,7 @@
 /*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/29 09:54:42 by mhotting          #+#    #+#             */
-/*   Updated: 2024/04/29 16:43:15 by brappo           ###   ########.fr       */
+/*   Updated: 2024/05/07 13:42:48 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ t_node	*node_command_create(int argc, char **argv)
 	node_command->redirection_list = redirection_list_create();
 	node_command->fd_in = FD_UNSET;
 	node_command->fd_out = FD_UNSET;
-	if (node_command->redirection_list == NULL)
+	if (node_command->argv == NULL || node_command->redirection_list == NULL)
 	{
 		node_command_free((void **)&node_command);
 		free(node);

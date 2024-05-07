@@ -6,15 +6,15 @@
 /*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/29 10:24:26 by brappo            #+#    #+#             */
-/*   Updated: 2024/05/06 13:52:27 by brappo           ###   ########.fr       */
+/*   Updated: 2024/05/07 14:12:55 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <stdio.h>
 #include "minishell.h"
 #include "expansion.h"
 #include "errno.h"
 #include "libft.h"
-#include <stdio.h>
 
 static void	cat_lst_in_array(char **array_dest, t_list *lst_src,
 	size_t start, size_t length)
@@ -71,8 +71,7 @@ static bool	replace_arguments(char ***argv,
 	return (true);
 }
 
-bool	expand_redirection(char **redirection, char options,
-	t_minishell *shell)
+bool	expand_redirection(char **redirection, char options, t_minishell *shell)
 {
 	t_list	*wildcards_candidate;
 	char	*save;
@@ -81,26 +80,24 @@ bool	expand_redirection(char **redirection, char options,
 	if (save == NULL)
 		return (false);
 	wildcards_candidate = expand_string(redirection, shell, options);
-	if (ft_lstsize(wildcards_candidate) > 1)
-	{
-		ft_dprintf(STDERR_FILENO, "%s %s\n", save, AMBIGUOUS_REDIRECTION);
-		free(save);
-		ft_lstclear(&wildcards_candidate, free);
-		return (false);
-	}
 	free(save);
 	if (wildcards_candidate == NULL && errno != 0)
 		return (false);
 	if (wildcards_candidate == NULL)
 		return (true);
+	if (ft_lstsize(wildcards_candidate) > 1)
+	{
+		ft_dprintf(STDERR_FILENO, "%s: %s\n", save, ERROR_MSG_AMBIG_REDIR);
+		ft_lstclear(&wildcards_candidate, free);
+		return (false);
+	}
 	free(*redirection);
 	*redirection = wildcards_candidate->content;
 	free(wildcards_candidate);
 	return (true);
 }
 
-bool	expand_argv(char ***argv, char options,
-		t_minishell *shell)
+bool	expand_argv(char ***argv, char options, t_minishell *shell)
 {
 	size_t	index;
 	t_list	*wildcards_candidate;

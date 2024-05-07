@@ -6,7 +6,7 @@
 /*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 13:52:21 by mhotting          #+#    #+#             */
-/*   Updated: 2024/05/06 13:03:25 by brappo           ###   ########.fr       */
+/*   Updated: 2024/05/07 14:03:20 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,8 +48,9 @@ static void	exec_subshell_set_fds_initial(int fds[2], int fds_subshell[2])
  *	files descriptors, they will overwrite the previous ones
  *	NB: when overwriting, the previous fds are closed in order to avoid fd leaks
  */
-static void	exec_subshell_set_fds(t_node_subshell *node_sub,
-	int fds[2], int fds_subshell[2], t_minishell *shell
+static void	exec_subshell_set_fds(
+	t_minishell *shell, t_node_subshell *node_sub, int fds[2],
+	int fds_subshell[2]
 )
 {
 	t_redirection_list	*red;
@@ -58,7 +59,7 @@ static void	exec_subshell_set_fds(t_node_subshell *node_sub,
 	if (node_sub == NULL || node_sub->redirection_list == NULL)
 		return ;
 	red = node_sub->redirection_list;
-	exec_redirection_list(red, shell);
+	exec_redirection_list(shell, red);
 	if (red->info.fd_stdin != FD_UNSET)
 	{
 		if (fds_subshell[0] != FD_UNSET)
@@ -103,7 +104,7 @@ static void	exec_subshell(t_minishell *mainshell, t_node *node, int fds[2])
 		exec_subshell_error(mainshell, fds);
 	node_sub = (t_node_subshell *) node->content;
 	t_minishell_init_subshell(&subshell, mainshell);
-	exec_subshell_set_fds(node_sub, fds, fds_subshell, mainshell);
+	exec_subshell_set_fds(mainshell, node_sub, fds, fds_subshell);
 	if (fds_subshell[0] == FD_ERROR || fds_subshell[1] == FD_ERROR)
 		exec_subshell_error(&subshell, fds_subshell);
 	if (node_sub->ast == NULL)

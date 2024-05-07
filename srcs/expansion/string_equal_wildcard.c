@@ -6,14 +6,14 @@
 /*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/11 12:39:55 by brappo            #+#    #+#             */
-/*   Updated: 2024/04/29 10:45:52 by brappo           ###   ########.fr       */
+/*   Updated: 2024/05/07 14:21:32 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include "libft.h"
 
-bool	is_wildcard(char *characters, t_list *wildcards)
+static bool	is_wildcard(char *characters, t_list *wildcards)
 {
 	if (wildcards == NULL)
 		return (false);

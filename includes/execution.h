@@ -6,7 +6,7 @@
 /*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/10 12:52:55 by mhotting          #+#    #+#             */
-/*   Updated: 2024/05/06 13:32:33 by brappo           ###   ########.fr       */
+/*   Updated: 2024/05/07 13:55:35 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,8 +50,8 @@ void	exec_cmd(t_minishell *shell, t_node_command *cmd);
 int		exec_builtin(t_minishell *shell, t_node_command *cmd);
 
 // Redirection execution
-void	exec_redirection_list(t_redirection_list *redirection_list,
-			t_minishell *shell);
+void	exec_redirection_list(t_minishell *shell, \
+			t_redirection_list *redirection_list);
 
 // Heredoc execution
 bool	exec_ast_heredocs(t_minishell *shell);
