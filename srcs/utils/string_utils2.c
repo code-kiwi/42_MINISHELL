@@ -6,7 +6,7 @@
 /*   By: mhotting <mhotting@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/01 02:23:50 by mhotting          #+#    #+#             */
-/*   Updated: 2024/05/01 02:29:02 by mhotting         ###   ########.fr       */
+/*   Updated: 2024/05/07 21:02:13 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,4 +29,21 @@ bool	string_contains_only_spaces(char *str)
 		str++;
 	}
 	return (true);
+}
+
+/*
+ *	Returns true if the string contains non-ASCII chars, else returns false
+ *	If the string is NULL, returns false
+ */
+bool	string_contains_invalid_chars(char *str)
+{
+	if (str == NULL)
+		return (false);
+	while (*str != '\0')
+	{
+		if (!ft_isascii(*str))
+			return (true);
+		str++;
+	}
+	return (false);
 }

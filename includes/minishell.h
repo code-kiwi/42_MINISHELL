@@ -6,7 +6,7 @@
 /*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 10:17:54 by mhotting          #+#    #+#             */
-/*   Updated: 2024/05/07 19:47:28 by mhotting         ###   ########.fr       */
+/*   Updated: 2024/05/07 21:02:39 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,7 @@ typedef struct s_minishell		t_minishell;
 # define ERROR_MSG_BUILD_AST	"Syntax error near unexpected token"
 # define ERROR_MSG_NOTATTY		"Not a tty: STDIN redirection not handled"
 # define ERROR_MSG_SIGNAL_INIT	"Signal handling set up failed"
+# define ERROR_MSG_BAD_CHARS	"The input must contain only ASCII chars"
 
 # define DGREAT 				">>"
 # define DLESS					"<<"
@@ -119,6 +120,7 @@ char	*bridge_into_first(char **first, char *second, char *separator);
 void	ft_print_str_array(char **array);
 bool	string_equals(void *a, void *b);
 bool	string_contains_only_spaces(char *str);
+bool	string_contains_invalid_chars(char *str);
 void	**to_array(t_list *lst);
 bool	utils_is_empty_cmd(char *cmd);
 

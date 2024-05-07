@@ -6,7 +6,7 @@
 /*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 13:24:53 by mhotting          #+#    #+#             */
-/*   Updated: 2024/04/25 11:56:52 by mhotting         ###   ########.fr       */
+/*   Updated: 2024/05/07 21:04:57 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,14 +24,14 @@
  *	If the exit status provided corresponds to an error status,
  *	the program exits
  */
-void	handle_error(t_minishell *shell, char *err_msg, int exit_status)
+void	handle_error(t_minishell *shell, char *err, int exit_status)
 {
 	if (shell != NULL)
 		t_minishell_free(shell);
 	if (errno != 0)
-		ft_dprintf(STDERR_FILENO, "Error: %s: %s\n", err_msg, strerror(errno));
+		ft_dprintf(STDERR_FILENO, "Minishell: %s: %s\n", err, strerror(errno));
 	else
-		ft_dprintf(STDERR_FILENO, "Error: %s\n", err_msg);
+		ft_dprintf(STDERR_FILENO, "Minishell: %s\n", err);
 	if (exit_status)
 		exit(exit_status);
 }
@@ -46,7 +46,7 @@ void	handle_error(t_minishell *shell, char *err_msg, int exit_status)
  */
 void	handle_error_cmd(t_minishell *shell, char *err_msg, char *cmd)
 {
-	ft_dprintf(STDERR_FILENO, "Error: %s: %s\n", err_msg, cmd);
+	ft_dprintf(STDERR_FILENO, "Minishell: %s: %s\n", err_msg, cmd);
 	if (shell != NULL)
 		t_minishell_free(shell);
 	exit(STATUS_CMD_NOT_FOUND);

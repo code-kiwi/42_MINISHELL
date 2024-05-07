@@ -6,7 +6,7 @@
 /*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 10:14:16 by mhotting          #+#    #+#             */
-/*   Updated: 2024/05/07 20:42:02 by mhotting         ###   ########.fr       */
+/*   Updated: 2024/05/07 21:03:25 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,11 @@ static int	project_main_loop(t_minishell *shell)
 	shell->input = prompt(shell);
 	if (shell->input == NULL)
 		handle_error(shell, ERROR_MSG_PROMPT, EXIT_FAILURE);
+	if (string_contains_invalid_chars(shell->input))
+	{
+		handle_error(NULL, ERROR_MSG_BAD_CHARS, 0);
+		return (STATUS_INVALID_USE);
+	}
 	token_recognition(shell);
 	shell->ast = build_ast(shell->tokens);
 	if (shell->ast == NULL && errno != 0)
