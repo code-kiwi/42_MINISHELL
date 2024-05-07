@@ -6,7 +6,7 @@
 /*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 10:14:16 by mhotting          #+#    #+#             */
-/*   Updated: 2024/05/07 16:40:11 by root             ###   ########.fr       */
+/*   Updated: 2024/05/07 17:51:12 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,17 +29,16 @@ int	main(int argc, char **argv, char **envp)
 	t_minishell	shell;
 
 	if (!isatty(STDIN_FILENO))
-	{
-		ft_dprintf(STDERR_FILENO, "%s\n", NOTATTY);
-		exit(EXIT_FAILURE);
-	}
-	if (signal(SIGINT, &signal_handler) == SIG_ERR
-		|| signal(SIGQUIT, &signal_handler) == SIG_ERR)
-		exit(EXIT_FAILURE);
+		handle_error(&shell, ERROR_MSG_NOTATTY, EXIT_FAILURE);
+	if (
+		signal(SIGINT, &signal_handler) == SIG_ERR
+		|| signal(SIGQUIT, &signal_handler) == SIG_ERR
+	)
+		handle_error(&shell, ERROR_MSG_SIGNAL_INIT, EXIT_FAILURE);
 	rl_catch_signals = 0;
 	rl_outstream = stderr;
-	t_minishell_init(&shell, argc, argv, envp);
 	rl_event_hook = stop_readline;
+	t_minishell_init(&shell, argc, argv, envp);
 	while (true)
 	{
 		shell.input = prompt(&shell);

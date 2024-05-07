@@ -6,7 +6,7 @@
 /*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 10:17:54 by mhotting          #+#    #+#             */
-/*   Updated: 2024/05/07 16:55:35 by mhotting         ###   ########.fr       */
+/*   Updated: 2024/05/07 17:50:58 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,9 @@ typedef struct s_minishell		t_minishell;
 # define ERROR_MSG_ENV_CREATION	"Impossible to initialize the environment"
 # define ERROR_MSG_EXPANSION	"Expansion failed"
 # define ERROR_MSG_AMBIG_REDIR	"Ambiguous redirection"
+# define ERROR_MSG_BUILD_AST	"Syntax error near unexpected token"
+# define ERROR_MSG_NOTATTY		"Not a tty: STDIN redirection not handled"
+# define ERROR_MSG_SIGNAL_INIT	"Signal handling set up failed"
 
 # define DGREAT 				">>"
 # define DLESS					"<<"
