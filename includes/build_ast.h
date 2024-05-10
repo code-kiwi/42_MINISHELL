@@ -6,7 +6,7 @@
 /*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/10 10:37:10 by brappo            #+#    #+#             */
-/*   Updated: 2024/05/02 12:39:01 by root             ###   ########.fr       */
+/*   Updated: 2024/05/07 17:39:27 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,6 @@
 
 # include <stdbool.h>
 # include <stdlib.h>
-
-# define ERROR_BUILD_AST "Syntax error near unexpected token"
 
 typedef struct s_list		t_list;
 typedef struct s_node		t_node;
@@ -36,4 +34,5 @@ bool	is_cmd_token(t_list *tokens);
 bool	add_connector(t_node **current_node, t_node **head,
 			t_list *tokens, t_token_type connector);
 void	ast_syntax_error(t_token *token);
+
 #endif

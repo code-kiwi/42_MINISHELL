@@ -47,16 +47,16 @@ int	main(int argc, char **argv, char **envp)
 	// Testing env parsing from envp and env CRUD
 	t_minishell_init(&shell, argc, argv, envp);
 	ft_lstprint(shell.env, env_element_print);
-	test_env_find(shell.env, "PATH");
-	env_delete(&(shell.env), "PATH");
-	test_env_find(shell.env, "PATH");
-	env_add(&(shell.env), "PATH", "/usr/bin");
-	env_add(&(shell.env), "USER", "brappo");
+	test_env_find(shell.env, ENV_PATH);
+	env_delete(&(shell.env), ENV_PATH);
+	test_env_find(shell.env, ENV_PATH);
+	env_add(&(shell.env), ENV_PATH, "/usr/bin");
+	env_add(&(shell.env), ENV_USER, "brappo");
 	ft_lstprint(shell.env, env_element_print);
-	test_env_find(shell.env, "PATH");
-	env_delete(&(shell.env), "USER");
-	env_delete(&(shell.env), "PATH");
-	env_delete(&(shell.env), "PATH");
+	test_env_find(shell.env, ENV_PATH);
+	env_delete(&(shell.env), ENV_USER);
+	env_delete(&(shell.env), ENV_PATH);
+	env_delete(&(shell.env), ENV_PATH);
 	ft_lstprint(shell.env, env_element_print);
 	printf("ENV: %p\n", shell.env);
 

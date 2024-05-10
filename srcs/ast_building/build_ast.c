@@ -6,13 +6,14 @@
 /*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/10 10:14:38 by brappo            #+#    #+#             */
-/*   Updated: 2024/05/03 10:24:36 by brappo           ###   ########.fr       */
+/*   Updated: 2024/05/07 17:38:38 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdlib.h>
 #include <stdbool.h>
 #include "libft.h"
+#include "minishell.h"
 #include "node.h"
 #include "build_ast.h"
 #include "token.h"
@@ -20,9 +21,9 @@
 void	ast_syntax_error(t_token *token)
 {
 	if (token->type == END)
-		ft_printf("%s 'new_line'\n", ERROR_BUILD_AST);
+		ft_dprintf(STDERR_FILENO, "%s 'new_line'\n", ERROR_MSG_BUILD_AST);
 	else
-		ft_printf("%s '%s'\n", ERROR_BUILD_AST, token->str);
+		ft_dprintf(STDERR_FILENO, "%s '%s'\n", ERROR_MSG_BUILD_AST, token->str);
 }
 
 t_node	*build_ast(t_list *tokens)

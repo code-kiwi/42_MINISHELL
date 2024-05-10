@@ -6,7 +6,7 @@
 /*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/17 12:31:28 by brappo            #+#    #+#             */
-/*   Updated: 2024/05/07 14:24:51 by mhotting         ###   ########.fr       */
+/*   Updated: 2024/05/07 17:39:43 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,4 +38,5 @@ size_t	array_size(void **array);
 bool	expand_argv(char ***argv, char options, t_minishell *shell);
 bool	expand_redirection(char **redirection, char options,
 			t_minishell *shell);
+
 #endif

@@ -44,7 +44,7 @@ static char	*bi_cd_resolve_path(t_minishell *shell, char *dir)
 
 	if (shell == NULL || dir == NULL)
 		return (NULL);
-	pwd = env_get(shell->env, "PWD");
+	pwd = env_get(shell->env, ENV_PWD);
 	if (pwd == NULL && errno != 0)
 		return (NULL);
 	if (pwd == NULL)
@@ -52,7 +52,7 @@ static char	*bi_cd_resolve_path(t_minishell *shell, char *dir)
 		pwd = getcwd(NULL, 0);
 		if (pwd == NULL)
 			return (NULL);
-		if (!env_update(&(shell->env), "PWD", pwd))
+		if (!env_update(&(shell->env), ENV_PWD, pwd))
 		{
 			free(pwd);
 			return (NULL);

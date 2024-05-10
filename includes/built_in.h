@@ -6,7 +6,7 @@
 /*   By: mhotting <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/12 15:44:49 by mhotting          #+#    #+#             */
-/*   Updated: 2024/04/26 17:46:00 by mhotting         ###   ########.fr       */
+/*   Updated: 2024/05/10 02:22:27 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,22 +20,24 @@
 # define MSG_LITERAL			"%s\n"
 
 # define EXIT_MSG_BASIC			"exit"
-# define EXIT_MSG_ARG_NON_NUM	"Error: exit: %s: numeric argument required\n"
-# define EXIT_MSG_TOO_MANY_ARGS	"Error: exit: too many arguments"
+# define EXIT_MSG_ARG_NON_NUM	"Minishell: exit: %s: numeric arg. required\n"
+# define EXIT_MSG_TOO_MANY_ARGS	"Minishell: exit: too many arguments"
 
-# define ECHO_MSG_LITERAL		"Error: echo: %s\n"
+# define ECHO_MSG_LITERAL		"Minishell: echo: %s\n"
 
-# define PWD_MSG_ERROR			"Error: pwd failed"
+# define PWD_MSG_ERROR			"Minishell: pwd failed"
 
-# define CD_MSG_LITERAL1		"Error: cd: %s\n"
-# define CD_MSG_LITERAL2		"Error: cd: %s: %s\n"
+# define CD_MSG_LITERAL1		"Minishell: cd: %s\n"
+# define CD_MSG_LITERAL2		"Minishell: cd: %s: %s\n"
 # define CD_MSG_ERR_INTERNAL	"Internal process error"
 # define CD_MSG_ERR_HOME		"HOME not set"
 # define CD_MSG_ERR_ARGS		"Too many arguments"
 # define CD_MSG_ERR_EXISTS		"No such file or directory"
 
-# define ENV_MSG_ERR_ARG		"Error: env: No argument expected\n"
-# define ENV_MSG_ERR_INTERNAL	"Error: env: Internal error occured\n"
+# define EXPORT_MSG_ERR_KEY		"Minishell: export: '%s': not a valid key\n"
+
+# define ENV_MSG_ERR_ARG		"Minishell: env: No argument expected\n"
+# define ENV_MSG_ERR_INTERNAL	"Minishell: env: Internal error occured\n"
 
 typedef struct s_minishell	t_minishell;
 typedef int					(*t_bi_func)(t_minishell *sh, char **av, int fdout);

@@ -6,7 +6,7 @@
 /*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 10:17:54 by mhotting          #+#    #+#             */
-/*   Updated: 2024/05/07 14:12:44 by mhotting         ###   ########.fr       */
+/*   Updated: 2024/05/07 21:02:39 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ typedef struct s_list			t_list;
 typedef struct s_node			t_node;
 typedef struct s_minishell		t_minishell;
 
+# define STATUS_INVALID_USE		2
 # define STATUS_CMD_NOT_FOUND	127
 # define STATUS_CMD_NOT_EXEC	126
 # define STATUS_SIGINT_STOP		130
@@ -44,8 +45,13 @@ typedef struct s_minishell		t_minishell;
 # define ERROR_MSG_WRITE		"Call to write function failed"
 # define ERROR_MSG_TOKENIZATION	"Tokenizing input"
 # define ERROR_MSG_PROMPT		"Prompt function error"
+# define ERROR_MSG_ENV_CREATION	"Impossible to initialize the environment"
 # define ERROR_MSG_EXPANSION	"Expansion failed"
 # define ERROR_MSG_AMBIG_REDIR	"Ambiguous redirection"
+# define ERROR_MSG_BUILD_AST	"Syntax error near unexpected token"
+# define ERROR_MSG_NOTATTY		"Not a tty: STDIN redirection not handled"
+# define ERROR_MSG_SIGNAL_INIT	"Signal handling set up failed"
+# define ERROR_MSG_BAD_CHARS	"The input must contain only ASCII chars"
 
 # define DGREAT 				">>"
 # define DLESS					"<<"
@@ -65,7 +71,15 @@ typedef struct s_minishell		t_minishell;
 # define PID_ERROR				0
 
 # define MULTIPLE_LINE_PROMPT	"> "
-# define HEREDOC_PROMPT			"heredoc > "
+# define HEREDOC_PROMPT			"heredoc> "
+
+# define ENV_PWD				"PWD"
+# define ENV_OLDPWD				"OLDPWD"
+# define ENV_PATH				"PATH"
+# define ENV_SHLVL				"SHLVL"
+# define ENV_TERM				"TERM"
+# define ENV_HOME				"HOME"
+# define ENV_USER				"USER"
 
 # define CMD_EXPORT				"export"
 
@@ -89,8 +103,8 @@ void	t_minishell_free(t_minishell *shell);
 bool	t_minishell_add_pid(t_minishell *shell, pid_t pid);
 bool	t_minishell_set_exec_status(t_minishell *shell);
 void	t_minishell_init_subshell(t_minishell *sub, t_minishell *parent);
-void	utils_reset_shell(t_minishell *shell);
-void	utils_handle_empty_cmd(t_minishell *shell);
+void	utils_reset_shell(t_minishell *shell, int status);
+t_list	*t_minishell_env_init(char **envp);
 
 // General functions
 void	handle_error(t_minishell *shell, char *error_msg, int exit_status);
@@ -106,6 +120,7 @@ char	*bridge_into_first(char **first, char *second, char *separator);
 void	ft_print_str_array(char **array);
 bool	string_equals(void *a, void *b);
 bool	string_contains_only_spaces(char *str);
+bool	string_contains_invalid_chars(char *str);
 void	**to_array(t_list *lst);
 bool	utils_is_empty_cmd(char *cmd);
 
