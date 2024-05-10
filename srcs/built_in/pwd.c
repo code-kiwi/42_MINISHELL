@@ -6,13 +6,14 @@
 /*   By: mhotting <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 15:10:53 by mhotting          #+#    #+#             */
-/*   Updated: 2024/04/26 17:47:44 by mhotting         ###   ########.fr       */
+/*   Updated: 2024/05/10 16:56:46 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdlib.h>
 #include <unistd.h>
 #include <errno.h>
+
 #include "libft.h"
 #include "minishell.h"
 #include "env.h"

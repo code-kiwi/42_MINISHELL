@@ -6,7 +6,7 @@
 /*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/10 10:37:10 by brappo            #+#    #+#             */
-/*   Updated: 2024/05/10 15:24:32 by brappo           ###   ########.fr       */
+/*   Updated: 2024/05/10 16:53:22 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,6 @@
 
 # include <stdbool.h>
 # include <stdlib.h>
-
-# define ERROR_UNKNOWN_OPERATOR	"Minishell : Unknown operator"
 
 typedef struct s_list		t_list;
 typedef struct s_node		t_node;

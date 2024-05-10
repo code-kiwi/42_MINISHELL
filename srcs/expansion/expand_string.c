@@ -6,11 +6,13 @@
 /*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/05 15:12:32 by brappo            #+#    #+#             */
-/*   Updated: 2024/05/06 12:39:50 by brappo           ###   ########.fr       */
+/*   Updated: 2024/05/10 16:58:53 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <stdlib.h>
 #include <stdbool.h>
+
 #include "libft.h"
 #include "token.h"
 #include "expansion.h"

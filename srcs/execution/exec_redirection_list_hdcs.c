@@ -6,7 +6,7 @@
 /*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/03 15:35:13 by mhotting          #+#    #+#             */
-/*   Updated: 2024/05/08 01:54:59 by mhotting         ###   ########.fr       */
+/*   Updated: 2024/05/10 16:57:56 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 #include <stdbool.h>
 #include <readline/readline.h>
 #include <errno.h>
+
 #include "libft.h"
 #include "redirections.h"
 #include "execution.h"

@@ -6,12 +6,13 @@
 /*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/28 10:22:22 by brappo            #+#    #+#             */
-/*   Updated: 2024/05/03 16:08:11 by brappo           ###   ########.fr       */
+/*   Updated: 2024/05/10 17:01:56 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdlib.h>
 #include <stdbool.h>
+
 #include "libft.h"
 
 int	array_find(void **array, bool (equal)(void *a, void *b), void *value)

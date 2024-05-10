@@ -6,7 +6,7 @@
 /*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/11 12:37:09 by mhotting          #+#    #+#             */
-/*   Updated: 2024/05/07 14:15:49 by mhotting         ###   ########.fr       */
+/*   Updated: 2024/05/10 16:57:51 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 #include <stdbool.h>
 #include <fcntl.h>
 #include <errno.h>
+
 #include "libft.h"
 #include "minishell.h"
 #include "execution.h"

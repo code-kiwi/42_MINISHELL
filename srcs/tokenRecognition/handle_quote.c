@@ -6,11 +6,12 @@
 /*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/28 09:56:51 by brappo            #+#    #+#             */
-/*   Updated: 2024/05/02 17:35:41 by root             ###   ########.fr       */
+/*   Updated: 2024/05/10 17:01:04 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdbool.h>
+
 #include "token.h"
 
 bool	is_quoted(t_token_parser *token_parser)

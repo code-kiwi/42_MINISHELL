@@ -6,13 +6,15 @@
 /*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/30 10:06:42 by root              #+#    #+#             */
-/*   Updated: 2024/05/03 11:44:00 by brappo           ###   ########.fr       */
+/*   Updated: 2024/05/10 17:00:57 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <stdlib.h>
 #include <signal.h>
 #include <unistd.h>
 #include <readline/readline.h>
+
 #include "libft.h"
 #include "minishell.h"
 #include "prompt.h"

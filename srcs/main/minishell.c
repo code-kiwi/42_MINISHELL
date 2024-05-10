@@ -6,15 +6,17 @@
 /*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 10:14:16 by mhotting          #+#    #+#             */
-/*   Updated: 2024/05/10 02:05:52 by mhotting         ###   ########.fr       */
+/*   Updated: 2024/05/10 16:59:53 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <stdlib.h>
 #include <stdbool.h>
 #include <readline/history.h>
 #include <readline/readline.h>
 #include <signal.h>
 #include <errno.h>
+
 #include "minishell.h"
 #include "prompt.h"
 #include "libft.h"

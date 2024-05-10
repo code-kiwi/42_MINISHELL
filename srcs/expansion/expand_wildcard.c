@@ -6,13 +6,14 @@
 /*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/12 10:28:30 by brappo            #+#    #+#             */
-/*   Updated: 2024/04/29 11:30:13 by brappo           ###   ########.fr       */
+/*   Updated: 2024/05/10 16:58:58 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdlib.h>
 #include <sys/types.h>
 #include <dirent.h>
+
 #include "libft.h"
 #include "token.h"
 #include "expansion.h"

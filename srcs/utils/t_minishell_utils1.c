@@ -6,7 +6,7 @@
 /*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 13:10:16 by mhotting          #+#    #+#             */
-/*   Updated: 2024/05/07 20:29:35 by mhotting         ###   ########.fr       */
+/*   Updated: 2024/05/10 17:04:48 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 #include <stdbool.h>
 #include <readline/readline.h>
 #include <readline/history.h>
+
 #include "libft.h"
 #include "minishell.h"
 #include "env.h"

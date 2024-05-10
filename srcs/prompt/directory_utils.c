@@ -6,12 +6,14 @@
 /*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/28 12:54:36 by brappo            #+#    #+#             */
-/*   Updated: 2024/05/07 18:03:42 by mhotting         ###   ########.fr       */
+/*   Updated: 2024/05/10 17:00:14 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdlib.h>
+#include <stdbool.h>
 #include <errno.h>
+
 #include "libft.h"
 #include "minishell.h"
 #include "prompt.h"

@@ -6,13 +6,14 @@
 /*   By: mhotting <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 09:58:22 by mhotting          #+#    #+#             */
-/*   Updated: 2024/04/25 11:57:44 by mhotting         ###   ########.fr       */
+/*   Updated: 2024/05/10 17:02:09 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdlib.h>
 #include <stdbool.h>
 #include <errno.h>
+
 #include "libft.h"
 
 /*
