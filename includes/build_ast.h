@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   build_ast.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/10 10:37:10 by brappo            #+#    #+#             */
-/*   Updated: 2024/05/07 17:39:27 by mhotting         ###   ########.fr       */
+/*   Updated: 2024/05/10 15:24:32 by brappo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,8 @@
 
 # include <stdbool.h>
 # include <stdlib.h>
+
+# define ERROR_UNKNOWN_OPERATOR	"Minishell : Unknown operator"
 
 typedef struct s_list		t_list;
 typedef struct s_node		t_node;
