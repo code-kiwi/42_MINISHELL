@@ -6,7 +6,7 @@
 /*   By: mhotting <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 15:11:12 by mhotting          #+#    #+#             */
-/*   Updated: 2024/05/06 15:06:56 by mhotting         ###   ########.fr       */
+/*   Updated: 2024/05/10 02:03:03 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,32 +39,61 @@ static bool	bi_export_is_valid_key(char *key)
 }
 
 /*
+ *	Returns true if the key extracted from key_val is valid, otherwise returns
+ *	false
+ *	When the key is invalid, an error message is printed
+ *	In case of ERROR, returns false
+ */
+static bool	bi_export_has_valid_key(char *key_val)
+{
+	size_t	i;
+	char	*key;
+	bool	is_valid;
+
+	i = 0;
+	if (key_val == NULL)
+		return (false);
+	while (key_val[i] != '\0' && key_val[i] != '=')
+		i++;
+	if (key_val[i] == '=')
+		key = ft_substr(key_val, 0, i);
+	else
+		key = ft_strdup(key_val);
+	if (key == NULL)
+		return (false);
+	is_valid = bi_export_is_valid_key(key);
+	if (!is_valid)
+		ft_dprintf(STDERR_FILENO, EXPORT_MSG_ERR_KEY, key);
+	free(key);
+	return (is_valid);
+}
+
+/*
  *	Given a key_val string, adds the key/value pair into the given shell's
  *	environment
- *	Returns true on SUCCESS, false on ERROR
+ *	Returns 0 on SUCCESS, 1 on ERROR
  */
-static bool	bi_export_var(t_minishell *shell, char *key_val)
+static int	bi_export_var(t_minishell *shell, char *key_val)
 {
 	char	**split;
 	bool	returned;
 
+	if (!bi_export_has_valid_key(key_val))
+		return (1);
 	split = ft_split_key_val(key_val, ENV_KEY_VALUE_SEPERATOR);
-	if (split == NULL)
-		return (false);
-	if (split[0] == NULL || split[1] == NULL)
+	if (split == NULL && errno != 0 && errno != EINVAL)
+		return (1);
+	if (split == NULL || split[0] == NULL || split[1] == NULL)
 	{
+		errno = 0;
 		ft_free_str_array(&split);
-		return (true);
-	}
-	if (!bi_export_is_valid_key(split[0]))
-	{
-		ft_dprintf(STDERR_FILENO, EXPORT_MSG_ERR_KEY, split[1]);
-		ft_free_str_array(&split);
-		return (false);
+		return (0);
 	}
 	returned = env_update(&(shell->env), split[0], split[1]);
 	ft_free_str_array(&split);
-	return (returned);
+	if (!returned)
+		return (1);
+	return (0);
 }
 
 /*
@@ -76,19 +105,19 @@ static bool	bi_export_var(t_minishell *shell, char *key_val)
 int	bi_export(t_minishell *shell, char **argv, int fd_out)
 {
 	size_t	i;
-	bool	error_flag;
+	int		returned;
 
 	if (shell == NULL || argv == NULL || argv[0] == NULL)
 		handle_error(shell, ERROR_MSG_ARGS, EXIT_FAILURE);
 	(void) fd_out;
-	error_flag = false;
+	returned = 0;
 	i = 1;
 	while (argv[i] != NULL)
 	{
-		error_flag = bi_export_var(shell, argv[i]) || error_flag;
+		returned += bi_export_var(shell, argv[i]);
 		i++;
 	}
-	if (error_flag)
+	if (returned != 0)
 		return (EXIT_FAILURE);
 	return (EXIT_SUCCESS);
 }
