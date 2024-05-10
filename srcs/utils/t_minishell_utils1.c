@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   t_minishell_utils1.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 13:10:16 by mhotting          #+#    #+#             */
-/*   Updated: 2024/05/10 17:04:48 by mhotting         ###   ########.fr       */
+/*   Updated: 2024/05/10 18:45:05 by brappo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 #include <stdbool.h>
 #include <readline/readline.h>
 #include <readline/history.h>
+#include <errno.h>
 
 #include "libft.h"
 #include "minishell.h"
@@ -37,6 +38,9 @@ void	t_minishell_init(t_minishell *shell, int argc, char **argv, char **envp)
 	(void)argc;
 	(void)argv;
 	built_in_init_array(shell->bi_funcs);
+	shell->is_a_tty = isatty(STDIN_FILENO);
+	if (errno == ENOTTY)
+		errno = 0;
 }
 
 /*

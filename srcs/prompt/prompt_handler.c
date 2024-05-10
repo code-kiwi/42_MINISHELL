@@ -6,7 +6,7 @@
 /*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 13:02:08 by mhotting          #+#    #+#             */
-/*   Updated: 2024/05/10 17:00:41 by mhotting         ###   ########.fr       */
+/*   Updated: 2024/05/10 18:47:30 by brappo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,9 +46,14 @@ char	*prompt(t_minishell *shell)
 	char	cwd[CWD_BUFFER_SIZE];
 
 	set_interactive_mode(true);
-	if (get_directory_path(shell->env, cwd, CWD_BUFFER_SIZE) == false)
-		ft_memcpy(cwd, "Minishell", 10);
-	input = read_input(cwd, shell);
+	if (shell->is_a_tty)
+	{
+		if (get_directory_path(shell->env, cwd, CWD_BUFFER_SIZE) == false)
+			ft_memcpy(cwd, "Minishell", 10);
+		input = read_input(cwd, shell);
+	}
+	else
+		input = get_next_line(STDIN_FILENO);
 	if (interrupted(input))
 	{
 		t_minishell_free(shell);
