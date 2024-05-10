@@ -6,7 +6,7 @@
 /*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 13:10:16 by mhotting          #+#    #+#             */
-/*   Updated: 2024/05/07 16:34:15 by root             ###   ########.fr       */
+/*   Updated: 2024/05/10 17:04:54 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 #include <errno.h>
 #include <sys/wait.h>
 #include <unistd.h>
+
 #include "libft.h"
 #include "minishell.h"
 #include "token.h"

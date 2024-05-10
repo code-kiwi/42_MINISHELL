@@ -6,13 +6,14 @@
 /*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 09:41:09 by mhotting          #+#    #+#             */
-/*   Updated: 2024/05/02 16:43:28 by mhotting         ###   ########.fr       */
+/*   Updated: 2024/05/10 16:57:38 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdlib.h>
 #include <unistd.h>
 #include <stdbool.h>
+
 #include "minishell.h"
 #include "execution.h"
 #include "node.h"

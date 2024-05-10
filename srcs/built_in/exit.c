@@ -6,12 +6,13 @@
 /*   By: mhotting <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 11:03:49 by mhotting          #+#    #+#             */
-/*   Updated: 2024/04/26 17:40:11 by mhotting         ###   ########.fr       */
+/*   Updated: 2024/05/10 16:56:36 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdlib.h>
 #include <stdbool.h>
+
 #include "libft.h"
 #include "minishell.h"
 #include "built_in.h"

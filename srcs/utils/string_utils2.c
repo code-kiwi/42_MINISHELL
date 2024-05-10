@@ -6,12 +6,13 @@
 /*   By: mhotting <mhotting@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/01 02:23:50 by mhotting          #+#    #+#             */
-/*   Updated: 2024/05/07 21:02:13 by mhotting         ###   ########.fr       */
+/*   Updated: 2024/05/10 17:02:25 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdlib.h>
 #include <stdbool.h>
+
 #include "libft.h"
 
 /*

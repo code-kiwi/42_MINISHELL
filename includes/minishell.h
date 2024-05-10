@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 10:17:54 by mhotting          #+#    #+#             */
-/*   Updated: 2024/05/07 21:02:39 by mhotting         ###   ########.fr       */
+/*   Updated: 2024/05/10 16:53:17 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,7 @@ typedef struct s_minishell		t_minishell;
 # define ERROR_MSG_NOTATTY		"Not a tty: STDIN redirection not handled"
 # define ERROR_MSG_SIGNAL_INIT	"Signal handling set up failed"
 # define ERROR_MSG_BAD_CHARS	"The input must contain only ASCII chars"
+# define ERROR_MSG_BAD_OPERATOR	"Minishell: Unknown operator"
 
 # define DGREAT 				">>"
 # define DLESS					"<<"

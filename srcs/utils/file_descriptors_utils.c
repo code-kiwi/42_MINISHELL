@@ -6,13 +6,14 @@
 /*   By: mhotting <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/28 12:26:18 by mhotting          #+#    #+#             */
-/*   Updated: 2024/04/30 14:32:35 by mhotting         ###   ########.fr       */
+/*   Updated: 2024/05/10 17:02:01 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdlib.h>
 #include <stdbool.h>
 #include <unistd.h>
+
 #include "minishell.h"
 
 /*

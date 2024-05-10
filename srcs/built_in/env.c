@@ -6,11 +6,12 @@
 /*   By: mhotting <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 15:11:37 by mhotting          #+#    #+#             */
-/*   Updated: 2024/04/26 17:39:21 by mhotting         ###   ########.fr       */
+/*   Updated: 2024/05/10 16:56:29 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdlib.h>
+
 #include "libft.h"
 #include "minishell.h"
 #include "built_in.h"

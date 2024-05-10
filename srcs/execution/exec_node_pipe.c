@@ -6,12 +6,13 @@
 /*   By: mhotting <mhotting@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/14 19:49:27 by mhotting          #+#    #+#             */
-/*   Updated: 2024/04/30 18:51:39 by mhotting         ###   ########.fr       */
+/*   Updated: 2024/05/10 16:57:43 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdlib.h>
 #include <unistd.h>
+
 #include "minishell.h"
 #include "execution.h"
 #include "node.h"

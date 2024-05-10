@@ -6,12 +6,13 @@
 /*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 13:52:21 by mhotting          #+#    #+#             */
-/*   Updated: 2024/05/07 14:03:20 by mhotting         ###   ########.fr       */
+/*   Updated: 2024/05/10 16:57:47 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdlib.h>
 #include <unistd.h>
+
 #include "minishell.h"
 #include "execution.h"
 #include "node.h"

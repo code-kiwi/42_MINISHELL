@@ -6,11 +6,13 @@
 /*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/02 20:42:20 by root              #+#    #+#             */
-/*   Updated: 2024/05/03 10:14:10 by brappo           ###   ########.fr       */
+/*   Updated: 2024/05/10 17:01:26 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdlib.h>
+#include <stdbool.h>
+
 #include "libft.h"
 #include "minishell.h"
 #include "token.h"

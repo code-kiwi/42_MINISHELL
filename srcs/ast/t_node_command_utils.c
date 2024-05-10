@@ -6,11 +6,12 @@
 /*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/29 09:54:42 by mhotting          #+#    #+#             */
-/*   Updated: 2024/05/07 13:42:48 by mhotting         ###   ########.fr       */
+/*   Updated: 2024/05/10 16:55:01 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdlib.h>
+
 #include "minishell.h"
 #include "node.h"
 #include "redirections.h"

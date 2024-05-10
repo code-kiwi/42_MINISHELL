@@ -6,12 +6,13 @@
 /*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 00:17:49 by mhotting          #+#    #+#             */
-/*   Updated: 2024/04/26 13:20:55 by mhotting         ###   ########.fr       */
+/*   Updated: 2024/05/10 16:56:57 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdlib.h>
 #include <errno.h>
+
 #include "libft.h"
 #include "minishell.h"
 #include "env.h"
