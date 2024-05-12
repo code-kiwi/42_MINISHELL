@@ -6,19 +6,20 @@
 /*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/02 13:01:05 by brappo            #+#    #+#             */
-/*   Updated: 2024/05/12 10:52:24 by root             ###   ########.fr       */
+/*   Updated: 2024/05/12 18:50:47 by root             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdlib.h>
 #include <stdbool.h>
+#include <readline/readline.h>
+#include <errno.h>
 
 #include "libft.h"
 #include "minishell.h"
 #include "token.h"
-#include <readline/readline.h>
 #include "signals.h"
-#include <errno.h>
+#include "prompt.h"
 
 static bool	add_end_token(t_list **tokens)
 {
@@ -84,7 +85,7 @@ static t_list	*tokenize_input(t_minishell *shell,
 	if (shell->is_a_tty)
 		input = readline(MULTIPLE_LINE_PROMPT);
 	else
-		input = get_next_line_no_linebreak(STDIN_FILENO);
+		input = readline_not_tty();
 	if (get_sigint())
 	{
 		if (errno == EINTR)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_redirection_list_hdcs.c                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
+/*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/03 15:35:13 by mhotting          #+#    #+#             */
-/*   Updated: 2024/05/10 16:57:56 by mhotting         ###   ########.fr       */
+/*   Updated: 2024/05/12 18:51:11 by root             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@
 #include "execution.h"
 #include "signals.h"
 #include "expansion.h"
+#include "prompt.h"
 
 /*
  *	Handles NULL input when reading here_doc
@@ -64,7 +65,10 @@ static int	read_here_doc(t_minishell *shell, char *limiter, int fd_to_write)
 		return (EXIT_FAILURE);
 	while (true)
 	{
-		cur_line = readline(HEREDOC_PROMPT);
+		if (shell->is_a_tty)
+			cur_line = readline(HEREDOC_PROMPT);
+		else
+			cur_line = readline_not_tty();
 		if (cur_line == NULL || get_sigint())
 		{
 			if (cur_line != NULL)

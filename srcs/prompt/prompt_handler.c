@@ -6,7 +6,7 @@
 /*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 13:02:08 by mhotting          #+#    #+#             */
-/*   Updated: 2024/05/12 10:49:48 by root             ###   ########.fr       */
+/*   Updated: 2024/05/12 18:47:54 by root             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ char	*prompt(t_minishell *shell)
 		input = read_input(cwd, shell);
 	}
 	else
-		input = get_next_line_no_linebreak(STDIN_FILENO);
+		input = readline_not_tty();
 	if (interrupted(input))
 	{
 		t_minishell_free(shell);

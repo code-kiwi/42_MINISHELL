@@ -6,7 +6,7 @@
 /*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/31 19:28:12 by mhotting          #+#    #+#             */
-/*   Updated: 2024/05/12 10:52:57 by root             ###   ########.fr       */
+/*   Updated: 2024/05/12 11:16:05 by root             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,5 @@ t_list	*get_end_token_list(void);
 bool	append_token_list(bool is_first_quoted, t_list **first, t_list *second);
 void	print_token(void *token_void);
 void	token_recognition(t_minishell *shell);
-char	*get_next_line_no_linebreak(int fd);
 
 #endif

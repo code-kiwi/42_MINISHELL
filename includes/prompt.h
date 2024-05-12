@@ -6,7 +6,7 @@
 /*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 13:09:18 by brappo            #+#    #+#             */
-/*   Updated: 2024/05/06 12:41:46 by mhotting         ###   ########.fr       */
+/*   Updated: 2024/05/12 18:51:30 by root             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,5 +27,7 @@ typedef struct s_minishell	t_minishell;
 // Prompt functions
 bool	get_directory_path(t_list *env, char *buffer, size_t buffer_size);
 char	*prompt(t_minishell *shell);
+char	*get_next_line_no_linebreak(int fd);
+char	*readline_not_tty(void);
 
 #endif
