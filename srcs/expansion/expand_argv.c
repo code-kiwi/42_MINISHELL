@@ -6,7 +6,7 @@
 /*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/29 10:24:26 by brappo            #+#    #+#             */
-/*   Updated: 2024/05/12 19:42:04 by root             ###   ########.fr       */
+/*   Updated: 2024/05/12 19:57:55 by root             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,7 +113,7 @@ bool	expand_argv(char ***argv, char options, t_minishell *shell)
 	while ((*argv)[index])
 	{
 		wildcards_candidate = expand_string(*argv + index, shell, options);
-		if (errno != 0 || !replace_arguments(argv, wildcards_candidate, index))
+		if (!replace_arguments(argv, wildcards_candidate, index) && errno != 0)
 		{
 			ft_lstclear(&wildcards_candidate, free);
 			return (false);
