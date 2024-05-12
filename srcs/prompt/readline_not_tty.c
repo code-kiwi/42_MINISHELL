@@ -6,7 +6,7 @@
 /*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/12 18:15:20 by root              #+#    #+#             */
-/*   Updated: 2024/05/12 18:51:20 by root             ###   ########.fr       */
+/*   Updated: 2024/05/12 18:53:29 by root             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,8 @@
 
 #define READ_BUFFER_LENGTH	100
 
-static bool	increase_buffer_size(char **buffer, size_t previous_size, size_t new_size)
+static bool	increase_buffer_size(char **buffer,
+	size_t previous_size, size_t new_size)
 {
 	char	*new_buffer;
 
@@ -70,7 +71,7 @@ char	*readline_not_tty(void)
 		if (read_until_line_break(&buffer, buffer_length))
 			return (buffer);
 		if (increase_buffer_size(&buffer, buffer_length,
-			buffer_length + READ_BUFFER_LENGTH) == false)
+				buffer_length + READ_BUFFER_LENGTH) == false)
 		{
 			free(buffer);
 			return (NULL);

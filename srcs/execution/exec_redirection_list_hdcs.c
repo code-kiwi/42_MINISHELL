@@ -6,7 +6,7 @@
 /*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/03 15:35:13 by mhotting          #+#    #+#             */
-/*   Updated: 2024/05/12 18:51:11 by root             ###   ########.fr       */
+/*   Updated: 2024/05/12 18:54:57 by root             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,17 @@ static int	read_here_doc_error(char *limiter)
 	return (EXIT_SUCCESS);
 }
 
+static char	*read_input(t_minishell *shell)
+{
+	char	*line;
+
+	if (shell->is_a_tty)
+		line = readline(HEREDOC_PROMPT);
+	else
+		line = readline_not_tty();
+	return (line);
+}
+
 /*
  *	Reads the user input and writes it (adding a new line) into the given fd
  *	When the limiter is encountered, the reading process stops
@@ -65,10 +76,7 @@ static int	read_here_doc(t_minishell *shell, char *limiter, int fd_to_write)
 		return (EXIT_FAILURE);
 	while (true)
 	{
-		if (shell->is_a_tty)
-			cur_line = readline(HEREDOC_PROMPT);
-		else
-			cur_line = readline_not_tty();
+		cur_line = read_input(shell);
 		if (cur_line == NULL || get_sigint())
 		{
 			if (cur_line != NULL)
