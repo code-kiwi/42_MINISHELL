@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   token_recognition.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
+/*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/02 13:01:05 by brappo            #+#    #+#             */
-/*   Updated: 2024/05/10 17:01:42 by mhotting         ###   ########.fr       */
+/*   Updated: 2024/05/12 10:52:24 by root             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,10 @@ static t_list	*tokenize_input(t_minishell *shell,
 	char	*input;
 	t_list	*tokens;
 
-	input = readline(MULTIPLE_LINE_PROMPT);
+	if (shell->is_a_tty)
+		input = readline(MULTIPLE_LINE_PROMPT);
+	else
+		input = get_next_line_no_linebreak(STDIN_FILENO);
 	if (get_sigint())
 	{
 		if (errno == EINTR)

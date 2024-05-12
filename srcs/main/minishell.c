@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
+/*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 10:14:16 by mhotting          #+#    #+#             */
-/*   Updated: 2024/05/10 18:45:09 by brappo           ###   ########.fr       */
+/*   Updated: 2024/05/12 10:51:10 by root             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,10 @@ static void	project_init(t_minishell *shell, int argc, char **argv, char **envp)
 		signal(SIGINT, &signal_handler) == SIG_ERR
 		|| signal(SIGQUIT, &signal_handler) == SIG_ERR
 	)
-		handle_error(shell, ERROR_MSG_SIGNAL_INIT, EXIT_FAILURE);
+	{
+		ft_dprintf(STDERR_FILENO, "%s\n", ERROR_MSG_SIGNAL_INIT);
+		exit(EXIT_FAILURE);
+	}
 	rl_catch_signals = 0;
 	rl_outstream = stderr;
 	rl_event_hook = stop_readline;

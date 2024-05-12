@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   prompt_handler.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
+/*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 13:02:08 by mhotting          #+#    #+#             */
-/*   Updated: 2024/05/10 18:47:30 by brappo           ###   ########.fr       */
+/*   Updated: 2024/05/12 10:49:48 by root             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,18 @@
 #include "minishell.h"
 #include "prompt.h"
 #include "signals.h"
+
+char	*get_next_line_no_linebreak(int fd)
+{
+	char	*line;
+	size_t	length;
+
+	line = get_next_line(fd);
+	length = ft_strlen(line);
+	if (length > 0 && line[length - 1] == '\n')
+		line[length - 1] = '\0';
+	return (line);
+}
 
 bool	interrupted(char *input)
 {
@@ -53,7 +65,7 @@ char	*prompt(t_minishell *shell)
 		input = read_input(cwd, shell);
 	}
 	else
-		input = get_next_line(STDIN_FILENO);
+		input = get_next_line_no_linebreak(STDIN_FILENO);
 	if (interrupted(input))
 	{
 		t_minishell_free(shell);
