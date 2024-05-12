@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   t_minishell_utils1.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
+/*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 13:10:16 by mhotting          #+#    #+#             */
-/*   Updated: 2024/05/10 18:45:05 by brappo           ###   ########.fr       */
+/*   Updated: 2024/05/12 10:57:27 by root             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,7 +109,7 @@ void	utils_reset_shell(t_minishell *shell, int status)
 	ast_free(&(shell->ast));
 	if (shell->input != NULL)
 	{
-		if (!string_contains_only_spaces(shell->input))
+		if (!string_contains_only_spaces(shell->input) && shell->is_a_tty)
 			add_history(shell->input);
 		free(shell->input);
 		shell->input = NULL;
