@@ -1,0 +1,13 @@
+echo "truc"
+echo "'truc'"
+echo "'truc"'ac'
+echo "
+
+"
+echo 'ac
+
+'
+echo "'
+'"ac
+
+echo "ac"'c'"a''"

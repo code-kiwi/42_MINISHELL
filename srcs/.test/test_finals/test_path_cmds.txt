@@ -1,0 +1,7 @@
+/bin/ls
+ls
+/usr/bin/ls
+export PATH=""
+/usr/bin/ls
+ls
+./../../../../../../../../../../bin/ls

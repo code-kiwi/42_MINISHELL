@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   token_recognition.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/02 13:01:05 by brappo            #+#    #+#             */
-/*   Updated: 2024/05/12 18:50:47 by root             ###   ########.fr       */
+/*   Updated: 2024/05/13 11:25:18 by brappo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,7 +114,7 @@ void	token_recognition(t_minishell *shell)
 
 	t_token_parser_init(&token_parser);
 	shell->tokens = tokenize_str(shell->input, &token_parser);
-	if (shell->tokens == NULL && (shell->input == NULL || *(shell->input)))
+	if (shell->tokens == NULL && errno != 0)
 		handle_error(shell, ERROR_MSG_TOKENIZATION, EXIT_FAILURE);
 	while (is_command_end(&token_parser, shell->tokens) == false)
 	{

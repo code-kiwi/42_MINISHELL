@@ -6,7 +6,7 @@
 /*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 14:59:56 by brappo            #+#    #+#             */
-/*   Updated: 2024/05/13 10:48:51 by mhotting         ###   ########.fr       */
+/*   Updated: 2024/05/13 11:25:48 by brappo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,8 +87,6 @@ t_list	*tokenize_str(char *str, t_token_parser *token_parser)
 	token_parser->end = &index;
 	token_parser->input = str;
 	if (str == NULL)
-		return (NULL);
-	else if (*str == '\0' || string_contains_only_spaces(str))
 		return (NULL);
 	skip_blank(str, &index);
 	while (str[index] != '\0')
