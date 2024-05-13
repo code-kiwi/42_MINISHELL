@@ -53,6 +53,7 @@ typedef struct s_minishell		t_minishell;
 # define ERROR_MSG_SIGNAL_INIT	"Signal handling set up failed"
 # define ERROR_MSG_BAD_CHARS	"The input must contain only ASCII chars"
 # define ERROR_MSG_BAD_OPERATOR	"Minishell: Unknown operator"
+# define ERROR_MSG_ERRNO		"The errno value is not 0 at loop end"
 
 # define DGREAT 				">>"
 # define DLESS					"<<"

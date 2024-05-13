@@ -85,10 +85,14 @@ void	t_minishell_init_subshell(t_minishell *sub, t_minishell *parent)
 {
 	if (sub == NULL || parent == NULL)
 		return ;
-	t_minishell_init(sub, 0, NULL, NULL);
+	ft_memset(sub, 0, sizeof(t_minishell));
 	sub->env = parent->env;
 	parent->env = NULL;
 	sub->parent = parent;
+	built_in_init_array(sub->bi_funcs);
+	sub->is_a_tty = isatty(STDIN_FILENO);
+	if (errno == ENOTTY)
+		errno = 0;
 }
 
 /*

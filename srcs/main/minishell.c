@@ -31,7 +31,7 @@ static void	project_init(t_minishell *shell, int argc, char **argv, char **envp)
 	if (
 		signal(SIGQUIT, &signal_handler) == SIG_ERR
 		|| signal(SIGINT, &signal_handler) == SIG_ERR
-		)
+	)
 	{
 		ft_dprintf(STDERR_FILENO, "%s\n", ERROR_MSG_SIGNAL_INIT);
 		exit(EXIT_FAILURE);
@@ -47,6 +47,9 @@ static int	project_main_loop(t_minishell *shell)
 	shell->input = prompt(shell);
 	if (shell->input == NULL)
 		handle_error(shell, ERROR_MSG_PROMPT, EXIT_FAILURE);
+	if (ft_strlen(shell->input) == 0
+		|| string_contains_only_spaces(shell->input))
+		return (EXIT_SUCCESS);
 	if (string_contains_invalid_chars(shell->input))
 	{
 		handle_error(NULL, ERROR_MSG_BAD_CHARS, 0);
@@ -76,6 +79,8 @@ int	main(int argc, char **argv, char **envp)
 	{
 		status = project_main_loop(&shell);
 		utils_reset_shell(&shell, status);
+		if (errno != 0)
+			handle_error(&shell, ERROR_MSG_ERRNO, EXIT_FAILURE);
 	}
 	t_minishell_free(&shell);
 	exit(EXIT_SUCCESS);

@@ -6,7 +6,7 @@
 /*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/02 13:01:05 by brappo            #+#    #+#             */
-/*   Updated: 2024/05/13 11:25:18 by brappo           ###   ########.fr       */
+/*   Updated: 2024/05/13 11:47:46 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,7 @@ static t_list	*tokenize_input(t_minishell *shell,
 		handle_error(shell, SHELL_EOF, EXIT_FAILURE);
 	merge_inputs(shell, input, is_end_quoted);
 	tokens = tokenize_str(input, token_parser);
-	if (tokens == NULL && *input)
+	if (tokens == NULL && errno != 0)
 	{
 		free(input);
 		handle_error(shell, ERROR_MSG_TOKENIZATION, EXIT_FAILURE);
