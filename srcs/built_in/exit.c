@@ -6,7 +6,7 @@
 /*   By: mhotting <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 11:03:49 by mhotting          #+#    #+#             */
-/*   Updated: 2024/05/10 16:56:36 by mhotting         ###   ########.fr       */
+/*   Updated: 2024/05/13 15:56:04 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,16 +22,25 @@
  *	appropriate message onto stderr
  *	Frees the resources used by the given shell
  */
-static void	bi_exit_shell(t_minishell *shell, int status, char *msg)
+static void	bi_exit_shell_bad_arg(t_minishell *shell, char *msg)
 {
-	if (status == STATUS_EXIT_BAD_ARG)
-		ft_dprintf(STDERR_FILENO, EXIT_MSG_ARG_NON_NUM, msg);
-	else
-		ft_dprintf(STDERR_FILENO, MSG_LITERAL, msg);
+	ft_dprintf(STDERR_FILENO, EXIT_MSG_ARG_NON_NUM, msg);
+	if (shell != NULL)
+		t_minishell_free(shell);
+	exit(STATUS_EXIT_BAD_ARG);
+}
+
+/*
+ *	Exits the current shell process when exit args are ok
+ */
+static void	bi_exit_shell_ok(t_minishell *shell, int status, char *msg)
+{
+	ft_dprintf(STDERR_FILENO, MSG_LITERAL, msg);
 	if (shell != NULL)
 		t_minishell_free(shell);
 	exit(status);
 }
+
 
 /*
  *	Checks is the given string is a valid exit status
@@ -85,14 +94,14 @@ int	bi_exit(t_minishell *shell, char **argv, int fd_out)
 		handle_error(shell, ERROR_MSG_ARGS, EXIT_FAILURE);
 	(void) fd_out;
 	if (argv[1] == NULL)
-		bi_exit_shell(shell, EXIT_SUCCESS, EXIT_MSG_BASIC);
+		bi_exit_shell_ok(shell, EXIT_SUCCESS, EXIT_MSG_BASIC);
 	if (!bi_exit_is_numeric(argv[1]))
-		bi_exit_shell(shell, STATUS_EXIT_BAD_ARG, argv[1]);
+		bi_exit_shell_bad_arg(shell, argv[1]);
 	if (argv[2] != NULL)
 	{
 		ft_dprintf(STDERR_FILENO, MSG_LITERAL, EXIT_MSG_TOO_MANY_ARGS);
 		return (EXIT_FAILURE);
 	}
-	bi_exit_shell(shell, (unsigned char)ft_atol(argv[1]), EXIT_MSG_BASIC);
+	bi_exit_shell_ok(shell, (unsigned char)ft_atol(argv[1]), EXIT_MSG_BASIC);
 	return (0);
 }
