@@ -6,7 +6,7 @@
 /*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 13:02:08 by mhotting          #+#    #+#             */
-/*   Updated: 2024/05/13 09:29:10 by brappo           ###   ########.fr       */
+/*   Updated: 2024/05/13 09:46:41 by brappo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,18 +19,6 @@
 #include "minishell.h"
 #include "prompt.h"
 #include "signals.h"
-
-char	*get_next_line_no_linebreak(int fd)
-{
-	char	*line;
-	size_t	length;
-
-	line = get_next_line(fd);
-	length = ft_strlen(line);
-	if (length > 0 && line[length - 1] == '\n')
-		line[length - 1] = '\0';
-	return (line);
-}
 
 bool	interrupted(char *input)
 {
