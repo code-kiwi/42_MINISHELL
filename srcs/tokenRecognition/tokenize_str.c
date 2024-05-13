@@ -6,7 +6,7 @@
 /*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 14:59:56 by brappo            #+#    #+#             */
-/*   Updated: 2024/05/13 10:31:57 by brappo           ###   ########.fr       */
+/*   Updated: 2024/05/13 10:48:51 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ static bool	is_token_end(t_token *token, char character, \
 				return (true);
 			token->type = OPERATOR;
 		}
-		else if (character == '\n' || is_blank(character))
+		else if (ft_isspace(character))
 			return (true);
 	}
 	if (token->type == END)
@@ -49,7 +49,7 @@ static void	skip_blank(char *input, size_t *index)
 {
 	while (input[*index] != '\0')
 	{
-		if (!is_blank(input[*index]))
+		if (!ft_isspace(input[*index]))
 			break ;
 		*index += 1;
 	}
