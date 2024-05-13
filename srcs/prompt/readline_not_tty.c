@@ -6,15 +6,15 @@
 /*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/12 18:15:20 by root              #+#    #+#             */
-/*   Updated: 2024/05/12 18:53:29 by root             ###   ########.fr       */
+/*   Updated: 2024/05/13 10:17:29 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
-#include "unistd.h"
-#include "libft.h"
+#include <unistd.h>
 
-#define READ_BUFFER_LENGTH	100
+#include "libft.h"
+#include "minishell.h"
+#include "prompt.h"
 
 static bool	increase_buffer_size(char **buffer,
 	size_t previous_size, size_t new_size)
