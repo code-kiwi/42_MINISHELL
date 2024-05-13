@@ -6,7 +6,7 @@
 /*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 13:10:16 by mhotting          #+#    #+#             */
-/*   Updated: 2024/05/10 17:04:48 by mhotting         ###   ########.fr       */
+/*   Updated: 2024/05/12 10:57:27 by root             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 #include <stdbool.h>
 #include <readline/readline.h>
 #include <readline/history.h>
+#include <errno.h>
 
 #include "libft.h"
 #include "minishell.h"
@@ -37,6 +38,9 @@ void	t_minishell_init(t_minishell *shell, int argc, char **argv, char **envp)
 	(void)argc;
 	(void)argv;
 	built_in_init_array(shell->bi_funcs);
+	shell->is_a_tty = isatty(STDIN_FILENO);
+	if (errno == ENOTTY)
+		errno = 0;
 }
 
 /*
@@ -105,7 +109,7 @@ void	utils_reset_shell(t_minishell *shell, int status)
 	ast_free(&(shell->ast));
 	if (shell->input != NULL)
 	{
-		if (!string_contains_only_spaces(shell->input))
+		if (!string_contains_only_spaces(shell->input) && shell->is_a_tty)
 			add_history(shell->input);
 		free(shell->input);
 		shell->input = NULL;

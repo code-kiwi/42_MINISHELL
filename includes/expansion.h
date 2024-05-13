@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expansion.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
+/*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/17 12:31:28 by brappo            #+#    #+#             */
-/*   Updated: 2024/05/10 15:25:56 by brappo           ###   ########.fr       */
+/*   Updated: 2024/05/12 11:40:21 by root             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,5 +38,4 @@ size_t	array_size(void **array);
 bool	expand_argv(char ***argv, char options, t_minishell *shell);
 bool	expand_redirection(char **redirection, char options,
 			t_minishell *shell);
-
 #endif

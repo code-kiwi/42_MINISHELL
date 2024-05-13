@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   t_minishell_utils2.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 13:10:16 by mhotting          #+#    #+#             */
-/*   Updated: 2024/05/10 17:04:54 by mhotting         ###   ########.fr       */
+/*   Updated: 2024/05/13 09:41:32 by brappo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,6 +112,11 @@ bool	t_minishell_set_exec_status(t_minishell *shell)
 	{
 		if (write(STDOUT_FILENO, "\n", 1) == -1)
 			handle_error(shell, ERROR_MSG_WRITE, EXIT_FAILURE);
+		if (!shell->is_a_tty)
+		{
+			t_minishell_free(shell);
+			exit(STATUS_SIGINT_STOP);
+		}
 	}
 	return (!not_interrupted);
 }
