@@ -6,7 +6,7 @@
 /*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/30 10:06:42 by root              #+#    #+#             */
-/*   Updated: 2024/05/10 17:00:57 by mhotting         ###   ########.fr       */
+/*   Updated: 2024/05/13 13:53:46 by brappo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,9 +45,10 @@ void	set_interactive_mode(bool interactive)
 
 void	signal_handler(int code)
 {
-	if (code != SIGINT)
-		return ;
-	g_code_received = SIGINT;
+	if (code == SIGINT)
+		g_code_received = SIGINT;
+	else if (code == SIGQUIT)
+		g_code_received = SIGQUIT;
 }
 
 int	stop_readline(void)
@@ -57,17 +58,12 @@ int	stop_readline(void)
 	return (0);
 }
 
-bool	catch_sigint(void)
-{
-	if (g_code_received == SIGINT)
-	{
-		g_code_received = INTERACTIVE;
-		return (true);
-	}
-	return (false);
-}
-
 bool	get_sigint(void)
 {
 	return (g_code_received == SIGINT);
+}
+
+bool	get_sigquit(void)
+{
+	return (g_code_received == SIGQUIT);
 }
