@@ -6,12 +6,13 @@
 /*   By: mhotting <mhotting@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/14 10:53:09 by mhotting          #+#    #+#             */
-/*   Updated: 2024/05/13 15:14:17 by mhotting         ###   ########.fr       */
+/*   Updated: 2024/05/13 15:37:56 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdlib.h>
 #include <errno.h>
+#include <sys/stat.h>
 
 #include "libft.h"
 #include "minishell.h"
@@ -24,7 +25,14 @@
 */
 static bool	is_valid_cmd_path(char *path, int *status)
 {
-	if (access(path, F_OK) != 0)
+	struct stat	file_info;
+
+	if (stat(path, &file_info) == -1)
+	{
+		errno = 0;
+		return (false);
+	}
+	if (S_ISDIR(file_info.st_mode) ||  access(path, F_OK) != 0)
 	{
 		*status = STATUS_CMD_NOT_FOUND;
 		return (false);
