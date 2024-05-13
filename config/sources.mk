@@ -6,7 +6,7 @@
 #    By: root <root@student.42.fr>                  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/03/31 20:47:09 by mhotting          #+#    #+#              #
-#    Updated: 2024/05/07 17:41:46 by mhotting         ###   ########.fr        #
+#    Updated: 2024/05/12 18:37:05 by root             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -105,7 +105,8 @@ TOKENR					=	$(addprefix $(TOKENR_DIR), $(TOKENR_FILES))
 # PROMPT
 PROMPT_DIR				=	prompt/
 PROMPT_FILES			=	prompt_handler.c 			\
-							directory_utils.c
+							directory_utils.c			\
+							readline_not_tty.c
 PROMPT					=	$(addprefix $(PROMPT_DIR), $(PROMPT_FILES))
 
 # VARIABLE EXPANSION

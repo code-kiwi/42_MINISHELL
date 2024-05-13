@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
+/*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 10:17:54 by mhotting          #+#    #+#             */
-/*   Updated: 2024/05/10 16:53:17 by mhotting         ###   ########.fr       */
+/*   Updated: 2024/05/13 10:15:45 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,6 +96,7 @@ struct s_minishell
 	t_minishell			*parent;
 	t_bi_component		bi_funcs[NB_BUILT_IN];
 	bool				heredoc_interruption;
+	bool				is_a_tty;
 };
 
 // t_minshell functions
