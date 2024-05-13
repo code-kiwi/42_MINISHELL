@@ -6,7 +6,7 @@
 /*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/11 12:37:09 by mhotting          #+#    #+#             */
-/*   Updated: 2024/05/13 13:42:28 by mhotting         ###   ########.fr       */
+/*   Updated: 2024/05/13 14:19:21 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,7 +109,8 @@ static void	exec_redirection_out(
  *	to overwrite a here_doc redirection
  */
 static void	redirection_exec_dispatch(
-	t_redirection *redirection, t_redirections_info *info, bool after_last_hd
+	t_minishell *shell, t_redirection *redirection, t_redirections_info *info,
+	bool after_last_hd
 )
 {
 	if (redirection == NULL)
@@ -121,6 +122,9 @@ static void	redirection_exec_dispatch(
 		|| redirection->type == REDIRECTION_TYPE_OUTFILE_APPEND
 	)
 		exec_redirection_out(redirection, info);
+	if (errno == ENOMEM)
+		handle_error(shell, ERROR_MSG_MEM, EXIT_FAILURE);
+	errno = 0;
 }
 
 static void	exec_redir_set_error(
@@ -158,7 +162,7 @@ void	exec_redirection_list(
 	ssize_t			position_last_heredoc;
 	ssize_t			position;
 
-	if (redirection_list == NULL)
+	if (shell == NULL || redirection_list == NULL)
 		return ;
 	current = redirection_list->redirections;
 	position_last_heredoc = redirection_list->info.hdc_last_pos;
@@ -173,8 +177,8 @@ void	exec_redirection_list(
 			exec_redir_set_error(redirection->type, &redirection_list->info);
 			break ;
 		}
-		redirection_exec_dispatch(redirection, &(redirection_list->info), \
-			(position > position_last_heredoc));
+		redirection_exec_dispatch(shell, redirection, \
+				&(redirection_list->info), (position > position_last_heredoc));
 		position++;
 		current = current->next;
 	}

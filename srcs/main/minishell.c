@@ -6,7 +6,7 @@
 /*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 10:14:16 by mhotting          #+#    #+#             */
-/*   Updated: 2024/05/13 14:00:43 by mhotting         ###   ########.fr       */
+/*   Updated: 2024/05/13 14:18:15 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,13 +81,6 @@ int	main(int argc, char **argv, char **envp)
 	{
 		status = project_main_loop(&shell);
 		utils_reset_shell(&shell, status);
-		if (errno != 0)
-		{
-			if (errno == EACCES || errno == EINTR)
-				errno = 0;
-			else
-				handle_error(&shell, ERROR_MSG_ERRNO, 0);
-		}
 	}
 	t_minishell_free(&shell);
 	exit(EXIT_SUCCESS);

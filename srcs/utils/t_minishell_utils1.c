@@ -6,7 +6,7 @@
 /*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 13:10:16 by mhotting          #+#    #+#             */
-/*   Updated: 2024/05/12 10:57:27 by root             ###   ########.fr       */
+/*   Updated: 2024/05/13 14:18:36 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,6 +109,7 @@ void	utils_reset_shell(t_minishell *shell, int status)
 {
 	if (shell == NULL)
 		handle_error(shell, ERROR_MSG_ARGS, EXIT_FAILURE);
+	errno = 0;
 	ft_lstclear(&shell->tokens, t_token_free);
 	ast_free(&(shell->ast));
 	if (shell->input != NULL)
