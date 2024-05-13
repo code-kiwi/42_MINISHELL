@@ -33,10 +33,12 @@ static void	exec_cmd_error(
 {
 	fd_close(STDIN_FILENO);
 	fd_close(STDOUT_FILENO);
-	if (cmd != NULL)
+	if (err_msg != NULL && cmd != NULL)
 		handle_error_cmd(shell, err_msg, cmd);
-	else
+	else if (err_msg != NULL)
 		handle_error(shell, err_msg, status);
+	else
+		handle_error(shell, NULL, status);
 }
 
 /*
@@ -109,13 +111,22 @@ static void	exec_cmd_external(t_minishell *shell, t_node_command *cmd)
 {
 	char	*command_path;
 	char	**env;
+	int		status;
 
 	if (shell == NULL || cmd == NULL || !cmd->argv || cmd->argv[0] == NULL)
 		handle_error(shell, ERROR_MSG_ARGS, EXIT_FAILURE);
+	status = 0;
 	exec_cmd_redirect(shell, cmd);
-	command_path = exec_cmd_get_path(shell, (cmd->argv)[0]);
+	command_path = exec_cmd_get_path(shell, (cmd->argv)[0], &status);
 	if (command_path == NULL)
 		exec_cmd_error(shell, ERROR_MSG_CMD_NFND, EXIT_FAILURE, (cmd->argv)[0]);
+	if (status == STATUS_CMD_NOT_EXEC)
+	{
+		ft_dprintf(STDERR_FILENO, "Minishell: %s: %s\n", command_path, \
+			ERROR_MSG_CMD_PERM);
+		free(command_path);
+		exec_cmd_error(shell, NULL, STATUS_CMD_NOT_EXEC, NULL);
+	}
 	env = env_get_all_array(shell->env);
 	if (env == NULL)
 	{

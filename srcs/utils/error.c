@@ -28,10 +28,14 @@ void	handle_error(t_minishell *shell, char *err, int exit_status)
 {
 	if (shell != NULL)
 		t_minishell_free(shell);
-	if (errno != 0)
-		ft_dprintf(STDERR_FILENO, "Minishell: %s: %s\n", err, strerror(errno));
-	else
-		ft_dprintf(STDERR_FILENO, "Minishell: %s\n", err);
+	if (err != NULL)
+	{
+		if (errno != 0)
+			ft_dprintf(STDERR_FILENO, "Minishell: %s: %s\n", err, \
+				strerror(errno));
+		else
+			ft_dprintf(STDERR_FILENO, "Minishell: %s\n", err);
+	}
 	if (exit_status)
 		exit(exit_status);
 }

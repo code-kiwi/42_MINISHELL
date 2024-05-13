@@ -37,6 +37,7 @@ typedef struct s_minishell		t_minishell;
 # define ERROR_MSG_CMD_NFND		"Command not found"
 # define ERROR_MSG_CMD_REDIR	"File descriptor redirection impossible"
 # define ERROR_MSG_CMD_EXEC		"Command execution impossible"
+# define ERROR_MSG_CMD_PERM		"Permission denied"
 # define ERROR_MSG_DUP			"Impossible to duplicate a file descriptor"
 # define ERROR_MSG_SHELL_CPY	"Impossible to create a subshell"
 # define ERROR_MSG_AST_CREATION	"AST creation failed"
