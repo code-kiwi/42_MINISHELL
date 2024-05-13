@@ -6,7 +6,7 @@
 /*   By: mhotting <mhotting@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/14 10:53:09 by mhotting          #+#    #+#             */
-/*   Updated: 2024/05/10 16:57:31 by mhotting         ###   ########.fr       */
+/*   Updated: 2024/05/13 15:14:17 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -162,7 +162,7 @@ char	*exec_cmd_get_path(t_minishell *shell, char *cmd, int *status)
 	char	**paths;
 	char	*cmd_path;
 
-	if (shell == NULL || cmd == NULL)
+	if (shell == NULL || cmd == NULL || *cmd == '\0')
 		return (NULL);
 	if (ft_strchr(cmd, '/') != NULL)
 	{

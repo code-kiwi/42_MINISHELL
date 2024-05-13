@@ -6,12 +6,13 @@
 /*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/12 15:40:35 by mhotting          #+#    #+#             */
-/*   Updated: 2024/05/10 16:57:26 by mhotting         ###   ########.fr       */
+/*   Updated: 2024/05/13 15:10:41 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdlib.h>
 #include <unistd.h>
+#include <errno.h>
 
 #include "libft.h"
 #include "minishell.h"
@@ -90,7 +91,7 @@ static void	exec_cmd_external_process(
 	cmd->argv = NULL;
 	ast_free(&(shell->ast));
 	execve(command_path, argv, env);
-	free(argv);
+	ft_free_str_array(&argv);
 	free(command_path);
 	ft_free_str_array(&env);
 	exec_cmd_error(shell, ERROR_MSG_CMD_EXEC, STATUS_CMD_NOT_EXEC, NULL);
