@@ -3,16 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   expand_wildcard.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
+/*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/12 10:28:30 by brappo            #+#    #+#             */
-/*   Updated: 2024/05/10 16:58:58 by mhotting         ###   ########.fr       */
+/*   Updated: 2024/05/13 10:46:04 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdlib.h>
 #include <sys/types.h>
 #include <dirent.h>
+#include <sys/stat.h>
+#include <errno.h>
 
 #include "libft.h"
 #include "token.h"
@@ -44,12 +46,39 @@ static int	alphabetic_compare(void *a, void *b)
 	return (0);
 }
 
+static char	*file_match(struct dirent *file, t_list *wildcards, char *str)
+{
+	bool		match;
+	struct stat	file_stat;
+	char		*path;
+
+	if (file->d_name[0] == '.' && str[0] != '.')
+		return (NULL);
+	match = string_equal_wildcard(str, file->d_name, wildcards);
+	if (match)
+		return (ft_strdup(file->d_name));
+	if (stat(file->d_name, &file_stat) != 0
+		|| !S_ISDIR(file_stat.st_mode))
+		return (NULL);
+	path = ft_strjoin(file->d_name, "/");
+	if (path == NULL)
+		return (NULL);
+	match = string_equal_wildcard(str, path, wildcards);
+	if (match)
+		return (path);
+	free(path);
+	return (NULL);
+}
+
 t_list	*expand_wildcard(char *str, t_list *wildcards)
 {
 	DIR				*current_directory;
 	struct dirent	*file;
 	t_list			*result;
+	char			*match;
 
+	if (str == NULL || wildcards == NULL)
+		return (NULL);
 	current_directory = opendir(".");
 	if (current_directory == NULL)
 		return (NULL);
@@ -57,13 +86,12 @@ t_list	*expand_wildcard(char *str, t_list *wildcards)
 	file = readdir(current_directory);
 	while (file != NULL)
 	{
-		if (file->d_name[0] != '.'
-			&& string_equal_wildcard(str, file->d_name, wildcards)
-			&& !lst_push_front_content(&result, ft_strdup(file->d_name), free))
+		match = file_match(file, wildcards, str);
+		if (match != NULL
+			&& !lst_push_front_content(&result, match, free))
 		{
 			closedir(current_directory);
-			ft_lstclear(&result, free);
-			return (NULL);
+			return (ft_lstclear(&result, free), NULL);
 		}
 		file = readdir(current_directory);
 	}

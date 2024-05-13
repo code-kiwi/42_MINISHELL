@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_argv.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/29 10:24:26 by brappo            #+#    #+#             */
-/*   Updated: 2024/05/10 16:58:25 by mhotting         ###   ########.fr       */
+/*   Updated: 2024/05/13 10:11:13 by brappo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ static bool	replace_arguments(char ***argv,
 	size_t	array_length;
 
 	if (argv == NULL || wildcards_candidates == NULL)
-		return (false);
+		return (true);
 	array_length = array_size((void **)*argv);
 	if (arg_index > array_length)
 		return (false);
@@ -113,7 +113,7 @@ bool	expand_argv(char ***argv, char options, t_minishell *shell)
 	while ((*argv)[index])
 	{
 		wildcards_candidate = expand_string(*argv + index, shell, options);
-		if (!replace_arguments(argv, wildcards_candidate, index) && errno != 0)
+		if (errno != 0 || !replace_arguments(argv, wildcards_candidate, index))
 		{
 			ft_lstclear(&wildcards_candidate, free);
 			return (false);
