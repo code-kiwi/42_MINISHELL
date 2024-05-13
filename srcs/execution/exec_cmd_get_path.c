@@ -18,6 +18,27 @@
 #include "env.h"
 
 /*
+ *	Returns true if the given path is valid, else returns false
+ *	If the path does not exist, status is set to STATUS_CMD_NOT_FOUND, if it
+ *	exists but is not authorized, status is set to STATUS_CMD_NOT_EXEC
+*/
+static bool	is_valid_cmd_path(char *path, int *status)
+{
+	if (access(path, F_OK) != 0)
+	{
+		*status = STATUS_CMD_NOT_FOUND;
+		return (false);
+	}
+	else if (access(path, F_OK | X_OK) != 0)
+	{
+		*status = STATUS_CMD_NOT_EXEC;
+		return (false);
+	}
+	*status = 0;
+	return (true);
+}
+
+/*
  *	Returns the path to a given command
  *	Uses the paths array to test each possible path to the given command
  *	As soon as one valid path is found (existing and executable file), it
@@ -25,8 +46,11 @@
  *	If no path was found or if an error occurred, returns NULL
  *	If the given command contains a slash, returns a duplicate of given_cmd if
  *	given_cmd exists and corresponds to an executable file
+ *	NB: status is set to the appropriate value thanks to the call to
+ *	is_valid_path() function. If the status is STATUS_CMD_NOT_EXEC, it means
+ *	that a command has been found but is not executable, then path is returned
  */
-static char	*get_command_path(char **paths, char *given_cmd)
+static char	*get_command_path(char **paths, char *given_cmd, int *status)
 {
 	size_t	i;
 	char	*full_path;
@@ -35,7 +59,8 @@ static char	*get_command_path(char **paths, char *given_cmd)
 		return (NULL);
 	if (ft_strchr(given_cmd, '/') != NULL)
 	{
-		if (access(given_cmd, F_OK | X_OK) == 0)
+		if (is_valid_cmd_path(given_cmd, status)
+			|| *status == STATUS_CMD_NOT_EXEC)
 			return (ft_strdup(given_cmd));
 		return (NULL);
 	}
@@ -45,7 +70,8 @@ static char	*get_command_path(char **paths, char *given_cmd)
 		full_path = ft_strjoin(paths[i], given_cmd);
 		if (full_path == NULL)
 			return (NULL);
-		if (access(full_path, F_OK | X_OK) == 0)
+		if (is_valid_cmd_path(full_path, status)
+			|| *status == STATUS_CMD_NOT_EXEC)
 			return (full_path);
 		free(full_path);
 		i++;
@@ -121,12 +147,17 @@ char	**get_all_paths(t_minishell *shell)
  *		- we test all the paths from path in order to find an existing
  *		and executable path to our command
  *		- we return a path to the command (allocated string)
+ *		- the status given is set to the right value: 0 if ok,
+ *		STATUS_CMD_NOT_FOUND if not found, STATUS_CMD_NOT_EXEC if found but
+ *		not authorized
  *	In case of ERROR, returns NULL
  *	Error cases:
  *		- internal problem (memory allocation failed)
  *		- no path to the command has been found
+ *	NB: if the command was found but is not authorized, we return the path
+ *	to the command found as an allocated string
  */
-char	*exec_cmd_get_path(t_minishell *shell, char *cmd)
+char	*exec_cmd_get_path(t_minishell *shell, char *cmd, int *status)
 {
 	char	**paths;
 	char	*cmd_path;
@@ -135,14 +166,14 @@ char	*exec_cmd_get_path(t_minishell *shell, char *cmd)
 		return (NULL);
 	if (ft_strchr(cmd, '/') != NULL)
 	{
-		if (access(cmd, F_OK | X_OK) == 0)
+		if (is_valid_cmd_path(cmd, status) || *status == STATUS_CMD_NOT_EXEC)
 			return (ft_strdup(cmd));
 		return (NULL);
 	}
 	paths = get_all_paths(shell);
 	if (paths == NULL)
 		return (NULL);
-	cmd_path = get_command_path(paths, cmd);
+	cmd_path = get_command_path(paths, cmd, status);
 	ft_free_str_array(&paths);
 	return (cmd_path);
 }

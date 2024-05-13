@@ -42,7 +42,7 @@ void	exec_node_logical(t_minishell *shell, t_node *node, int fd[2]);
 void	exec_node_subshell(t_minishell *shell, t_node *node, int fds[2]);
 
 // Command execution
-char	*exec_cmd_get_path(t_minishell *shell, char *cmd);
+char	*exec_cmd_get_path(t_minishell *shell, char *cmd, int *status);
 void	exec_node_command(t_minishell *sh, t_node *n, int fd[2], bool in_pipe);
 void	exec_cmd(t_minishell *shell, t_node_command *cmd);
 
