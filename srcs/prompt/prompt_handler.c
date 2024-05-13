@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   prompt_handler.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 13:02:08 by mhotting          #+#    #+#             */
-/*   Updated: 2024/05/12 18:47:54 by root             ###   ########.fr       */
+/*   Updated: 2024/05/13 09:29:10 by brappo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ char	*get_next_line_no_linebreak(int fd)
 
 bool	interrupted(char *input)
 {
-	return (input == NULL && errno == 0);
+	return (input == NULL && (errno == 0 || errno == EINTR));
 }
 
 static char	*read_input(char *prompt, t_minishell *shell)
