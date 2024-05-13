@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_redirection_list_hdcs.c                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/03 15:35:13 by mhotting          #+#    #+#             */
-/*   Updated: 2024/05/12 18:54:57 by root             ###   ########.fr       */
+/*   Updated: 2024/05/13 12:29:51 by brappo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,7 @@ static int	read_here_doc(t_minishell *shell, char *limiter, int fd_to_write)
 				free(cur_line);
 			return (read_here_doc_error(limiter));
 		}
-		if (ft_strncmp(cur_line, limiter, ft_strlen(cur_line)) == 0)
+		if (string_equals(cur_line, limiter))
 			break ;
 		expand_string(&cur_line, shell, O_VAR | O_IGN_QUOTE);
 		if (errno != 0 || ft_dprintf(fd_to_write, "%s\n", cur_line) == -1)

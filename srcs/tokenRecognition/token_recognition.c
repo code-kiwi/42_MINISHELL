@@ -6,7 +6,7 @@
 /*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/02 13:01:05 by brappo            #+#    #+#             */
-/*   Updated: 2024/05/13 11:47:46 by mhotting         ###   ########.fr       */
+/*   Updated: 2024/05/13 13:51:37 by brappo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,7 +120,7 @@ void	token_recognition(t_minishell *shell)
 	{
 		is_end_quoted = is_quoted(&token_parser);
 		second_tokens = tokenize_input(shell, &token_parser, is_end_quoted);
-		if (catch_sigint())
+		if (get_sigint())
 			return (ft_lstclear(&shell->tokens, t_token_free));
 		if (!append_token_list(is_end_quoted, &shell->tokens, second_tokens))
 		{

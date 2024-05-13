@@ -6,7 +6,7 @@
 /*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 13:10:16 by mhotting          #+#    #+#             */
-/*   Updated: 2024/05/13 09:41:32 by brappo           ###   ########.fr       */
+/*   Updated: 2024/05/13 13:54:09 by brappo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,15 +108,15 @@ bool	t_minishell_set_exec_status(t_minishell *shell)
 		return (shell->status);
 	set_interactive_mode(false);
 	not_interrupted = t_minishell_wait_pids(shell);
-	if (not_interrupted == false)
+	if (get_sigint() && !shell->is_a_tty)
+	{
+		t_minishell_free(shell);
+		exit(STATUS_SIGINT_STOP);
+	}
+	if (get_sigint() || get_sigquit())
 	{
 		if (write(STDOUT_FILENO, "\n", 1) == -1)
 			handle_error(shell, ERROR_MSG_WRITE, EXIT_FAILURE);
-		if (!shell->is_a_tty)
-		{
-			t_minishell_free(shell);
-			exit(STATUS_SIGINT_STOP);
-		}
 	}
 	return (!not_interrupted);
 }
