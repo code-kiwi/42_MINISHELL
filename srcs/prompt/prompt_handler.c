@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   prompt_handler.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
+/*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 13:02:08 by mhotting          #+#    #+#             */
-/*   Updated: 2024/05/13 13:52:08 by brappo           ###   ########.fr       */
+/*   Updated: 2024/05/13 22:05:59 by root             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,14 +29,14 @@ static char	*read_input(char *prompt, t_minishell *shell)
 {
 	char	*input;
 
-	input = readline(prompt);
+	input = read_one_line(prompt);
 	while ((errno == EINTR || errno == 0) && get_sigint())
 	{
 		set_interactive_mode(true);
 		shell->status = 130;
 		errno = 0;
 		free(input);
-		input = readline(prompt);
+		input = read_one_line(prompt);
 	}
 	return (input);
 }

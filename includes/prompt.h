@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   prompt.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
+/*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 13:09:18 by brappo            #+#    #+#             */
-/*   Updated: 2024/05/13 10:15:55 by mhotting         ###   ########.fr       */
+/*   Updated: 2024/05/13 21:48:14 by root             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,5 +29,6 @@ typedef struct s_minishell	t_minishell;
 bool	get_directory_path(t_list *env, char *buffer, size_t buffer_size);
 char	*prompt(t_minishell *shell);
 char	*readline_not_tty(void);
+char	*read_one_line(char *prompt);
 
 #endif

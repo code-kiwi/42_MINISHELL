@@ -6,7 +6,7 @@
 /*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 13:10:16 by mhotting          #+#    #+#             */
-/*   Updated: 2024/05/13 14:18:36 by mhotting         ###   ########.fr       */
+/*   Updated: 2024/05/13 21:47:39 by root             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@
 #include "env.h"
 #include "token.h"
 #include "node.h"
+#include "prompt.h"
 #include "pid_list.h"
 
 /*
@@ -54,6 +55,7 @@ void	t_minishell_init(t_minishell *shell, int argc, char **argv, char **envp)
 void	t_minishell_free(t_minishell *shell)
 {
 	rl_clear_history();
+	read_one_line(NULL);
 	if (shell == NULL)
 		return ;
 	if (shell->parent != NULL)

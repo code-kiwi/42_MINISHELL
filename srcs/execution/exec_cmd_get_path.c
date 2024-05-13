@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_cmd_get_path.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mhotting <mhotting@student.42.fr>          +#+  +:+       +#+        */
+/*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/14 10:53:09 by mhotting          #+#    #+#             */
-/*   Updated: 2024/05/13 15:37:56 by mhotting         ###   ########.fr       */
+/*   Updated: 2024/05/13 22:12:57 by root             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ static bool	is_valid_cmd_path(char *path, int *status)
 		errno = 0;
 		return (false);
 	}
-	if (S_ISDIR(file_info.st_mode) ||  access(path, F_OK) != 0)
+	if (S_ISDIR(file_info.st_mode) || access(path, F_OK) != 0)
 	{
 		*status = STATUS_CMD_NOT_FOUND;
 		return (false);

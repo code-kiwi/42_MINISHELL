@@ -6,7 +6,7 @@
 /*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 10:17:54 by mhotting          #+#    #+#             */
-/*   Updated: 2024/05/13 10:15:45 by mhotting         ###   ########.fr       */
+/*   Updated: 2024/05/13 22:13:24 by root             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,5 +127,5 @@ bool	string_contains_only_spaces(char *str);
 bool	string_contains_invalid_chars(char *str);
 void	**to_array(t_list *lst);
 bool	utils_is_empty_cmd(char *cmd);
-
+size_t	array_size(void **array);;
 #endif

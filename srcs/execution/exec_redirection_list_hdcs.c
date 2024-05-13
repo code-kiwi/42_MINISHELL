@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_redirection_list_hdcs.c                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
+/*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/03 15:35:13 by mhotting          #+#    #+#             */
-/*   Updated: 2024/05/13 12:29:51 by brappo           ###   ########.fr       */
+/*   Updated: 2024/05/13 21:47:08 by root             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ static char	*read_input(t_minishell *shell)
 	char	*line;
 
 	if (shell->is_a_tty)
-		line = readline(HEREDOC_PROMPT);
+		line = read_one_line(HEREDOC_PROMPT);
 	else
 		line = readline_not_tty();
 	return (line);
