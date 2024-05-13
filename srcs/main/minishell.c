@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 10:14:16 by mhotting          #+#    #+#             */
-/*   Updated: 2024/05/12 18:37:31 by root             ###   ########.fr       */
+/*   Updated: 2024/05/13 09:09:13 by brappo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,10 +28,7 @@
 
 static void	project_init(t_minishell *shell, int argc, char **argv, char **envp)
 {
-	if (
-		signal(SIGINT, &signal_handler) == SIG_ERR
-		|| signal(SIGQUIT, &signal_handler) == SIG_ERR
-	)
+	if (signal(SIGQUIT, &signal_handler) == SIG_ERR)
 	{
 		ft_dprintf(STDERR_FILENO, "%s\n", ERROR_MSG_SIGNAL_INIT);
 		exit(EXIT_FAILURE);
@@ -40,6 +37,11 @@ static void	project_init(t_minishell *shell, int argc, char **argv, char **envp)
 	rl_outstream = stderr;
 	rl_event_hook = stop_readline;
 	t_minishell_init(shell, argc, argv, envp);
+	if (shell->is_a_tty && signal(SIGINT, &signal_handler) == SIG_ERR)
+	{
+		ft_dprintf(STDERR_FILENO, "%s\n", ERROR_MSG_SIGNAL_INIT);
+		exit(EXIT_FAILURE);
+	}
 }
 
 static int	project_main_loop(t_minishell *shell)
