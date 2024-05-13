@@ -1,0 +1,34 @@
+pour le limiter d un here doc : juste le quote removal
+pour une redirection : quote removal, variable expansion et pathanme expansion mais teste si le resultat a une longueur de 1
+pour un fichier : quote removal, variable expansion et pathname expansion 
+pour une variable d un export : quote removal et variable expansion
+
+export test=truc
+<< $test cat
+1
+truc
+$test  
+  $test  
+$test
+
+echo "----------------"
+
+<< $test* cat
+truc*
+*
+$test
+   $test
+$test*    
+$test*
+
+echo "----------------"
+
+echo 8 > *
+< * cat
+echo 8 >> *
+< READ* wc -l
+echo 8 >*e*
+export test="READ"
+< "$test"''* wc -l
+export test2=READ*
+echo $test2
