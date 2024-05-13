@@ -6,7 +6,7 @@
 /*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/12 10:28:30 by brappo            #+#    #+#             */
-/*   Updated: 2024/05/12 20:54:16 by root             ###   ########.fr       */
+/*   Updated: 2024/05/13 10:46:04 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ static int	alphabetic_compare(void *a, void *b)
 	return (0);
 }
 
-char	*file_match(struct dirent *file, t_list *wildcards, char *str)
+static char	*file_match(struct dirent *file, t_list *wildcards, char *str)
 {
 	bool		match;
 	struct stat	file_stat;
@@ -77,6 +77,8 @@ t_list	*expand_wildcard(char *str, t_list *wildcards)
 	t_list			*result;
 	char			*match;
 
+	if (str == NULL || wildcards == NULL)
+		return (NULL);
 	current_directory = opendir(".");
 	if (current_directory == NULL)
 		return (NULL);
@@ -89,8 +91,7 @@ t_list	*expand_wildcard(char *str, t_list *wildcards)
 			&& !lst_push_front_content(&result, match, free))
 		{
 			closedir(current_directory);
-			ft_lstclear(&result, free);
-			return (NULL);
+			return (ft_lstclear(&result, free), NULL);
 		}
 		file = readdir(current_directory);
 	}
