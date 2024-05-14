@@ -6,7 +6,7 @@
 /*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 10:17:54 by mhotting          #+#    #+#             */
-/*   Updated: 2024/05/13 22:13:24 by root             ###   ########.fr       */
+/*   Updated: 2024/05/14 09:47:44 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,8 @@ typedef struct s_minishell		t_minishell;
 # define ERROR_MSG_CMD_NFND		"Command not found"
 # define ERROR_MSG_CMD_REDIR	"File descriptor redirection impossible"
 # define ERROR_MSG_CMD_EXEC		"Command execution impossible"
-# define ERROR_MSG_CMD_PERM		"Permission denied"
+# define ERROR_MSG_CMD_PRM		"Permission denied"
+# define ERROR_MSG_CMD_DIR		"Is a directory"
 # define ERROR_MSG_DUP			"Impossible to duplicate a file descriptor"
 # define ERROR_MSG_SHELL_CPY	"Impossible to create a subshell"
 # define ERROR_MSG_AST_CREATION	"AST creation failed"
@@ -55,6 +56,7 @@ typedef struct s_minishell		t_minishell;
 # define ERROR_MSG_BAD_CHARS	"The input must contain only ASCII chars"
 # define ERROR_MSG_BAD_OPERATOR	"Minishell: Unknown operator"
 # define ERROR_MSG_ERRNO		"The errno value is not 0 at loop end"
+# define ERROR_TEMPL			"Minishell: %s: %s\n"
 
 # define DGREAT 				">>"
 # define DLESS					"<<"
@@ -127,5 +129,7 @@ bool	string_contains_only_spaces(char *str);
 bool	string_contains_invalid_chars(char *str);
 void	**to_array(t_list *lst);
 bool	utils_is_empty_cmd(char *cmd);
-size_t	array_size(void **array);;
+size_t	array_size(void **array);
+bool	path_is_dir(char *path);
+
 #endif

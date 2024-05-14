@@ -6,7 +6,7 @@
 #    By: root <root@student.42.fr>                  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/03/31 20:47:09 by mhotting          #+#    #+#              #
-#    Updated: 2024/05/13 22:06:21 by root             ###   ########.fr        #
+#    Updated: 2024/05/14 09:49:25 by mhotting         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -183,6 +183,7 @@ UTILS_FILES				=	list_utils.c				\
 							ft_split_key_val.c			\
 							ft_print_str_array.c		\
 							array_utils.c				\
+							path_is_dir.c				\
 							error.c	
 UTILS					=	$(addprefix $(UTILS_DIR), $(UTILS_FILES))
 

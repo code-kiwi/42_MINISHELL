@@ -6,7 +6,7 @@
 /*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/12 15:40:35 by mhotting          #+#    #+#             */
-/*   Updated: 2024/05/13 15:10:41 by mhotting         ###   ########.fr       */
+/*   Updated: 2024/05/14 09:48:54 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,7 +110,7 @@ static void	exec_cmd_external_process(
  */
 static void	exec_cmd_external(t_minishell *shell, t_node_command *cmd)
 {
-	char	*command_path;
+	char	*cmd_path;
 	char	**env;
 	int		status;
 
@@ -118,23 +118,23 @@ static void	exec_cmd_external(t_minishell *shell, t_node_command *cmd)
 		handle_error(shell, ERROR_MSG_ARGS, EXIT_FAILURE);
 	status = 0;
 	exec_cmd_redirect(shell, cmd);
-	command_path = exec_cmd_get_path(shell, (cmd->argv)[0], &status);
-	if (command_path == NULL)
+	cmd_path = exec_cmd_get_path(shell, (cmd->argv)[0], &status);
+	if (cmd_path == NULL)
 		exec_cmd_error(shell, ERROR_MSG_CMD_NFND, EXIT_FAILURE, (cmd->argv)[0]);
 	if (status == STATUS_CMD_NOT_EXEC)
 	{
-		ft_dprintf(STDERR_FILENO, "Minishell: %s: %s\n", command_path, \
-			ERROR_MSG_CMD_PERM);
-		free(command_path);
+		if (ft_strchr((cmd->argv)[0], '/') != NULL && path_is_dir(cmd_path))
+			ft_dprintf(STDERR_FILENO, ERROR_TEMPL, cmd_path, ERROR_MSG_CMD_DIR);
+		else
+			ft_dprintf(STDERR_FILENO, ERROR_TEMPL, cmd_path, ERROR_MSG_CMD_PRM);
+		free(cmd_path);
 		exec_cmd_error(shell, NULL, STATUS_CMD_NOT_EXEC, NULL);
 	}
 	env = env_get_all_array(shell->env);
-	if (env == NULL)
-	{
-		free(command_path);
-		exec_cmd_error(shell, ERROR_MSG_MEM, EXIT_FAILURE, NULL);
-	}
-	exec_cmd_external_process(shell, cmd, env, command_path);
+	if (env != NULL)
+		return (exec_cmd_external_process(shell, cmd, env, cmd_path));
+	free(cmd_path);
+	exec_cmd_error(shell, ERROR_MSG_MEM, EXIT_FAILURE, NULL);
 }
 
 /*
