@@ -6,7 +6,7 @@
 /*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/11 12:39:55 by brappo            #+#    #+#             */
-/*   Updated: 2024/05/14 10:04:50by root             ###   ########.fr       */
+/*   Updated: 2024/05/14 10:22:36 by root             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,9 +30,11 @@ static bool	string_equal_wildcard_recursive(char *str_wildcard,
 	{
 		if (is_wildcard(str_wildcard, wildcards))
 		{
-			if (string_equal_wildcard_recursive(str_wildcard + 1, str_b, wildcards->next))
+			if (string_equal_wildcard_recursive(str_wildcard + 1,
+					str_b, wildcards->next))
 				return (true);
-			if (*str_b && string_equal_wildcard_recursive(str_wildcard, str_b + 1, wildcards))
+			if (*str_b && string_equal_wildcard_recursive(str_wildcard,
+					str_b + 1, wildcards))
 				return (true);
 			return (false);
 		}
@@ -52,5 +54,5 @@ bool	string_equal_wildcard(char *str_wildcard,
 	if (wildcards == NULL)
 		return (string_equals(str_wildcard, str_b));
 	return (string_equal_wildcard_recursive(str_wildcard,
-		str_b, wildcards));
+			str_b, wildcards));
 }
