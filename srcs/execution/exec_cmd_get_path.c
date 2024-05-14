@@ -6,7 +6,7 @@
 /*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/14 10:53:09 by mhotting          #+#    #+#             */
-/*   Updated: 2024/05/14 09:58:46 by mhotting         ###   ########.fr       */
+/*   Updated: 2024/05/14 10:50:23 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -166,6 +166,11 @@ char	*exec_cmd_get_path(t_minishell *shell, char *cmd, int *status)
 		return (NULL);
 	if (ft_strchr(cmd, '/') != NULL)
 	{
+		if (path_is_dir(cmd))
+		{
+			*status = STATUS_CMD_NOT_EXEC;
+			return (ft_strdup(cmd));
+		}
 		if (is_valid_cmd_path(cmd, status) || *status == STATUS_CMD_NOT_EXEC)
 			return (ft_strdup(cmd));
 		return (NULL);
