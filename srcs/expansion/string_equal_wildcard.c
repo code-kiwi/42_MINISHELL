@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   string_equal_wildcard.c                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
+/*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/11 12:39:55 by brappo            #+#    #+#             */
-/*   Updated: 2024/05/10 16:59:24 by mhotting         ###   ########.fr       */
+/*   Updated: 2024/05/14 10:04:50by root             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,73 +16,41 @@
 #include "minishell.h"
 #include "libft.h"
 
-static bool	is_wildcard(char *characters, t_list *wildcards)
+static bool	is_wildcard(char *wildcard_addr, t_list *wildcards)
 {
 	if (wildcards == NULL)
 		return (false);
-	return (characters == wildcards->content);
+	return (wildcard_addr == wildcards->content);
 }
 
-static size_t	get_next_wildcard(char *str_wildcard)
+static bool	string_equal_wildcard_recursive(char *str_wildcard,
+	char *str_b, t_list *wildcards)
 {
-	size_t	length;
-
-	length = 1;
-	while (str_wildcard[length] && str_wildcard[length] != '*')
-		length++;
-	return (length);
-}
-
-static ssize_t	search_characters(char *characters, \
-	size_t character_length, char *str, t_list **wildcards)
-{
-	ssize_t	char_pos;
-
-	char_pos = 0;
-	if (is_wildcard(characters, *wildcards))
+	while (*str_wildcard)
 	{
-		*wildcards = (*wildcards)->next;
-		while (ft_strncmp(characters + 1, str + char_pos, \
-				character_length - 1))
+		if (is_wildcard(str_wildcard, wildcards))
 		{
-			if (str[char_pos] == '\0')
-				return (-1);
-			char_pos++;
+			if (string_equal_wildcard_recursive(str_wildcard + 1, str_b, wildcards->next))
+				return (true);
+			if (*str_b && string_equal_wildcard_recursive(str_wildcard, str_b + 1, wildcards))
+				return (true);
+			return (false);
 		}
-		char_pos += character_length - 1;
+		if (*str_b != *str_wildcard)
+			return (false);
+		str_b++;
+		str_wildcard++;
 	}
-	else
-	{
-		if (ft_strncmp(characters, str, character_length))
-			return (-1);
-		char_pos += character_length;
-	}
-	return (char_pos);
+	return (*str_b == '\0' && *str_wildcard == '\0');
 }
 
 bool	string_equal_wildcard(char *str_wildcard,
 	char *str_b, t_list *wildcards)
 {
-	size_t	next_wildcard;
-	ssize_t	char_pos;
-
-	if (str_wildcard == NULL || str_b == NULL)
-		return (str_wildcard == str_b);
+	if (str_b == NULL || str_wildcard == NULL)
+		return (str_b == str_wildcard);
 	if (wildcards == NULL)
-		return (ft_strcmp(str_wildcard, str_b) == 0);
-	while (*str_wildcard)
-	{
-		if (is_wildcard(str_wildcard, wildcards) && !str_wildcard[1])
-			return (true);
-		next_wildcard = get_next_wildcard(str_wildcard);
-		char_pos = search_characters(str_wildcard, \
-				next_wildcard, str_b, &wildcards);
-		if (char_pos == -1)
-			return (false);
-		str_b += char_pos;
-		str_wildcard += next_wildcard;
-	}
-	if (!is_wildcard(str_wildcard, wildcards) && *str_b)
-		return (false);
-	return (true);
+		return (string_equals(str_wildcard, str_b));
+	return (string_equal_wildcard_recursive(str_wildcard,
+		str_b, wildcards));
 }
