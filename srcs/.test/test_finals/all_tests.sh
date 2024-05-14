@@ -32,6 +32,19 @@ clear
 echo -e $GREEN
 echo        " #######################################
  #                                     #
+ #           go_wilds_bonus            #
+ #                                     #
+ #######################################"
+echo -e $RESET_COLOR
+$1 < go_wilds_bonus.txt
+echo "$separator"
+tput cup 0 0
+read -n1
+clear
+
+echo -e $GREEN
+echo        " #######################################
+ #                                     #
  #                pipe                 #
  #                                     #
  #######################################"
@@ -148,3 +161,6 @@ echo "$separator"
 tput cup 0 0
 read -n1
 clear
+
+rm tmp_out*
+rm tmp_redir*
