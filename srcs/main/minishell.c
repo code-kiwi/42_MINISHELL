@@ -6,7 +6,7 @@
 /*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 10:14:16 by mhotting          #+#    #+#             */
-/*   Updated: 2024/05/13 21:49:27 by root             ###   ########.fr       */
+/*   Updated: 2024/05/14 12:23:30 by root             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,43 +28,6 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include "token.h"
-
-void	get_enum_str(char **array)
-{
-	array[0] = "END";
-	array[1] = "WORD";
-	array[2] = "OPERATOR";
-	array[3] = "DGREAT";
-	array[4] = "DLESS";
-	array[5] = "GREAT";
-	array[6] = "LESS";
-	array[7] = "AND_IF";
-	array[8] = "OR_IF";
-	array[9] = "PIPE";
-	array[10] = "SHELL_OPEN";
-	array[11] = "SHELL_CLOSE";
-	array[12] = "ASSIGNEMENT WORD";
-}
-
-void	print_token(void *token_void)
-{
-	t_token	*token;
-	char	*enum_strs[13];
-
-	if (token_void == NULL)
-		return ;
-	token = (t_token *)token_void;
-	if (token->str != NULL)
-		printf("%s : ", token->str);
-	get_enum_str(enum_strs);
-	printf("\033[0;35m");
-	if (token->type > 12 || token->type < 0)
-		printf("ERROR");
-	else
-		printf("%s", enum_strs[token->type]);
-	printf("\033[0m");
-	fflush(stdout);
-}
 
 static void	project_init(t_minishell *shell, int argc, char **argv, char **envp)
 {
@@ -121,6 +84,8 @@ int	main(int argc, char **argv, char **envp)
 	{
 		status = project_main_loop(&shell);
 		utils_reset_shell(&shell, status);
+		if (status == STATUS_INVALID_USE && !shell.is_a_tty)
+			handle_error(&shell, NULL, STATUS_INVALID_USE);
 	}
 	t_minishell_free(&shell);
 	exit(EXIT_SUCCESS);
