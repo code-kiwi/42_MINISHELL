@@ -6,7 +6,7 @@
 #    By: root <root@student.42.fr>                  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/03/31 20:47:09 by mhotting          #+#    #+#              #
-#    Updated: 2024/05/14 09:49:25 by mhotting         ###   ########.fr        #
+#    Updated: 2024/05/14 13:19:14 by mhotting         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -46,37 +46,6 @@ HEADER_LINK_SCRIPT_CLS	=	config/remove_sym_limk.sh
 # MAIN
 MAIN_DIR				=	main/
 MAIN_FILE				=	minishell.c
-ifdef testChosen
-    ifeq ($(testChosen), token)
-		MAIN_DIR		=	.test/
-		MAIN_FILE		= 	test_token_recognition.c
-	else ifeq ($(testChosen), env)
-		MAIN_DIR		=	.test/
-		MAIN_FILE		= 	test_env.c
-	else ifeq ($(testChosen), prompt)
-		MAIN_DIR		=	.test/
-		MAIN_FILE		=	test_prompt.c
-	else ifeq ($(testChosen), execution)
-		MAIN_DIR		=	.test/
-		MAIN_FILE		=	test_execution1.c test_execution2.c
-	else ifeq ($(testChosen), ast)
-		MAIN_DIR		=	.test/
-		MAIN_FILE		=	test_ast_creation.c
-	else ifeq ($(testChosen), expansion)
-		MAIN_DIR		=	.test/
-		MAIN_FILE		=	test_expansion.c echo_string.c
-	else ifeq ($(testChosen), ast_building)
-		MAIN_DIR		=	.test/
-		MAIN_FILE		=	test_ast_building.c	ast_printing.c
-	else ifeq ($(testChosen), signals)
-		MAIN_DIR		=	.test/
-		MAIN_FILE		=	signals_tests.c
-	else ifeq ($(testChosen), wildcard)
-		MAIN_DIR		=	.test/
-		MAIN_FILE		=	wildcard_test.c echo_string.c
-	endif
-	MAIN_FILE			+=	temp.c
-endif
 MAIN					=	$(addprefix $(MAIN_DIR), $(MAIN_FILE))
 
 # AST
@@ -181,7 +150,6 @@ UTILS_FILES				=	list_utils.c				\
 							string_utils2.c				\
 							is_empty_cmd.c				\
 							ft_split_key_val.c			\
-							ft_print_str_array.c		\
 							array_utils.c				\
 							path_is_dir.c				\
 							error.c	

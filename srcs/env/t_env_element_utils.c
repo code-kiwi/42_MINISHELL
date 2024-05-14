@@ -71,26 +71,6 @@ void	env_element_free(void *env_elt_ptr)
 }
 
 /*
- *	Displays the content of a t_env_element
- *	NOTE: This function takes a void * pointer in order to enable the use of
- *	ft_lstprint().
- */
-void	env_element_print(void *env_elt_ptr)
-{
-	t_env_element	*env_elt;
-
-	if (env_elt_ptr == NULL)
-		return ;
-	env_elt = (t_env_element *) env_elt_ptr;
-	printf("----------\n");
-	printf("env_element:\n");
-	printf("\t- key: \"%s\"\n", env_elt->key);
-	printf("\t- value: \"%s\"\n", env_elt->value);
-	printf("\t- key_value: \"%s\"\n", env_elt->key_value);
-	printf("\n");
-}
-
-/*
  *	Compares a t_env_element key member to the given key argument.
  *	This function uses string comparison, and returns 0 if the keys are
  *	the same, a non-zero integer if they are different.
