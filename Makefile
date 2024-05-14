@@ -6,7 +6,7 @@
 #    By: brappo <brappo@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/11 12:21:10 by mhotting          #+#    #+#              #
-#    Updated: 2024/04/22 22:06:56 by mhotting         ###   ########.fr        #
+#    Updated: 2024/05/14 13:24:56 by mhotting         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -36,10 +36,6 @@ bonus: all
 
 fsanitize: fclean $(LIBFT) $(OBJS)
 	$(CC) $(CFLAGS) $(HFLAGS) $(FSFLAGS) $(OBJS) $(LIBFT_FLAGS) $(EXT_LIB_FLAGS) -o $(NAME)
-
-test:
-	$(MAKE) testChosen=$(testChosen) re
-	$(MAKE) clean
 
 init_submodule:
 	@if git submodule status | egrep -q '^[-+]' ; then \
@@ -76,4 +72,4 @@ header_symlink_clean:
 	@sh $(HEADER_LINK_SCRIPT_CLS)
 	@printf "Removing symlinks for .h files into srcs sub directories...\n"
 
-.PHONY: all clean fclean re clean-libft fclean-libft ffclean rre bonus FORCE fsanitize test header_symlink header_symlink_clean init_submodule
+.PHONY: all clean fclean re clean-libft fclean-libft ffclean rre bonus FORCE fsanitize header_symlink header_symlink_clean init_submodule

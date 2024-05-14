@@ -39,7 +39,6 @@ bool			env_exists(t_list *env, char *key);
 t_env_element	*env_element_create(char *key, char *value);
 bool			env_element_update(t_env_element *env_elt, char *k, char *v);
 void			env_element_free(void *env_elt_ptr);
-void			env_element_print(void *env_elt_ptr);
 int				env_element_cmp(void *env_elt_ptr, char *key);
 
 #endif

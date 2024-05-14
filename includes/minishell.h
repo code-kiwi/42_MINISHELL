@@ -123,7 +123,6 @@ void	fds_close_and_reset(int fds[2]);
 char	**ft_split_key_val(char *str, char sep);
 char	*bridge(char *first, char *second, char *separator);
 char	*bridge_into_first(char **first, char *second, char *separator);
-void	ft_print_str_array(char **array);
 bool	string_equals(void *a, void *b);
 bool	string_contains_only_spaces(char *str);
 bool	string_contains_invalid_chars(char *str);
