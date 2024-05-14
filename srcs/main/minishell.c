@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
+/*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 10:14:16 by mhotting          #+#    #+#             */
-/*   Updated: 2024/05/13 16:23:23 by brappo           ###   ########.fr       */
+/*   Updated: 2024/05/13 21:49:27 by root             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,6 @@ static int	project_main_loop(t_minishell *shell)
 		return (STATUS_INVALID_USE);
 	}
 	token_recognition(shell);
-	ft_lstprint(shell->tokens, print_token);
 	if (get_sigint())
 		return (STATUS_SIGINT_STOP);
 	shell->ast = build_ast(shell->tokens);
