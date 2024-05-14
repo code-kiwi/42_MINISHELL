@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mhotting <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 11:03:49 by mhotting          #+#    #+#             */
-/*   Updated: 2024/05/13 15:56:04 by mhotting         ###   ########.fr       */
+/*   Updated: 2024/05/14 08:34:54 by root             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,6 @@ static void	bi_exit_shell_ok(t_minishell *shell, int status, char *msg)
 		t_minishell_free(shell);
 	exit(status);
 }
-
 
 /*
  *	Checks is the given string is a valid exit status
