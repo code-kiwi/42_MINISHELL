@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_redirection_list_hdcs.c                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/03 15:35:13 by mhotting          #+#    #+#             */
-/*   Updated: 2024/05/13 21:47:08 by root             ###   ########.fr       */
+/*   Updated: 2024/05/15 13:28:35 by brappo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ static char	*read_input(t_minishell *shell)
  *		- EXIT_FAILURE on ERROR
  *		- STATUS_SIGINT_STOP on SIGINT user stop
  */
-static int	read_here_doc(t_minishell *shell, char *limiter, int fd_to_write)
+static int	read_here_doc(t_minishell *shell, char *limiter, int fd_to_write, bool expand_content)
 {
 	char	*cur_line;
 
@@ -79,13 +79,13 @@ static int	read_here_doc(t_minishell *shell, char *limiter, int fd_to_write)
 		cur_line = read_input(shell);
 		if (cur_line == NULL || get_sigint())
 		{
-			if (cur_line != NULL)
-				free(cur_line);
+			free(cur_line);
 			return (read_here_doc_error(limiter));
 		}
 		if (string_equals(cur_line, limiter))
 			break ;
-		expand_string(&cur_line, shell, O_VAR | O_IGN_QUOTE);
+		if (expand_content)
+			expand_string(&cur_line, shell, O_VAR | O_IGN_QUOTE);
 		if (errno != 0 || ft_dprintf(fd_to_write, "%s\n", cur_line) == -1)
 			return (free(cur_line), EXIT_FAILURE);
 		free(cur_line);
@@ -127,7 +127,7 @@ static void	exec_redirection_heredoc(
 	)
 		return (hdc_info_set_error(hdc_info));
 	set_interactive_mode(true);
-	status = read_here_doc(shell, redir->filename, pipe_fds[1]);
+	status = read_here_doc(shell, redir->filename, pipe_fds[1], ft_strchr(redir->filename, '"') == NULL);
 	set_interactive_mode(false);
 	fd_close_and_reset(&pipe_fds[1]);
 	if (status == EXIT_SUCCESS)
