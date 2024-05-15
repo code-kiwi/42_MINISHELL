@@ -6,12 +6,13 @@
 /*   By: mhotting <mhotting@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 02:00:19 by mhotting          #+#    #+#             */
-/*   Updated: 2024/05/15 15:14:19 by mhotting         ###   ########.fr       */
+/*   Updated: 2024/05/15 15:53:57 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdlib.h>
 #include <stdio.h>
+#include <errno.h>
 
 #include "libft.h"
 #include "minishell.h"
@@ -34,13 +35,13 @@ t_env_element	*env_element_create(char *key, char *value, bool read_only)
 	if (env_elt == NULL)
 		return (NULL);
 	env_elt->key = ft_strdup(key);
-	if (value == NULL)
-		value = "";
 	env_elt->value = ft_strdup(value);
-	env_elt->key_value = bridge(key, value, ENV_KEY_VALUE_SEPERATOR_STR);
+	env_elt->key_value = NULL;
+	if (value != NULL)
+		env_elt->key_value = bridge(key, value, ENV_KEY_VALUE_SEPERATOR_STR);
 	if (
-		env_elt->key == NULL || env_elt->value == NULL
-		|| env_elt->key_value == NULL
+		env_elt->key == NULL || (env_elt->value == NULL && errno != 0)
+		|| (env_elt->key_value == NULL && errno != 0)
 	)
 	{
 		env_element_free(env_elt);
@@ -104,11 +105,14 @@ bool	env_element_update(
 
 	if (env_elt == NULL || key == NULL || ft_strcmp(env_elt->key, key) != 0)
 		return (false);
-	if (value == NULL)
-		value = "";
+	if (env_elt->read_only)
+		return (true);
 	new_value = ft_strdup(value);
-	new_key_value = bridge(key, value, ENV_KEY_VALUE_SEPERATOR_STR);
-	if (new_value == NULL || new_key_value == NULL)
+	new_key_value = NULL;
+	if (value != NULL)
+		new_key_value = bridge(key, value, ENV_KEY_VALUE_SEPERATOR_STR);
+	if ((new_value == NULL && errno != 0)
+		|| (new_key_value == NULL && errno != 0))
 	{
 		free(new_value);
 		free(new_key_value);

@@ -6,7 +6,7 @@
 /*   By: mhotting <mhotting@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 00:17:49 by mhotting          #+#    #+#             */
-/*   Updated: 2024/05/15 15:32:44 by mhotting         ###   ########.fr       */
+/*   Updated: 2024/05/15 16:23:32 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ t_list	*env_extract(char **envp)
 		split = ft_split_key_val(*envp, ENV_KEY_VALUE_SEPERATOR);
 		if (split == NULL && errno != 0)
 			return (ft_lstclear(&env, env_element_free), NULL);
-		if (split[0] == NULL || split[1] == NULL)
+		if (split == NULL || split[0] == NULL || split[1] == NULL)
 		{
 			ft_free_str_array(&split);
 			++envp;

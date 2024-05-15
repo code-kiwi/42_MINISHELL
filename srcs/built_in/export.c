@@ -6,7 +6,7 @@
 /*   By: mhotting <mhotting@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 15:11:12 by mhotting          #+#    #+#             */
-/*   Updated: 2024/05/15 15:16:13 by mhotting         ###   ########.fr       */
+/*   Updated: 2024/05/15 16:21:29 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,7 @@ static bool	bi_export_has_valid_key(char *key_val)
  *	environment
  *	Returns 0 on SUCCESS, 1 on ERROR
  */
+#include <stdio.h>
 static int	bi_export_var(t_minishell *shell, char *key_val)
 {
 	char	**split;
@@ -82,8 +83,21 @@ static int	bi_export_var(t_minishell *shell, char *key_val)
 	if (!bi_export_has_valid_key(key_val))
 		return (1);
 	split = ft_split_key_val(key_val, ENV_KEY_VALUE_SEPERATOR);
+
+	if (split == NULL)
+		printf("SPLIT IS NULL\n");
+	else if (split[0] == NULL)
+		printf("SPLIT IS EMPTY\n");
+	else
+		printf("SPLIT: %p - '%s' - '%s'\n", split, split[0], split[1]);
+
 	if (split == NULL && errno != 0 && errno != EINVAL)
 		return (1);
+		
+
+
+
+
 	if (split == NULL || split[0] == NULL || split[1] == NULL)
 	{
 		errno = 0;
