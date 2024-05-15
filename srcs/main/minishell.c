@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 10:14:16 by mhotting          #+#    #+#             */
-/*   Updated: 2024/05/14 12:23:30 by root             ###   ########.fr       */
+/*   Updated: 2024/05/15 10:09:40 by brappo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,15 @@ static void	project_init(t_minishell *shell, int argc, char **argv, char **envp)
 	t_minishell_init(shell, argc, argv, envp);
 }
 
+static int	handle_syntax_error(t_minishell *shell)
+{
+	if (errno != 0)
+		handle_error(shell, ERROR_MSG_AST_CREATION, EXIT_FAILURE);
+	if (!shell->is_a_tty)
+		handle_error(shell, NULL, STATUS_INVALID_USE);
+	return (STATUS_INVALID_USE);
+}
+
 static int	project_main_loop(t_minishell *shell)
 {
 	shell->input = prompt(shell);
@@ -62,10 +71,8 @@ static int	project_main_loop(t_minishell *shell)
 	if (get_sigint())
 		return (STATUS_SIGINT_STOP);
 	shell->ast = build_ast(shell->tokens);
-	if (shell->ast == NULL && errno != 0)
-		handle_error(shell, ERROR_MSG_AST_CREATION, EXIT_FAILURE);
-	else if (shell->ast == NULL)
-		return (STATUS_INVALID_USE);
+	if (shell->ast == NULL)
+		return (handle_syntax_error(shell));
 	if (!exec_ast_heredocs(shell))
 		handle_error(shell, ERROR_MSG_HEREDOC_EXEC, EXIT_FAILURE);
 	if (shell->heredoc_interruption)
@@ -84,8 +91,6 @@ int	main(int argc, char **argv, char **envp)
 	{
 		status = project_main_loop(&shell);
 		utils_reset_shell(&shell, status);
-		if (status == STATUS_INVALID_USE && !shell.is_a_tty)
-			handle_error(&shell, NULL, STATUS_INVALID_USE);
 	}
 	t_minishell_free(&shell);
 	exit(EXIT_SUCCESS);
