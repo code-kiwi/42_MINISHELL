@@ -97,12 +97,15 @@ static bool	split_env(char *path_str, char **res, size_t nb_paths)
 	path_token = ft_strtok(path_str, PATH_STR_SEPERATOR);
 	while (i < nb_paths && path_token != NULL)
 	{
-		temp = ft_append_chars(path_token, '/', ft_strlen(path_token) + 1);
-		if (temp == NULL)
-			return (false);
-		res[i] = temp;
+		if (*path_token != '\0')
+		{
+			temp = ft_append_chars(path_token, '/', ft_strlen(path_token) + 1);
+			if (temp == NULL)
+				return (false);
+			res[i] = temp;
+			i++;
+		}
 		path_token = ft_strtok(NULL, PATH_STR_SEPERATOR);
-		i++;
 	}
 	return (true);
 }
