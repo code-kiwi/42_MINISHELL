@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mhotting <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: mhotting <mhotting@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 15:11:12 by mhotting          #+#    #+#             */
-/*   Updated: 2024/05/10 16:56:40 by mhotting         ###   ########.fr       */
+/*   Updated: 2024/05/15 15:16:13 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,7 @@ static int	bi_export_var(t_minishell *shell, char *key_val)
 		ft_free_str_array(&split);
 		return (0);
 	}
-	returned = env_update(&(shell->env), split[0], split[1]);
+	returned = env_update(&(shell->env), split[0], split[1], false);
 	ft_free_str_array(&split);
 	if (!returned)
 		return (1);

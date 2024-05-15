@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd1.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mhotting <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: mhotting <mhotting@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 15:10:34 by mhotting          #+#    #+#             */
-/*   Updated: 2024/05/10 16:56:15 by mhotting         ###   ########.fr       */
+/*   Updated: 2024/05/15 15:14:46 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ static char	*bi_cd_resolve_path(t_minishell *shell, char *dir)
 		pwd = getcwd(NULL, 0);
 		if (pwd == NULL)
 			return (NULL);
-		if (!env_update(&(shell->env), ENV_PWD, pwd))
+		if (!env_update(&(shell->env), ENV_PWD, pwd, false))
 		{
 			free(pwd);
 			return (NULL);

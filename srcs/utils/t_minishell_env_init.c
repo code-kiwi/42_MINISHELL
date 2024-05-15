@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   t_minishell_env_init.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mhotting <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: mhotting <mhotting@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 11:46:33 by mhotting          #+#    #+#             */
-/*   Updated: 2024/05/10 17:04:44 by mhotting         ###   ########.fr       */
+/*   Updated: 2024/05/15 15:29:26 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ static bool	t_minishell_env_init_vars_pwd(t_list **env)
 	curr_path = getcwd(NULL, 0);
 	if (curr_path == NULL)
 		return (false);
-	returned = env_update(env, ENV_PWD, curr_path);
+	returned = env_update(env, ENV_PWD, curr_path, false);
 	free(curr_path);
 	return (returned);
 }
@@ -52,7 +52,7 @@ static bool	t_minishell_env_init_vars_shlvl(t_list **env)
 	bool	returned;
 
 	if (!env_exists(*env, ENV_SHLVL))
-		returned = env_add(env, ENV_SHLVL, "1");
+		returned = env_update(env, ENV_SHLVL, "1", false);
 	else
 	{
 		curr_val = env_get(*env, ENV_SHLVL);
@@ -65,7 +65,7 @@ static bool	t_minishell_env_init_vars_shlvl(t_list **env)
 		curr_val = ft_itoa(nb + 1);
 		if (curr_val == NULL)
 			return (false);
-		returned = env_update(env, ENV_SHLVL, curr_val);
+		returned = env_update(env, ENV_SHLVL, curr_val, false);
 		free(curr_val);
 	}
 	return (returned);
@@ -103,5 +103,6 @@ t_list	*t_minishell_env_init(char **envp)
 		ft_lstclear(&env, env_element_free);
 		return (NULL);
 	}
+	env_set_readonly(env, "_", true);
 	return (env);
 }

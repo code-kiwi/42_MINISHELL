@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_utils1.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mhotting <mhotting@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 00:17:49 by mhotting          #+#    #+#             */
-/*   Updated: 2024/05/10 16:56:57 by mhotting         ###   ########.fr       */
+/*   Updated: 2024/05/15 15:32:44 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ t_list	*env_extract(char **envp)
 			++envp;
 			continue ;
 		}
-		returned = env_add(&env, split[0], split[1]);
+		returned = env_update(&env, split[0], split[1], false);
 		ft_free_str_array(&split);
 		if (!returned)
 			return (ft_lstclear(&env, env_element_free), NULL);
@@ -59,7 +59,18 @@ t_list	*env_extract(char **envp)
  */
 void	env_delete(t_list **env, char *key)
 {
+	t_list			*link;
+	t_env_element	*env_elt;
+
 	if (env == NULL || *env == NULL || key == NULL)
+		return ;
+	link = ft_lstfind(*env, key, env_element_cmp);
+	if (link == NULL)
+		return ;
+	env_elt = (t_env_element *) link->content;
+	if (env_elt == NULL)
+		return ;
+	if (env_elt->read_only)
 		return ;
 	ft_lst_remove_if(env, key, env_element_cmp, env_element_free);
 }
@@ -111,7 +122,7 @@ char	**env_get_all_array(t_list *env)
  *		- wrong input (env and key cannot be NULL)
  *		- memory allocation failed
  */
-bool	env_add(t_list **env, char *key, char *value)
+static bool	env_add(t_list **env, char *key, char *value, bool read_only)
 {
 	t_env_element	*env_elt;
 	t_list			*new;
@@ -121,7 +132,7 @@ bool	env_add(t_list **env, char *key, char *value)
 		errno = ENODATA;
 		return (false);
 	}
-	env_elt = env_element_create(key, value);
+	env_elt = env_element_create(key, value, read_only);
 	if (env_elt == NULL)
 	{
 		errno = ENOMEM;
@@ -144,7 +155,7 @@ bool	env_add(t_list **env, char *key, char *value)
  *	If the key is not stored into the list, then a new element is created
  *	Returns true on SUCCESS, false on ERROR
  */
-bool	env_update(t_list **env, char *key, char *value)
+bool	env_update(t_list **env, char *key, char *value, bool read_only)
 {
 	t_list			*link;
 	t_env_element	*env_elt;
@@ -155,12 +166,14 @@ bool	env_update(t_list **env, char *key, char *value)
 		return (false);
 	}
 	if (!env_exists(*env, key))
-		return (env_add(env, key, value));
+		return (env_add(env, key, value, read_only));
 	link = ft_lstfind(*env, key, env_element_cmp);
 	if (link == NULL)
 		return (false);
 	env_elt = (t_env_element *) link->content;
 	if (env_elt == NULL)
 		return (false);
-	return (env_element_update(env_elt, key, value));
+	if (env_elt->read_only)
+		return (true);
+	return (env_element_update(env_elt, key, value, read_only));
 }

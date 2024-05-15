@@ -6,7 +6,7 @@
 /*   By: mhotting <mhotting@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 02:00:19 by mhotting          #+#    #+#             */
-/*   Updated: 2024/05/10 16:57:07 by mhotting         ###   ########.fr       */
+/*   Updated: 2024/05/15 15:14:19 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@
  *	Note: key cannot be NULL, value can be NULL, then the value member will
  *	be set to an empty string.
  */
-t_env_element	*env_element_create(char *key, char *value)
+t_env_element	*env_element_create(char *key, char *value, bool read_only)
 {
 	t_env_element	*env_elt;
 
@@ -46,6 +46,7 @@ t_env_element	*env_element_create(char *key, char *value)
 		env_element_free(env_elt);
 		return (NULL);
 	}
+	env_elt->read_only = read_only;
 	return (env_elt);
 }
 
@@ -94,7 +95,9 @@ int	env_element_cmp(void *env_elt_ptr, char *key)
  *	NB: the old value are freed, the new values are freshly allocated strings
  *	NB: if value is NULL, it is considered like an empty string
  */
-bool	env_element_update(t_env_element *env_elt, char *key, char *value)
+bool	env_element_update(
+	t_env_element *env_elt, char *key, char *value, bool read_only
+)
 {
 	char	*new_value;
 	char	*new_key_value;
@@ -115,5 +118,6 @@ bool	env_element_update(t_env_element *env_elt, char *key, char *value)
 	free(env_elt->key_value);
 	env_elt->value = new_value;
 	env_elt->key_value = new_key_value;
+	env_elt->read_only = read_only;
 	return (true);
 }

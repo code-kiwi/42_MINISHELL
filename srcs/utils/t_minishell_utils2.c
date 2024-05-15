@@ -6,7 +6,7 @@
 /*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 13:10:16 by mhotting          #+#    #+#             */
-/*   Updated: 2024/05/15 13:23:02 by brappo           ###   ########.fr       */
+/*   Updated: 2024/05/15 14:42:10 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,9 @@
 #include <stdbool.h>
 #include <errno.h>
 #include <sys/wait.h>
-#include <unistd.h>
 
 #include "libft.h"
 #include "minishell.h"
-#include "token.h"
-#include "node.h"
 #include "signals.h"
 #include "pid_list.h"
 
