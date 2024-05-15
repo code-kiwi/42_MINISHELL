@@ -6,7 +6,7 @@
 /*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/28 12:54:36 by brappo            #+#    #+#             */
-/*   Updated: 2024/05/15 09:28:22 by brappo           ###   ########.fr       */
+/*   Updated: 2024/05/15 09:30:25 by brappo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,7 +107,7 @@ bool	get_directory_path(t_list *env, char *buffer, size_t buffer_size)
 	buffer[cwd_length + 2] = '\0';
 	add_color = env_exists(env, ENV_TERM) && isatty(STDOUT_FILENO);
 	if (replace_home_by_tilde(env, buffer, buffer_size) && add_color)
-		set_color(buffer + 1, ft_strlen(buffer) - 2, BLUE, buffer_size);
+		set_color(buffer + 1, ft_strlen(buffer) - 3, BLUE, buffer_size);
 	else if (add_color)
 		set_color(buffer, ft_strlen(buffer) - 2, BLUE, buffer_size);
 	add_current_user(env, buffer, buffer_size, add_color);
