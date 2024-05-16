@@ -6,7 +6,7 @@
 /*   By: mhotting <mhotting@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 11:46:33 by mhotting          #+#    #+#             */
-/*   Updated: 2024/05/16 14:33:24 by mhotting         ###   ########.fr       */
+/*   Updated: 2024/05/16 15:17:36 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,6 +115,6 @@ t_list	*t_minishell_env_init(char **envp)
 		ft_lstclear(&env, env_element_free);
 		return (NULL);
 	}
-	env_set_readonly(env, "_", true);
+	env_set_readonly(env, ENV_UNDERSCORE, true);
 	return (env);
 }
