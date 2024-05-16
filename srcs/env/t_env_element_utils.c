@@ -6,7 +6,7 @@
 /*   By: mhotting <mhotting@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 02:00:19 by mhotting          #+#    #+#             */
-/*   Updated: 2024/05/16 12:31:51 by mhotting         ###   ########.fr       */
+/*   Updated: 2024/05/16 13:40:38 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,7 +105,7 @@ bool	env_element_update(
 
 	if (env_elt == NULL || key == NULL || ft_strcmp(env_elt->key, key) != 0)
 		return (false);
-	if (env_elt->read_only)
+	if (env_elt->read_only || value == NULL)
 		return (true);
 	new_value = ft_strdup(value);
 	new_key_value = NULL;

@@ -6,7 +6,7 @@
 #    By: mhotting <mhotting@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/11 12:21:10 by mhotting          #+#    #+#              #
-#    Updated: 2024/05/15 15:42:45 by mhotting         ###   ########.fr        #
+#    Updated: 2024/05/16 13:28:48 by mhotting         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -88,6 +88,7 @@ EXPANSION				=	$(addprefix $(EXPANSION_DIR), $(EXPANSION_FILES))
 ENV_DIR					=	env/
 ENV_FILES				=	env_utils1.c				\
 							env_utils2.c				\
+							env_get_all_array.c			\
 							t_env_element_utils.c
 ENV						=	$(addprefix $(ENV_DIR), $(ENV_FILES))
 

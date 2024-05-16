@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_cmd.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mhotting <mhotting@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/12 15:40:35 by mhotting          #+#    #+#             */
-/*   Updated: 2024/05/14 09:48:54 by mhotting         ###   ########.fr       */
+/*   Updated: 2024/05/16 13:35:11 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,7 +130,7 @@ static void	exec_cmd_external(t_minishell *shell, t_node_command *cmd)
 		free(cmd_path);
 		exec_cmd_error(shell, NULL, STATUS_CMD_NOT_EXEC, NULL);
 	}
-	env = env_get_all_array(shell->env);
+	env = env_get_all_array(shell->env, false);
 	if (env != NULL)
 		return (exec_cmd_external_process(shell, cmd, env, cmd_path));
 	free(cmd_path);
