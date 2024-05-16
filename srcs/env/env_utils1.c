@@ -6,7 +6,7 @@
 /*   By: mhotting <mhotting@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 00:17:49 by mhotting          #+#    #+#             */
-/*   Updated: 2024/05/16 12:24:50 by mhotting         ###   ########.fr       */
+/*   Updated: 2024/05/16 14:52:26 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,6 +116,8 @@ static bool	env_add(t_list **env, char *key, char *value, bool read_only)
 /*
  *	Updates the given environment list at the given key position
  *	If the key is not stored into the list, then a new element is created
+ *	If the key already exists but corresponds to a readonly var, nothing happens
+ *	and true is returned
  *	Returns true on SUCCESS, false on ERROR
  */
 bool	env_update(t_list **env, char *key, char *value, bool read_only)
@@ -142,8 +144,10 @@ bool	env_update(t_list **env, char *key, char *value, bool read_only)
 }
 
 /*
- *	Updates the given environment list at the given key position
+ *	Appends content into the given environment list at the given key position
  *	If the key is not stored into the list, then a new element is created
+ *	If the key already exists but corresponds to a readonly var, nothing happens
+ *	and true is returned
  *	Returns true on SUCCESS, false on ERROR
  */
 bool	env_update_append(t_list **env, char *key, char *value, bool read_only)

@@ -6,7 +6,7 @@
 /*   By: mhotting <mhotting@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 15:11:12 by mhotting          #+#    #+#             */
-/*   Updated: 2024/05/16 14:21:20 by mhotting         ###   ########.fr       */
+/*   Updated: 2024/05/16 14:47:44 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,8 @@
 
 /*
  *	Returns true if the given key is valid, otherwise returns false
+ *	A valid key start with a letter or an '_' and is composed of alphanumeric or
+ *	'_' chars
  */
 static bool	bi_export_is_valid_key(char *key)
 {
@@ -39,6 +41,13 @@ static bool	bi_export_is_valid_key(char *key)
 	return (true);
 }
 
+/*
+ *	Parses the given key_val string in order to return the appropriate key
+ *	among "=", "+="
+ *	If both keys are met, the first one found is returned
+ *	If no key is found, NULL is returned
+ *	If only one key is found, then it is returned
+*/
 static char	*bi_export_get_key(char *key_val)
 {
 	char	*key_eq_pos;
@@ -91,6 +100,11 @@ static int	bi_export_var(t_minishell *shell, char *key_val)
 	return (0);
 }
 
+/*
+ *	Writes the declared env vars from shell->env into the given fd_out
+ *	Returns EXIT_SUCCESS on SUCCESS, EXIT_FAILURE on ERROR
+ * 
+*/
 static int	bi_export_no_arg(t_minishell *shell, int fd_out)
 {
 	char	**env_str;
@@ -118,6 +132,8 @@ static int	bi_export_no_arg(t_minishell *shell, int fd_out)
  *	The expected strings into argv are: "KEY=VALUE"
  *	Multiple keys can be assigned in one call
  *	Returns EXIT_SUCCESS on SUCCESS, EXIT_FAILURE on ERROR
+ *	NB: if no argument is provided, the functions writes the declared env vars.
+ *	into the given fd_out
  */
 int	bi_export(t_minishell *shell, char **argv, int fd_out)
 {

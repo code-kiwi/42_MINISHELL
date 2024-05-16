@@ -6,7 +6,7 @@
 /*   By: mhotting <mhotting@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 02:00:19 by mhotting          #+#    #+#             */
-/*   Updated: 2024/05/16 13:40:38 by mhotting         ###   ########.fr       */
+/*   Updated: 2024/05/16 14:54:52 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,6 +126,12 @@ bool	env_element_update(
 	return (true);
 }
 
+/*
+ *	Appends content to the given env_elt
+ *	Updates its value by appending the given string to it
+ *	Updates its key_value member
+ *	Returns true on SUCCESS, false on ERROR
+*/
 bool	env_element_append(t_env_element *env_elt, char *key, char *to_append)
 {
 	char	*new_value;

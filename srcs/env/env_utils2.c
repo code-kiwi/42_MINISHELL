@@ -6,7 +6,7 @@
 /*   By: mhotting <mhotting@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/25 14:39:46 by mhotting          #+#    #+#             */
-/*   Updated: 2024/05/16 14:02:34 by mhotting         ###   ########.fr       */
+/*   Updated: 2024/05/16 14:53:47 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@
  *	The returned value is returned as a freshly allocated string.
  *	If key is not stored into env, returns NULL.
  *	In case of ERROR, NULL is returned and errno is properly set.
+ *	NB: NULL values are allowed
  */
 char	*env_get(t_list *env, char *key)
 {

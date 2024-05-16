@@ -6,7 +6,7 @@
 /*   By: mhotting <mhotting@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 09:58:22 by mhotting          #+#    #+#             */
-/*   Updated: 2024/05/16 12:08:42 by mhotting         ###   ########.fr       */
+/*   Updated: 2024/05/16 14:58:34 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,13 @@
 
 #include "libft.h"
 
+/*
+ *	Returns the NULL terminated array required by ft_split_key_val
+ *	If the key has not been found, returns an array containing only one
+ *	string: an str duplicate
+ *	If str is NULL or empty, returns an empty array
+ *	In case of error, returns NULL
+*/
 static char	**ft_split_key_val_process(char *str, char *key)
 {
 	char	*key_location;
@@ -41,6 +48,11 @@ static char	**ft_split_key_val_process(char *str, char *key)
 	return (res);
 }
 
+/*
+ *	Splits the given str into two pieces using the key delimitor
+ *	Returns a NULL terminated array containing the two pieces
+ *	In case of ERROR, returns NULL
+*/
 char	**ft_split_key_val(char *str, char *key)
 {
 	if (str == NULL)
