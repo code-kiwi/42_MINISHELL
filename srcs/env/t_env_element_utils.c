@@ -6,7 +6,7 @@
 /*   By: mhotting <mhotting@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 02:00:19 by mhotting          #+#    #+#             */
-/*   Updated: 2024/05/15 15:53:57 by mhotting         ###   ########.fr       */
+/*   Updated: 2024/05/16 12:31:51 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,4 +124,26 @@ bool	env_element_update(
 	env_elt->key_value = new_key_value;
 	env_elt->read_only = read_only;
 	return (true);
+}
+
+bool	env_element_append(t_env_element *env_elt, char *key, char *to_append)
+{
+	char	*new_value;
+	char	*curr_value;
+	bool	ret;
+
+	if (env_elt == NULL || key == NULL || ft_strcmp(env_elt->key, key) != 0)
+		return (false);
+	if (env_elt->read_only || to_append == NULL || *to_append == '\0')
+		return (true);
+	curr_value = env_elt->value;
+	if (curr_value == NULL)
+		new_value = ft_strjoin("", to_append);
+	else
+		new_value = ft_strjoin(curr_value, to_append);
+	if (new_value == NULL)
+		return (false);
+	ret = env_element_update(env_elt, key, new_value, env_elt->read_only);
+	free(new_value);
+	return (ret);
 }

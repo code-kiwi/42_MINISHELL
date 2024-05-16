@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: mhotting <mhotting@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 10:17:54 by mhotting          #+#    #+#             */
-/*   Updated: 2024/05/14 09:47:44 by mhotting         ###   ########.fr       */
+/*   Updated: 2024/05/16 10:17:52 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,7 +120,7 @@ void	fd_close(int fd);
 bool	is_fd_ok(int fd);
 void	fds_init(int fds[2]);
 void	fds_close_and_reset(int fds[2]);
-char	**ft_split_key_val(char *str, char sep);
+char	**ft_split_key_val(char *str, char *key);
 char	*bridge(char *first, char *second, char *separator);
 char	*bridge_into_first(char **first, char *second, char *separator);
 bool	string_equals(void *a, void *b);

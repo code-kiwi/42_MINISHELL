@@ -6,7 +6,7 @@
 /*   By: mhotting <mhotting@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 00:17:49 by mhotting          #+#    #+#             */
-/*   Updated: 2024/05/15 16:23:32 by mhotting         ###   ########.fr       */
+/*   Updated: 2024/05/16 12:24:50 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,10 +35,10 @@ t_list	*env_extract(char **envp)
 	env = NULL;
 	while (*envp != NULL)
 	{
-		split = ft_split_key_val(*envp, ENV_KEY_VALUE_SEPERATOR);
-		if (split == NULL && errno != 0)
+		split = ft_split_key_val(*envp, ENV_KEY_VALUE_SEPERATOR_STR);
+		if (split == NULL)
 			return (ft_lstclear(&env, env_element_free), NULL);
-		if (split == NULL || split[0] == NULL || split[1] == NULL)
+		if (split[0] == NULL || split[1] == NULL)
 		{
 			ft_free_str_array(&split);
 			++envp;
@@ -73,43 +73,6 @@ void	env_delete(t_list **env, char *key)
 	if (env_elt->read_only)
 		return ;
 	ft_lst_remove_if(env, key, env_element_cmp, env_element_free);
-}
-
-/*
- *	Returns a NULL terminated array of all env_element key_value strings
- *	from the given env list.
- *	This could be used for env builtin and for generating an env adpted to
- *	execve().
- *	NB: if the given env is NULL, an empty NULL terminated array is returned
- *	In case of ERROR, returns NULL.
- */
-char	**env_get_all_array(t_list *env)
-{
-	size_t			size;
-	size_t			i;
-	char			**res;
-	t_env_element	*env_elt;
-
-	if (env == NULL)
-		return (ft_split("", ""));
-	size = ft_lstsize(env);
-	res = (char **) ft_calloc(size + 1, sizeof(char *));
-	if (res == NULL)
-		return (NULL);
-	i = 0;
-	while (env != NULL && i < size)
-	{
-		env_elt = (t_env_element *) env->content;
-		res[i] = ft_strdup(env_elt->key_value);
-		if (res[i] == NULL)
-		{
-			ft_free_str_array(&res);
-			return (NULL);
-		}
-		i++;
-		env = env->next;
-	}
-	return (res);
 }
 
 /*
@@ -176,4 +139,29 @@ bool	env_update(t_list **env, char *key, char *value, bool read_only)
 	if (env_elt->read_only)
 		return (true);
 	return (env_element_update(env_elt, key, value, read_only));
+}
+
+/*
+ *	Updates the given environment list at the given key position
+ *	If the key is not stored into the list, then a new element is created
+ *	Returns true on SUCCESS, false on ERROR
+ */
+bool	env_update_append(t_list **env, char *key, char *value, bool read_only)
+{
+	t_list			*link;
+	t_env_element	*env_elt;
+
+	if (env == NULL || key == NULL)
+		return (false);
+	if (!env_exists(*env, key))
+		return (env_add(env, key, value, read_only));
+	link = ft_lstfind(*env, key, env_element_cmp);
+	if (link == NULL)
+		return (false);
+	env_elt = (t_env_element *) link->content;
+	if (env_elt == NULL)
+		return (false);
+	if (env_elt->read_only)
+		return (true);
+	return (env_element_append(env_elt, key, value));
 }
