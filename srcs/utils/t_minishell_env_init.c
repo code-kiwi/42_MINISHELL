@@ -6,7 +6,7 @@
 /*   By: mhotting <mhotting@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 11:46:33 by mhotting          #+#    #+#             */
-/*   Updated: 2024/05/15 15:29:26 by mhotting         ###   ########.fr       */
+/*   Updated: 2024/05/16 14:33:24 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,17 @@ static bool	t_minishell_env_init_vars_pwd(t_list **env)
 	returned = env_update(env, ENV_PWD, curr_path, false);
 	free(curr_path);
 	return (returned);
+}
+
+/*
+ *	Initializes the "_" env variable into the given env
+ *	No matter if it already existed, the value is set to the default value
+ *	into the corresponding macro
+ *	Returns true on SUCCESS, false on ERROR
+ */
+static bool	t_minishell_env_init_vars_underscore(t_list **env)
+{
+	return (env_update(env, ENV_UNDERSCORE, ENV_DEFAULT_UNDERSCORE, false));
 }
 
 /*
@@ -80,6 +91,7 @@ static bool	t_minishell_env_init_vars(t_list **env)
 	return (
 		t_minishell_env_init_vars_shlvl(env)
 		&& t_minishell_env_init_vars_pwd(env)
+		&& t_minishell_env_init_vars_underscore(env)
 	);
 }
 

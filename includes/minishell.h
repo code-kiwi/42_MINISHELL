@@ -6,7 +6,7 @@
 /*   By: mhotting <mhotting@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 10:17:54 by mhotting          #+#    #+#             */
-/*   Updated: 2024/05/16 10:17:52 by mhotting         ###   ########.fr       */
+/*   Updated: 2024/05/16 14:32:36 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,6 +85,8 @@ typedef struct s_minishell		t_minishell;
 # define ENV_TERM				"TERM"
 # define ENV_HOME				"HOME"
 # define ENV_USER				"USER"
+# define ENV_UNDERSCORE			"_"
+# define ENV_DEFAULT_UNDERSCORE	"/usr/bin/env"
 
 # define CMD_EXPORT				"export"
 
