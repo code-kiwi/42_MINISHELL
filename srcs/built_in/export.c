@@ -6,7 +6,7 @@
 /*   By: mhotting <mhotting@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 15:11:12 by mhotting          #+#    #+#             */
-/*   Updated: 2024/05/16 12:28:15 by mhotting         ###   ########.fr       */
+/*   Updated: 2024/05/16 14:21:20 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,6 +91,28 @@ static int	bi_export_var(t_minishell *shell, char *key_val)
 	return (0);
 }
 
+static int	bi_export_no_arg(t_minishell *shell, int fd_out)
+{
+	char	**env_str;
+	size_t	i;
+
+	env_str = env_get_all_array(shell->env, true);
+	if (env_str == NULL)
+		return (EXIT_FAILURE);
+	i = 0;
+	while (env_str[i] != NULL)
+	{
+		if (ft_dprintf(fd_out, EXPORT_NO_ARG_STR, env_str[i]) == -1)
+		{
+			ft_free_str_array(&env_str);
+			return (EXIT_FAILURE);
+		}
+		i++;
+	}
+	ft_free_str_array(&env_str);
+	return (EXIT_SUCCESS);
+}
+
 /*
  *	Sets variables into the given shell's environment
  *	The expected strings into argv are: "KEY=VALUE"
@@ -104,8 +126,9 @@ int	bi_export(t_minishell *shell, char **argv, int fd_out)
 
 	if (shell == NULL || argv == NULL || argv[0] == NULL)
 		handle_error(shell, ERROR_MSG_ARGS, EXIT_FAILURE);
-	(void) fd_out;
 	returned = 0;
+	if (argv[1] == NULL)
+		return (bi_export_no_arg(shell, fd_out));
 	i = 1;
 	while (argv[i] != NULL)
 	{
