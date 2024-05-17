@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mhotting <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: mhotting <mhotting@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 15:11:37 by mhotting          #+#    #+#             */
-/*   Updated: 2024/05/10 16:56:29 by mhotting         ###   ########.fr       */
+/*   Updated: 2024/05/16 13:35:29 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ int	bi_env(t_minishell *shell, char **argv, int fd_out)
 		ft_dprintf(STDERR_FILENO, ENV_MSG_ERR_ARG);
 		return (EXIT_FAILURE);
 	}
-	env = env_get_all_array(shell->env);
+	env = env_get_all_array(shell->env, false);
 	if (env == NULL)
 	{
 		ft_dprintf(STDERR_FILENO, ENV_MSG_ERR_INTERNAL);

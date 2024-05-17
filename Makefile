@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: brappo <brappo@student.42.fr>              +#+  +:+       +#+         #
+#    By: mhotting <mhotting@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/11 12:21:10 by mhotting          #+#    #+#              #
-#    Updated: 2024/05/15 09:13:23 by brappo           ###   ########.fr        #
+#    Updated: 2024/05/16 13:28:48 by mhotting         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -38,10 +38,6 @@ LIBFT_HEADERS_DIR		=	$(addprefix $(LIBFT_DIR), $(LIBFT_HEADERS_SUBDIR))
 LIBFT_HEADERS_FILE		=	libft.h
 LIBFT_HEADERS			=	$(addprefix $(LIBFT_HEADERS_DIR), $(LIBFT_HEADERS_FILE))
 LIBFT_FLAGS				=	-L$(LIBFT_DIR) -lft 
-
-# SCRIPT HEADERS SYMLINKS CREATION
-HEADER_LINK_SCRIPT		=	config/create_sym_limk.sh
-HEADER_LINK_SCRIPT_CLS	=	config/remove_sym_limk.sh
 
 # MAIN
 MAIN_DIR				=	main/
@@ -92,6 +88,7 @@ EXPANSION				=	$(addprefix $(EXPANSION_DIR), $(EXPANSION_FILES))
 ENV_DIR					=	env/
 ENV_FILES				=	env_utils1.c				\
 							env_utils2.c				\
+							env_get_all_array.c			\
 							t_env_element_utils.c
 ENV						=	$(addprefix $(ENV_DIR), $(ENV_FILES))
 
@@ -224,12 +221,4 @@ re: fclean all
 
 rre: ffclean re
 
-header_symlink: $(LIBFT)
-	@sh $(HEADER_LINK_SCRIPT)
-	@printf "Creating symlinks for .h files into srcs sub directories...\n"
-
-header_symlink_clean:
-	@sh $(HEADER_LINK_SCRIPT_CLS)
-	@printf "Removing symlinks for .h files into srcs sub directories...\n"
-
-.PHONY: all clean fclean re clean-libft fclean-libft ffclean rre bonus FORCE fsanitize header_symlink header_symlink_clean init_submodule
+.PHONY: all clean fclean re clean-libft fclean-libft ffclean rre bonus FORCE fsanitize init_submodule

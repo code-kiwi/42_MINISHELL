@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_utils1.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mhotting <mhotting@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 00:17:49 by mhotting          #+#    #+#             */
-/*   Updated: 2024/05/10 16:56:57 by mhotting         ###   ########.fr       */
+/*   Updated: 2024/05/16 14:52:26 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,8 +35,8 @@ t_list	*env_extract(char **envp)
 	env = NULL;
 	while (*envp != NULL)
 	{
-		split = ft_split_key_val(*envp, ENV_KEY_VALUE_SEPERATOR);
-		if (split == NULL && errno != 0)
+		split = ft_split_key_val(*envp, ENV_KEY_VALUE_SEPERATOR_STR);
+		if (split == NULL)
 			return (ft_lstclear(&env, env_element_free), NULL);
 		if (split[0] == NULL || split[1] == NULL)
 		{
@@ -44,7 +44,7 @@ t_list	*env_extract(char **envp)
 			++envp;
 			continue ;
 		}
-		returned = env_add(&env, split[0], split[1]);
+		returned = env_update(&env, split[0], split[1], false);
 		ft_free_str_array(&split);
 		if (!returned)
 			return (ft_lstclear(&env, env_element_free), NULL);
@@ -59,46 +59,20 @@ t_list	*env_extract(char **envp)
  */
 void	env_delete(t_list **env, char *key)
 {
-	if (env == NULL || *env == NULL || key == NULL)
-		return ;
-	ft_lst_remove_if(env, key, env_element_cmp, env_element_free);
-}
-
-/*
- *	Returns a NULL terminated array of all env_element key_value strings
- *	from the given env list.
- *	This could be used for env builtin and for generating an env adpted to
- *	execve().
- *	NB: if the given env is NULL, an empty NULL terminated array is returned
- *	In case of ERROR, returns NULL.
- */
-char	**env_get_all_array(t_list *env)
-{
-	size_t			size;
-	size_t			i;
-	char			**res;
+	t_list			*link;
 	t_env_element	*env_elt;
 
-	if (env == NULL)
-		return (ft_split("", ""));
-	size = ft_lstsize(env);
-	res = (char **) ft_calloc(size + 1, sizeof(char *));
-	if (res == NULL)
-		return (NULL);
-	i = 0;
-	while (env != NULL && i < size)
-	{
-		env_elt = (t_env_element *) env->content;
-		res[i] = ft_strdup(env_elt->key_value);
-		if (res[i] == NULL)
-		{
-			ft_free_str_array(&res);
-			return (NULL);
-		}
-		i++;
-		env = env->next;
-	}
-	return (res);
+	if (env == NULL || *env == NULL || key == NULL)
+		return ;
+	link = ft_lstfind(*env, key, env_element_cmp);
+	if (link == NULL)
+		return ;
+	env_elt = (t_env_element *) link->content;
+	if (env_elt == NULL)
+		return ;
+	if (env_elt->read_only)
+		return ;
+	ft_lst_remove_if(env, key, env_element_cmp, env_element_free);
 }
 
 /*
@@ -111,7 +85,7 @@ char	**env_get_all_array(t_list *env)
  *		- wrong input (env and key cannot be NULL)
  *		- memory allocation failed
  */
-bool	env_add(t_list **env, char *key, char *value)
+static bool	env_add(t_list **env, char *key, char *value, bool read_only)
 {
 	t_env_element	*env_elt;
 	t_list			*new;
@@ -121,7 +95,7 @@ bool	env_add(t_list **env, char *key, char *value)
 		errno = ENODATA;
 		return (false);
 	}
-	env_elt = env_element_create(key, value);
+	env_elt = env_element_create(key, value, read_only);
 	if (env_elt == NULL)
 	{
 		errno = ENOMEM;
@@ -142,9 +116,11 @@ bool	env_add(t_list **env, char *key, char *value)
 /*
  *	Updates the given environment list at the given key position
  *	If the key is not stored into the list, then a new element is created
+ *	If the key already exists but corresponds to a readonly var, nothing happens
+ *	and true is returned
  *	Returns true on SUCCESS, false on ERROR
  */
-bool	env_update(t_list **env, char *key, char *value)
+bool	env_update(t_list **env, char *key, char *value, bool read_only)
 {
 	t_list			*link;
 	t_env_element	*env_elt;
@@ -155,12 +131,41 @@ bool	env_update(t_list **env, char *key, char *value)
 		return (false);
 	}
 	if (!env_exists(*env, key))
-		return (env_add(env, key, value));
+		return (env_add(env, key, value, read_only));
 	link = ft_lstfind(*env, key, env_element_cmp);
 	if (link == NULL)
 		return (false);
 	env_elt = (t_env_element *) link->content;
 	if (env_elt == NULL)
 		return (false);
-	return (env_element_update(env_elt, key, value));
+	if (env_elt->read_only)
+		return (true);
+	return (env_element_update(env_elt, key, value, read_only));
+}
+
+/*
+ *	Appends content into the given environment list at the given key position
+ *	If the key is not stored into the list, then a new element is created
+ *	If the key already exists but corresponds to a readonly var, nothing happens
+ *	and true is returned
+ *	Returns true on SUCCESS, false on ERROR
+ */
+bool	env_update_append(t_list **env, char *key, char *value, bool read_only)
+{
+	t_list			*link;
+	t_env_element	*env_elt;
+
+	if (env == NULL || key == NULL)
+		return (false);
+	if (!env_exists(*env, key))
+		return (env_add(env, key, value, read_only));
+	link = ft_lstfind(*env, key, env_element_cmp);
+	if (link == NULL)
+		return (false);
+	env_elt = (t_env_element *) link->content;
+	if (env_elt == NULL)
+		return (false);
+	if (env_elt->read_only)
+		return (true);
+	return (env_element_append(env_elt, key, value));
 }

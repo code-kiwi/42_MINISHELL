@@ -6,28 +6,22 @@
 /*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 10:14:16 by mhotting          #+#    #+#             */
-/*   Updated: 2024/05/15 10:09:40 by brappo           ###   ########.fr       */
+/*   Updated: 2024/05/15 14:41:16 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdlib.h>
 #include <stdbool.h>
-#include <readline/history.h>
 #include <readline/readline.h>
 #include <signal.h>
 #include <errno.h>
 
 #include "minishell.h"
 #include "prompt.h"
-#include "libft.h"
 #include "token.h"
-#include "node.h"
 #include "build_ast.h"
 #include "execution.h"
 #include "signals.h"
-#include <stdlib.h>
-#include <stdio.h>
-#include "token.h"
 
 static void	project_init(t_minishell *shell, int argc, char **argv, char **envp)
 {

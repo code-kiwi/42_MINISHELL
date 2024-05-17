@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd2.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mhotting <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: mhotting <mhotting@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 15:10:34 by mhotting          #+#    #+#             */
-/*   Updated: 2024/05/10 16:56:20 by mhotting         ###   ########.fr       */
+/*   Updated: 2024/05/15 15:15:15 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,13 +37,13 @@ static int	bi_cd_update_env(t_minishell *shell, char *cwd)
 	if (oldpwd == NULL && errno != 0)
 		return (EXIT_FAILURE);
 	if (oldpwd == NULL)
-		ret = env_update(&(shell->env), ENV_OLDPWD, cwd);
+		ret = env_update(&(shell->env), ENV_OLDPWD, cwd, false);
 	else
 	{
-		ret = env_update(&(shell->env), ENV_OLDPWD, oldpwd);
+		ret = env_update(&(shell->env), ENV_OLDPWD, oldpwd, false);
 		free(oldpwd);
 	}
-	ret = ret && env_update(&(shell->env), ENV_PWD, cwd);
+	ret = ret && env_update(&(shell->env), ENV_PWD, cwd, false);
 	if (!ret)
 		return (EXIT_FAILURE);
 	return (EXIT_SUCCESS);

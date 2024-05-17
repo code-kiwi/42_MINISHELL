@@ -8,3 +8,4 @@ objs/*
 deps/*
 minishell
 *.swp
+.vscode

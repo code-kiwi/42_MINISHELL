@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_redirection_list.c                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mhotting <mhotting@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/11 12:37:09 by mhotting          #+#    #+#             */
-/*   Updated: 2024/05/13 14:19:21 by mhotting         ###   ########.fr       */
+/*   Updated: 2024/05/16 15:05:00 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ static void	exec_redirection_infile(
 
 	if (
 		redirection == NULL || info == NULL || info->error_infile
-		|| redirection->type != REDIRECTION_TYPE_INFILE
+		|| info->error_outfile || redirection->type != REDIRECTION_TYPE_INFILE
 	)
 		return ;
 	fd = open(redirection->filename, O_RDONLY);
@@ -78,7 +78,7 @@ static void	exec_redirection_out(
 
 	if (
 		redirection == NULL || info == NULL || info->error_outfile
-		|| (
+		|| info->error_infile || (
 			redirection->type != REDIRECTION_TYPE_OUTFILE_TRUNC
 			&& redirection->type != REDIRECTION_TYPE_OUTFILE_APPEND)
 	)
