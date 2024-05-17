@@ -6,7 +6,7 @@
 /*   By: mhotting <mhotting@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/11 12:37:09 by mhotting          #+#    #+#             */
-/*   Updated: 2024/05/17 10:48:56 by mhotting         ###   ########.fr       */
+/*   Updated: 2024/05/17 12:20:28 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -155,6 +155,8 @@ static void	exec_redir_set_error(
  *		- retrieves the last heredoc's position into the redirection list
  *		- executes the other redirections (using last heredoc's index in order
  *		to make stdin redirections logical: from left to right)
+ *	After having performed all the redirections, calls the heredoc expansion
+ *	(which will be done if necessary)
  */
 void	exec_redirection_list(
 	t_minishell *shell, t_redirection_list *redir_list
