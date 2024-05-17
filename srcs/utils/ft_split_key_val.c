@@ -6,7 +6,7 @@
 /*   By: mhotting <mhotting@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 09:58:22 by mhotting          #+#    #+#             */
-/*   Updated: 2024/05/16 14:58:34 by mhotting         ###   ########.fr       */
+/*   Updated: 2024/05/17 09:26:20 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,13 +17,14 @@
 #include "libft.h"
 
 /*
- *	Returns the NULL terminated array required by ft_split_key_val
+ *	Splits the given str into two pieces using the key delimitor
+ *	Returns a NULL terminated array containing the two pieces
  *	If the key has not been found, returns an array containing only one
  *	string: an str duplicate
  *	If str is NULL or empty, returns an empty array
  *	In case of error, returns NULL
 */
-static char	**ft_split_key_val_process(char *str, char *key)
+char	**ft_split_key_val(char *str, char *key)
 {
 	char	*key_location;
 	char	**res;
@@ -46,16 +47,4 @@ static char	**ft_split_key_val_process(char *str, char *key)
 	if ((res[0] == NULL && errno != 0) || (res[1] == NULL && errno != 0))
 		return (ft_free_str_array(&res), NULL);
 	return (res);
-}
-
-/*
- *	Splits the given str into two pieces using the key delimitor
- *	Returns a NULL terminated array containing the two pieces
- *	In case of ERROR, returns NULL
-*/
-char	**ft_split_key_val(char *str, char *key)
-{
-	if (str == NULL)
-		return (NULL);
-	return (ft_split_key_val_process(str, key));
 }
