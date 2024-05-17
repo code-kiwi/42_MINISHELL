@@ -6,7 +6,7 @@
 /*   By: mhotting <mhotting@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/11 12:37:09 by mhotting          #+#    #+#             */
-/*   Updated: 2024/05/16 15:05:00 by mhotting         ###   ########.fr       */
+/*   Updated: 2024/05/17 10:48:56 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,10 +36,8 @@ static void	exec_redirection_infile(
 {
 	int	fd;
 
-	if (
-		redirection == NULL || info == NULL || info->error_infile
-		|| info->error_outfile || redirection->type != REDIRECTION_TYPE_INFILE
-	)
+	if (redirection == NULL || info == NULL || info->error_infile
+		|| info->error_outfile || redirection->type != REDIRECTION_TYPE_INFILE)
 		return ;
 	fd = open(redirection->filename, O_RDONLY);
 	if (fd == -1)
@@ -59,6 +57,7 @@ static void	exec_redirection_infile(
 	if (info->fd_stdin != FD_UNSET)
 		fd_close_and_reset(&(info->fd_stdin));
 	info->fd_stdin = fd;
+	info->in_is_heredoc = false;
 }
 
 /*
@@ -108,7 +107,7 @@ static void	exec_redirection_out(
  *	the last here_doc redirection or not in order to avoid infile redirections
  *	to overwrite a here_doc redirection
  */
-static void	redirection_exec_dispatch(
+static void	redir_dispatch(
 	t_minishell *shell, t_redirection *redirection, t_redirections_info *info,
 	bool after_last_hd
 )
@@ -127,6 +126,10 @@ static void	redirection_exec_dispatch(
 	errno = 0;
 }
 
+/*
+ *	Sets info error flags to true and the associated fd to FD_ERROR
+ *	The right info member is selected according to the given type
+*/
 static void	exec_redir_set_error(
 	enum e_redirection_type type, t_redirections_info *info
 )
@@ -154,32 +157,32 @@ static void	exec_redir_set_error(
  *		to make stdin redirections logical: from left to right)
  */
 void	exec_redirection_list(
-	t_minishell *shell, t_redirection_list *redirection_list
+	t_minishell *shell, t_redirection_list *redir_list
 )
 {
 	t_list			*current;
-	t_redirection	*redirection;
-	ssize_t			position_last_heredoc;
-	ssize_t			position;
+	t_redirection	*redir;
+	ssize_t			pos_last_hdc;
+	ssize_t			pos;
 
-	if (shell == NULL || redirection_list == NULL)
+	if (shell == NULL || redir_list == NULL)
 		return ;
-	current = redirection_list->redirections;
-	position_last_heredoc = redirection_list->info.hdc_last_pos;
-	position = 0;
+	current = redir_list->redirections;
+	pos_last_hdc = redir_list->info.hdc_last_pos;
+	pos = 0;
 	while (current != NULL)
 	{
-		redirection = (t_redirection *) current->content;
-		if (redirection->type != REDIRECTION_TYPE_HEREDOC
-			&& !expand_redirection(&redirection->filename, \
+		redir = (t_redirection *) current->content;
+		if (redir->type != REDIRECTION_TYPE_HEREDOC && \
+			!expand_redirection(&redir->filename, \
 			O_QUOTE | O_PATH | O_VAR, shell))
 		{
-			exec_redir_set_error(redirection->type, &redirection_list->info);
+			exec_redir_set_error(redir->type, &redir_list->info);
 			break ;
 		}
-		redirection_exec_dispatch(shell, redirection, \
-				&(redirection_list->info), (position > position_last_heredoc));
-		position++;
+		redir_dispatch(shell, redir, &(redir_list->info), (pos > pos_last_hdc));
+		pos++;
 		current = current->next;
 	}
+	exec_expand_heredoc(shell, redir_list);
 }

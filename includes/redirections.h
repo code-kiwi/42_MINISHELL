@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirections.h                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: mhotting <mhotting@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/28 11:06:44 by mhotting          #+#    #+#             */
-/*   Updated: 2024/05/05 21:48:48 by mhotting         ###   ########.fr       */
+/*   Updated: 2024/05/17 10:55:32 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,8 @@ typedef struct s_redirections_info
 	bool	error_infile;
 	bool	error_outfile;
 	ssize_t	hdc_last_pos;
+	bool	in_is_heredoc;
+	bool	hdc_needs_expansion;
 }	t_redirections_info;
 
 typedef struct s_redirection_list
@@ -57,6 +59,7 @@ t_redirection_list	*redirection_list_create(void);
 bool				redirection_list_add(t_redirection_list *redirs, \
 					char *op, char *filename);
 void				redirection_list_free(t_redirection_list **redirs_ptr);
+bool				redirection_list_has_error(t_redirection_list *redir_list);
 
 // t_redirection functions
 t_redirection		*redirection_create(char *op, char *filename);
