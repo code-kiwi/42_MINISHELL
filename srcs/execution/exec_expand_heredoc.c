@@ -6,7 +6,7 @@
 /*   By: mhotting <mhotting@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/17 10:34:46 by mhotting          #+#    #+#             */
-/*   Updated: 2024/05/17 12:18:58 by mhotting         ###   ########.fr       */
+/*   Updated: 2024/05/17 12:28:29 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,13 +76,13 @@ void	exec_expand_heredoc(t_minishell *shell, t_redirection_list *redir_list)
 		handle_error(shell, ERROR_MSG_PIPE, EXIT_FAILURE);
 	returned = expand_hdc(shell, redir_list->info.fd_stdin, pipe_fds[1]);
 	fd_close_and_reset(&(redir_list->info.fd_stdin));
+	fd_close(pipe_fds[1]);
 	if (!returned)
 	{
-		fds_close_and_reset(pipe_fds);
+		fd_close(pipe_fds[0]);
 		redir_list->info.fd_stdin = FD_ERROR;
 		redir_list->info.error_infile = true;
-		handle_error(shell, ERROR_MSG_PIPE, EXIT_FAILURE);
+		handle_error(shell, ERROR_MSG_HEREDOC_EXP, EXIT_FAILURE);
 	}
-	fd_close(pipe_fds[1]);
 	redir_list->info.fd_stdin = pipe_fds[0];
 }
