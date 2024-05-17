@@ -6,7 +6,7 @@
 /*   By: mhotting <mhotting@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/11 12:37:09 by mhotting          #+#    #+#             */
-/*   Updated: 2024/05/17 12:20:28 by mhotting         ###   ########.fr       */
+/*   Updated: 2024/05/17 12:32:03 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ static void	exec_redirection_infile(
 	if (info->fd_stdin != FD_UNSET)
 		fd_close_and_reset(&(info->fd_stdin));
 	info->fd_stdin = fd;
-	info->in_is_heredoc = false;
+	info->fdin_is_heredoc = false;
 }
 
 /*

@@ -6,7 +6,7 @@
 /*   By: mhotting <mhotting@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/28 08:50:23 by mhotting          #+#    #+#             */
-/*   Updated: 2024/05/17 10:58:42 by mhotting         ###   ########.fr       */
+/*   Updated: 2024/05/17 12:32:03 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ t_redirection_list	*redirection_list_create(void)
 	redirs->info.error_infile = false;
 	redirs->info.error_outfile = false;
 	redirs->info.hdc_last_pos = -1;
-	redirs->info.in_is_heredoc = false;
+	redirs->info.fdin_is_heredoc = false;
 	redirs->info.hdc_needs_expansion = false;
 	return (redirs);
 }

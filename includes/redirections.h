@@ -6,7 +6,7 @@
 /*   By: mhotting <mhotting@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/28 11:06:44 by mhotting          #+#    #+#             */
-/*   Updated: 2024/05/17 10:55:32 by mhotting         ###   ########.fr       */
+/*   Updated: 2024/05/17 12:32:03 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ typedef struct s_redirections_info
 	bool	error_infile;
 	bool	error_outfile;
 	ssize_t	hdc_last_pos;
-	bool	in_is_heredoc;
+	bool	fdin_is_heredoc;
 	bool	hdc_needs_expansion;
 }	t_redirections_info;
 

@@ -6,7 +6,7 @@
 /*   By: mhotting <mhotting@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/17 10:34:46 by mhotting          #+#    #+#             */
-/*   Updated: 2024/05/17 12:28:29 by mhotting         ###   ########.fr       */
+/*   Updated: 2024/05/17 12:32:03 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ void	exec_expand_heredoc(t_minishell *shell, t_redirection_list *redir_list)
 	if (
 		shell == NULL || redir_list == NULL
 		|| redirection_list_has_error(redir_list)
-		|| !(redir_list->info.in_is_heredoc)
+		|| !(redir_list->info.fdin_is_heredoc)
 		|| !redir_list->info.hdc_needs_expansion
 	)
 		return ;
