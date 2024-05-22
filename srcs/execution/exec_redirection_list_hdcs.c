@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_redirection_list_hdcs.c                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mhotting <mhotting@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/03 15:35:13 by mhotting          #+#    #+#             */
-/*   Updated: 2024/05/15 13:28:35 by brappo           ###   ########.fr       */
+/*   Updated: 2024/05/17 12:32:03 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,10 @@ static int	read_here_doc_error(char *limiter)
 	return (EXIT_SUCCESS);
 }
 
+/*
+ *	Reads the heredoc input using the appropriate function
+ *	Returns the next heredoc line read
+*/
 static char	*read_input(t_minishell *shell)
 {
 	char	*line;
@@ -65,7 +69,7 @@ static char	*read_input(t_minishell *shell)
  *		- EXIT_FAILURE on ERROR
  *		- STATUS_SIGINT_STOP on SIGINT user stop
  */
-static int	read_here_doc(t_minishell *shell, char *limiter, int fd_to_write, bool expand_content)
+static int	read_here_doc(t_minishell *shell, char *limiter, int fd_to_write)
 {
 	char	*cur_line;
 
@@ -84,8 +88,6 @@ static int	read_here_doc(t_minishell *shell, char *limiter, int fd_to_write, boo
 		}
 		if (string_equals(cur_line, limiter))
 			break ;
-		if (expand_content)
-			expand_string(&cur_line, shell, O_VAR | O_IGN_QUOTE);
 		if (errno != 0 || ft_dprintf(fd_to_write, "%s\n", cur_line) == -1)
 			return (free(cur_line), EXIT_FAILURE);
 		free(cur_line);
@@ -113,7 +115,7 @@ static int	read_here_doc(t_minishell *shell, char *limiter, int fd_to_write, boo
  *	see if the heredoc process was interrupted by a signal or encountered an
  *	error)
  */
-static void	exec_redirection_heredoc(
+static void	exec_redir_hdc(
 	t_minishell *shell, t_redirection *redir, t_redirections_info *info,
 	t_heredoc_exec_info *hdc_info
 )
@@ -127,7 +129,7 @@ static void	exec_redirection_heredoc(
 	)
 		return (hdc_info_set_error(hdc_info));
 	set_interactive_mode(true);
-	status = read_here_doc(shell, redir->filename, pipe_fds[1], ft_strchr(redir->filename, '"') == NULL);
+	status = read_here_doc(shell, redir->filename, pipe_fds[1]);
 	set_interactive_mode(false);
 	fd_close_and_reset(&pipe_fds[1]);
 	if (status == EXIT_SUCCESS)
@@ -150,6 +152,8 @@ static void	exec_redirection_heredoc(
  *	The file descriptor into which the user input has been written and the
  *	heredoc position (index into the list) are then stored into the redirection
  *	list info member
+ *	Checks if the heredoc redirection will need to be expanded by checking its
+ *	limiter (stored into the filename member of the redirection)
  *	In case of ERROR, sets hdc_info's error member to true and returns
  */
 void	exec_redirection_list_heredocs(
@@ -172,9 +176,12 @@ void	exec_redirection_list_heredocs(
 		redir = (t_redirection *) redir_link->content;
 		if (redir != NULL && redir->type == REDIRECTION_TYPE_HEREDOC)
 		{
-			exec_redirection_heredoc(shell, redir, \
-				&redirection_list->info, hdc_info);
+			redirection_list->info.hdc_needs_expansion = false;
+			if (ft_strchr(redir->filename, '"') == NULL)
+				redirection_list->info.hdc_needs_expansion = true;
+			exec_redir_hdc(shell, redir, &redirection_list->info, hdc_info);
 			redirection_list->info.hdc_last_pos = pos;
+			redirection_list->info.fdin_is_heredoc = true;
 		}
 		redir_link = redir_link->next;
 		pos++;

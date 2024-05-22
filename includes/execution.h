@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: brappo <brappo@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mhotting <mhotting@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/10 12:52:55 by mhotting          #+#    #+#             */
-/*   Updated: 2024/05/07 13:55:35 by mhotting         ###   ########.fr       */
+/*   Updated: 2024/05/17 10:40:12 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,5 +60,6 @@ void	exec_redirection_list_heredocs(t_minishell *shell, \
 			t_heredoc_exec_info *hdc_info);
 void	hdc_info_set_error(t_heredoc_exec_info *hdc_info);
 void	hdc_info_set_interruption(t_heredoc_exec_info *hdc_info);
+void	exec_expand_heredoc(t_minishell *shell, t_redirection_list *redir_list);
 
 #endif

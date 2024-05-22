@@ -6,7 +6,7 @@
 /*   By: mhotting <mhotting@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 10:17:54 by mhotting          #+#    #+#             */
-/*   Updated: 2024/05/16 14:32:36 by mhotting         ###   ########.fr       */
+/*   Updated: 2024/05/17 11:37:19 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ typedef struct s_minishell		t_minishell;
 # define ERROR_MSG_PIPE			"Impossible to open a pipe"
 # define ERROR_MSG_HEREDOC		"Impossible to read here_doc"
 # define ERROR_MSG_HEREDOC_EXEC	"Execution of the here_docs failed"
+# define ERROR_MSG_HEREDOC_EXP	"Expansion of the here_docs failed"
 # define ERROR_MSG_SUBSTITUTION "Invalid variable substitution"
 # define ERROR_MSG_CMD_NFND		"Command not found"
 # define ERROR_MSG_CMD_REDIR	"File descriptor redirection impossible"

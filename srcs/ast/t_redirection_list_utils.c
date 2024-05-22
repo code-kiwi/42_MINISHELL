@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   t_redirection_list_utils.c                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mhotting <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: mhotting <mhotting@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/28 08:50:23 by mhotting          #+#    #+#             */
-/*   Updated: 2024/05/10 16:55:34 by mhotting         ###   ########.fr       */
+/*   Updated: 2024/05/17 12:32:03 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,8 @@ t_redirection_list	*redirection_list_create(void)
 	redirs->info.error_infile = false;
 	redirs->info.error_outfile = false;
 	redirs->info.hdc_last_pos = -1;
+	redirs->info.fdin_is_heredoc = false;
+	redirs->info.hdc_needs_expansion = false;
 	return (redirs);
 }
 
@@ -91,4 +93,21 @@ void	redirection_list_free(t_redirection_list **redirs_ptr)
 		fd_close_and_reset(&(redirs->info.fd_stdout));
 	free(redirs);
 	*redirs_ptr = NULL;
+}
+
+/*
+ *	Returns true if the given redirection list contains an error, else returns
+ *	false
+*/
+bool	redirection_list_has_error(t_redirection_list *redirection_list)
+{
+	t_redirections_info	*info;
+
+	if (redirection_list == NULL)
+		return (false);
+	info = &(redirection_list->info);
+	return (
+		info->error_infile || info->error_outfile
+		|| info->fd_stdin == FD_ERROR || info->fd_stdout == FD_ERROR
+	);
 }
