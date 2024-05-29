@@ -6,7 +6,7 @@
 /*   By: mhotting <mhotting@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/03 15:35:13 by mhotting          #+#    #+#             */
-/*   Updated: 2024/05/17 12:32:03 by mhotting         ###   ########.fr       */
+/*   Updated: 2024/05/29 09:48:33 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -170,14 +170,14 @@ void	exec_redirection_list_heredocs(
 	redir_link = redirection_list->redirections;
 	pos = 0;
 	while (
-		redir_link != NULL && !hdc_info->error_flag && !hdc_info->interruption
-	)
+		redir_link != NULL && !hdc_info->error_flag && !hdc_info->interruption)
 	{
 		redir = (t_redirection *) redir_link->content;
 		if (redir != NULL && redir->type == REDIRECTION_TYPE_HEREDOC)
 		{
 			redirection_list->info.hdc_needs_expansion = false;
-			if (ft_strchr(redir->filename, '"') == NULL)
+			if (ft_strchr(redir->filename, '"') == NULL
+				&& ft_strchr(redir->filename, '\'') == NULL)
 				redirection_list->info.hdc_needs_expansion = true;
 			exec_redir_hdc(shell, redir, &redirection_list->info, hdc_info);
 			redirection_list->info.hdc_last_pos = pos;
