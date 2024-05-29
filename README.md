@@ -5,22 +5,29 @@
 > **Note:** This is a project from **42 learning cursus**.
 
 ## Description
-> Work in progress
+This program is a minimalistic shell.<br>
+The user can interact with the operating system by typing commands into the Minishell.
 
 ## Pinciples
 > Work in progress 
 
 ## Setup instructions
-> Work in progress
+1. Clone the repo: `git clone https://github.com/code-kiwi/42_PIPEX.git`
+2. Compile the project using `make` (the libft library will be downloaded automatically)
+The executable `minishell` should be created.<br><br>
+You can then use this executable and explore it.
+> **Note:** The bonus part is included into the mandatory part.
 
 ## How to use the progam ?
-> Work in progress
+Once launched, the program shows you a prompt.<br>
+You can type commands in order to interact with your system, like in any other shells.<br>
+
 
 ## Testing
 > Work in progress
 
 ## Grade
-> Work in progress
-
+![MINISHELL](https://github.com/ayogun/42-project-badges/blob/main/badges/minishellm.png)<br><br>
+`125/125`
 ## Credits
 > Work in progress
