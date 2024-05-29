@@ -48,6 +48,15 @@ As mentionned previously, this shell is minimalistic. It means that it does not 
 |exit   |Cause normal process termination                       |with no options                       |
 
 ## Principles
+This minishell works using an `AST` (Abstract Syntax Tree).<br>
+The user input is parsed and then converted to an AST which will be executed.<br><br>
+**Here is a schema describing the global working principles:**<br><br>
+![PRINCIPLES](https://github.com/code-kiwi/42_MINISHELL/blob/main/assets/principles.png)
+<br><br>
+
+---
+**Here is an example with a simple command:**<br><br>
+![EXAMPLE](https://github.com/code-kiwi/42_MINISHELL/blob/main/assets/principles_example.png)
 
 
 ## Setup instructions
