@@ -6,7 +6,7 @@
 /*   By: mhotting <mhotting@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 15:11:12 by mhotting          #+#    #+#             */
-/*   Updated: 2024/05/29 10:01:05 by mhotting         ###   ########.fr       */
+/*   Updated: 2024/05/29 10:21:46 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,7 @@ static int	bi_export_var(t_minishell *shell, char *key_val)
 		handle_error(shell, ERROR_MSG_MEM, EXIT_FAILURE);
 	if (!bi_export_is_valid_key(split[0]))
 	{
-		ft_dprintf(STDERR_FILENO, EXPORT_MSG_ERR_KEY, split[0]);
+		ft_dprintf(STDERR_FILENO, EXPORT_MSG_ERR_KEY, key_val);
 		ft_free_str_array(&split);
 		return (1);
 	}

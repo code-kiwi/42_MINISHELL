@@ -6,7 +6,7 @@
 /*   By: mhotting <mhotting@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/12 15:44:49 by mhotting          #+#    #+#             */
-/*   Updated: 2024/05/16 14:20:11 by mhotting         ###   ########.fr       */
+/*   Updated: 2024/05/29 10:22:10 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,8 @@
 # define CD_MSG_ERR_ARGS		"Too many arguments"
 # define CD_MSG_ERR_EXISTS		"No such file or directory"
 
-# define EXPORT_MSG_ERR_KEY		"Minishell: export: '%s': not a valid key\n"
+# define EXPORT_MSG_ERR_KEY		\
+	"Minishell: export: '%s': not a valid identifier\n"
 # define EXPORT_NO_ARG_STR		"declare -x %s\n"
 
 # define ENV_MSG_ERR_ARG		"Minishell: env: No argument expected\n"
