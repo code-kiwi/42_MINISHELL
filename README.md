@@ -20,8 +20,8 @@ You can then use this executable and explore it.
 
 ## How to use the progam ?
 Once launched, the program shows you a prompt.<br>
-You can type commands in order to interact with your system, like in any other shells.<br>
-
+You can type commands in order to interact with your system, like in any other shell.<br><br>
+![DEMO](https://github.com/code-kiwi/42_MINISHELL/blob/main/assets/minishell.gif)
 
 ## Testing
 > Work in progress
