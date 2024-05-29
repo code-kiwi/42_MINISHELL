@@ -8,8 +8,35 @@
 This program is a minimalistic shell.<br>
 The user can interact with the operating system by typing commands into the Minishell.
 
-## Pinciples
-> Work in progress 
+## Requirements
+As mentionned previously, this shell is minimalistic. It means that it does not implement all the classic shell features.<br><br>
+**Here is a list of the features implemented into Minishell:**<br>
+- Display a prompt
+- Have a working history
+- Search and launch the right executable for a command (based on `PATH` environment variable)
+- Handle signals `SIGINT` and `SIGQUIT`
+- Handle `single quotes`
+- Handle `double quotes`
+- Implement `var expansion`
+- Implement `wildcard expansion` (only for current directory)
+- Implement some redirections:
+    - `<` should redirect input
+    - `>` should redirect output
+    - `<<` should be given a delimiter, then read the input until a line containing the delimiter is seen. However, it doesn’t have to update the history
+    - `>>` should redirect output in append mode
+- Implement `pipes`
+- Handle `environment variables`
+- Handle `$?`
+- Handle `&&` and `||` operators
+- Handle subshells `(subshell)`
+
+**NOTE:**<br>
+- No more than one global variable is authorized
+- Memory leaks and bad file descriptors handling are forbidden
+- Bash has to be considered as a reference
+
+## Principles
+
 
 ## Setup instructions
 1. Clone the repo: `git clone https://github.com/code-kiwi/42_PIPEX.git`
