@@ -57,6 +57,11 @@ The user input is parsed and then converted to an AST which will be executed.<br
 ---
 **Here is an example with a simple command:**<br><br>
 ![EXAMPLE](https://github.com/code-kiwi/42_MINISHELL/blob/main/assets/principles_example.png)
+<br>
+
+---
+The expansion cannot be done before the execution, because the commands can have an impact on the environment and affect other command expansions.<br>
+Example: `export TEST=14 && echo $TEST && export TEST+=91 && echo $TEST`
 
 
 ## Setup instructions
@@ -78,4 +83,4 @@ You can type commands in order to interact with your system, like in any other s
 ![MINISHELL](https://github.com/ayogun/42-project-badges/blob/main/badges/minishellm.png)<br><br>
 `125/125`
 ## Credits
-> Work in progress
+The badge comes from [this repo](https://github.com/ayogun/42-project-badges/tree/main), by [@ayogun](https://github.com/ayogun) which proposes a lot of amazing badges for 42 projects.
