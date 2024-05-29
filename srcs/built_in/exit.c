@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: mhotting <mhotting@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 11:03:49 by mhotting          #+#    #+#             */
-/*   Updated: 2024/05/14 08:34:54 by root             ###   ########.fr       */
+/*   Updated: 2024/05/29 16:11:39 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,7 @@ int	bi_exit(t_minishell *shell, char **argv, int fd_out)
 		handle_error(shell, ERROR_MSG_ARGS, EXIT_FAILURE);
 	(void) fd_out;
 	if (argv[1] == NULL)
-		bi_exit_shell_ok(shell, EXIT_SUCCESS, EXIT_MSG_BASIC);
+		bi_exit_shell_ok(shell, (unsigned char) shell->status, EXIT_MSG_BASIC);
 	if (!bi_exit_is_numeric(argv[1]))
 		bi_exit_shell_bad_arg(shell, argv[1]);
 	if (argv[2] != NULL)

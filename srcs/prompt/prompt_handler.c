@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   prompt_handler.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: mhotting <mhotting@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 13:02:08 by mhotting          #+#    #+#             */
-/*   Updated: 2024/05/13 22:05:59 by root             ###   ########.fr       */
+/*   Updated: 2024/05/29 16:14:33 by mhotting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,8 @@ char	*prompt(t_minishell *shell)
 	if (interrupted(input))
 	{
 		t_minishell_free(shell);
-		exit(EXIT_SUCCESS);
+		ft_dprintf(STDERR_FILENO, "%s\n", CMD_EXIT);
+		exit(shell->status);
 	}
 	if (input == NULL)
 		handle_error(shell, ERROR_MSG_PROMPT, EXIT_FAILURE);
