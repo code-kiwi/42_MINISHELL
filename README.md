@@ -35,6 +35,18 @@ As mentionned previously, this shell is minimalistic. It means that it does not 
 - Memory leaks and bad file descriptors handling are forbidden
 - Bash has to be considered as a reference
 
+**The project implements some `builtins`:**
+
+|NAME   |DESCRIPTION                                            |COMMENT                               |
+|-------|-------------------------------------------------------|--------------------------------------|
+|echo   |Display a line of text                                 |With option `-n` only                 |
+|cd     |Change the working directory                           |With only a relative or absolute path |
+|pwd    |Print name of current/working directory                |with no options                       |
+|export |Set the export attribute for variables                 |with no options                       |
+|unset  |Unset values and attributes of variables and functions |with no options                       |
+|env    |Display the shell's environment content                |with no options or arguments          |
+|exit   |Cause normal process termination                       |with no options                       |
+
 ## Principles
 
 
